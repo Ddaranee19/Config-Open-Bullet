@@ -6,7 +6,7 @@
   "LastModified": "2022-02-23T08:43:03.5649529+00:00",
   "AdditionalInfo": "",
   "RequiredPlugins": [],
-  "Author": "🔥 YASHVIRGAMING#7131 🔥",
+  "Author": "said khd",
   "Version": "1.1.2 [SB]",
   "SaveEmptyCaptures": false,
   "ContinueOnCustom": false,
@@ -104,5 +104,5 @@ KEYCHECK
 
 #payment PARSE "<SOURCE>" LR ",\"platform\":{\"display_name\":\"" "\"" CreateEmpty=FALSE -> CAP "Payment" 
 
-FUNCTION Constant "🔥 YASHVIRGAMING#7131 🔥" -> CAP "Config By" 
+FUNCTION Constant "Said 🇩🇿" -> CAP "Config By" 
 

