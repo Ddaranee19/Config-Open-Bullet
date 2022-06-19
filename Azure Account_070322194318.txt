@@ -1,0 +1,447 @@
+stacy.mcmorris@selu.edu:Pinetr33
+sthibault@email.itt-tech.edu:charlie | Status = CompletedSuccess | Payment Method = [] | IsActive = false
+suezanne@email.sc.edu:Sheldon03
+suhe1@s.sfusd.edu:Ultrawire21 | Status = CompletedSuccess | Payment Method = [] | IsActive = false
+tait.halsall@my.jcu.edu.au:Bradhodge1
+tamara.verap@ug.edu.ec:Tamaravera1998 | Payment Method = [] | IsActive = false
+tbrooks117@email.itt-tech.edu:082600lisa | Status = CompletedSuccess | Payment Method = [] | IsActive = false
+tbryant122@email.itt-tech.edu:avengers101 | Status = CompletedSuccess | Payment Type = CreditCard | Payment Method = [VISA] | Number Last Four = [0445] | Expiration Date = [092023] | IsActive = true
+tcasto110@email.itt-tech.edu:05231982 | Status = CompletedSuccess | Payment Method = [] | IsActive = false
+tdaniels113@email.itt-tech.edu:bigboy1 | Status = CompletedSuccess | Payment Method = [] | IsActive = false
+tellis110@email.itt-tech.edu:trinity3 | Status = CompletedSuccess | Payment Method = [] | IsActive = true
+tgarrett115@email.itt-tech.edu:kurama28 | Status = CompletedSuccess | Payment Method = [] | IsActive = false
+tiffany.land@armstrong.edu:diane0617 | Status = CompletedSuccess | Payment Method = [] | IsActive = false
+tjohnson251@email.itt-tech.edu:jacob2006 | Account Type = Individual | Full Name = Theodore Johnson | Country = US | Status = CompletedSuccess | Payment Method = [] | IsActive = false
+tokon1@binghamton.edu:Penguin78
+townse11@purdue.edu:Jrt12345
+townse11@purdue.edu:Jrt12345 | Status = CompletedSuccess | Payment Method = [] | IsActive = true
+tsnyder@csub.edu:Delore4life! | Status = CompletedSuccess | Payment Method = [] | IsActive = false
+ttuomi001@defiance.edu:d3kedmma
+turnereo@ngs.nsw.edu.au:Wanderers2!
+tvickmark@email.itt-tech.edu:sciontc | Account Type = Individual | Full Name = Trent Vickmark | Country = GB | Status = CompletedFailed | Payment Method = [] | IsActive = false
+tweedon@bennington.edu:farneth1
+twelty@email.itt-tech.edu:06301987 | Account Status = Active | Account Type = Individual | Full Name = Anthony Welty | Country = FI | Status = CompletedSuccess | Payment Method = [] | IsActive = false
+twhite128@email.itt-tech.edu:little04 | Status = CompletedSuccess | Payment Method = [] | IsActive = false
+tyler.morris@selu.edu:Thebeast52
+vanessa.hjorth@my.jcu.edu.au:Qazxswedc!2
+vpierce110@email.itt-tech.edu:03021988 | Status = CompletedSuccess | Payment Method = [] | IsActive = false
+vprazuch@email.itt-tech.edu:aiden1030 | Status = CompletedSuccess | Payment Method = [] | IsActive = true
+vreyes113@email.itt-tech.edu:mjolnir | Status = CompletedSuccess | Payment Type = CreditCard | Payment Method = [VISA] | Number Last Four = [5008] | Expiration Date = [052025] | IsActive = true
+vruiz@cng.edu:vr425701 | Account Status = Active | Account Type = Individual | Full Name = 2022: Veronica Ruiz Dangond | Country = US | Status = CompletedFailed | Payment Method = [] | IsActive = false
+wbryant1@email.itt-tech.edu:04102002a
+wgaleano@email.itt-tech.edu:pickles78 | Status = CompletedSuccess | Payment Type = CreditCard | Payment Method = [VISA] | Number Last Four = [0854] | Expiration Date = [022024] | IsActive = true
+willkommk6446@my.uwstout.edu:Bigbird12345
+winegrad@kean.edu:Aciddrop27!
+wlogan111@email.itt-tech.edu:emodist | Status = CompletedSuccess | Payment Method = [] | IsActive = false
+wnossap@unadvirtual.edu.co:Cenayda0290 | Account Type = Individual | Full Name = WILMER NOSSA | Country = PL | Status = CompletedSuccess | Payment Method = [] | IsActive = false
+wshelton110@email.itt-tech.edu:password | Status = CompletedSuccess | Payment Method = [] | IsActive = true
+yohany@hawaii.edu:Dytjq#21
+zavesha.sam@my.uwi.edu:19930524
+zkennedy@pnw.edu:XOMyny46
+znelson112@email.itt-tech.edu:11271991 | Status = CompletedSuccess | Payment Method = [] | IsActive = false
+a19108147@idat.edu.pe:72396945N | Account Type = Individual | Full Name = DIEGO ALEXANDER NAVARRO CORTEGANA | Country = EG | Status = CompletedSuccess | Payment Method = [] | IsActive = false
+aavina9@cps.edu:Apples1234 | Status = CompletedSuccess | Payment Method = [] | IsActive = false
+abadurik@email.itt-tech.edu:fuckyou101 | Status = CompletedSuccess | Payment Method = [] | IsActive = true
+acannon111@email.itt-tech.edu:07161975 | Status = CompletedSuccess | Payment Method = [] | IsActive = false
+adiaz116@email.itt-tech.edu:marines | Status = CompletedSuccess | Payment Method = [] | IsActive = false
+aedick2@binghamton.edu:Ilikepie6213931
+afris5@eq.edu.au:Lyric,16
+ag2378@stu.armstrong.edu:asswipe1234
+agaynor@twu.edu:Bannana99!
+agibson001@defiance.edu:ne7t5kms
+ahenderson119@email.itt-tech.edu:08041983 | Status = CompletedSuccess | Payment Method = [] | IsActive = true
+ai746@uowmail.edu.au:Poopie91!
+aleal113@email.itt-tech.edu:07161991 | Status = CompletedSuccess | Payment Method = [] | IsActive = true
+alethia.williams@csuglobal.edu:lee4400****
+alexandra.flannery@uqconnect.edu.au:Matilda12
+amairany.del0426@valverde.edu:2000100017 | Account Status = Active | Account Type = Individual | Full Name = Amairany De La Rosa | Country = FR | Status = CompletedSuccess | Payment Method = [] | IsActive = false
+amannolini@email.itt-tech.edu:minivan9 | Status = CompletedSuccess | Payment Type = CreditCard | Payment Method = [MasterCard] | Number Last Four = [5563] | Expiration Date = [082023] | IsActive = true
+amarulanda@email.itt-tech.edu:27octubre | Status = CompletedSuccess | Payment Type = CreditCard | Payment Method = [VISA, VISA] | Number Last Four = [1809, 4632] | Expiration Date = [082023, 092022] | IsActive = true
+ambutler@amcats.edu:Shopping24/7
+amurphy122@email.itt-tech.edu:michelle1 | Status = CompletedSuccess | Payment Method = [] | IsActive = false
+amy.raggatt@my.jcu.edu.au:Tommytuckerr3
+andong@s.sfusd.edu:Goodwood07
+antonio.eduardo@aedu.com:91934724
+anunez65@cps.edu:Coco1234 | Status = CompletedSuccess | Payment Method = [] | IsActive = false
+aoaljarah16@eng.just.edu.jo:Enganin11 | Status = CompletedSuccess | Payment Method = [] | IsActive = false
+aperez300@cps.edu:Cps50094340
+aperez300@cps.edu:Cps50094340 | Status = CompletedSuccess | Payment Method = [] | IsActive = false
+aresnick@email.itt-tech.edu:star1234 | Status = CompletedSuccess | Payment Method = [] | IsActive = false
+as8295@stu.armstrong.edu:rollit60
+asaber2@binghamton.edu:Rrt5ontgtap
+asanchez150@email.itt-tech.edu:19841986 | Account Type = Individual | Full Name = Adolfo Sanchez Jr. | Country = US | Status = CompletedSuccess | Payment Method = [] | IsActive = false
+asela@email.itt-tech.edu:tigger18 | Status = CompletedSuccess | Payment Method = [] | IsActive = true
+asias@email.sc.edu:As12306115
+aslack@email.itt-tech.edu:chronic420 | Status = CompletedSuccess | Payment Method = [] | IsActive = true
+autombline@packer.edu:tombline5
+avespol1@binghamton.edu:NJnets34
+aweidne1@binghamton.edu:Johnsoncity56
+awillis121@email.itt-tech.edu:dallastx | Status = CompletedSuccess | Payment Method = [] | IsActive = true
+awilson209@email.itt-tech.edu:sarena99
+baldeosinghm@allegheny.edu:Supermsb3
+bav0001@mix.wvu.edu:Clippers3
+bdcampbell@email.itt-tech.edu:10181976 | Status = CompletedSuccess | Payment Method = [] | IsActive = true
+besam01@uschool.nova.edu:Lower560
+bfliss@email.itt-tech.edu:yahtzee1 | Account Type = Individual | Full Name = Bradley Fliss | Country = DE | Status = CompletedSuccess | Payment Method = [] | IsActive = false
+bg8547@stu.armstrong.edu:candler6913
+bhogue@email.itt-tech.edu:hogg8012 | Account Type = Individual | Full Name = Bradley Hogue | Country = SE | Status = CompletedSuccess | Payment Type = CreditCard | Payment Method = [VISA, VISA, VISA] | Number Last Four = [7122, 7131, 5232] | Expiration Date = [042025, 072024, 102024] | IsActive = false
+bianca_co@dlsu.edu.ph:Jesus.sav3s
+billie.r.padilla@biola.edu:CalHigh17 | Account Type = Individual | Full Name = ambre moriceau | Country = FR | Status = CompletedSuccess | Payment Method = [] | IsActive = false
+bkeeter@email.itt-tech.edu:252life | Account Type = Individual | Full Name = Barry Keeter | Country = US | Status = CompletedSuccess | Payment Type = CreditCard | Payment Method = [VISA] | Number Last Four = [1378] | Expiration Date = [052023] | IsActive = false
+bkloberdanz@email.itt-tech.edu:tigger123 | Status = CompletedSuccess | Payment Method = [] | IsActive = true
+bloustaunau@email.itt-tech.edu:12131979 | Status = CompletedSuccess | Payment Method = [] | IsActive = false
+bmere19@eq.edu.au:bellatanna
+bmontgomery@email.itt-tech.edu:joshua84 | Status = CompletedSuccess | Payment Type = CreditCard | Payment Method = [MasterCard] | Number Last Four = [7116] | Expiration Date = [082028] | IsActive = false
+bnwilliams@anderson.edu:Peanuthead1
+bpieksma@email.itt-tech.edu:subaru2004 | Status = CompletedSuccess | Payment Method = [] | IsActive = true
+brandi.stevens-2@selu.edu:Crusader23
+bsailor@email.itt-tech.edu:seaman16 | Status = CompletedSuccess | Payment Method = [] | IsActive = false
+btolbert111@email.itt-tech.edu:02281984 | Status = CompletedSuccess | Payment Method = [] | IsActive = true
+btrumble@email.itt-tech.edu:raptor26 | Status = CompletedSuccess | Payment Method = [] | IsActive = false
+burgel@wwstu.catholic.edu.au:Nanfeb17
+bwebber@email.itt-tech.edu:09011975 | Status = CompletedSuccess | Payment Method = [] | IsActive = false
+caddison@email.sc.edu:Jennifer123!
+cadona@email.sc.edu:Player65*
+cagnell1@binghamton.edu:Browneyedgirl2
+cal0009@viewbank.vic.edu.au:041718tSa!
+calbelo@email.itt-tech.edu:08121960 | Account Type = Individual | Full Name = ClaudetteStrret 56t Matthews | Country = MN | Status = CompletedSuccess | Payment Method = [] | IsActive = true
+calebmoffatt@student.kaplan.edu:Futurecctrn1
+cbaker129@email.itt-tech.edu:katie96 | Status = CompletedSuccess | Payment Method = [] | IsActive = false
+cbane@email.itt-tech.edu:digital1 | Status = CompletedSuccess | Payment Method = [] | IsActive = true
+ccarr2021@waverley.nsw.edu.au:clancy12
+cchapman114@email.itt-tech.edu:love1970 | Account Type = Individual | Full Name = Christine Chapman | Country = US | Status = CompletedSuccess | Payment Method = [] | IsActive = false
+ccrossley110@email.itt-tech.edu:10251983 | Status = CompletedSuccess | Payment Method = [] | IsActive = true
+cgarcia50@twu.edu:Miaescobar!20
+chowa81@eq.edu.au:Pamela041004
+christopher.briody@my.jcu.edu.au:Disney77912!
+christopherkrupa@students.rossu.edu:6568836
+churteau@email.itt-tech.edu:09291985 | Status = CompletedSuccess | Payment Method = [] | IsActive = false
+cjefferies@email.itt-tech.edu:jefferies3 | Status = CompletedSuccess | Payment Method = [] | IsActive = true
+clwebb@email.itt-tech.edu:900157475 | Status = CompletedSuccess | Payment Method = [] | IsActive = false
+cm2896@stu.armstrong.edu:coolbeans1214
+cmattson@email.itt-tech.edu:carbine321 | Status = CompletedSuccess | Payment Method = [] | IsActive = true
+cmcclel1@binghamton.edu:Lavieboheme1!
+coatess@csp.edu:SMC1997!! | Account Type = Individual | Full Name = shelby coates | Country = US | Status = CompletedSuccess | Payment Method = [] | IsActive = true
+cp1601@lafloresta.edu.sv:Acruz2027 | Status = CompletedSuccess | Payment Type = CreditCard | Payment Method = [VISA, VISA] | Number Last Four = [6023, 0840] | Expiration Date = [082023, 012024] | IsActive = false
+cparsons@email.itt-tech.edu:timberwolves | Status = CompletedSuccess | Payment Method = [] | IsActive = false
+cpcrown@knights.ucf.edu:Cashdogg12!
+crau@email.itt-tech.edu:05061984 | Status = CompletedSuccess | Payment Method = [] | IsActive = false
+cricks111@email.itt-tech.edu:rock4life
+cricks111@email.itt-tech.edu:rock4life | Status = CompletedSuccess | Payment Method = [] | IsActive = false
+cterrell@twu.edu:Megan!1011 | Status = CompletedSuccess | Payment Method = [] | IsActive = true
+cvc11@my.fsu.edu:Benen1109!
+cwarner111@email.itt-tech.edu:giovanni55 | Status = CompletedSuccess | Payment Method = [] | IsActive = false
+cwinters1@email.itt-tech.edu:password | Status = CompletedSuccess | Payment Method = [] | IsActive = false
+cwright130@email.itt-tech.edu:pa55word | Status = CompletedSuccess | Payment Method = [] | IsActive = true
+cwright2@binghamton.edu:Marie080588
+dalia.elsayed@qu.edu.qa:laraomar
+damian.lop0117@valverde.edu:2000111070 | Status = CompletedSuccess | Payment Type = CreditCard | Payment Method = [MasterCard] | Number Last Four = [2131] | Expiration Date = [062026] | IsActive = false
+danielagibboney@students.rossu.edu:Soccer21
+daniellerichmond@knights.ucf.edu:Djr1991!
+danyelesantana@ifba.edu.br:180690
+dasmith@email.itt-tech.edu:liltay1 | Status = CompletedSuccess | Payment Type = CreditCard | Payment Method = [VISA, VISA, VISA] | Number Last Four = [9614, 2295, 6854] | Expiration Date = [102023, 112024, 072023] | IsActive = true
+dau10@my.fsu.edu:Animal1392!
+dauth@email.sc.edu:Angie1996!
+dbarjaktarovich@email.itt-tech.edu:05081992 | Status = CompletedSuccess | Payment Type = CreditCard | Payment Method = [VISA] | Number Last Four = [1567] | Expiration Date = [052023] | IsActive = true
+dharper110@email.itt-tech.edu:dewayne23 | Status = CompletedSuccess | Payment Method = [] | IsActive = false
+dheller110@email.itt-tech.edu:helld6851 | Status = CompletedSuccess | Payment Method = [] | IsActive = false
+divers@email.itt-tech.edu:tyrant21 | Status = CompletedSuccess | Payment Method = [] | IsActive = true
+dj9423@stu.armstrong.edu:Lucky353
+djonesholmes@email.itt-tech.edu:biggie1 | Status = CompletedSuccess | Payment Method = [] | IsActive = true
+dlupher@email.itt-tech.edu:rocrulez | Status = CompletedSuccess | Payment Method = [] | IsActive = false
+dmcneill110@email.itt-tech.edu:sscsustss32 | Status = CompletedSuccess | Payment Method = [] | IsActive = true
+dmoore129@email.itt-tech.edu:03111990 | Status = CompletedSuccess | Payment Method = [] | IsActive = true
+dmthomas112@email.ITT-Tech.edu:Kindafunny66
+dpalmer123@email.itt-tech.edu:09211959 | Status = CompletedSuccess | Payment Type = CreditCard | Payment Method = [VISA] | Number Last Four = [1817] | Expiration Date = [012025] | IsActive = true
+dparoline@email.itt-tech.edu:anime34 | Status = CompletedSuccess | Payment Method = [] | IsActive = true
+drhule@email.itt-tech.edu:adassa123
+drunkow1@binghamton.edu:Sinned2828
+drupp@email.itt-tech.edu:trunks2 | Account Type = Individual | Full Name = Drew Rupp | Country = US | Status = CompletedSuccess | Payment Method = [] | IsActive = false
+dsheetz@email.itt-tech.edu:robert80 | Status = CompletedSuccess | Payment Type = CreditCard | Payment Method = [VISA] | Number Last Four = [6578] | Expiration Date = [052025] | IsActive = false
+dsimonian@email.itt-tech.edu:lulu2004 | Status = CompletedSuccess | Payment Type = CreditCard | Payment Method = [VISA] | Number Last Four = [3518] | Expiration Date = [022025] | IsActive = false
+dsmith114@email.itt-tech.edu:11261964 | Status = CompletedSuccess | Payment Method = [] | IsActive = true
+dsutton114@email.itt-tech.edu:gungun33 | Status = CompletedSuccess | Payment Method = [] | IsActive = true
+ducko01@dowstu.catholic.edu.au:dowstu176
+dwilkes1@email.itt-tech.edu:walleye1
+dwilson167@email.itt-tech.edu:3santana | Account Type = Individual | Full Name = Deon Wilson | Country = US | Subscription Name = Azure for Students | Status = CompletedFailed | Payment Method = [] | IsActive = true
+dwilson6@email.itt-tech.edu:icecube | Status = CompletedSuccess | Payment Method = [] | IsActive = false
+dzhong2@binghamton.edu:March7th
+e.prado1621@student.tsu.edu.ph:22Gideon03
+e.prado1621@student.tsu.edu.ph:22Gideon03 | Payment Method = []
+eae0505@alumni.ecu.edu:Pinklady06
+econde2719@bc.conalep.edu.mx:C191540280-2 | Account Type = Individual | Full Name = EMILIANO CONDE CRUZ | Country = PL | Status = CompletedSuccess | Payment Method = [] | IsActive = false
+econtreras114@email.itt-tech.edu:figgins11 | Account Status = Active | Account Type = Individual | Full Name = Emily Contreras | Country = US | Status = CompletedSuccess | Payment Method = [] | IsActive = false
+ecrawfo1@binghamton.edu:charlote
+edann@email.itt-tech.edu:mjgeawh7 | Account Status = Active | Account Type = Individual | Full Name = Eric Dann | Country = ua | Status = CompletedSuccess | Payment Method = [] | IsActive = true
+ehernando@twu.edu:Hernando4#
+ejm52901@creighton.edu:Madcap12
+ejones150@email.itt-tech.edu:bookert1 | Status = CompletedSuccess | Payment Type = CreditCard | Payment Method = [MasterCard] | Number Last Four = [8342] | Expiration Date = [092025] | IsActive = false
+elysee.iraganje@eagles.oc.edu:Bujumbura.6 | Status = CompletedSuccess | Payment Type = CreditCard | Payment Method = [MasterCard] | Number Last Four = [8420] | Expiration Date = [102026] | IsActive = true
+emagana115@email.itt-tech.edu:06121981 | Status = CompletedSuccess | Payment Type = CreditCard | Payment Method = [MasterCard] | Number Last Four = [5723] | Expiration Date = [112022] | IsActive = false
+emmshelton@my.lonestar.edu:Snoopy13
+enicely001@defiance.edu:5km3ce39 | Status = CompletedSuccess | Payment Method = [] | IsActive = true
+epaffie1@binghamton.edu:Tackyalbum123
+eparker120@email.itt-tech.edu:08021956 | Status = CompletedSuccess | Payment Type = CreditCard | Payment Method = [VISA] | Number Last Four = [6476] | Expiration Date = [082023] | IsActive = false
+erbowen@ualr.edu:Purple01* | Status = CompletedSuccess | Payment Method = [] | IsActive = false
+eric.mccloy@eastern.edu:Nansen97
+erondeau@email.sc.edu:d45#99Er
+erothfuss@email.itt-tech.edu:xbox360 | Status = CompletedSuccess | Payment Method = [] | IsActive = false
+evem02@dowstu.catholic.edu.au:molsaev99
+ewinter2@binghamton.edu:Kisco10549
+fernandocarreno7@stu.clcillinois.edu:Dalepapi7
+fielm131@newschool.edu:Puzzle1!
+garciacc@email.sc.edu:Princess@1193
+gfavero@email.itt-tech.edu:sldkfjg | Account Type = Individual | Full Name = Gary Favero | Country = US | Status = CompletedSuccess | Payment Method = [] | IsActive = false
+ghodgso1@binghamton.edu:Entwistle1
+giuliana_carcueva@dlsu.edu.ph:0124Giu!
+gjohnson125@email.itt-tech.edu:08101960 | Status = CompletedSuccess | Payment Type = CreditCard | Payment Method = [VISA] | Number Last Four = [1450] | Expiration Date = [112027] | IsActive = true
+gjvillarreal@cps.edu:Greendream321
+gkaplan2@binghamton.edu:Backpack92
+gmoore122@email.itt-tech.edu:donesia4 | Status = CompletedSuccess | Payment Method = [] | IsActive = false
+greene7241@beltc.ctc.edu:Donkey11!!
+gsine@email.itt-tech.edu:08610369 | Status = CompletedSuccess | Payment Method = [] | IsActive = true
+haley.lewis@bobcats.gcsu.edu:Higbyg123 | Status = CompletedSuccess | Payment Method = [] | IsActive = false
+hannah.buzzo@my.jcu.edu.au:Katherine123
+hc4993@stu.armstrong.edu:Hannahasdf94
+hconn35@eq.edu.au:Corey1512
+hebonilla@s.sfusd.edu:Yz92568R | Status = CompletedSuccess | Payment Method = [] | IsActive = false
+heidiesterline@knights.ucf.edu:Lemonpuntini12!
+henry.bon0304@valverde.edu:2000108617 | Status = CompletedSuccess | Payment Method = [] | IsActive = false
+henryk9@montclair.edu:Henr0726! | Account Type = Individual | Full Name = Kayla Henry | Country = CA | Status = CompletedSuccess | Payment Method = [] | IsActive = true
+hkwon3@binghamton.edu:Hyeok4ye
+hlee110@email.itt-tech.edu:05141968 | Account Status = Active | Account Type = Individual | Full Name = Harold Lee | Country = US | Status = CompletedSuccess | Payment Method = [] | IsActive = true
+hsantana@email.itt-tech.edu:kingdomcome | Status = CompletedSuccess | Payment Method = [] | IsActive = true
+hshaw@sterling.edu:98282
+ilafountain@email.itt-tech.edu:twiztid | Status = CompletedSuccess | Payment Method = [] | IsActive = true
+ilcynm@kean.edu:Ilc123yn
+ipewther@email.itt-tech.edu:dogin55 | Status = CompletedSuccess | Payment Method = [] | IsActive = false
+jaden.runchey@ndsion.edu:Hershey1!
+jaegerj@cfbisd.edu:Zakary1!
+jaemarie.edwards@my.jcu.edu.au:Chilli2711
+jalcala111@email.itt-tech.edu:josey5423 | Account Type = Individual | Full Name = Jose Alcala | Country = US | Status = CompletedSuccess | Payment Method = [] | IsActive = true
+jalvarez123@email.itt-tech.edu:10121961 | Status = CompletedSuccess | Payment Method = [] | IsActive = false
+janeher@cng.edu:Jn457902 | Status = CompletedSuccess | Payment Method = [] | IsActive = false
+jbaker129@email.itt-tech.edu:kaedin06 | Account Type = Individual | Full Name = Joshua Baker | Country = UA | Status = CompletedSuccess | Payment Method = [] | IsActive = false
+jbauer110@email.itt-tech.edu:thesims | Status = CompletedSuccess | Payment Method = [] | IsActive = false
+jbecerra112@email.itt-tech.edu:05061987 | Status = CompletedSuccess | Payment Method = [] | IsActive = true
+jboyd396@robertmorris.edu:Mlorena19862710 
+jbryant138@email.itt-tech.edu:maysville | Status = CompletedSuccess | Payment Method = [] | IsActive = false
+jcole01@sterling.edu:98098
+jconine@twu.edu:Perrin_1006
+jcorson110@email.itt-tech.edu:12271981 | Status = CompletedSuccess | Payment Method = [] | IsActive = false
+jcostello110@email.itt-tech.edu:Costello1
+jcrosbie@email.itt-tech.edu:erhs2005 | Status = CompletedSuccess | Payment Method = [] | IsActive = false
+jcroxton@email.itt-tech.edu:forward | Status = CompletedSuccess | Payment Type = CreditCard | Payment Method = [VISA] | Number Last Four = [6960] | Expiration Date = [082022] | IsActive = true
+jdeburger@email.itt-tech.edu:master9132 | Status = CompletedSuccess | Payment Method = [] | IsActive = true
+jdimla@email.itt-tech.edu:51605jns | Status = CompletedSuccess | Payment Method = [] | IsActive = false
+jdunn@email.itt-tech.edu:august84 | Status = CompletedSuccess | Payment Method = [] | IsActive = false
+jenae.ives@my.jcu.edu.au:Jmi21121991
+jervin@email.itt-tech.edu:supernoah | Account Type = Individual | Full Name = Jennifer Fanning | Country = AU | Status = CompletedSuccess | Payment Method = [] | IsActive = false
+jessica_meece98@u.asumh.edu:01021992 | Account Type = Individual | Full Name = Jessica Meece | Country = US | Subscription Name = Azure for Students | Status = CompletedFailed | Payment Method = [] | IsActive = false
+jessicawright@knights.ucf.edu:Boxoffice32!
+jfa15049@marymount.edu:Agent52291
+jfinch1@email.itt-tech.edu:red7054 | Status = CompletedSuccess | Payment Method = [] | IsActive = false
+jgonzales5@twu.edu:Truelove2!
+jhenrie@email.itt-tech.edu:allison10 | Account Type = Individual | Full Name = Jason Henrie | Country = US | Status = CompletedSuccess | Payment Method = [] | IsActive = true
+jhorrigan_jr@email.itt-tech.edu:m3tallica | Subscription Name = Azure pour les étudiants | Status = CompletedFailed | Payment Method = [] | IsActive = false
+jjeadrik@email.itt-tech.edu:daniel2007 | Status = CompletedSuccess | Payment Method = [] | IsActive = true
+jjones348@email.itt-tech.edu:aggro1989 | Account Status = Active | Account Type = Individual | Full Name = John Jones | Country = CN | Status = CompletedSuccess | Payment Type = CreditCard | Payment Method = [MasterCard] | Number Last Four = [6639] | Expiration Date = [082022] | IsActive = true
+jkarker@email.itt-tech.edu:orange77 | Status = CompletedSuccess | Payment Type = CreditCard | Payment Method = [MasterCard] | Number Last Four = [7949] | Expiration Date = [122021] | IsActive = true
+jking@ufl.edu:foley89 
+jleyva@email.itt-tech.edu:11181992 | Status = CompletedSuccess | Payment Method = [] | IsActive = false
+jmarrie@email.itt-tech.edu:packers2 | Status = CompletedSuccess | Payment Type = CreditCard | Payment Method = [VISA] | Number Last Four = [2042] | Expiration Date = [042025] | IsActive = true
+jmikha@email.itt-tech.edu:10091988 | Account Type = Individual | Full Name = Justin Mikha | Country = EG | Status = CompletedSuccess | Payment Method = [] | IsActive = false
+jmorris117@email.itt-tech.edu:blazehart2563 | Status = CompletedSuccess | Payment Method = [] | IsActive = true
+jms37@njit.edu:strangio1 | Status = CompletedSuccess | Payment Method = [] | IsActive = false
+joshua.bridgemohan@my.uwi.edu:ilovefreedom69 | Subscription Status = Disabled | Status = CompletedSuccess | quotaID = DreamSpark_2015-02-01 | Suspend = On | Payment Method = [] | IsActive = true
+jpatton114@email.itt-tech.edu:227romance | Status = CompletedSuccess | Payment Method = [] | IsActive = true
+jpessoney@email.itt-tech.edu:09231980 | Status = CompletedSuccess | Payment Method = [] | IsActive = true
+jrsergio.rev0524@valverde.edu:2000104276 | Status = CompletedSuccess | Payment Method = [] | IsActive = false
+jsantamaria112@email.itt-tech.edu:11091989 | Status = CompletedSuccess | Payment Method = [] | IsActive = true
+jstewart158@email.itt-tech.edu:frankherbert | Status = CompletedSuccess | Payment Method = [] | IsActive = false
+jtettey@email.itt-tech.edu:patrizia | Account Type = Individual | Full Name = Jerry Tettey | Country = pl | Subscription Name = Azure for Students | Status = CompletedFailed | Payment Method = [] | IsActive = true
+jvaldivia12@cps.edu:Cps50341164 | Status = CompletedSuccess | Payment Method = [] | IsActive = false
+jvansch1@binghamton.edu:Mrxbox53092
+jviola@mail.usp.edu:Michelle8689
+jwalsh117@email.itt-tech.edu:01031980 | Status = CompletedSuccess | Payment Method = [] | IsActive = true
+jwhite119@email.itt-tech.edu:microsoft1 | Status = CompletedSuccess | Payment Method = [] | IsActive = true
+jwihowski@twu.edu:Joenichols123!
+jwoods141@email.itt-tech.edu:z17259p | Status = CompletedSuccess | Payment Method = [] | IsActive = false
+jwoofter01@sterling.edu:scball
+jyang118@email.itt-tech.edu:jinmin13 | Status = CompletedSuccess | Payment Type = CreditCard | Payment Method = [DISCOVER] | Number Last Four = [6419] | Expiration Date = [062024] | IsActive = true
+kathleengill@students.rossu.edu:Nernerkins1!
+kathrynschweitzer@nhia.edu:Igotchickens4
+kbuchanan1@twu.edu:Michele17!
+kbush110@email.itt-tech.edu:password | Status = CompletedSuccess | Payment Method = [] | IsActive = false
+kellyzier@students.rossu.edu:kellylee89!
+kgonzales7@twu.edu:Teddybear123$
+kingj4011@student.sanjuan.edu:Sj129366 | Status = CompletedSuccess | Payment Method = [] | IsActive = false
+kjohnso7@binghamton.edu:Wildfire1
+kkeav476@live.kutztown.edu:Sunshine09!
+kknighton01@sterling.edu:42199one
+klicj674@newschool.edu:1nterpret
+kmcc1126@my.suno.edu:SUno7577
+koreymiller@my.scl.edu:Football2250*
+kp9224@stu.armstrong.edu:lp112790
+kraab2@eq.edu.au:kazromwe23
+krusen4308@student.sanjuan.edu:Sj190567 | Status = CompletedSuccess | Payment Method = [] | IsActive = false
+kstalls@email.sc.edu:Kikibella12!
+ksturm@email.itt-tech.edu:kroses06 | Status = CompletedSuccess | Payment Type = CreditCard | Payment Method = [MasterCard, VISA] | Number Last Four = [5714, 5690] | Expiration Date = [032025, 112021] | IsActive = true
+l.murillo9276@student.sbccd.edu:Jenna1031
+lac81973@marymount.edu:Jelly1996
+larranaga5425@beltc.ctc.edu:moe143jo
+layan.dahhan@knights.ucf.edu:Buffalo97!
+lberry110@email.itt-tech.edu:5493312 | Status = CompletedSuccess | Payment Method = [] | IsActive = false
+lbies@email.itt-tech.edu:sweetness1 | Status = CompletedSuccess | Payment Method = [] | IsActive = false
+lchilson@email.itt-tech.edu:roadrunner | Status = CompletedSuccess | Payment Method = [] | IsActive = true
+lcramer@email.itt-tech.edu:password | Status = CompletedSuccess | Payment Method = [] | IsActive = false
+leee687@newschool.edu:Jaylove7$ | Account Type = Individual | Full Name = Amethyst Lee | Country = us | Subscription Name = Azure for Students Starter | Subscription Status = Disabled | Status = CompletedSuccess | quotaID = PayAsYouGo_2014-09-01 | Suspend = On | Payment Method = [] | IsActive = false
+leia.jau0620@valverde.edu:2000098756 | Account Status = Active | Account Type = Individual | Full Name = Leia Jaurigue | Country = US | Status = CompletedFailed | Payment Method = [] | IsActive = false
+lgacosta1@cps.edu:Ruiz2019 | Status = CompletedSuccess | Payment Method = [] | IsActive = false
+lgorski@email.itt-tech.edu:01251961 | Status = CompletedSuccess | Payment Method = [] | IsActive = false
+li2913@pnw.edu:lx151034 | Status = CompletedSuccess | Payment Method = [] | IsActive = false
+liangj14@live.franklinpierce.edu:E75xa!49
+libby@menucompany.com.au:Flash999!
+lindsay.walton@eagles.oc.edu:Pearlofgr8price
+ljenkins119@email.itt-tech.edu:tiffsman | Account Status = Active | Account Type = Individual | Full Name = LD Jenkins | Country = US | Status = CompletedFailed | Payment Method = [] | IsActive = true
+lorenaruiz@virreysolis.edu.co:Mlorena19862710
+lpickrell@twu.edu:Dakota6882!
+lpome654@mail.endicott.edu:Buggsy07 | Account Type = Individual | Full Name = Paula A Muncy | Country = US | Status = CompletedSuccess | Payment Method = [] | IsActive = false
+lrl10@my.fsu.edu:Lrljsl9876!
+lsmith2@fandm.edu:Dancerbabe92!
+lspier@twu.edu:Walru$R0cks
+lwysock1@binghamton.edu:Nodoubt220
+macosta115@email.itt-tech.edu:mike1991 | Status = CompletedSuccess | Payment Method = [] | IsActive = true
+malewis111@email.itt-tech.edu:password | Status = CompletedSuccess | Payment Method = [] | IsActive = true
+mapodaca110@email.itt-tech.edu:hailey2003 | Status = CompletedSuccess | Payment Method = [] | IsActive = false
+marcus.mcdonald@reddamhouse.com.au:Sylvester123
+marketing@jewishcare.org.au:marketing
+matthew.pennington@ttuhsc.edu:Tremonti09
+mbeech@bethanywv.edu:betty1
+mbond111@email.itt-tech.edu:07051978 | Status = CompletedSuccess | Payment Method = [] | IsActive = false
+mbusbee@email.itt-tech.edu:03221984 | Status = CompletedSuccess | Payment Method = [] | IsActive = false
+mbuza@knights.ucf.edu:Jonnie5angel!
+mcaltabiano@email.itt-tech.edu:coconuts1 | Status = CompletedSuccess | Payment Method = [] | IsActive = false
+mchesle3@binghamton.edu:Ravens323
+mckeownmr@guilford.edu:559692362
+mdettloff@email.itt-tech.edu:woodruff1 | Status = CompletedSuccess | Payment Method = [] | IsActive = false
+mdurant@eosc.edu:Maykay12
+medwards139@email.itt-tech.edu:12221969 | Status = CompletedSuccess | Payment Method = [] | IsActive = true
+melissa.buckley@assumption.vic.edu.au:Chippa-8
+mfalkner@email.itt-tech.edu:Funnyl30y
+mfanning@email.itt-tech.edu:7mtfi7mtfi | Status = CompletedSuccess | Payment Method = [] | IsActive = false
+mg7569@stu.armstrong.edu:bball731
+mgarcia226@email.itt-tech.edu:12334924 | Status = CompletedSuccess | Payment Method = [] | IsActive = false
+mgeisinger@email.itt-tech.edu:jurassic | Status = CompletedSuccess | Payment Method = [] | IsActive = false
+mgiumento@email.itt-tech.edu:hardy74 | Status = CompletedSuccess | Payment Method = [] | IsActive = false
+mgourley@twu.edu:Makanneg_99
+mgray3@binghamton.edu:Bluenails93
+mheffern@email.itt-tech.edu:05131984 | Status = CompletedSuccess | Payment Method = [] | IsActive = true
+miller8795@beltc.ctc.edu:Lotus512!!
+mitchell.datson@my.jcu.edu.au:Sainter244
+mjorgensen111@email.itt-tech.edu:09181989 | Status = CompletedSuccess | Payment Method = [] | IsActive = false
+mkaighin001@defiance.edu:nz8wct2s | Status = CompletedSuccess | Payment Method = [] | IsActive = false
+mkeene110@email.itt-tech.edu:buddah4456 | Status = CompletedSuccess | Payment Method = [] | IsActive = false
+ml8735@stu.armstrong.edu:Brenda1991
+mlenhar2@binghamton.edu:Watermelon1
+mmcdaniel121@email.itt-tech.edu:mlmcda01 | Status = CompletedSuccess | Payment Type = CreditCard | Payment Method = [VISA] | Number Last Four = [9422] | Expiration Date = [012024] | IsActive = false
+mmcginl1@binghamton.edu:Binghamton12
+mmcma60@eq.edu.au:Morrie1234567
+mmercado115@email.itt-tech.edu:09271991 | Status = CompletedSuccess | Payment Method = [] | IsActive = false
+monica.geigel@upr.edu:Serafina1329
+montserratlf@blanquerna.url.edu:Laia1106
+mpaulino110@email.itt-tech.edu:05151991 | Status = CompletedSuccess | Payment Method = [] | IsActive = false
+ms5637@stu.armstrong.edu:wagner86
+ms5866@stu.armstrong.edu:Watermelon0
+msantini110@email.itt-tech.edu:mar327san | Status = CompletedSuccess | Payment Type = CreditCard | Payment Method = [VISA] | Number Last Four = [6017] | Expiration Date = [082023] | IsActive = true
+msen0311@my.suno.edu:SUno9347
+mserens@email.itt-tech.edu:03191990 | Status = CompletedSuccess | Payment Method = [] | IsActive = true
+mswift@email.itt-tech.edu:tapout08 | Status = CompletedSuccess | Payment Method = [] | IsActive = true
+mt9565@stu.armstrong.edu:her2shey04 | Status = CompletedSuccess | Payment Method = [] | IsActive = true
+mthreewit@email.itt-tech.edu:rachael77 | Status = CompletedSuccess | Payment Method = [] | IsActive = false
+mtimmons112@email.itt-tech.edu:redman22 | Status = CompletedSuccess | Payment Method = [] | IsActive = false
+mtobey@email.itt-tech.edu:11091990 | Status = CompletedSuccess | Payment Type = CreditCard | Payment Method = [VISA] | Number Last Four = [1148] | Expiration Date = [062026] | IsActive = true
+mvw1@email.sc.edu:Smileyface3!
+my4364@stu.armstrong.edu:yankees27
+namadison@email.itt-tech.edu:j522mine | Status = CompletedSuccess | Payment Method = [] | IsActive = true
+naomi.ison@my.jcu.edu.au:Milamber85
+nguyenje@kean.edu:Supardi22
+nhan.truong@my.jcu.edu.au:Meagangood01
+nherrle@email.itt-tech.edu:gmhb2332 | Status = CompletedSuccess | Payment Method = [] | IsActive = false
+nolte@damien-hs.edu:norfolk
+nolte@damien-hs.edu:norfolk | Account Status = Active | Account Type = Individual | Full Name = Ray Nolte | Country = US | Status = CompletedSuccess | Payment Method = [] | IsActive = false
+norrisa01@dowstu.catholic.edu.au:norris15117
+nzwara@email.itt-tech.edu:12091987 | Status = CompletedSuccess | Payment Method = [] | IsActive = false
+orpe2708@agu.inter.edu:Agu082201 | Account Type = Individual | Full Name = ORLANDO PEREZ VARELA | Country = TN | Status = CompletedSuccess | Payment Method = [] | IsActive = false
+owilliams_jr@email.itt-tech.edu:federal97
+pablo.arjonhernandez@campus.mccd.edu:Mymomohno98!
+pcull15@eq.edu.au:pennycullen4
+pevans110@email.itt-tech.edu:01281966 | Status = CompletedSuccess | Payment Method = [] | IsActive = true
+pfontaine@email.itt-tech.edu:firewood
+pgardner112@email.itt-tech.edu:phoenix1 | Status = CompletedSuccess | Payment Method = [] | IsActive = false
+pirog@go.stockton.edu:Phillies12 | Status = CompletedSuccess | Payment Type = CreditCard | Payment Method = [VISA] | Number Last Four = [4566] | Expiration Date = [032027] | IsActive = true
+pkey@email.itt-tech.edu:07241985 | Status = CompletedSuccess | Payment Method = [] | IsActive = false
+plaurencymathis@email.itt-tech.edu:giovaughn | Status = CompletedSuccess | Payment Method = [] | IsActive = false
+pmoravc@students.birtraining.edu:Ttcu8189
+pnugent@email.itt-tech.edu:06101989 | Status = CompletedSuccess | Payment Method = [] | IsActive = false
+psalah@email.itt-tech.edu:Rockstar55
+rblackmon111@email.itt-tech.edu:00147528 | Status = CompletedSuccess | Payment Method = [] | IsActive = false
+rdmorrison@email.itt-tech.edu:teddybear1 | Status = CompletedSuccess | Payment Method = [] | IsActive = true
+rgottron@email.itt-tech.edu:rwg81588 | Status = CompletedSuccess | Payment Type = CreditCard | Payment Method = [VISA] | Number Last Four = [4275] | Expiration Date = [112026] | IsActive = true
+rharrington1@email.itt-tech.edu:marissa-18 | Status = CompletedSuccess | Payment Method = [] | IsActive = false
+rhensley@email.itt-tech.edu:password0 | Account Status = Active | Account Type = Individual | Full Name = Richard Hensley | Country = US | Subscription Name = Azure for Students Starter | Subscription Status = Enabled | Status = CompletedSuccess | quotaID = DreamSpark_2015-02-01 | Suspend = On | Payment Type = CreditCard | Payment Method = [VISA, VISA, VISA] | Number Last Four = [6904, 1406, 4805] | Expiration Date = [022023, 022024, 022023] | IsActive = true | Remaining Balance = 100.0 USD | Used Balance = 0.0 USD | Active Subscription = 0 | Days Left = 0 | Expiry Date = 2022-07-16T03:57:25.173
+rich.lisa@ballstate.bsu.edu:Shaolin1234
+richahh0@sewanee.edu:Googlybear1!
+richard.mcgrath@armstrong.edu:sio1bhan | Account Type = Individual | Full Name = Richard McGrath | Country = US | Subscription Name = Azure subscription 1 | Status = CompletedFailed | Payment Method = [] | IsActive = false
+rick.niles@leominster.mec.edu:Yankeess1
+rkeen36@eq.edu.au:rosekeenan2007
+rking113@email.itt-tech.edu:password | Status = CompletedSuccess | Payment Method = [] | IsActive = false
+rlundy@email.itt-tech.edu:420247rl | Status = CompletedSuccess | Payment Method = [] | IsActive = false
+rm6224@stu.armstrong.edu:butterfly7 | Account Type = Individual | Full Name = cierra whitmore | Country = US | Status = CompletedSuccess | Payment Method = [] | IsActive = false
+rmadison110@email.itt-tech.edu:radcliff12 | Status = CompletedSuccess | Payment Method = [] | IsActive = false
+rmcdougal@email.itt-tech.edu:oct2607 | Status = CompletedSuccess | Payment Method = [] | IsActive = false
+rmessenger110@email.itt-tech.edu:matthew01 | Status = CompletedSuccess | Payment Type = CreditCard | Payment Method = [MasterCard] | Number Last Four = [7116] | Expiration Date = [082028] | IsActive = true
+rramos12@email.itt-tech.edu:yeidy12 | Status = CompletedSuccess | Payment Method = [] | IsActive = false
+rrussell3@twu.edu:Sunshinsunny1!
+rsimmons133@email.itt-tech.edu:jamal1986 | Status = CompletedSuccess | Payment Method = [] | IsActive = false
+rsmith63@email.itt-tech.edu:06291981 | Status = CompletedSuccess | Payment Method = [] | IsActive = true
+rtorreng@pnw.edu:Cottage1369
+rvinzant@email.itt-tech.edu:chandler1 | Account Type = Individual | Full Name = Robin Vinzant | Country = US | Status = CompletedSuccess | Payment Method = [] | IsActive = true
+rw46@njit.edu:dudesf25 | Status = CompletedSuccess | Payment Method = [] | IsActive = false
+rydygiersebastian@nowodworek.edu.pl:Pejunia739146825
+samantha.stafford@my.jcu.edu.au:Lockie1989
+savanna.gooch@student.mtbaker.wednet.edu:sg602923! | Status = CompletedSuccess | Payment Method = [] | IsActive = false
+sbacker@email.itt-tech.edu:jerry1972
+sbowers001@defiance.edu:knrjtmm6 | Status = CompletedSuccess | Payment Method = [] | IsActive = false
+scastillo3@email.itt-tech.edu:Chastity25
+schulzec@go.stockton.edu:Marleydog12
+sclemens110@email.itt-tech.edu:73737373 | Status = CompletedSuccess | Payment Method = [] | IsActive = true
+scumm92718@my.sunywcc.edu:Ytrewq1025.
+sdadrianphillips@student.rsu.edu:Jaceyraegan1
+sdjaycestimson@student.rsu.edu:Chewydog3
+seberly01@sterling.edu:97563
+sfilson@email.itt-tech.edu:ms18e154 | Status = CompletedSuccess | Payment Method = [] | IsActive = false
+sfontenot2@twu.edu:Jasmine12$
+sg4899@stu.armstrong.edu:Volleyball17 | Account Status = Active | Account Type = Individual | Full Name = Kiki Kiki | Country = US | Subscription Status = Enabled | Status = CompletedSuccess | quotaID = DreamSpark_2015-02-01 | Suspend = On | Payment Type = CreditCard | Payment Method = [VISA, VISA] | Number Last Four = [2760, 3846] | Expiration Date = [022025, 082024] | IsActive = false
+sgrant114@email.itt-tech.edu:karterg | Status = CompletedSuccess | Payment Type = CreditCard | Payment Method = [MasterCard] | Number Last Four = [6159] | Expiration Date = [072023] | IsActive = true
+sherry.warnock@armstrong.edu:joshua1 | Status = CompletedSuccess | Payment Method = [] | IsActive = false
+silverd3@montclair.edu:Danielle97
+sjohnson38@twu.edu:Ilovejanelle1!
+skellum110@email.itt-tech.edu:banished | Status = CompletedSuccess | Payment Method = [] | IsActive = false
+skiles7685@beltc.ctc.edu:babygirl58
+skwak6@wisc.edu:582348111923693123
+sleavitt24@4j.lane.edu:Sojo2002 | Status = CompletedSuccess | Payment Method = [] | IsActive = false
+slepera@email.itt-tech.edu:07181969 | Account Status = Active | Account Type = Individual | Full Name = Sherri Lepera | Country = US | Status = CompletedSuccess | Payment Method = [] | IsActive = false
+smeneses110@email.itt-tech.edu:kill1515 | Status = CompletedSuccess | Payment Method = [] | IsActive = false
+sml3@email.sc.edu:Millertime3
+snovits1@binghamton.edu:9Niggers
+sommer.taylor@my.uwi.edu:19850107 | Status = CompletedSuccess | Payment Method = [] | IsActive = false
+sramos@watkins.edu:Film1992
+sreed111@email.itt-tech.edu:broken766677 | Status = CompletedSuccess | Payment Method = [] | IsActive = false
+sreeves113@email.itt-tech.edu:raptor23 | Status = CompletedSuccess | Payment Method = [] | IsActive = false
+srios112@email.itt-tech.edu:gtcheese83 | Status = CompletedSuccess | Payment Method = [] | IsActive = false
+srobinson10@email.itt-tech.edu:02191958 | Status = CompletedSuccess | Payment Method = [] | IsActive = false
+ssalexander@email.itt-tech.edu:sparkle22 | Status = CompletedSuccess | Payment Method = [] | IsActive = false
+ssanders120@email.itt-tech.edu:katana1542
+ssanders120@email.itt-tech.edu:katana1542 | Status = CompletedSuccess | Payment Method = [] | IsActive = false
+sslatsk1@binghamton.edu:Hopper2007

